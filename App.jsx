@@ -1,771 +1,281 @@
 import React, { useState, useMemo } from "react";
 
-/* ================================================================
-   ПРОПОЗИЦІЯ.БУД v1.3 — Київ і область
-   Повна комерційна пропозиція: лід-форма, обкладинка, діаграми,
-   графік робіт, графік оплат, умови, друк/PDF.
-   ⚠️ ДЕМО-ДАНІ — ціни та виконавці орієнтовні.
-   ================================================================ */
+const REGIONS=[{id:"kyiv",name:"м. Київ",k:1},{id:"irpin",name:"Ірпінь / Буча",k:.97},{id:"brovary",name:"Бровари",k:.96},{id:"boryspil",name:"Бориспіль",k:.95},{id:"vyshneve",name:"Вишневе / Крюківщина",k:.96},{id:"obukhiv",name:"Обухів / Українка",k:.93},{id:"oblast",name:"Інше, Київська обл.",k:.92}];
+const TIERS={econom:{name:"Економ",kWork:.85,kMat:.8},standart:{name:"Стандарт",kWork:1,kMat:1},premium:{name:"Преміум",kWork:1.25,kMat:1.9}};
+const TIER_TABLE=[{row:"Стіни",econom:"Шпалери під фарбування",standart:"Шпаклівка + якісна фарба",premium:"Декоративні покриття"},{row:"Підлога",econom:"Ламінат 32 кл.",standart:"Ламінат 33 / вініл",premium:"Інженерна дошка"},{row:"Плитка",econom:"Україна · 400–600",standart:"Україна/Польща · 800–1200",premium:"Іспанія/Італія · 2000+"},{row:"Санвузол",econom:"Cersanit, Kolo",standart:"Grohe, Geberit",premium:"Duravit, Hansgrohe"},{row:"Двері",econom:"Ламіновані · 5–7т",standart:"Шпоновані · 10–15т",premium:"Масив/приховані · 25+"},{row:"Електрика",econom:"Мінімум точок",standart:"Schneider/Legrand",premium:"Розумний дім"}];
+const STYLE_MODS={"Сучасний":{mods:{},note:"Базовий орієнтир."},"Мінімалізм":{mods:{paint:1.15,doors:1.2,ceil:1.1},note:"Ідеальні площини, приховані двері."},"Класика":{mods:{paint:1.2,ceil:1.15,doors:1.1},note:"Молдинги, карнизи, фільонки."},"Лофт":{mods:{walls:.85,paint:.9,ceil:.9},note:"Відкриті поверхні — економія."},"Скандинавський":{mods:{paint:1.05},note:"Світле оздоблення."},"Джапанді":{mods:{paint:1.1,flooring:1.15,doors:1.15},note:"Натуральні матеріали."}};
+const SRC={price:"https://www.rabotniki.ua/uk/price/kiev",otd:"https://www.rabotniki.ua/uk/otdelochnye-raboty",common:"https://www.rabotniki.ua/uk/obschestroitelnye-montazhnye-raboty",beton:"https://www.rabotniki.ua/uk/betonnye-raboty",fund:"https://www.rabotniki.ua/uk/fundament"};
 
-/* ---- DATA ---- */
-const REGIONS = [
-  { id: "kyiv", name: "м. Київ", k: 1.0 },
-  { id: "irpin", name: "Ірпінь / Буча", k: 0.97 },
-  { id: "brovary", name: "Бровари", k: 0.96 },
-  { id: "boryspil", name: "Бориспіль", k: 0.95 },
-  { id: "vyshneve", name: "Вишневе / Крюківщина", k: 0.96 },
-  { id: "obukhiv", name: "Обухів / Українка", k: 0.93 },
-  { id: "oblast", name: "Інше, Київська обл.", k: 0.92 },
-];
-const TIERS = {
-  econom: { name: "Економ", kWork: 0.85, kMat: 0.8 },
-  standart: { name: "Стандарт", kWork: 1.0, kMat: 1.0 },
-  premium: { name: "Преміум", kWork: 1.25, kMat: 1.9 },
-};
-const TIER_TABLE = [
-  { row: "Стіни", econom: "Шпалери під фарбування", standart: "Шпаклівка + якісна фарба", premium: "Декоративні покриття, ідеальні площини" },
-  { row: "Підлога", econom: "Ламінат 32 кл. · 350–500 грн/м²", standart: "Ламінат 33/вініл · 700–1000 грн/м²", premium: "Інженерна дошка · 2500+ грн/м²" },
-  { row: "Плитка", econom: "Україна · 400–600 грн/м²", standart: "Україна/Польща · 800–1200 грн/м²", premium: "Іспанія/Італія · 2000+ грн/м²" },
-  { row: "Санвузол", econom: "Cersanit, Kolo — базова лінійка", standart: "Grohe/Hansgrohe, інсталяція Geberit", premium: "Duravit, Hansgrohe Raindance, підігрів" },
-  { row: "Двері", econom: "Ламіновані · 5–7 тис. грн", standart: "Шпоновані/фарбовані · 10–15 тис.", premium: "Приховані/масив · 25+ тис. грн" },
-  { row: "Електрика", econom: "Мінімум точок, базова фурнітура", standart: "Schneider/Legrand, продуманий план", premium: "Розумний дім, дизайнерська серія" },
-];
-const STYLE_MODS = {
-  "Сучасний": { mods: {}, note: "Базовий орієнтир — без надбавок." },
-  "Мінімалізм": { mods: { paint: 1.15, doors: 1.2, ceil: 1.1 }, note: "Ідеально рівні площини, приховані двері — дорожча підготовка." },
-  "Класика": { mods: { paint: 1.2, ceil: 1.15, doors: 1.1 }, note: "Молдинги, карнизи, фільонки — більше опоряджувальних робіт." },
-  "Лофт": { mods: { walls: 0.85, paint: 0.9, ceil: 0.9 }, note: "Відкриті поверхні — економія на вирівнюванні." },
-  "Скандинавський": { mods: { paint: 1.05 }, note: "Просте світле оздоблення, акцент на матеріалах підлоги." },
-  "Джапанді": { mods: { paint: 1.1, flooring: 1.15, doors: 1.15 }, note: "Натуральні матеріали й точна геометрія." },
-};
-const SRC = {
-  price: "https://www.rabotniki.ua/uk/price/kiev",
-  otd: "https://www.rabotniki.ua/uk/otdelochnye-raboty",
-  common: "https://www.rabotniki.ua/uk/obschestroitelnye-montazhnye-raboty",
-  beton: "https://www.rabotniki.ua/uk/betonnye-raboty",
-  fund: "https://www.rabotniki.ua/uk/fundament",
-};
-
-const FLAT_STAGES = [
-  { id: "demo", name: "Демонтаж", icon: "🔨", onlyIf: (p) => p.condition === "old", weeks: () => 1.5,
-    scope: "Зняття старих покриттів (шпалери, плитка, штукатурка, підлога), демонтаж старої сантехніки та електроточок, вивіз будівельного сміття",
-    items: [
-      { label: "Демонтаж старого оздоблення + вивіз", unit: "м²", qty: (p) => p.area,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 550, mat: 150 },
-          { name: "Бригада «ДемонтажПро» · 4.9★", src: "rabotniki.ua · демо", url: SRC.common, price: 490, mat: 150 },
-        ] },
-    ] },
-  { id: "walls", name: "Стіни: штукатурка", icon: "🧱", skipIf: (p) => p.condition === "partial", weeks: () => 3,
-    scope: "Штукатурка стін по маяках (машинна або ручна), ґрунтування поверхонь у 2 шари, підготовка під шпаклівку",
-    items: [
-      { label: "Штукатурка стін по маяках", unit: "м²", qty: (p) => Math.round(p.area * 2.6),
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 320, mat: 170 },
-          { name: "Машинна штукатурка «МехШтук» · 4.8★", src: "rabotniki.ua · демо", url: SRC.otd, price: 260, mat: 190 },
-          { name: "Майстер Олег В. · 5.0★", src: "rabotniki.ua · демо", url: SRC.otd, price: 360, mat: 170 },
-        ] },
-      { label: "Ґрунтування", unit: "м²", qty: (p) => Math.round(p.area * 2.6),
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 35, mat: 25 }] },
-    ] },
-  { id: "floor", name: "Стяжка підлоги", icon: "⬜", skipIf: (p) => p.condition === "partial", weeks: () => 1.5,
-    scope: "Напівсуха або мокра стяжка з армуванням, вирівнювання до ±2мм на 2м правила, гідроізоляція мокрих зон",
-    items: [
-      { label: "Стяжка напівсуха", unit: "м²", qty: (p) => p.area,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.beton, price: 260, mat: 210 },
-          { name: "«СтяжкаКомплекс» механізована · 4.9★", src: "rabotniki.ua · демо", url: SRC.beton, price: 230, mat: 230 },
-        ] },
-    ] },
-  { id: "electro", name: "Електромонтаж", icon: "⚡", weeks: () => 2.5,
-    scope: "Штробування, прокладання кабелю NYM/ВВГнг, встановлення підрозетників, збірка розподільного щитка, заземлення",
-    items: [
-      { label: "Електроточка (розетка/вимикач/вивід)", unit: "шт", qty: (p) => 8 + p.rooms * 7 + p.bathrooms * 3,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 650, mat: 450 },
-          { name: "«ЕлектроДім» з проєктом · 4.9★", src: "rabotniki.ua · демо", url: SRC.price, price: 720, mat: 430 },
-          { name: "Майстер Ігор К. · 4.7★", src: "rabotniki.ua · демо", url: SRC.price, price: 560, mat: 450 },
-        ] },
-      { label: "Збірка щитка", unit: "шт", qty: () => 1,
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 6500, mat: 5500 }] },
-    ] },
-  { id: "plumb", name: "Сантехнічна розводка", icon: "🚿", weeks: () => 1.5,
-    scope: "Розводка гарячої/холодної води (PPR/PEX), каналізації (ПВХ), підключення стояків, гідроіспитання",
-    items: [
-      { label: "Розводка води й каналізації", unit: "сануз.", qty: (p) => p.bathrooms,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 14000, mat: 11000 },
-          { name: "«АкваМонтаж» · 4.8★", src: "rabotniki.ua · демо", url: SRC.price, price: 12500, mat: 11500 },
-        ] },
-      { label: "Точки кухні", unit: "компл.", qty: () => 1,
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 5000, mat: 3600 }] },
-    ] },
-  { id: "ceil", name: "Стелі", icon: "🔲", weeks: () => 1.5,
-    scope: "Натяжна стеля або гіпсокартонна конструкція з малярною підготовкою, вирізи під освітлення",
-    items: [
-      { label: "Стеля (натяжна / ГК)", unit: "м²", qty: (p) => Math.round(p.area * 0.92),
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 340, mat: 420 },
-          { name: "«СтеляСервіс» натяжні · 4.9★", src: "rabotniki.ua · демо", url: SRC.otd, price: 280, mat: 460 },
-        ] },
-    ] },
-  { id: "tile", name: "Плиткові роботи", icon: "🔷", weeks: () => 2.5,
-    scope: "Гідроізоляція мокрих зон, укладання настінної та підлогової плитки, затирка швів, фартух кухні",
-    items: [
-      { label: "Плитка: санвузли (стіни + підлога)", unit: "м²", qty: (p) => p.bathrooms * 24,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 850, mat: 900 },
-          { name: "Плиточник Андрій М. · 5.0★", src: "rabotniki.ua · демо", url: SRC.otd, price: 950, mat: 900 },
-        ] },
-      { label: "Фартух кухні", unit: "м²", qty: () => 5,
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 950, mat: 1000 }] },
-    ] },
-  { id: "paint", name: "Шпаклівка та фарбування", icon: "🎨", weeks: () => 3,
-    scope: "Фінішна шпаклівка під фарбування (2–3 шари), шліфування, ґрунтування, фарбування у 2 шари",
-    items: [
-      { label: "Шпаклівка стін під фарбування", unit: "м²", qty: (p) => Math.round(p.area * 2.3),
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 260, mat: 90 },
-          { name: "Маляр Світлана П. · 4.9★", src: "rabotniki.ua · демо", url: SRC.otd, price: 290, mat: 85 },
-        ] },
-      { label: "Фарбування у 2 шари", unit: "м²", qty: (p) => Math.round(p.area * 2.3),
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 160, mat: 110 }] },
-    ] },
-  { id: "flooring", name: "Підлогове покриття", icon: "🪵", weeks: () => 1.5,
-    scope: "Укладання ламінату/вінілу/паркетної дошки з підкладкою, монтаж плінтуса, порогів",
-    items: [
-      { label: "Укладання покриття", unit: "м²", qty: (p) => Math.round(p.area * 0.88),
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 250, mat: 750 },
-          { name: "«ПаркетГруп» · 4.8★", src: "rabotniki.ua · демо", url: SRC.otd, price: 300, mat: 780 },
-        ] },
-      { label: "Плінтус", unit: "м.п.", qty: (p) => Math.round(p.area * 0.9),
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 90, mat: 130 }] },
-    ] },
-  { id: "doors", name: "Двері міжкімнатні", icon: "🚪", weeks: () => 1,
-    scope: "Встановлення дверних блоків з коробкою, наличниками, доборами, фурнітурою",
-    items: [
-      { label: "Дверний блок зі встановленням", unit: "шт", qty: (p) => p.rooms + p.bathrooms,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 3200, mat: 8500 },
-          { name: "Фабричні + монтаж · демо", src: "виробник · демо", url: SRC.price, price: 2800, mat: 9500 },
-        ] },
-    ] },
-  { id: "bath", name: "Комплектація санвузлів", icon: "🛁", weeks: (p) => p.bathrooms,
-    scope: "Встановлення ванни/душової, унітазу, раковини, змішувачів, дзеркала, аксесуарів, підключення",
-    items: [
-      { label: "Сантехніка та монтаж (комплект)", unit: "сануз.", qty: (p) => p.bathrooms,
-        opts: [
-          { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 16000, mat: 52000 },
-          { name: "«АкваМонтаж» комплект · 4.8★", src: "rabotniki.ua · демо", url: SRC.price, price: 14500, mat: 54000 },
-        ] },
-    ] },
-  { id: "final", name: "Фінішні роботи", icon: "✨", weeks: () => 1,
-    scope: "Встановлення розеток/вимикачів, світильників, карнизів, клінінг після ремонту",
-    items: [
-      { label: "Фурнітура, світло, клінінг", unit: "м²", qty: (p) => p.area,
-        opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 190, mat: 55 }] },
-    ] },
+const FLAT_STAGES=[
+{id:"demo",name:"Демонтаж",onlyIf:p=>p.condition==="old",weeks:()=>1.5,scope:"Зняття старих покриттів, демонтаж сантехніки, вивіз сміття",items:[{label:"Демонтаж + вивіз",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:550,mat:150},{name:"«ДемонтажПро» · 4.9★",src:"rabotniki.ua · демо",url:SRC.common,price:490,mat:150}]}]},
+{id:"walls",name:"Штукатурка стін",skipIf:p=>p.condition==="partial",weeks:()=>3,scope:"Штукатурка по маяках, ґрунтування у 2 шари",items:[{label:"Штукатурка по маяках",unit:"м²",qty:p=>Math.round(p.area*2.6),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:320,mat:170},{name:"Машинна «МехШтук» · 4.8★",src:"rabotniki.ua · демо",url:SRC.otd,price:260,mat:190},{name:"Майстер Олег В. · 5.0★",src:"rabotniki.ua · демо",url:SRC.otd,price:360,mat:170}]},{label:"Ґрунтування",unit:"м²",qty:p=>Math.round(p.area*2.6),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:35,mat:25}]}]},
+{id:"floor",name:"Стяжка підлоги",skipIf:p=>p.condition==="partial",weeks:()=>1.5,scope:"Напівсуха стяжка з армуванням, гідроізоляція",items:[{label:"Стяжка напівсуха",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.beton,price:260,mat:210},{name:"«СтяжкаКомплекс» · 4.9★",src:"rabotniki.ua · демо",url:SRC.beton,price:230,mat:230}]}]},
+{id:"electro",name:"Електромонтаж",weeks:()=>2.5,scope:"Штробування, кабель, підрозетники, щиток, заземлення",items:[{label:"Електроточка",unit:"шт",qty:p=>8+p.rooms*7+p.bathrooms*3,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:650,mat:450},{name:"«ЕлектроДім» · 4.9★",src:"rabotniki.ua · демо",url:SRC.price,price:720,mat:430}]},{label:"Збірка щитка",unit:"шт",qty:()=>1,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:6500,mat:5500}]}]},
+{id:"plumb",name:"Сантехнічна розводка",weeks:()=>1.5,scope:"Розводка PPR/PEX, каналізація ПВХ, гідроіспитання",items:[{label:"Розводка, санвузол",unit:"сануз.",qty:p=>p.bathrooms,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:14000,mat:11000},{name:"«АкваМонтаж» · 4.8★",src:"rabotniki.ua · демо",url:SRC.price,price:12500,mat:11500}]},{label:"Точки кухні",unit:"компл.",qty:()=>1,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:5000,mat:3600}]}]},
+{id:"ceil",name:"Стелі",weeks:()=>1.5,scope:"Натяжна стеля або ГК конструкція",items:[{label:"Стеля",unit:"м²",qty:p=>Math.round(p.area*.92),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:340,mat:420},{name:"«СтеляСервіс» · 4.9★",src:"rabotniki.ua · демо",url:SRC.otd,price:280,mat:460}]}]},
+{id:"tile",name:"Плиткові роботи",weeks:()=>2.5,scope:"Гідроізоляція, укладання, затирка, фартух кухні",items:[{label:"Плитка: санвузли",unit:"м²",qty:p=>p.bathrooms*24,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:850,mat:900},{name:"Андрій М. · 5.0★",src:"rabotniki.ua · демо",url:SRC.otd,price:950,mat:900}]},{label:"Фартух кухні",unit:"м²",qty:()=>5,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:950,mat:1000}]}]},
+{id:"paint",name:"Шпаклівка та фарбування",weeks:()=>3,scope:"Фінішна шпаклівка, шліфування, фарбування у 2 шари",items:[{label:"Шпаклівка",unit:"м²",qty:p=>Math.round(p.area*2.3),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:260,mat:90},{name:"Світлана П. · 4.9★",src:"rabotniki.ua · демо",url:SRC.otd,price:290,mat:85}]},{label:"Фарбування",unit:"м²",qty:p=>Math.round(p.area*2.3),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:160,mat:110}]}]},
+{id:"flooring",name:"Підлогове покриття",weeks:()=>1.5,scope:"Укладання ламінату/вінілу, плінтус, пороги",items:[{label:"Укладання покриття",unit:"м²",qty:p=>Math.round(p.area*.88),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:250,mat:750},{name:"«ПаркетГруп» · 4.8★",src:"rabotniki.ua · демо",url:SRC.otd,price:300,mat:780}]},{label:"Плінтус",unit:"м.п.",qty:p=>Math.round(p.area*.9),opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.otd,price:90,mat:130}]}]},
+{id:"doors",name:"Двері міжкімнатні",weeks:()=>1,scope:"Дверні блоки з коробкою, наличниками, фурнітурою",items:[{label:"Дверний блок",unit:"шт",qty:p=>p.rooms+p.bathrooms,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:3200,mat:8500},{name:"Фабричні + монтаж",src:"виробник · демо",url:SRC.price,price:2800,mat:9500}]}]},
+{id:"bath",name:"Комплектація санвузлів",weeks:p=>p.bathrooms,scope:"Ванна/душова, унітаз, раковина, змішувачі, аксесуари",items:[{label:"Сантехніка + монтаж",unit:"сануз.",qty:p=>p.bathrooms,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:16000,mat:52000},{name:"«АкваМонтаж» · 4.8★",src:"rabotniki.ua · демо",url:SRC.price,price:14500,mat:54000}]}]},
+{id:"final",name:"Фінішні роботи",weeks:()=>1,scope:"Розетки, вимикачі, світильники, клінінг",items:[{label:"Фурнітура + клінінг",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова, Київ",src:"rabotniki.ua",url:SRC.price,price:190,mat:55}]}]},
 ];
 
-const fpn = (p) => Math.round((p.area / p.floors) * 1.1);
-const HOUSE_STAGES = [
-  { id: "prep", name: "Проєкт і підготовка", icon: "📐", weeks: () => 4, scope: "Архітектурний проєкт, конструктив, геодезія, дозвільна документація",
-    items: [{ label: "Проєктування", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.common, price: 650, mat: 150 }] }] },
-  { id: "found", name: "Фундамент", icon: "⛏️", weeks: (p) => 4 + p.area / 120, scope: "Земляні роботи, опалубка, армування, бетонування, гідроізоляція",
-    items: [
-      { label: "Земляні роботи", unit: "м²", qty: fpn, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.fund, price: 450, mat: 250 }] },
-      { label: "Монолітні роботи", unit: "м²", qty: fpn, opts: [
-        { name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.fund, price: 1500, mat: 2400 },
-        { name: "Монолітники зі своєю опалубкою · 4.8★", src: "rabotniki.ua · демо", url: SRC.beton, price: 1350, mat: 2450 },
-      ] },
-    ] },
-  { id: "box", name: "Коробка: стіни та перекриття", icon: "🧱", weeks: (p) => 8 + p.area / 80, scope: "Кладка несучих та перегородочних стін, армопояси, монтаж перекриттів",
-    items: [
-      { label: "Кладка стін (газоблок)", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.common, price: 1900, mat: 2600 }] },
-      { label: "Перекриття та армопояси", unit: "м²", qty: (p) => Math.round(p.area * 0.55), opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.beton, price: 1400, mat: 2300 }] },
-    ] },
-  { id: "roof", name: "Покрівля", icon: "🏠", weeks: () => 4, scope: "Мауерлат, кроквяна система, гідро/паро ізоляція, покрівельний матеріал, водостоки",
-    items: [{ label: "Кроквяна система + покриття", unit: "м²", qty: (p) => Math.round(fpn(p) * 1.25), opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.common, price: 1300, mat: 1900 }] }] },
-  { id: "windows", name: "Вікна та двері", icon: "🪟", weeks: () => 2, scope: "Металопластикові/алюмінієві вікна, вхідні двері, монтаж, відкоси",
-    items: [{ label: "Вікна + вхідні двері", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 400, mat: 1400 }] }] },
-  { id: "facade", name: "Фасад та утеплення", icon: "🧊", weeks: () => 5, scope: "Утеплення мінватою/пінопластом 150–200мм, армування сіткою, декоративна штукатурка",
-    items: [{ label: "Утеплення + декоративна штукатурка", unit: "м²", qty: (p) => Math.round(p.area * 1.15), opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 850, mat: 1100 }] }] },
-  { id: "mep", name: "Інженерні мережі", icon: "⚙️", weeks: () => 6, scope: "Електрика, опалення (газ/ТН), водопровід, каналізація, вентиляція",
-    items: [
-      { label: "Електрика", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 700, mat: 600 }] },
-      { label: "Опалення, вода, каналізація", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 1100, mat: 1300 }] },
-    ] },
-  { id: "finish", name: "Внутрішнє оздоблення", icon: "🎨", weeks: (p) => ({ econom: 8, standart: 12, premium: 20 })[p.tier], scope: "Штукатурка, шпаклівка, фарбування, плитка, підлога, двері, сантехніка — повний цикл",
-    items: [{ label: "Оздоблення «під ключ»", unit: "м²", qty: (p) => p.area, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.otd, price: 3200, mat: 4300 }] }] },
-  { id: "bath", name: "Санвузли", icon: "🛁", weeks: (p) => p.bathrooms, scope: "Повна комплектація та встановлення сантехніки, дзеркал, аксесуарів",
-    items: [{ label: "Сантехніка та монтаж", unit: "сануз.", qty: (p) => p.bathrooms, opts: [{ name: "Середньоринкова, Київ", src: "rabotniki.ua", url: SRC.price, price: 18000, mat: 60000 }] }] },
+const fpn=p=>Math.round((p.area/p.floors)*1.1);
+const HOUSE_STAGES=[
+{id:"prep",name:"Проєкт",weeks:()=>4,scope:"Архітектура, конструктив, геодезія",items:[{label:"Проєктування",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.common,price:650,mat:150}]}]},
+{id:"found",name:"Фундамент",weeks:p=>4+p.area/120,scope:"Земляні роботи, опалубка, армування, бетонування",items:[{label:"Земляні роботи",unit:"м²",qty:fpn,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.fund,price:450,mat:250}]},{label:"Монолітні роботи",unit:"м²",qty:fpn,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.fund,price:1500,mat:2400},{name:"Монолітники · 4.8★",src:"rabotniki.ua · демо",url:SRC.beton,price:1350,mat:2450}]}]},
+{id:"box",name:"Коробка",weeks:p=>8+p.area/80,scope:"Кладка стін, армопояси, перекриття",items:[{label:"Кладка стін",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.common,price:1900,mat:2600}]},{label:"Перекриття",unit:"м²",qty:p=>Math.round(p.area*.55),opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.beton,price:1400,mat:2300}]}]},
+{id:"roof",name:"Покрівля",weeks:()=>4,scope:"Кроквяна система, гідроізоляція, покрівля",items:[{label:"Покрівля",unit:"м²",qty:p=>Math.round(fpn(p)*1.25),opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.common,price:1300,mat:1900}]}]},
+{id:"windows",name:"Вікна та двері",weeks:()=>2,scope:"Металопластикові вікна, вхідні двері",items:[{label:"Вікна + двері",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.price,price:400,mat:1400}]}]},
+{id:"facade",name:"Фасад",weeks:()=>5,scope:"Утеплення, армування, декоративна штукатурка",items:[{label:"Утеплення + штукатурка",unit:"м²",qty:p=>Math.round(p.area*1.15),opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.otd,price:850,mat:1100}]}]},
+{id:"mep",name:"Інженерія",weeks:()=>6,scope:"Електрика, опалення, водопровід, каналізація",items:[{label:"Електрика",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.price,price:700,mat:600}]},{label:"Опалення + вода",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.price,price:1100,mat:1300}]}]},
+{id:"finish",name:"Оздоблення",weeks:p=>({econom:8,standart:12,premium:20})[p.tier],scope:"Повний цикл внутрішнього оздоблення",items:[{label:"Оздоблення під ключ",unit:"м²",qty:p=>p.area,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.otd,price:3200,mat:4300}]}]},
+{id:"bath",name:"Санвузли",weeks:p=>p.bathrooms,scope:"Комплектація та монтаж",items:[{label:"Сантехніка + монтаж",unit:"сануз.",qty:p=>p.bathrooms,opts:[{name:"Середньоринкова",src:"rabotniki.ua",url:SRC.price,price:18000,mat:60000}]}]},
 ];
 
-const BUDGETS = {
-  flat: [
-    { id: "f1", name: "до 700 тис. грн", max: 700000 },
-    { id: "f2", name: "0,7 – 1,2 млн грн", max: 1200000 },
-    { id: "f3", name: "1,2 – 2 млн грн", max: 2000000 },
-    { id: "f4", name: "2 – 3,5 млн грн", max: 3500000 },
-    { id: "f5", name: "понад 3,5 млн грн", max: Infinity },
-  ],
-  house: [
-    { id: "h1", name: "до 3 млн грн", max: 3000000 },
-    { id: "h2", name: "3 – 5 млн грн", max: 5000000 },
-    { id: "h3", name: "5 – 8 млн грн", max: 8000000 },
-    { id: "h4", name: "8 – 12 млн грн", max: 12000000 },
-    { id: "h5", name: "понад 12 млн грн", max: Infinity },
-  ],
-};
-const PAYMENT_SCHEDULE = [
-  { pct: 30, label: "Аванс", desc: "Перед початком робіт: закупівля матеріалів і мобілізація" },
-  { pct: 25, label: "Чорнові роботи", desc: "Після завершення прихованих робіт (електрика, сантехніка, стяжка, штукатурка)" },
-  { pct: 25, label: "Чистові роботи", desc: "Після плитки, фарбування, підлоги, стелі" },
-  { pct: 15, label: "Фінішний етап", desc: "Двері, сантехніка, світло, дрібниці" },
-  { pct: 5, label: "Здача об'єкта", desc: "Після прийомки та усунення зауважень" },
-];
-const INCLUDES = [
-  "Усі зазначені в кошторисі роботи та матеріали",
-  "Доставка основних матеріалів на об'єкт",
-  "Вивіз будівельного сміття",
-  "Контроль якості на кожному етапі",
-  "Фотофіксація ходу робіт",
-  "Прибирання після завершення",
-];
-const EXCLUDES = [
-  "Меблі та побутова техніка",
-  "Кухонний гарнітур",
-  "Перепланування з узгодженням у БТІ",
-  "Кондиціонування (за окремим кошторисом)",
-  "Балкон/лоджія (за окремим кошторисом)",
-  "Зовнішні роботи (вхідні двері під'їзду, тамбур)",
-];
-const VILKA = 0.12, OVERLAP = 0.85, DEMO = true;
-const STYLES = Object.keys(STYLE_MODS);
+const BUDGETS={flat:[{id:"f1",name:"до 700 тис.",max:7e5},{id:"f2",name:"0,7–1,2 млн",max:12e5},{id:"f3",name:"1,2–2 млн",max:2e6},{id:"f4",name:"2–3,5 млн",max:35e5},{id:"f5",name:"3,5+ млн",max:Infinity}],house:[{id:"h1",name:"до 3 млн",max:3e6},{id:"h2",name:"3–5 млн",max:5e6},{id:"h3",name:"5–8 млн",max:8e6},{id:"h4",name:"8–12 млн",max:12e6},{id:"h5",name:"12+ млн",max:Infinity}]};
+const PAYMENT=[{pct:30,label:"Аванс",desc:"Закупівля матеріалів"},{pct:25,label:"Чорнові",desc:"Електрика, сантехніка, стяжка"},{pct:25,label:"Чистові",desc:"Плитка, фарбування, підлога"},{pct:15,label:"Фініш",desc:"Двері, сантехніка, світло"},{pct:5,label:"Здача",desc:"Прийомка"}];
+const INCLUDES=["Усі роботи та матеріали за кошторисом","Доставка матеріалів","Вивіз сміття","Контроль якості","Фотофіксація","Прибирання"];
+const EXCLUDES=["Меблі та техніка","Кухонний гарнітур","Перепланування з БТІ","Кондиціонування","Балкон / лоджія"];
+const VILKA=.12,OVERLAP=.85,DEMO=true;
 
-/* ---- ENGINE ---- */
-function calc(mode, p, selections) {
-  const stages = (mode === "flat" ? FLAT_STAGES : HOUSE_STAGES).filter(
-    (s) => !(s.onlyIf && !s.onlyIf(p)) && !(s.skipIf && s.skipIf(p))
-  );
-  const region = REGIONS.find((x) => x.id === p.region) || REGIONS[0];
-  const tier = TIERS[p.tier];
-  const style = STYLE_MODS[p.style] || STYLE_MODS["Сучасний"];
-  let weekOffset = 0;
+function calc(mode,p,selections){const stages=(mode==="flat"?FLAT_STAGES:HOUSE_STAGES).filter(s=>!(s.onlyIf&&!s.onlyIf(p))&&!(s.skipIf&&s.skipIf(p)));const region=REGIONS.find(x=>x.id===p.region)||REGIONS[0];const tier=TIERS[p.tier];const style=STYLE_MODS[p.style]||STYLE_MODS["Сучасний"];let wo=0;const rows=stages.map(s=>{const sk=style.mods[s.id]||1;const items=s.items.map((it,ii)=>{const key=`${s.id}:${ii}`;const sel=selections[key]??0;const opt=it.opts[Math.min(sel,it.opts.length-1)];const qty=it.qty(p);const pr=Math.round(opt.price*tier.kWork*region.k*sk);const mt=Math.round(opt.mat*tier.kMat*region.k*sk);return{key,label:it.label,unit:it.unit,qty,opts:it.opts,sel,price:pr,mat:mt,work:qty*pr,matSum:qty*mt,total:qty*(pr+mt)}});const wk=Math.round(s.weeks(p)*(mode==="flat"?Math.sqrt(p.area/60):Math.sqrt(p.area/150))*10)/10;const sw=wo;wo+=wk*OVERLAP;return{id:s.id,name:s.name,scope:s.scope,sk,items,weeks:wk,startWeek:sw,total:items.reduce((a,b)=>a+b.total,0),work:items.reduce((a,b)=>a+b.work,0),matSum:items.reduce((a,b)=>a+b.matSum,0)}});const total=rows.reduce((a,r)=>a+r.total,0);const weeks=Math.round(rows.reduce((a,r)=>a+r.weeks,0)*OVERLAP);const budget=BUDGETS[mode].find(b=>b.id===p.budget);const sd=Object.keys(style.mods).length?Math.round((total/rows.reduce((a,r)=>a+r.total/(r.sk||1),0)-1)*100):0;return{rows,total,region,tier,style,styleDelta:sd,low:total*(1-VILKA),high:total*(1+VILKA),perM2:Math.round(total/p.area),weeks,months:Math.round((weeks/4.33)*10)/10,budgetFit:budget?total*(1-VILKA)<=budget.max:true,budgetName:budget?.name||"",totalWeeks:Math.ceil(wo)}}
+const fmt=n=>new Intl.NumberFormat("uk-UA",{maximumFractionDigits:0}).format(Math.round(n));
+const fmtM=n=>n>=1e6?(n/1e6).toFixed(2).replace(".",",")+"\u00a0млн":fmt(n);
 
-  const rows = stages.map((s) => {
-    const styleK = style.mods[s.id] || 1;
-    const items = s.items.map((it, ii) => {
-      const key = `${s.id}:${ii}`;
-      const sel = selections[key] ?? 0;
-      const opt = it.opts[Math.min(sel, it.opts.length - 1)];
-      const qty = it.qty(p);
-      const price = Math.round(opt.price * tier.kWork * region.k * styleK);
-      const mat = Math.round(opt.mat * tier.kMat * region.k * styleK);
-      return { key, label: it.label, unit: it.unit, qty, opts: it.opts, sel,
-        price, mat, work: qty * price, matSum: qty * mat, total: qty * (price + mat) };
-    });
-    const weeks = Math.round(s.weeks(p) * (mode === "flat" ? Math.sqrt(p.area / 60) : Math.sqrt(p.area / 150)) * 10) / 10;
-    const startWeek = weekOffset;
-    weekOffset += weeks * OVERLAP;
-    return {
-      id: s.id, name: s.name, icon: s.icon, scope: s.scope, styleK, items, weeks, startWeek,
-      total: items.reduce((a, b) => a + b.total, 0),
-      work: items.reduce((a, b) => a + b.work, 0),
-      matSum: items.reduce((a, b) => a + b.matSum, 0),
-    };
-  });
-
-  const total = rows.reduce((a, r) => a + r.total, 0);
-  const weeks = Math.round(rows.reduce((a, r) => a + r.weeks, 0) * OVERLAP);
-  const budget = BUDGETS[mode].find((b) => b.id === p.budget);
-  const styleDelta = Object.keys(style.mods).length
-    ? Math.round((rows.reduce((a, r) => a + r.total, 0) / rows.reduce((a, r) => a + r.total / (r.styleK || 1), 0) - 1) * 100) : 0;
-  return {
-    rows, total, region, tier, style, styleDelta,
-    low: total * (1 - VILKA), high: total * (1 + VILKA),
-    perM2: Math.round(total / p.area),
-    weeks, months: Math.round((weeks / 4.33) * 10) / 10,
-    budgetFit: budget ? total * (1 - VILKA) <= budget.max : true,
-    budgetName: budget?.name || "",
-    totalWeeks: Math.ceil(weekOffset),
-  };
-}
-
-const fmt = (n) => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
-const fmtM = (n) => (n >= 1000000 ? (n / 1000000).toFixed(2).replace(".", ",") + " млн" : fmt(n));
-const COLORS = ["#2B4BD7", "#E8590C", "#1F7A38", "#9333EA", "#DC2626", "#0891B2", "#CA8A04", "#6366F1", "#059669", "#D946EF", "#EA580C", "#4F46E5"];
-
-/* ---- STYLES ---- */
-const css = `
-:root{--bg:#EFECE5;--panel:#FBFAF7;--ink:#191B1F;--muted:#75787E;--line:#DCD8CE;
---blue:#2B4BD7;--blue-soft:#E8ECFB;--ok:#1F7A38;--ok-soft:#E9F4EC;--warn-soft:#FBEEE6;--warn:#C2410C}
-*{box-sizing:border-box;margin:0;padding:0}
-.app{min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased}
-.laser{height:2px;background:linear-gradient(90deg,var(--blue) 0 60%,transparent 60% 62%,var(--blue) 62%)}
-.topbar{position:sticky;top:0;z-index:40;background:var(--panel);border-bottom:1px solid var(--line)}
-.tb{max-width:1060px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.logo{font-family:'Unbounded';font-weight:800;font-size:17px;letter-spacing:-.3px}.logo span{color:var(--blue)}
-.mode{display:flex;border:1px solid var(--ink);border-radius:999px;overflow:hidden}
-.mode button{font-family:'Manrope';font-weight:600;font-size:13px;padding:9px 20px;border:none;background:transparent;cursor:pointer;color:var(--ink)}
-.mode button.on{background:var(--ink);color:var(--panel)}
-.wrap{max-width:1060px;margin:0 auto;padding:36px 20px 120px}
-.hero{margin-bottom:30px;max-width:660px}
-.hero h1{font-family:'Unbounded';font-weight:600;font-size:clamp(22px,4vw,34px);line-height:1.15;letter-spacing:-.5px;margin-bottom:10px}
-.hero p{color:var(--muted);font-size:15px;line-height:1.55}
-.demob{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:var(--warn-soft);color:var(--warn);
-font-family:'IBM Plex Mono';font-size:11px;font-weight:600;letter-spacing:.4px;padding:6px 12px;border-radius:6px;text-transform:uppercase}
-.grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+const css=`
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+:root{--bg:#F4F2ED;--card:#FFF;--ink:#1A1C20;--sub:#6B6E75;--line:#E8E5DE;--acc:#1D3FCC;--acc2:#EEF0FA;--ok:#1A6B2E;--oks:#E7F3EB;--wrn:#B93D08;--wrns:#FDF0E8}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg)}
+.app{min-height:100vh;font-family:'Manrope',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;background:var(--bg);background-image:radial-gradient(ellipse 80% 60% at 0% 30%,rgba(29,63,204,.04) 0%,transparent 70%),radial-gradient(ellipse 60% 50% at 100% 70%,rgba(29,63,204,.03) 0%,transparent 70%)}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.tb{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.logo{font-family:'Unbounded';font-weight:800;font-size:16px;letter-spacing:-.3px}.logo span{color:var(--acc)}
+.mode{display:flex;background:var(--bg);border-radius:999px;padding:3px;gap:2px}
+.mode button{font-family:'Manrope';font-weight:600;font-size:12.5px;padding:8px 18px;border:none;background:transparent;border-radius:999px;cursor:pointer;color:var(--sub);transition:all .15s}
+.mode button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 24px 120px}
+.hero{margin-bottom:32px;max-width:580px}
+.hero h1{font-family:'Unbounded';font-weight:600;font-size:clamp(21px,3.8vw,32px);line-height:1.2;letter-spacing:-.4px;margin-bottom:10px}
+.hero p{color:var(--sub);font-size:14.5px;line-height:1.6}
+.demob{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--wrns);color:var(--wrn);font-family:'IBM Plex Mono';font-size:10.5px;font-weight:600;padding:5px 11px;border-radius:6px;letter-spacing:.3px;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
-.pnl{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.ph{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line)}
-.pn{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--blue);background:var(--blue-soft);padding:4px 9px;border-radius:5px}
-.ph h2{font-size:15px;font-weight:700}
-.pb{padding:20px 22px;display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ch{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line)}
+.cn{font-family:'IBM Plex Mono';font-size:10.5px;font-weight:600;color:var(--acc);background:var(--acc2);padding:3px 8px;border-radius:6px}
+.ch h2{font-size:14.5px;font-weight:700}
+.cb{padding:20px 22px;display:grid;gap:18px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:560px){.g2{grid-template-columns:1fr}}
-label.f{display:grid;gap:8px;font-size:13px;font-weight:600}
-.hint{font-weight:500;color:var(--muted);font-size:12px;line-height:1.5}
-select,input[type=number],input[type=text],input[type=tel],input[type=email]{font-family:'IBM Plex Mono';font-size:14px;padding:11px 12px;border:1px solid var(--line);
-background:#fff;border-radius:9px;width:100%;color:var(--ink)}
-select:focus,input:focus{outline:2px solid var(--blue);outline-offset:0;border-color:var(--blue)}
+label.f{display:grid;gap:7px;font-size:13px;font-weight:600}
+.hint{font-weight:500;color:var(--sub);font-size:11.5px;line-height:1.5}
+select,input[type=number],input[type=text],input[type=tel]{font-family:'IBM Plex Mono';font-size:13.5px;padding:10px 12px;border:1px solid var(--line);background:#fff;border-radius:10px;width:100%;color:var(--ink);transition:border-color .15s}
+select:focus,input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc2)}
 .rr{display:flex;align-items:center;gap:14px}
-input[type=range]{flex:1;accent-color:var(--blue)}
-.rv{font-family:'IBM Plex Mono';font-weight:600;font-size:16px;min-width:84px;text-align:right}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-family:'Manrope';font-weight:600;font-size:13px;padding:9px 15px;border:1px solid var(--line);background:#fff;
-border-radius:999px;cursor:pointer;color:var(--ink);transition:all .12s}
-.chip:hover{border-color:var(--ink)}
+input[type=range]{flex:1;accent-color:var(--acc);height:4px}
+.rv{font-family:'IBM Plex Mono';font-weight:600;font-size:15px;min-width:80px;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:'Manrope';font-weight:600;font-size:12.5px;padding:8px 14px;border:1.5px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;color:var(--sub);transition:all .12s}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.chip.acc.on{background:var(--blue);border-color:var(--blue)}
-.cond{display:grid;gap:10px}
-.cond .opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:11px;padding:13px 15px;cursor:pointer;background:#fff}
-.cond .opt.on{border-color:var(--blue);background:var(--blue-soft)}
-.cond .rd{width:16px;height:16px;border-radius:50%;border:2px solid var(--muted);margin-top:2px;flex-shrink:0}
-.cond .opt.on .rd{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 3px var(--blue-soft)}
-.cond .ot{font-weight:700;font-size:13.5px}
-.cond .od{font-size:12.5px;color:var(--muted);margin-top:2px}
-.sn{background:var(--blue-soft);border-radius:9px;padding:10px 13px;font-size:12px;line-height:1.5}
-.sn b{color:var(--blue)}
-.tl{font-size:12px;font-weight:700;color:var(--blue);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;font-family:'Manrope';justify-self:start}
-.tt{border:1px solid var(--line);border-radius:11px;overflow:hidden;font-size:11.5px;background:#fff}
-.ttr{display:grid;grid-template-columns:80px 1fr 1fr 1fr;border-bottom:1px solid var(--line)}
-.ttr:last-child{border-bottom:none}
-.ttr.h{background:var(--bg);font-family:'IBM Plex Mono';font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
-.ttr>div{padding:8px 10px;border-right:1px solid var(--line);line-height:1.45}
-.ttr>div:last-child{border-right:none}
-.ttr>div:first-child{font-weight:700;background:var(--bg)}
-@media(max-width:680px){.ttr{grid-template-columns:70px 1fr 1fr 1fr;font-size:10px}}
-/* live rail */
-.rail{position:sticky;top:82px;display:grid;gap:14px}
-.live{background:var(--ink);color:#fff;border-radius:14px;padding:20px 22px}
-.lk{font-size:12px;color:#9a9da4;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.dot{width:7px;height:7px;border-radius:50%;background:#41d97e;animation:pulse 1.6s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.lv{font-family:'IBM Plex Mono';font-weight:600;font-size:clamp(19px,2.4vw,23px);line-height:1.3}
-.lv em{font-style:normal;color:#7D96FF}
-.ls{font-family:'IBM Plex Mono';font-size:12px;color:#9a9da4;margin-top:6px}
-.lr{display:flex;justify-content:space-between;font-size:12.5px;padding:7px 0;border-top:1px solid #33353b;font-family:'IBM Plex Mono'}
-.lr:first-of-type{margin-top:12px}
-.livebtn{width:100%;margin-top:16px;font-family:'Unbounded';font-weight:600;font-size:13px;background:var(--blue);color:#fff;
-border:none;border-radius:10px;padding:15px;cursor:pointer;transition:filter .15s}
-.livebtn:hover{filter:brightness(1.12)}
-.fc{border-radius:14px;padding:13px 16px;font-size:12.5px;font-weight:600;line-height:1.45}
-.fc.ok{background:var(--ok-soft);color:var(--ok)}
-.fc.no{background:var(--warn-soft);color:var(--warn)}
-/* lead form */
-.leadwrap{max-width:520px;margin:0 auto}
-.leadwrap h2{font-family:'Unbounded';font-weight:600;font-size:22px;margin-bottom:6px}
-.leadwrap p{color:var(--muted);font-size:14px;margin-bottom:22px;line-height:1.55}
-.leadwrap .pnl{padding:0}
-/* sheet */
-.sheet{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
-.cover{padding:40px 30px;border-bottom:2px solid var(--ink);text-align:center}
-.cover .ceye{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.cover h1{font-family:'Unbounded';font-weight:800;font-size:clamp(20px,3.6vw,30px);letter-spacing:-.4px;margin-bottom:8px}
-.cover .csub{color:var(--muted);font-size:14px}
-.cover .cmeta{margin-top:16px;font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted)}
-.snums{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--ink)}
+.chip.acc.on{background:var(--acc);border-color:var(--acc)}
+.cond{display:grid;gap:8px}
+.cond .opt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;background:#fff;transition:all .12s}
+.cond .opt:hover{border-color:var(--ink)}
+.cond .opt.on{border-color:var(--acc);background:var(--acc2)}
+.cond .rd{width:15px;height:15px;border-radius:50%;border:2px solid var(--line);margin-top:2px;flex-shrink:0}
+.cond .opt.on .rd{border-color:var(--acc);background:var(--acc);box-shadow:inset 0 0 0 3px var(--acc2)}
+.cond .ot{font-weight:700;font-size:13px}.cond .od{font-size:12px;color:var(--sub);margin-top:2px}
+.sn{background:var(--acc2);border-radius:10px;padding:10px 13px;font-size:11.5px;line-height:1.55}
+.sn b{color:var(--acc);font-weight:700}
+.tl{font-size:11.5px;font-weight:700;color:var(--acc);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+.tt{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:11px;background:#fff}
+.ttr{display:grid;grid-template-columns:76px 1fr 1fr 1fr;border-bottom:1px solid var(--line)}.ttr:last-child{border-bottom:none}
+.ttr.h{background:var(--bg);font-family:'IBM Plex Mono';font-size:9.5px;text-transform:uppercase;color:var(--sub)}
+.ttr>div{padding:8px 9px;border-right:1px solid var(--line);line-height:1.4}.ttr>div:last-child{border-right:none}.ttr>div:first-child{font-weight:700;background:var(--bg)}
+.rail{position:sticky;top:80px;display:grid;gap:12px}
+.live{background:var(--ink);color:#fff;border-radius:16px;padding:22px}
+.lk{font-size:11px;color:#888;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:pls 1.6s infinite}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.3}}
+.lv{font-family:'IBM Plex Mono';font-weight:600;font-size:clamp(18px,2.2vw,22px);line-height:1.35}
+.lv em{font-style:normal;color:#93A8FF}
+.ls{font-family:'IBM Plex Mono';font-size:11.5px;color:#777;margin-top:5px}
+.lr{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-top:1px solid #2a2c31;font-family:'IBM Plex Mono';color:#aaa}
+.lr span:last-child{color:#ddd}.lr:first-of-type{margin-top:10px}
+.livebtn{width:100%;margin-top:14px;font-family:'Unbounded';font-weight:600;font-size:12.5px;background:var(--acc);color:#fff;border:none;border-radius:10px;padding:14px;cursor:pointer;transition:filter .15s}
+.livebtn:hover{filter:brightness(1.15)}
+.fc{border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;line-height:1.5}
+.fc.ok{background:var(--oks);color:var(--ok)}.fc.no{background:var(--wrns);color:var(--wrn)}
+.leadwrap{max-width:480px;margin:0 auto}.leadwrap h2{font-family:'Unbounded';font-weight:600;font-size:22px;margin-bottom:6px}.leadwrap>p{color:var(--sub);font-size:14px;margin-bottom:20px;line-height:1.55}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.cover{padding:44px 32px 36px;text-align:center;background:linear-gradient(180deg,var(--acc2) 0%,var(--card) 100%)}
+.ceye{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--sub);margin-bottom:12px}
+.cover h1{font-family:'Unbounded';font-weight:700;font-size:clamp(19px,3.4vw,28px);letter-spacing:-.3px;margin-bottom:8px;line-height:1.2}
+.csub{color:var(--sub);font-size:13.5px}.cmeta{margin-top:14px;font-family:'IBM Plex Mono';font-size:11px;color:var(--sub)}
+.snums{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 @media(max-width:640px){.snums{grid-template-columns:1fr}}
-.sn2{padding:22px 28px;border-right:1px solid var(--line)}
-.sn2:last-child{border-right:none}
-.sn2 .k{font-size:11.5px;color:var(--muted);margin-bottom:5px}
-.sn2 .v{font-family:'IBM Plex Mono';font-weight:600;font-size:clamp(17px,2.6vw,21px)}
-.sn2 .v em{font-style:normal;color:var(--blue)}
-/* breakdown chart */
-.breakdown{padding:24px 28px;border-bottom:1px solid var(--line)}
-.breakdown h3{font-size:14px;font-weight:700;margin-bottom:14px}
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.bar-label{font-size:11.5px;font-weight:600;min-width:140px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:560px){.bar-label{min-width:90px;max-width:110px;font-size:10.5px}}
-.bar-track{flex:1;height:22px;background:#EFECE5;border-radius:6px;overflow:hidden;position:relative}
-.bar-fill{height:100%;border-radius:6px;transition:width .4s}
-.bar-val{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;min-width:80px;text-align:right}
-/* gantt */
-.gantt{padding:24px 28px;border-bottom:1px solid var(--line);overflow-x:auto}
-.gantt h3{font-size:14px;font-weight:700;margin-bottom:14px}
-.gantt-grid{display:grid;gap:6px}
-.g-row{display:flex;align-items:center;gap:10px}
-.g-label{font-size:11px;font-weight:600;min-width:120px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(max-width:560px){.g-label{min-width:80px;max-width:100px;font-size:10px}}
-.g-track{flex:1;height:20px;position:relative;min-width:200px}
-.g-bar{position:absolute;height:100%;border-radius:5px;top:0;display:flex;align-items:center;padding-left:6px;font-family:'IBM Plex Mono';font-size:9px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap}
-.g-weeks{position:absolute;top:0;left:0;width:100%;height:100%;display:flex}
-.g-weekline{border-right:1px solid var(--line);flex:1}
-/* stages drill-down */
+.sn2{padding:22px 28px;border-right:1px solid var(--line)}.sn2:last-child{border-right:none}
+.sn2 .k{font-size:11px;color:var(--sub);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
+.sn2 .v{font-family:'IBM Plex Mono';font-weight:600;font-size:clamp(16px,2.4vw,20px)}.sn2 .v em{font-style:normal;color:var(--acc)}
+.breakdown{padding:28px 28px 20px;border-bottom:1px solid var(--line)}
+.breakdown h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
+.brow{display:flex;align-items:center;gap:12px;margin-bottom:7px}
+.blbl{font-size:11.5px;font-weight:600;min-width:130px;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--sub)}
+@media(max-width:560px){.blbl{min-width:80px;max-width:100px;font-size:10.5px}}
+.btrack{flex:1;height:20px;background:var(--bg);border-radius:6px;overflow:hidden}
+.bfill{height:100%;border-radius:6px;background:var(--acc);transition:width .4s}
+.bval{font-family:'IBM Plex Mono';font-size:11px;font-weight:500;min-width:90px;text-align:right;color:var(--sub)}
+.gantt{padding:28px 28px 20px;border-bottom:1px solid var(--line);overflow-x:auto}
+.gantt h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
+.gg{display:grid;gap:5px}
+.gr{display:flex;align-items:center;gap:12px}
+.glbl{font-size:11px;font-weight:600;min-width:110px;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--sub)}
+@media(max-width:560px){.glbl{min-width:70px;max-width:95px;font-size:10px}}
+.gtrack{flex:1;height:18px;position:relative;min-width:180px}
+.gbar{position:absolute;height:100%;border-radius:5px;top:0;display:flex;align-items:center;padding-left:6px;font-family:'IBM Plex Mono';font-size:9px;color:#fff;font-weight:600;overflow:hidden;white-space:nowrap;background:var(--ink);opacity:.75}
+.gmeta{margin-top:8px;font-family:'IBM Plex Mono';font-size:10.5px;color:var(--sub)}
 .stage{border-bottom:1px solid var(--line)}.stage:last-of-type{border-bottom:none}
-.sth{display:flex;align-items:center;gap:10px;padding:14px 26px;cursor:pointer;user-select:none;transition:background .12s}
-.sth:hover{background:#F5F3EE}
-.st-icon{font-size:16px;width:24px;text-align:center}
-.st-caret{width:18px;height:18px;border-radius:5px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
-font-size:10px;color:var(--muted);transition:transform .15s;flex-shrink:0;background:#fff}
-.stage.open .st-caret{transform:rotate(90deg);border-color:var(--blue);color:var(--blue)}
+.sth{display:flex;align-items:center;gap:10px;padding:14px 28px;cursor:pointer;user-select:none;transition:background .1s}
+.sth:hover{background:var(--bg)}
+.st-caret{font-size:10px;color:var(--sub);transition:transform .15s;width:16px}.stage.open .st-caret{transform:rotate(90deg);color:var(--acc)}
 .st-name{font-weight:700;font-size:13px;flex:1}
-.st-badge{font-family:'IBM Plex Mono';font-size:9.5px;color:var(--blue);background:var(--blue-soft);border-radius:5px;padding:2px 7px}
-.st-weeks{font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);min-width:52px;text-align:right}
-.st-total{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:100px;text-align:right}
-.stb{background:#F7F5F0;border-top:1px solid var(--line);padding:14px 26px 18px;display:grid;gap:16px}
-.stb .scope{font-size:12px;color:var(--muted);line-height:1.5;padding-bottom:10px;border-bottom:1px dashed var(--line)}
-.item .i-top{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;margin-bottom:8px;flex-wrap:wrap}
-.item .i-label{font-weight:700}.item .i-qty{font-family:'IBM Plex Mono';color:var(--muted)}
-.optlist{display:grid;gap:7px}
-.oc{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;cursor:pointer;transition:border-color .12s}
-.oc.on{border-color:var(--blue);background:var(--blue-soft)}
-.oc .orad{width:14px;height:14px;border-radius:50%;border:2px solid var(--muted);flex-shrink:0}
-.oc.on .orad{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 2.5px var(--blue-soft)}
-.oc .oname{font-weight:700;font-size:12px;flex:1;min-width:100px}
-.oc .osrc{font-size:10.5px;color:var(--muted)}.oc .osrc a{color:var(--blue);text-decoration:underline;font-weight:600}
-.oc .oprice{font-family:'IBM Plex Mono';font-size:11px;text-align:right;white-space:nowrap}.oc .oprice b{font-size:12px}
-@media(max-width:620px){.oc{flex-wrap:wrap}.oc .oprice{width:100%;text-align:left;padding-left:25px}}
-/* payment */
-.paysec{padding:24px 28px;border-bottom:1px solid var(--line)}
-.paysec h3{font-size:14px;font-weight:700;margin-bottom:14px}
-.pay-row{display:flex;gap:14px;margin-bottom:10px;align-items:flex-start}
-.pay-pct{font-family:'IBM Plex Mono';font-weight:600;font-size:14px;min-width:48px;color:var(--blue)}
-.pay-body .pay-label{font-weight:700;font-size:13px}.pay-body .pay-desc{font-size:12px;color:var(--muted);margin-top:2px}
-.pay-body .pay-sum{font-family:'IBM Plex Mono';font-size:12px;font-weight:600;margin-top:3px}
-/* includes */
-.inex{padding:24px 28px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.st-badge{font-family:'IBM Plex Mono';font-size:9.5px;color:var(--acc);background:var(--acc2);border-radius:5px;padding:2px 7px}
+.st-wk{font-family:'IBM Plex Mono';font-size:11px;color:var(--sub);min-width:50px;text-align:right}
+.st-tot{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:96px;text-align:right}
+.stb{background:var(--bg);border-top:1px solid var(--line);padding:16px 28px 20px;display:grid;gap:14px}
+.stb .scope{font-size:12px;color:var(--sub);line-height:1.5;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+.item .itop{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:8px;flex-wrap:wrap}
+.item .ilbl{font-weight:700}.item .iqty{font-family:'IBM Plex Mono';color:var(--sub)}
+.optlist{display:grid;gap:6px}
+.oc{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .12s}
+.oc:hover{border-color:var(--ink)}.oc.on{border-color:var(--acc);background:var(--acc2)}
+.oc .orad{width:13px;height:13px;border-radius:50%;border:2px solid var(--line);flex-shrink:0}.oc.on .orad{border-color:var(--acc);background:var(--acc);box-shadow:inset 0 0 0 2.5px var(--acc2)}
+.oc .oname{font-weight:700;font-size:11.5px;flex:1;min-width:90px}
+.oc .osrc{font-size:10px;color:var(--sub)}.oc .osrc a{color:var(--acc);text-decoration:underline;font-weight:600}
+.oc .oprice{font-family:'IBM Plex Mono';font-size:10.5px;text-align:right;white-space:nowrap;color:var(--sub)}.oc .oprice b{color:var(--ink)}
+@media(max-width:620px){.oc{flex-wrap:wrap}.oc .oprice{width:100%;text-align:left;padding-left:24px}}
+.paysec{padding:28px;border-bottom:1px solid var(--line)}.paysec h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
+.prow{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start}
+.ppct{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:42px;color:var(--acc)}
+.pbody .plbl{font-weight:700;font-size:12.5px}.pbody .pdesc{font-size:11.5px;color:var(--sub);margin-top:2px}.pbody .psum{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:600;margin-top:3px}
+.inex{padding:28px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:560px){.inex{grid-template-columns:1fr}}
-.inex h3{font-size:14px;font-weight:700;margin-bottom:10px;grid-column:1/-1}
-.inex ul{list-style:none;font-size:12.5px;line-height:1.65}
-.inex .inc li::before{content:'✓ ';color:var(--ok);font-weight:700}
-.inex .exc li::before{content:'✕ ';color:var(--warn);font-weight:700}
-/* renders */
+.inex h3{font-size:13.5px;font-weight:700;margin-bottom:10px;grid-column:1/-1}
+.inex ul{list-style:none;font-size:12px;line-height:1.7;color:var(--sub)}
+.inex .inc li::before{content:'\\2713  ';color:var(--ok);font-weight:700}.inex .exc li::before{content:'\\2715  ';color:var(--wrn);font-weight:700}
 .renders{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
 @media(max-width:640px){.renders{grid-template-columns:1fr}}
-.rph{aspect-ratio:16/9;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--muted);
-background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(43,75,215,.045) 14px,rgba(43,75,215,.045) 28px)}
-.rph:last-child{border-right:none}
-.rph .t{font-family:'IBM Plex Mono';font-size:11px;text-transform:uppercase;letter-spacing:.6px}
-.rph .d{font-size:11.5px}
-/* footer */
-.sf{padding:20px 28px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line)}
-.sf .note{font-size:10.5px;color:var(--muted);max-width:500px;line-height:1.55}
-.actions{display:flex;gap:10px}
-.btn{font-family:'Manrope';font-weight:700;font-size:13px;padding:11px 18px;border-radius:9px;cursor:pointer;border:1px solid var(--ink);background:#fff;color:var(--ink)}
-.btn.blue{background:var(--blue);border-color:var(--blue);color:#fff;font-family:'Unbounded';font-weight:600;font-size:12.5px}
-.terms{padding:22px 28px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);line-height:1.6}
-.terms h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px}
-@media print{.no-print{display:none!important}.app{background:#fff}.wrap{padding:0;max-width:100%}.sheet{border:none;border-radius:0}
-.topbar,.laser{display:none}.cover{padding:30px 20px}.snums,.breakdown,.gantt,.stage,.paysec,.inex,.terms,.renders,.sf{break-inside:avoid}
-.sth{pointer-events:none}.stb{display:block!important}}
+.rph{aspect-ratio:16/9;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--sub);background:linear-gradient(135deg,var(--bg) 0%,var(--acc2) 100%)}
+.rph:last-child{border-right:none}.rph .t{font-family:'IBM Plex Mono';font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}.rph .d{font-size:11px}
+.terms{padding:24px 28px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--sub);line-height:1.6}
+.terms h3{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.sf{padding:20px 28px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+.sf .note{font-size:10.5px;color:var(--sub);max-width:460px;line-height:1.5}
+.actions{display:flex;gap:8px}
+.btn{font-family:'Manrope';font-weight:700;font-size:12.5px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--ink);transition:all .12s}
+.btn:hover{border-color:var(--ink)}
+.btn.blue{background:var(--acc);border-color:var(--acc);color:#fff;font-family:'Unbounded';font-weight:600;font-size:12px}.btn.blue:hover{filter:brightness(1.1)}
+@media print{.no-print{display:none!important}.app{background:#fff}.wrap{padding:0;max-width:100%}.sheet{border:none;border-radius:0;box-shadow:none}.topbar{display:none}.cover{padding:24px 20px}.snums,.breakdown,.gantt,.stage,.paysec,.inex,.terms,.renders,.sf{break-inside:avoid}}
 `;
 
-const initFlat = { region: "kyiv", area: 65, rooms: 2, bathrooms: 1, condition: "new", tier: "standart", style: "Сучасний", budget: "f3" };
-const initHouse = { region: "kyiv", area: 150, floors: 2, rooms: 3, bathrooms: 2, condition: "new", tier: "standart", style: "Сучасний", budget: "h3" };
+const initF={region:"kyiv",area:65,rooms:2,bathrooms:1,condition:"new",tier:"standart",style:"Сучасний",budget:"f3"};
+const initH={region:"kyiv",area:150,floors:2,rooms:3,bathrooms:2,condition:"new",tier:"standart",style:"Сучасний",budget:"h3"};
 
-export default function App() {
-  const [mode, setMode] = useState("flat");
-  const [flat, setFlat] = useState(initFlat);
-  const [house, setHouse] = useState(initHouse);
-  const [view, setView] = useState("form"); // form | lead | sheet
-  const [sel, setSel] = useState({});
-  const [open, setOpen] = useState({});
-  const [showT, setShowT] = useState(false);
-  const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
+export default function App(){
+const[mode,setMode]=useState("flat");const[flat,setFlat]=useState(initF);const[house,setHouse]=useState(initH);
+const[view,setView]=useState("form");const[sel,setSel]=useState({});const[opn,setOpn]=useState({});
+const[showT,setShowT]=useState(false);const[lead,setLead]=useState({name:"",phone:"",msg:""});
+const p=mode==="flat"?flat:house;const setP=(k,v)=>(mode==="flat"?setFlat:setHouse)(s=>({...s,[k]:v}));
+const r=useMemo(()=>calc(mode,p,sel),[mode,p,sel]);const today=new Date().toLocaleDateString("uk-UA");
+const swM=m=>{setMode(m);setView("form");setSel({});setOpn({})};const maxT=Math.max(...r.rows.map(x=>x.total));
 
-  const p = mode === "flat" ? flat : house;
-  const setP = (k, v) => (mode === "flat" ? setFlat : setHouse)((s) => ({ ...s, [k]: v }));
-  const r = useMemo(() => calc(mode, p, sel), [mode, p, sel]);
-  const today = new Date().toLocaleDateString("uk-UA");
-  const sw = (m) => { setMode(m); setView("form"); setSel({}); setOpen({}); };
+return (<div className="app"><style>{css}</style>
+<div className="topbar no-print"><div className="tb"><div className="logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
+<div className="mode"><button className={mode==="flat"?"on":""} onClick={()=>swM("flat")}>Ремонт квартири</button>
+<button className={mode==="house"?"on":""} onClick={()=>swM("house")}>Будинок з нуля</button></div></div></div>
 
-  const maxTotal = Math.max(...r.rows.map((x) => x.total));
-  const totalW = r.totalWeeks;
+<div className="wrap">
+{view==="form"&&(<><div className="hero"><h1>{mode==="flat"?"Ремонт під ключ — з ціною одразу":"Будинок — з ціною та строком одразу"}</h1>
+<p>Кожен параметр змінює розрахунок у реальному часі</p>{DEMO&&<div className="demob">демо · ціни орієнтовні</div>}</div>
+<div className="grid"><div style={{display:"grid",gap:16}}>
+<div className="card"><div className="ch"><span className="cn">01</span><h2>{mode==="flat"?"Квартира":"Будинок"}</h2></div>
+<div className="cb"><div className="g2">
+<label className="f">Локація <span className="hint">Київ — база, область — дешевше</span>
+<select value={p.region} onChange={e=>setP("region",e.target.value)}>{REGIONS.map(x=><option key={x.id} value={x.id}>{x.name}{x.k!==1?` (−${Math.round((1-x.k)*100)}%)`:""}</option>)}</select></label>
+<label className="f">{mode==="flat"?"Кімнат":"Спалень"}<div className="chips">{[1,2,3,4,5].map(n=><button key={n} className={"chip"+(p.rooms===n?" on":"")} onClick={()=>setP("rooms",n)}>{n}</button>)}</div></label></div>
+<label className="f">Площа<div className="rr"><input type="range" min={mode==="flat"?30:80} max={mode==="flat"?180:300} step="5" value={p.area} onChange={e=>setP("area",+e.target.value)}/><span className="rv">{p.area} м²</span></div></label>
+{mode==="house"&&<label className="f">Поверхів<div className="chips">{[1,2,3].map(n=><button key={n} className={"chip"+(p.floors===n?" on":"")} onClick={()=>setP("floors",n)}>{n}</button>)}</div></label>}
+<label className="f">Санвузлів<div className="chips">{[1,2,3].map(n=><button key={n} className={"chip"+(p.bathrooms===n?" on":"")} onClick={()=>setP("bathrooms",n)}>{n}</button>)}</div></label></div></div>
+{mode==="flat"&&<div className="card"><div className="ch"><span className="cn">02</span><h2>Стан квартири</h2></div>
+<div className="cb"><div className="cond">{[{id:"new",t:"Новобудова «сіра коробка»",d:"Повний цикл з нуля"},{id:"old",t:"Вторинка зі старим ремонтом",d:"Додається демонтаж"},{id:"partial",t:"Часткова готовність",d:"Штукатурка і стяжка є"}].map(o=>
+<div key={o.id} className={"opt"+(p.condition===o.id?" on":"")} onClick={()=>setP("condition",o.id)}><div className="rd"/><div><div className="ot">{o.t}</div><div className="od">{o.d}</div></div></div>)}</div></div></div>}
+<div className="card"><div className="ch"><span className="cn">{mode==="flat"?"03":"02"}</span><h2>Бюджет, рівень і стиль</h2></div>
+<div className="cb"><label className="f">Бюджет<select value={p.budget} onChange={e=>setP("budget",e.target.value)}>{BUDGETS[mode].map(b=><option key={b.id} value={b.id}>{b.name} грн</option>)}</select></label>
+<label className="f">Рівень оздоблення<div className="chips">{Object.entries(TIERS).map(([id,t])=><button key={id} className={"chip acc"+(p.tier===id?" on":"")} onClick={()=>setP("tier",id)}>{t.name}</button>)}</div>
+<button className="tl" onClick={()=>setShowT(s=>!s)}>{showT?"Сховати ↑":"Порівняти рівні ↓"}</button>
+{showT&&<div className="tt"><div className="ttr h"><div></div><div>Економ</div><div>Стандарт</div><div>Преміум</div></div>{TIER_TABLE.map(t=><div className="ttr" key={t.row}><div>{t.row}</div><div>{t.econom}</div><div>{t.standart}</div><div>{t.premium}</div></div>)}</div>}</label>
+<label className="f">Стиль<div className="chips">{Object.keys(STYLE_MODS).map(s=><button key={s} className={"chip"+(p.style===s?" on":"")} onClick={()=>setP("style",s)}>{s}</button>)}</div>
+<div className="sn"><b>{p.style}{r.styleDelta?` · ${r.styleDelta>0?"+":""}${r.styleDelta}%`:""}:</b> {STYLE_MODS[p.style].note}</div></label></div></div></div>
+<div className="rail no-print"><div className="live"><div className="lk"><span className="dot"/>{r.region.name}</div>
+<div className="lv">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div>
+<div className="ls">{fmt(r.perM2)} грн/м² · ~{r.months} міс.</div>
+<div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a,x)=>a+x.work,0))}</span></div>
+<div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a,x)=>a+x.matSum,0))}</span></div>
+{r.styleDelta!==0&&<div className="lr"><span>{p.style}</span><span>{r.styleDelta>0?"+":""}{r.styleDelta}%</span></div>}
+<button className="livebtn" onClick={()=>{setView("lead");window.scrollTo(0,0)}}>Сформувати пропозицію →</button></div>
+<div className={"fc "+(r.budgetFit?"ok":"no")}>{r.budgetFit?<>✓ Вписується у «{r.budgetName}»</>:<>⚠ Перевищує «{r.budgetName}»</>}</div></div></div></>)}
 
-  return (
-    <div className="app">
-      <style>{css}</style>
-      <div className="laser no-print" />
-      <div className="topbar no-print">
-        <div className="tb">
-          <div className="logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
-          <div className="mode">
-            <button className={mode === "flat" ? "on" : ""} onClick={() => sw("flat")}>Ремонт квартири</button>
-            <button className={mode === "house" ? "on" : ""} onClick={() => sw("house")}>Будинок з нуля</button>
-          </div>
-        </div>
-      </div>
+{view==="lead"&&<div className="leadwrap"><h2>Майже готово</h2><p>Залиште контакт — отримайте PDF з розрахунком</p>
+<div className="card"><div className="cb">
+<label className="f">Ім'я<input type="text" value={lead.name} onChange={e=>setLead(l=>({...l,name:e.target.value}))} placeholder="Олександр"/></label>
+<label className="f">Телефон / Telegram<input type="tel" value={lead.phone} onChange={e=>setLead(l=>({...l,phone:e.target.value}))} placeholder="+380..."/></label>
+<label className="f">Коментар<input type="text" value={lead.msg} onChange={e=>setLead(l=>({...l,msg:e.target.value}))} placeholder="Необов'язково"/></label>
+<div style={{display:"flex",gap:8}}><button className="btn" onClick={()=>setView("form")}>← Назад</button>
+<button className="btn blue" style={{flex:1}} onClick={()=>{setView("sheet");window.scrollTo(0,0)}} disabled={!lead.name.trim()||!lead.phone.trim()}>Отримати пропозицію →</button></div>
+<span className="hint">Ваші дані бачить тільки команда</span></div></div></div>}
 
-      <div className="wrap">
-        {/* ====== FORM ====== */}
-        {view === "form" && (<>
-          <div className="hero">
-            <h1>{mode === "flat" ? "Ремонт квартири під ключ — з ціною одразу" : "Ваш будинок — з ціною та строком одразу"}</h1>
-            <p>Кожен фільтр змінює розрахунок у реальному часі. У готовій пропозиції — деталі, графік, оплата.</p>
-            {DEMO && <div className="demob">Демо-дані · ціни орієнтовні</div>}
-          </div>
-          <div className="grid">
-            <div style={{ display: "grid", gap: 18 }}>
-              <div className="pnl"><div className="ph"><span className="pn">01</span><h2>{mode === "flat" ? "Квартира" : "Будинок"}</h2></div>
-                <div className="pb">
-                  <div className="g2">
-                    <label className="f">Локація <span className="hint">Київ — база, область — нижчі</span>
-                      <select value={p.region} onChange={(e) => setP("region", e.target.value)}>
-                        {REGIONS.map((x) => <option key={x.id} value={x.id}>{x.name} {x.k !== 1 ? `(−${Math.round((1 - x.k) * 100)}%)` : ""}</option>)}
-                      </select></label>
-                    <label className="f">{mode === "flat" ? "Кімнат" : "Спалень"}
-                      <div className="chips">{[1, 2, 3, 4, 5].map((n) => (
-                        <button key={n} className={"chip" + (p.rooms === n ? " on" : "")} onClick={() => setP("rooms", n)}>{n}</button>))}</div></label>
-                  </div>
-                  <label className="f">Площа
-                    <div className="rr"><input type="range" min={mode === "flat" ? 30 : 80} max={mode === "flat" ? 180 : 300} step="5"
-                      value={p.area} onChange={(e) => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
-                  {mode === "house" && <label className="f">Поверхів
-                    <div className="chips">{[1, 2, 3].map((n) => (
-                      <button key={n} className={"chip" + (p.floors === n ? " on" : "")} onClick={() => setP("floors", n)}>{n}</button>))}</div></label>}
-                  <label className="f">Санвузлів
-                    <div className="chips">{[1, 2, 3].map((n) => (
-                      <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>))}</div></label>
-                </div></div>
-              {mode === "flat" && <div className="pnl"><div className="ph"><span className="pn">02</span><h2>Стан квартири зараз</h2></div>
-                <div className="pb"><div className="cond">
-                  {[
-                    { id: "new", t: "Новобудова, «сіра коробка»", d: "Голі стіни, стояки, щиток. Повний цикл з нуля." },
-                    { id: "old", t: "Вторинка зі старим ремонтом", d: "Спершу демонтаж, потім повний цикл." },
-                    { id: "partial", t: "Часткова готовність", d: "Штукатурка і стяжка є — ці етапи зникають." },
-                  ].map((o) => (
-                    <div key={o.id} className={"opt" + (p.condition === o.id ? " on" : "")} onClick={() => setP("condition", o.id)}>
-                      <div className="rd" /><div><div className="ot">{o.t}</div><div className="od">{o.d}</div></div></div>))}
-                </div></div></div>}
-              <div className="pnl"><div className="ph"><span className="pn">{mode === "flat" ? "03" : "02"}</span><h2>Бюджет, рівень і стиль</h2></div>
-                <div className="pb">
-                  <label className="f">Бюджетна вилка
-                    <select value={p.budget} onChange={(e) => setP("budget", e.target.value)}>
-                      {BUDGETS[mode].map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}</select></label>
-                  <label className="f">Рівень оздоблення
-                    <div className="chips">{Object.entries(TIERS).map(([id, t]) => (
-                      <button key={id} className={"chip acc" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)}>{t.name}</button>))}</div>
-                    <button className="tl" onClick={() => setShowT((s) => !s)}>{showT ? "Сховати ↑" : "Чим відрізняються рівні? ↓"}</button>
-                    {showT && <div className="tt"><div className="ttr h"><div></div><div>Економ</div><div>Стандарт</div><div>Преміум</div></div>
-                      {TIER_TABLE.map((t) => <div className="ttr" key={t.row}><div>{t.row}</div><div>{t.econom}</div><div>{t.standart}</div><div>{t.premium}</div></div>)}</div>}
-                  </label>
-                  <label className="f">Стиль <span className="hint">впливає на ціну конкретних етапів</span>
-                    <div className="chips">{STYLES.map((s) => (
-                      <button key={s} className={"chip" + (p.style === s ? " on" : "")} onClick={() => setP("style", s)}>{s}</button>))}</div>
-                    <div className="sn"><b>{p.style}{r.styleDelta ? ` · ${r.styleDelta > 0 ? "+" : ""}${r.styleDelta}% до вартості` : " · базовий"}: </b>{STYLE_MODS[p.style].note}</div>
-                  </label>
-                </div></div>
-            </div>
-            <div className="rail no-print">
-              <div className="live">
-                <div className="lk"><span className="dot" />Жива оцінка · {r.region.name}</div>
-                <div className="lv">{fmtM(r.low)} — <em>{fmtM(r.high)}</em> грн</div>
-                <div className="ls">≈ {fmt(r.perM2)} грн/м² · ~{r.months} міс.</div>
-                <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0))}</span></div>
-                <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0))}</span></div>
-                <div className="lr"><span>Стиль ({p.style})</span><span>{r.styleDelta ? (r.styleDelta > 0 ? "+" : "") + r.styleDelta + "%" : "база"}</span></div>
-                <div className="lr"><span>Етапів</span><span>{r.rows.length}</span></div>
-                <button className="livebtn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Сформувати пропозицію →</button>
-              </div>
-              <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
-                {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Вище «{r.budgetName}». Менша площа чи рівень.</>}
-              </div>
-            </div>
-          </div>
-        </>)}
+{view==="sheet"&&<div className="sheet">
+<div className="cover"><div className="ceye">Комерційна пропозиція{DEMO?" · демо":""}</div>
+<h1>{mode==="flat"?`Ремонт ${p.area} м² під ключ`:`Будинок ${p.area} м²`}</h1>
+<div className="csub">{p.rooms} {mode==="flat"?"кімн.":"спал."} · {p.bathrooms} с/в · {r.tier.name} · {p.style}</div>
+<div className="cmeta">{r.region.name} · {today}</div></div>
 
-        {/* ====== LEAD CAPTURE ====== */}
-        {view === "lead" && (
-          <div className="leadwrap">
-            <h2>Ваша пропозиція майже готова</h2>
-            <p>Залиште контакт — і отримаєте готовий PDF з розрахунком, графіком і деталями. Ваші дані бачить тільки наша команда.</p>
-            <div className="pnl"><div className="pb">
-              <label className="f">Ім'я<input type="text" value={lead.name} onChange={(e) => setLead((l) => ({ ...l, name: e.target.value }))} placeholder="Олександр" /></label>
-              <label className="f">Телефон або Telegram<input type="tel" value={lead.phone} onChange={(e) => setLead((l) => ({ ...l, phone: e.target.value }))} placeholder="+380..." /></label>
-              <label className="f">Коментар (необов'язково)<input type="text" value={lead.msg} onChange={(e) => setLead((l) => ({ ...l, msg: e.target.value }))} placeholder="Що важливо для вас?" /></label>
-              <div style={{ display: "flex", gap: 10 }}>
-                <button className="btn" onClick={() => setView("form")}>← Назад</button>
-                <button className="btn blue" style={{ flex: 1 }} onClick={() => { setView("sheet"); window.scrollTo(0, 0); }}
-                  disabled={!lead.name.trim() || !lead.phone.trim()}>
-                  Отримати пропозицію →
-                </button>
-              </div>
-              <span className="hint">Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних.</span>
-            </div></div>
-          </div>
-        )}
+<div className="snums"><div className="sn2"><div className="k">Вартість ±{VILKA*100}%</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div></div>
+<div className="sn2"><div className="k">Грн / м²</div><div className="v"><em>{fmt(r.perM2)}</em></div></div>
+<div className="sn2"><div className="k">Строк</div><div className="v"><em>{r.months}</em> міс.</div></div></div>
 
-        {/* ====== PROPOSAL SHEET ====== */}
-        {view === "sheet" && (
-          <div className="sheet">
-            {/* Cover */}
-            <div className="cover">
-              <div className="ceye">Комерційна пропозиція{DEMO ? " · демо" : ""}</div>
-              <h1>{mode === "flat" ? `Ремонт квартири ${p.area} м² під ключ` : `Будівництво будинку ${p.area} м²`}</h1>
-              <div className="csub">{p.rooms} {mode === "flat" ? "кімнат" : "спалень"} · {p.bathrooms} санвуз. · {r.tier.name} · {p.style}</div>
-              <div className="cmeta">{r.region.name} · {today} · КП-{String(Math.floor(Math.random() * 9000 + 1000))}</div>
-            </div>
+<div className="breakdown"><h3>Розподіл вартості</h3>{r.rows.map(st=>{const pct=(st.total/r.total)*100;return<div className="brow" key={st.id}><span className="blbl">{st.name}</span><div className="btrack"><div className="bfill" style={{width:`${(st.total/maxT)*100}%`,opacity:.15+(st.total/maxT)*.85}}/></div><span className="bval">{fmt(st.total)} · {pct.toFixed(0)}%</span></div>})}</div>
 
-            {/* Key numbers */}
-            <div className="snums">
-              <div className="sn2"><div className="k">Вартість, вилка ±{VILKA * 100}%</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em> грн</div></div>
-              <div className="sn2"><div className="k">За квадратний метр</div><div className="v">≈ {fmt(r.perM2)} грн/м²</div></div>
-              <div className="sn2"><div className="k">Строк виконання</div><div className="v">≈ <em>{r.months}</em> міс. ({r.weeks} тиж.)</div></div>
-            </div>
+<div className="gantt"><h3>Графік робіт</h3><div className="gg">{r.rows.map(st=>{const left=(st.startWeek/r.totalWeeks)*100;const width=Math.max((st.weeks/r.totalWeeks)*100,4);return<div className="gr" key={st.id}><span className="glbl">{st.name}</span><div className="gtrack"><div className="gbar" style={{left:`${left}%`,width:`${width}%`}}>{st.weeks}т</div></div></div>})}</div>
+<div className="gmeta">{r.weeks} тижнів ({r.months} міс.) з паралельністю</div></div>
 
-            {/* Cost breakdown chart */}
-            <div className="breakdown">
-              <h3>Розподіл вартості по етапах</h3>
-              {r.rows.map((st, i) => {
-                const pct = (st.total / r.total) * 100;
-                return (
-                  <div className="bar-row" key={st.id}>
-                    <span className="bar-label">{st.icon} {st.name}</span>
-                    <div className="bar-track"><div className="bar-fill" style={{ width: `${(st.total / maxTotal) * 100}%`, background: COLORS[i % COLORS.length] }} /></div>
-                    <span className="bar-val">{fmt(st.total)} ({pct.toFixed(0)}%)</span>
-                  </div>
-                );
-              })}
-            </div>
+<div style={{padding:"10px 28px",borderBottom:"1px solid var(--line)"}} className="no-print"><span className="hint">Відкрийте етап → обсяг робіт, варіанти виконавців</span></div>
 
-            {/* Timeline / Gantt */}
-            <div className="gantt">
-              <h3>Графік виконання робіт</h3>
-              <div className="gantt-grid">
-                {r.rows.map((st, i) => {
-                  const left = (st.startWeek / totalW) * 100;
-                  const width = Math.max((st.weeks / totalW) * 100, 3);
-                  return (
-                    <div className="g-row" key={st.id}>
-                      <span className="g-label">{st.icon} {st.name}</span>
-                      <div className="g-track">
-                        <div className="g-bar" style={{ left: `${left}%`, width: `${width}%`, background: COLORS[i % COLORS.length] }}>
-                          {st.weeks} тиж.
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div style={{ marginTop: 8, fontFamily: "'IBM Plex Mono'", fontSize: 10, color: "var(--muted)" }}>
-                Загальний строк з урахуванням паралельності: ≈ {r.weeks} тижнів ({r.months} міс.)
-              </div>
-            </div>
+{r.rows.map(st=><div key={st.id} className={"stage"+(opn[st.id]?" open":"")}>
+<div className="sth" onClick={()=>setOpn(o=>({...o,[st.id]:!o[st.id]}))}>
+<span className="st-caret">▸</span><span className="st-name">{st.name}</span>
+{st.sk!==1&&<span className="st-badge">{st.sk>1?"+":""}{Math.round((st.sk-1)*100)}%</span>}
+<span className="st-wk">{st.weeks}т</span><span className="st-tot">{fmt(st.total)}</span></div>
+{opn[st.id]&&<div className="stb"><div className="scope">{st.scope}</div>
+{st.items.map(it=><div className="item" key={it.key}><div className="itop"><span className="ilbl">{it.label}</span><span className="iqty">{fmt(it.qty)} {it.unit} · {fmt(it.total)} грн</span></div>
+<div className="optlist">{it.opts.map((o,oi)=>{const on=it.sel===oi;const pw=Math.round(o.price*r.tier.kWork*r.region.k*(st.sk||1));const pm=Math.round(o.mat*r.tier.kMat*r.region.k*(st.sk||1));return<div key={oi} className={"oc"+(on?" on":"")} onClick={()=>setSel(s=>({...s,[it.key]:oi}))}>
+<div className="orad"/><div style={{flex:1}}><div className="oname">{o.name}</div><div className="osrc"><a href={o.url} target="_blank" rel="noreferrer" onClick={e=>e.stopPropagation()}>{o.src}</a></div></div>
+<div className="oprice">роб. <b>{fmt(pw)}</b> + мат. <b>{fmt(pm)}</b> /{it.unit}</div></div>})}</div></div>)}</div>}</div>)}
 
-            {/* Hint */}
-            <div style={{ padding: "10px 26px", borderBottom: "1px solid var(--line)" }} className="no-print">
-              <span className="hint">Відкрийте етап → перегляньте обсяг робіт і оберіть виконавця. Ціна перераховується одразу.</span>
-            </div>
+<div className={"fc "+(r.budgetFit?"ok":"no")} style={{borderRadius:0,padding:"14px 28px",borderBottom:"1px solid var(--line)"}}>{r.budgetFit?<>✓ Вписується у «{r.budgetName}»</>:<>⚠ Перевищує «{r.budgetName}»</>}</div>
 
-            {/* Stage drill-down */}
-            {r.rows.map((st) => (
-              <div key={st.id} className={"stage" + (open[st.id] ? " open" : "")}>
-                <div className="sth" onClick={() => setOpen((o) => ({ ...o, [st.id]: !o[st.id] }))}>
-                  <span className="st-icon">{st.icon}</span>
-                  <span className="st-caret">▸</span>
-                  <span className="st-name">{st.name}</span>
-                  {st.styleK !== 1 && <span className="st-badge">стиль {st.styleK > 1 ? "+" : ""}{Math.round((st.styleK - 1) * 100)}%</span>}
-                  <span className="st-weeks">{st.weeks} тиж.</span>
-                  <span className="st-total">{fmt(st.total)} грн</span>
-                </div>
-                {open[st.id] && (
-                  <div className="stb">
-                    <div className="scope">{st.scope}</div>
-                    {st.items.map((it) => (
-                      <div className="item" key={it.key}>
-                        <div className="i-top">
-                          <span className="i-label">{it.label}</span>
-                          <span className="i-qty">{fmt(it.qty)} {it.unit} · разом {fmt(it.total)} грн</span>
-                        </div>
-                        <div className="optlist">
-                          {it.opts.map((o, oi) => {
-                            const on = it.sel === oi;
-                            const pw = Math.round(o.price * r.tier.kWork * r.region.k * (st.styleK || 1));
-                            const pm = Math.round(o.mat * r.tier.kMat * r.region.k * (st.styleK || 1));
-                            return (
-                              <div key={oi} className={"oc" + (on ? " on" : "")} onClick={() => setSel((s) => ({ ...s, [it.key]: oi }))}>
-                                <div className="orad" />
-                                <div style={{ flex: 1 }}>
-                                  <div className="oname">{o.name}</div>
-                                  <div className="osrc">джерело: <a href={o.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>{o.src}</a></div>
-                                </div>
-                                <div className="oprice">робота <b>{fmt(pw)}</b> + мат. <b>{fmt(pm)}</b> грн/{it.unit}</div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+<div className="paysec"><h3>Графік оплат</h3>{PAYMENT.map((ps,i)=><div className="prow" key={i}><span className="ppct">{ps.pct}%</span><div className="pbody"><div className="plbl">{ps.label}</div><div className="pdesc">{ps.desc}</div><div className="psum">{fmtM(Math.round(r.total*ps.pct/100))} грн</div></div></div>)}</div>
 
-            {/* Budget fit */}
-            <div className={"fc " + (r.budgetFit ? "ok" : "no")} style={{ borderRadius: 0, padding: "15px 26px", borderBottom: "1px solid var(--line)" }}>
-              {r.budgetFit ? <>✓ Розрахунок вписується у бюджет «{r.budgetName}».</>
-                : <>⚠ Нижня межа перевищує бюджет «{r.budgetName}». Розгляньте меншу площу, рівень або поетапність.</>}
-            </div>
+<div className="inex"><h3>Що входить / не входить</h3><ul className="inc">{INCLUDES.map((x,i)=><li key={i}>{x}</li>)}</ul><ul className="exc">{EXCLUDES.map((x,i)=><li key={i}>{x}</li>)}</ul></div>
 
-            {/* Payment schedule */}
-            <div className="paysec">
-              <h3>Орієнтовний графік оплат</h3>
-              {PAYMENT_SCHEDULE.map((ps, i) => (
-                <div className="pay-row" key={i}>
-                  <span className="pay-pct">{ps.pct}%</span>
-                  <div className="pay-body">
-                    <div className="pay-label">{ps.label}</div>
-                    <div className="pay-desc">{ps.desc}</div>
-                    <div className="pay-sum">≈ {fmtM(Math.round(r.total * ps.pct / 100))} грн</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+<div className="renders"><div className="rph"><span className="t">{mode==="flat"?"Вітальня":"Екстер'єр"}</span><span className="d">{p.style}</span></div><div className="rph"><span className="t">{mode==="flat"?"Санвузол":"Інтер'єр"}</span><span className="d">{r.tier.name}</span></div></div>
 
-            {/* Includes / Excludes */}
-            <div className="inex">
-              <h3>Що входить / не входить</h3>
-              <ul className="inc">{INCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul>
-              <ul className="exc">{EXCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul>
-            </div>
+<div className="terms"><h3>Умови</h3>Попередня оцінка, не є офертою. Точний кошторис — після огляду. Ціни станом на {today}, дійсні 14 днів. Гарантія — 24 місяці.{DEMO&&<><br/><b style={{color:"var(--wrn)"}}>ДЕМО: ціни не перевірені.</b></>}</div>
 
-            {/* Visualizations */}
-            <div className="renders">
-              <div className="rph"><span className="t">Візуалізація · {mode === "flat" ? "Вітальня" : "Екстер'єр"}</span><span className="d">Стиль: {p.style}</span></div>
-              <div className="rph"><span className="t">Візуалізація · {mode === "flat" ? "Санвузол" : "Інтер'єр"}</span><span className="d">Рівень: {r.tier.name}</span></div>
-            </div>
-
-            {/* Terms */}
-            <div className="terms">
-              <h3>Умови та застереження</h3>
-              Дана комерційна пропозиція є попередньою оцінкою вартості та строків і не є публічною офертою. Точний кошторис складається після огляду об'єкта, обмірів та узгодження проєктних рішень. Вартість матеріалів базується на усереднених ринкових цінах Києва та області станом на {today} і може змінюватись залежно від курсу та наявності. Строк дії пропозиції — 14 календарних днів з дати формування. Гарантія на виконані роботи — 24 місяці з моменту підписання акту приймання.
-              {DEMO && <><br /><br /><b style={{ color: "var(--warn)" }}>УВАГА: ДЕМО-ВЕРСІЯ. Ціни та виконавці наведені для ілюстрації і не є реальною комерційною пропозицією.</b></>}
-            </div>
-
-            {/* Footer */}
-            <div className="sf">
-              <p className="note">Документ сформовано автоматично системою ПРОПОЗИЦІЯ.БУД · {today}<br />Клієнт: {lead.name || "—"} · {lead.phone || "—"}</p>
-              <div className="actions no-print">
-                <button className="btn" onClick={() => { setView("form"); window.scrollTo(0, 0); }}>← Параметри</button>
-                <button className="btn blue" onClick={() => window.print()}>Зберегти PDF ↓</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+<div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name||"—"} · {lead.phone||"—"}</p>
+<div className="actions no-print"><button className="btn" onClick={()=>{setView("form");window.scrollTo(0,0)}}>← Параметри</button>
+<button className="btn blue" onClick={()=>window.print()}>Зберегти PDF</button></div></div></div>}
+</div></div>)}
