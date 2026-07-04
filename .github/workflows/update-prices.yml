@@ -1,0 +1,34 @@
+name: Оновлення цін з rabotniki.ua
+
+on:
+  schedule:
+    - cron: "20 3 * * *"   # щодня о 03:20 UTC (≈06:20 за Києвом)
+  workflow_dispatch:         # + кнопка ручного запуску
+
+permissions:
+  contents: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Збір цін
+        run: node scrape-prices.mjs
+
+      - name: Коміт оновлених цін
+        run: |
+          git config user.name "price-bot"
+          git config user.email "actions@github.com"
+          git add public/prices.json
+          if git diff --cached --quiet; then
+            echo "Ціни не змінились — коміт не потрібен"
+          else
+            git commit -m "Ціни rabotniki.ua станом на $(date +%Y-%m-%d)"
+            git push
+          fi
