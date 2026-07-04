@@ -4,8 +4,8 @@
   "source": "rabotniki.ua",
   "stats": {
     "found": 12,
-    "missed": 6,
-    "total": 18
+    "missed": 3,
+    "total": 15
   },
   "works": {
     "walls_plaster": {
@@ -48,16 +48,6 @@
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
-    "electro_point": {
-      "count": 59,
-      "min": 150,
-      "max": 300,
-      "unit": "шт.",
-      "price": 214,
-      "name": "Монтаж розетки",
-      "cat": "elektromontazhnye-raboty",
-      "url": "https://www.rabotniki.ua/uk/elektromontazhnye-raboty/kiev"
-    },
     "tile": {
       "count": 164,
       "min": 517,
@@ -67,6 +57,16 @@
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
+    },
+    "putty": {
+      "count": 100,
+      "min": 400,
+      "max": 580,
+      "unit": "м²",
+      "price": 473,
+      "name": "Підготовка бетонної стіни під фарбування або шпалери",
+      "cat": "malyarnye-raboty",
+      "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
       "count": 152,
@@ -108,15 +108,15 @@
       "cat": "dveri",
       "url": "https://www.rabotniki.ua/uk/dveri/kiev"
     },
-    "demontazh": {
-      "count": 46,
-      "min": 150,
-      "max": 250,
+    "roofing": {
+      "count": 40,
+      "min": 200,
+      "max": 450,
       "unit": "м²",
-      "price": 196,
-      "name": "Демонтаж штукатурки",
-      "cat": "demontazh-nastennyh-pokrytiy",
-      "url": "https://www.rabotniki.ua/uk/demontazh-nastennyh-pokrytiy/kiev"
+      "price": 312,
+      "name": "Укладання металочерепиці",
+      "cat": "krovelnye-raboty",
+      "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
       "count": 61,
