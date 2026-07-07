@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS, FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, BUDGETS, PAYMENT, INCLUDES, EXCLUDES } from "./data.js";
+import { REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS, FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
 
@@ -39,8 +39,16 @@ function calc(mode, p, selections, live) {
         const sel = selections[key] ?? def;
         const o = opts[Math.min(sel, opts.length - 1)];
         const pr = Math.round(o.price * tier.kWork * region.k * sk);
-        const mt = Math.round(o.mat * tier.kMat * region.k * sk);
-        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total: qty * (pr + mt) };
+        // Матеріали: якщо у позиції є каталог варіантів — ціна матеріалу береться з обраного
+        // варіанта (× регіон), а рівень оздоблення лише задає варіант за замовчуванням.
+        const matOpts = it.mats ? MATS[it.mats] : null;
+        const matDef = matOpts ? Math.min({ econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1, matOpts.length - 1) : 0;
+        const matSel = matOpts ? (selections["m:" + key] ?? matDef) : 0;
+        const matChosen = matOpts ? matOpts[Math.min(matSel, matOpts.length - 1)] : null;
+        const mt = matOpts
+          ? Math.round(matChosen.price * region.k)
+          : Math.round(o.mat * tier.kMat * region.k * sk);
+        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, matOpts, matSel, matChosen, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total: qty * (pr + mt) };
       })
       .filter(Boolean);
     if (!items.length) return null;
@@ -190,6 +198,9 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .oc .oprice{font-family:'IBM Plex Mono';font-size:10.5px;text-align:right;white-space:nowrap;color:var(--sub)}.oc .oprice b{color:var(--ink)}
 .oc .livetag{color:var(--ok);font-size:9px;margin-left:5px}
 @media(max-width:620px){.oc{flex-wrap:wrap}.oc .oprice{width:100%;text-align:left;padding-left:24px}}
+.matsec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.matlbl{font-size:11.5px;font-weight:700;margin-bottom:7px}
+.matname{color:var(--acc);font-weight:600;font-size:11.5px}
 .paysec{padding:28px;border-bottom:1px solid var(--line)}.paysec h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
 .prow{display:flex;gap:14px;margin-bottom:12px}
 .ppct{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:42px;color:var(--acc)}
@@ -416,7 +427,7 @@ export default function App() {
               <span className="st-wk">{st.weeks}т</span><span className="st-tot">{fmt(st.total)}</span></div>
             {opn[st.id] && <div className="stb"><div className="scope">{st.scope}</div>
               {st.items.map(it => <div className="item" key={it.key}>
-                <div className="itop"><span className="ilbl">{it.label}</span><span className="iqty">{fmt(it.qty)} {it.unit} · {fmt(it.total)} грн</span></div>
+                <div className="itop"><span className="ilbl">{it.label}{it.matChosen && <span className="matname"> · {it.matChosen.name}</span>}</span><span className="iqty">{fmt(it.qty)} {it.unit} · {fmt(it.total)} грн</span></div>
                 <div className="optlist">
                   {it.opts.map((o, oi) => {
                     const on = it.sel === oi;
@@ -430,10 +441,24 @@ export default function App() {
                           ? <><a href={o.info.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>rabotniki.ua</a> · {o.info.count} пропозицій · «{o.info.name}»</>
                           : "кураторська оцінка · уточнюється після огляду"}</div>
                       </div>
-                      <div className="oprice">роб. <b>{fmt(pw)}</b> + мат. <b>{fmt(pm)}</b> /{it.unit}</div>
+                      <div className="oprice">роб. <b>{fmt(pw)}</b>{!it.matOpts && <> + мат. <b>{fmt(pm)}</b></>} /{it.unit}</div>
                     </div>;
                   })}
                 </div>
+                {it.matOpts && <div className="matsec">
+                  <div className="matlbl">Матеріал <span className="hint">· орієнтир Епіцентр, перевірено {MATS_CHECKED}</span></div>
+                  <div className="optlist">
+                    {it.matOpts.map((m, mi) => {
+                      const on = it.matSel === mi;
+                      return <div key={mi} className={"oc" + (on ? " on" : "")} onClick={() => setSel(s => ({ ...s, ["m:" + it.key]: mi }))}>
+                        <div className="orad" />
+                        <div style={{ flex: 1 }}><div className="oname">{m.name}</div>
+                          <div className="osrc">{m.note ? m.note + " · " : ""}<a href={m.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>Епіцентр →</a></div></div>
+                        <div className="oprice"><b>{fmt(Math.round(m.price * r.region.k))}</b> /{it.unit}</div>
+                      </div>;
+                    })}
+                  </div>
+                </div>}
               </div>)}
             </div>}
           </div>)}
