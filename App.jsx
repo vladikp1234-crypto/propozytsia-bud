@@ -198,6 +198,22 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .oc .oprice{font-family:'IBM Plex Mono';font-size:10.5px;text-align:right;white-space:nowrap;color:var(--sub)}.oc .oprice b{color:var(--ink)}
 .oc .livetag{color:var(--ok);font-size:9px;margin-left:5px}
 @media(max-width:620px){.oc{flex-wrap:wrap}.oc .oprice{width:100%;text-align:left;padding-left:24px}}
+.item{padding:12px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:none;padding-bottom:0}
+.segrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:7px}
+.seglbl{font-size:10.5px;font-weight:700;color:var(--sub);min-width:62px;text-transform:uppercase;letter-spacing:.3px}
+.seg{display:flex;gap:5px;flex-wrap:wrap}
+.segbtn{display:grid;gap:1px;border:1.5px solid var(--line);border-radius:9px;padding:5px 11px;background:#fff;cursor:pointer;text-align:left;transition:all .1s}
+.segbtn:hover{border-color:var(--ink)}
+.segbtn.on{border-color:var(--acc);background:var(--acc2)}
+.sgn{font-family:'Manrope';font-size:10px;font-weight:700;color:var(--sub)}
+.segbtn.on .sgn{color:var(--acc)}
+.sgp{font-family:'IBM Plex Mono';font-size:12px;font-weight:600;color:var(--ink)}
+.unitlbl{font-family:'IBM Plex Mono';font-size:10px;color:var(--sub)}
+.sp1{font-family:'IBM Plex Mono';font-size:12px;font-weight:600}
+.srcline{font-size:10px;color:var(--sub);margin:5px 0 0 72px}
+.srcline a{color:var(--acc);font-weight:600}
+@media(max-width:560px){.srcline{margin-left:0}}
 .matsec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .matlbl{font-size:11.5px;font-weight:700;margin-bottom:7px}
 .matname{color:var(--acc);font-weight:600;font-size:11.5px}
@@ -427,38 +443,41 @@ export default function App() {
               <span className="st-wk">{st.weeks}т</span><span className="st-tot">{fmt(st.total)}</span></div>
             {opn[st.id] && <div className="stb"><div className="scope">{st.scope}</div>
               {st.items.map(it => <div className="item" key={it.key}>
-                <div className="itop"><span className="ilbl">{it.label}{it.matChosen && <span className="matname"> · {it.matChosen.name}</span>}</span><span className="iqty">{fmt(it.qty)} {it.unit} · {fmt(it.total)} грн</span></div>
-                <div className="optlist">
-                  {it.opts.map((o, oi) => {
-                    const on = it.sel === oi;
-                    const pw = Math.round(o.price * r.tier.kWork * r.region.k * (st.sk || 1));
-                    const pm = Math.round(o.mat * r.tier.kMat * r.region.k * (st.sk || 1));
-                    return <div key={oi} className={"oc" + (on ? " on" : "")} onClick={() => setSel(s => ({ ...s, [it.key]: oi }))}>
-                      <div className="orad" />
-                      <div style={{ flex: 1 }}>
-                        <div className="oname">{o.name}{o.tag === "live" && <span className="livetag">● live {live?.updated}</span>}</div>
-                        <div className="osrc">{o.tag === "live" && o.info
-                          ? <><a href={o.info.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>rabotniki.ua</a> · {o.info.count} пропозицій · «{o.info.name}»</>
-                          : "кураторська оцінка · уточнюється після огляду"}</div>
-                      </div>
-                      <div className="oprice">роб. <b>{fmt(pw)}</b>{!it.matOpts && <> + мат. <b>{fmt(pm)}</b></>} /{it.unit}</div>
-                    </div>;
-                  })}
+                <div className="itop"><span className="ilbl">{it.label}</span><span className="iqty">{fmt(it.qty)} {it.unit} · <b>{fmt(it.total)} грн</b></span></div>
+
+                <div className="segrow">
+                  <span className="seglbl">Робота</span>
+                  {it.opts.length > 1 ? (<>
+                    <div className="seg">
+                      {it.opts.map((o, oi) => {
+                        const pw = Math.round(o.price * r.tier.kWork * r.region.k * (st.sk || 1));
+                        const short = o.name.replace("Мінімальна ринкова", "Мінімальна").replace("Середньоринкова", "Середня").replace("Верхній сегмент", "Верхня");
+                        return <button key={oi} className={"segbtn" + (it.sel === oi ? " on" : "")} onClick={() => setSel(s => ({ ...s, [it.key]: oi }))}>
+                          <span className="sgn">{short}</span><span className="sgp">{fmt(pw)}</span>
+                        </button>;
+                      })}
+                    </div>
+                    <span className="unitlbl">грн/{it.unit}</span>
+                  </>) : (
+                    <span className="sp1">{fmt(it.price)} грн/{it.unit} <span className="hint">· кураторська оцінка</span></span>
+                  )}
                 </div>
-                {it.matOpts && <div className="matsec">
-                  <div className="matlbl">Матеріал <span className="hint">· орієнтир Епіцентр, перевірено {MATS_CHECKED}</span></div>
-                  <div className="optlist">
-                    {it.matOpts.map((m, mi) => {
-                      const on = it.matSel === mi;
-                      return <div key={mi} className={"oc" + (on ? " on" : "")} onClick={() => setSel(s => ({ ...s, ["m:" + it.key]: mi }))}>
-                        <div className="orad" />
-                        <div style={{ flex: 1 }}><div className="oname">{m.name}</div>
-                          <div className="osrc">{m.note ? m.note + " · " : ""}<a href={m.url} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>Епіцентр →</a></div></div>
-                        <div className="oprice"><b>{fmt(Math.round(m.price * r.region.k))}</b> /{it.unit}</div>
-                      </div>;
-                    })}
-                  </div>
-                </div>}
+                {it.lw && <div className="srcline"><a href={it.lw.url} target="_blank" rel="noreferrer">rabotniki.ua</a> · {it.lw.count} пропозицій · «{it.lw.name}» · <span className="livetag">● live {live?.updated}</span></div>}
+
+                <div className="segrow">
+                  <span className="seglbl">Матеріал</span>
+                  {it.matOpts ? (<>
+                    <div className="seg">
+                      {it.matOpts.map((m, mi) => <button key={mi} className={"segbtn" + (it.matSel === mi ? " on" : "")} onClick={() => setSel(s => ({ ...s, ["m:" + it.key]: mi }))}>
+                        <span className="sgn">{m.name}</span><span className="sgp">{fmt(Math.round(m.price * r.region.k))}</span>
+                      </button>)}
+                    </div>
+                    <span className="unitlbl">грн/{it.unit}</span>
+                  </>) : (
+                    <span className="sp1">{fmt(it.mat)} грн/{it.unit} <span className="hint">· орієнтовно</span></span>
+                  )}
+                </div>
+                {it.matChosen && <div className="srcline">{it.matChosen.note ? it.matChosen.note + " · " : ""}<a href={it.matChosen.url} target="_blank" rel="noreferrer">Епіцентр →</a> · орієнтир, перевірено {MATS_CHECKED}</div>}
               </div>)}
             </div>}
           </div>)}
