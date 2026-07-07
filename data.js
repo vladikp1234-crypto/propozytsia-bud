@@ -43,6 +43,75 @@ export const SRC = {
   fund: "https://www.rabotniki.ua/uk/fundament",
 };
 
+/* ---- КАТАЛОГ МАТЕРІАЛІВ: 2–4 реальні варіанти на позицію.
+   Ціни — орієнтир Епіцентр, перевірено 07.2026. Посилання ведуть на каталог/пошук Епіцентра.
+   Ціна = грн за одиницю позиції (з супутніми матеріалами: клей/підкладка/кріплення). ---- */
+const EP = (q) => "https://epicentrk.ua/ua/search/?q=" + encodeURIComponent(q);
+export const MATS_CHECKED = "07.2026";
+export const MATS = {
+  floorcover: [
+    { name: "Ламінат 32 клас", note: "спальні, низька прохідність", price: 420, url: "https://epicentrk.ua/ua/shop/laminat/" },
+    { name: "Ламінат 33 клас", note: "кухня, коридор", price: 780, url: "https://epicentrk.ua/ua/shop/laminat/" },
+    { name: "Вініл SPC (вологостійкий)", note: "вся квартира, тепла підлога", price: 1150, url: EP("вініловий ламінат SPC") },
+    { name: "Інженерна дошка", note: "преміум, натуральне дерево", price: 2800, url: EP("інженерна дошка дуб") },
+  ],
+  tile: [
+    { name: "Плитка Україна", note: "Атем, Golden Tile", price: 550, url: EP("керамічна плитка") },
+    { name: "Польща / Іспанія", note: "Cersanit, Opoczno", price: 1050, url: EP("плитка Cersanit") },
+    { name: "Керамограніт преміум", note: "великий формат", price: 2100, url: EP("керамограніт 600х1200") },
+  ],
+  paint: [
+    { name: "Фарба економ", note: "укр. виробники", price: 90, url: EP("фарба інтерєрна") },
+    { name: "Sniezka / Eskaro", note: "оптимум", price: 130, url: EP("фарба Sniezka") },
+    { name: "Tikkurila / Caparol", note: "преміум, мийна", price: 220, url: EP("фарба Tikkurila") },
+  ],
+  wallpaper: [
+    { name: "Паперові шпалери", note: "", price: 120, url: EP("шпалери паперові") },
+    { name: "Флізелінові", note: "стандарт", price: 260, url: EP("шпалери флізелінові") },
+    { name: "Під фарбування + фарба", note: "", price: 310, url: EP("шпалери під фарбування") },
+  ],
+  ceiling: [
+    { name: "Натяжна матова", note: "", price: 380, url: EP("натяжна стеля") },
+    { name: "Натяжна сатин / контури", note: "", price: 520, url: EP("натяжна стеля сатин") },
+    { name: "ГК під фарбування", note: "з малярною підготовкою", price: 610, url: EP("гіпсокартон стельовий") },
+  ],
+  doors: [
+    { name: "Ламіновані", note: "", price: 6500, url: EP("двері міжкімнатні ламіновані") },
+    { name: "Шпоновані / фарбовані", note: "стандарт", price: 12500, url: EP("двері міжкімнатні шпон") },
+    { name: "Приховані / масив", note: "преміум", price: 28000, url: EP("приховані двері") },
+  ],
+  bath: [
+    { name: "Комплект економ", note: "Cersanit, Kolo, Lidz", price: 38000, url: EP("унітаз підвісний Cersanit") },
+    { name: "Комплект стандарт", note: "Grohe, Geberit, Ravak", price: 62000, url: EP("інсталяція Geberit") },
+    { name: "Комплект преміум", note: "Duravit, Hansgrohe", price: 145000, url: EP("змішувач Hansgrohe") },
+  ],
+  plinth: [
+    { name: "МДФ плінтус", note: "", price: 110, url: EP("плінтус МДФ") },
+    { name: "Дюрополімер", note: "вологостійкий, під фарбування", price: 210, url: EP("плінтус дюрополімер") },
+  ],
+  windows: [
+    { name: "Стандарт 5-камерний", note: "", price: 8500, url: EP("металопластикові вікна") },
+    { name: "Енергоефективне (i-скло)", note: "", price: 12500, url: EP("енергозберігаючі вікна") },
+  ],
+  entry: [
+    { name: "Стандарт (метал/МДФ)", note: "", price: 12000, url: EP("вхідні двері квартира") },
+    { name: "Посилені з терморозривом", note: "", price: 22000, url: EP("вхідні двері терморозрив") },
+  ],
+  heatfloor: [
+    { name: "Нагрівальний мат", note: "під плитку", price: 850, url: EP("нагрівальний мат тепла підлога") },
+    { name: "Інфрачервона плівка", note: "під ламінат", price: 700, url: EP("інфрачервона тепла підлога") },
+  ],
+  radiators: [
+    { name: "Сталеві панельні", note: "", price: 4800, url: EP("радіатор сталевий панельний") },
+    { name: "Біметалеві", note: "", price: 6500, url: EP("радіатор біметалевий") },
+  ],
+  decor: [
+    { name: "Короїд / камінцева", note: "", price: 450, url: EP("декоративна штукатурка короїд") },
+    { name: "Венеціанська / мікроцемент", note: "преміум", price: 1100, url: EP("венеціанська штукатурка") },
+  ],
+};
+
+
 // Групи етапів (для фільтрів у пропозиції)
 export const GROUPS = {
   logistics: "Логістика",
@@ -105,7 +174,7 @@ export const FLAT_STAGES = [
     id: "windows", group: "rough", name: "Вікна та підвіконня", weeks: () => 1, onlyIf: (p) => p.opts?.windows,
     scope: "Заміна металопластикових вікон з демонтажем старих, підвіконня, зовнішні відливи, оздоблення відкосів.",
     items: [
-      { key: "win_block", label: "Вікно МП з монтажем", unit: "шт", qty: (p) => p.windowsCount || p.rooms + 1, curated: { price: () => 3500, mat: () => 9500 } },
+      { key: "win_block", mats: "windows", label: "Вікно МП з монтажем", unit: "шт", qty: (p) => p.windowsCount || p.rooms + 1, curated: { price: () => 3500, mat: () => 9500 } },
       { key: "win_slope", label: "Відкоси та підвіконня", unit: "вікно", qty: (p) => p.windowsCount || p.rooms + 1, live: "slopes", curated: { price: () => 1800, mat: () => 1200 } },
     ],
   },
@@ -113,7 +182,7 @@ export const FLAT_STAGES = [
     id: "entry_door", group: "rough", name: "Вхідні двері", weeks: () => 0.5, onlyIf: (p) => p.opts?.entryDoor,
     scope: "Заміна вхідних дверей: демонтаж, монтаж, піна, оздоблення прорізу.",
     items: [
-      { key: "entry", label: "Вхідні двері з монтажем", unit: "шт", qty: () => 1, curated: { price: () => 3000, mat: () => 14000 } },
+      { key: "entry", mats: "entry", label: "Вхідні двері з монтажем", unit: "шт", qty: () => 1, curated: { price: () => 3000, mat: () => 14000 } },
     ],
   },
   {
@@ -131,14 +200,14 @@ export const FLAT_STAGES = [
     items: [
       { key: "pl_bath", label: "Розводка: санвузол (комплект точок)", unit: "сануз.", qty: (p) => p.bathrooms, curated: { price: () => 14500, mat: () => 11500 } },
       { key: "pl_kitchen", label: "Точки кухні (мийка/ПММ)", unit: "компл.", qty: () => 1, curated: { price: () => 5200, mat: () => 3700 } },
-      { key: "pl_rad", label: "Заміна радіаторів", unit: "шт", qty: (p) => p.opts?.radiators ? p.rooms + 1 : 0, onlyOpt: "radiators", live: "radiators", curated: { price: () => 2200, mat: () => 5500 } },
+      { key: "pl_rad", mats: "radiators", label: "Заміна радіаторів", unit: "шт", qty: (p) => p.opts?.radiators ? p.rooms + 1 : 0, onlyOpt: "radiators", live: "radiators", curated: { price: () => 2200, mat: () => 5500 } },
     ],
   },
   {
     id: "heatfloor", group: "engineering", name: "Тепла підлога", weeks: () => 1, onlyIf: (p) => p.opts?.heatFloor,
     scope: "Електрична тепла підлога у санвузлах, кухні та коридорі (~25% площі), терморегулятори.",
     items: [
-      { key: "hf", label: "Тепла підлога електрична", unit: "м²", qty: (p) => Math.round(p.area * 0.25), live: "heat_floor", curated: { price: () => 550, mat: () => 900 } },
+      { key: "hf", mats: "heatfloor", label: "Тепла підлога електрична", unit: "м²", qty: (p) => Math.round(p.area * 0.25), live: "heat_floor", curated: { price: () => 550, mat: () => 900 } },
     ],
   },
   {
@@ -152,15 +221,15 @@ export const FLAT_STAGES = [
     id: "ceil", group: "finish", name: "Стелі", weeks: () => 1.5,
     scope: "Натяжна стеля або ГК конструкція за рівнем, вирізи під освітлення.",
     items: [
-      { key: "ceiling", label: "Стеля (натяжна / ГК)", unit: "м²", qty: (p) => Math.round(p.area * 0.92), live: "ceiling", curated: { price: () => 350, mat: () => 430 } },
+      { key: "ceiling", mats: "ceiling", label: "Стеля (натяжна / ГК)", unit: "м²", qty: (p) => Math.round(p.area * 0.92), live: "ceiling", curated: { price: () => 350, mat: () => 430 } },
     ],
   },
   {
     id: "tile", group: "finish", name: "Плиткові роботи", weeks: () => 2.5,
     scope: "Укладання плитки: санвузли (стіни+підлога), фартух кухні, затирка.",
     items: [
-      { key: "tile_bath", label: "Плитка: санвузли", unit: "м²", qty: (p) => p.bathrooms * 24, live: "tile", curated: { price: () => 880, mat: () => 920 } },
-      { key: "tile_apron", label: "Фартух кухні", unit: "м²", qty: () => 5, live: "tile", curated: { price: () => 960, mat: () => 1000 } },
+      { key: "tile_bath", mats: "tile", label: "Плитка: санвузли", unit: "м²", qty: (p) => p.bathrooms * 24, live: "tile", curated: { price: () => 880, mat: () => 920 } },
+      { key: "tile_apron", mats: "tile", label: "Фартух кухні", unit: "м²", qty: () => 5, live: "tile", curated: { price: () => 960, mat: () => 1000 } },
     ],
   },
   {
@@ -168,31 +237,31 @@ export const FLAT_STAGES = [
     scope: "Фінішна шпаклівка 2–3 шари, шліфування, ґрунт, фарбування у 2 шари АБО поклейка шпалер.",
     items: [
       { key: "putty", label: "Шпаклівка під фарбування", unit: "м²", qty: (p) => Math.round(wallArea(p) * 0.88), live: "putty", curated: { price: () => 270, mat: () => 95 } },
-      { key: "paintwork", label: "Фарбування у 2 шари", unit: "м²", qty: (p) => p.wallFinish === "wallpaper" ? 0 : Math.round(wallArea(p) * 0.88), live: "painting", curated: { price: () => 170, mat: () => 115 } },
-      { key: "wallpaper", label: "Поклейка шпалер", unit: "м²", qty: (p) => p.wallFinish === "wallpaper" ? Math.round(wallArea(p) * 0.88) : 0, live: "wallpaper", curated: { price: () => 190, mat: () => 210 } },
-      { key: "decor_plaster", label: "Декоративна штукатурка (акцентні стіни)", unit: "м²", qty: (p) => p.opts?.decorPlaster ? Math.round(wallArea(p) * 0.12) : 0, onlyOpt: "decorPlaster", live: "decor_plaster", curated: { price: () => 750, mat: () => 600 } },
+      { key: "paintwork", mats: "paint", label: "Фарбування у 2 шари", unit: "м²", qty: (p) => p.wallFinish === "wallpaper" ? 0 : Math.round(wallArea(p) * 0.88), live: "painting", curated: { price: () => 170, mat: () => 115 } },
+      { key: "wallpaper", mats: "wallpaper", label: "Поклейка шпалер", unit: "м²", qty: (p) => p.wallFinish === "wallpaper" ? Math.round(wallArea(p) * 0.88) : 0, live: "wallpaper", curated: { price: () => 190, mat: () => 210 } },
+      { key: "decor_plaster", mats: "decor", label: "Декоративна штукатурка (акцентні стіни)", unit: "м²", qty: (p) => p.opts?.decorPlaster ? Math.round(wallArea(p) * 0.12) : 0, onlyOpt: "decorPlaster", live: "decor_plaster", curated: { price: () => 750, mat: () => 600 } },
     ],
   },
   {
     id: "flooring", group: "finish", name: "Підлогове покриття", weeks: () => 1.5,
     scope: "Укладання покриття з підкладкою, плінтус, пороги.",
     items: [
-      { key: "floorcover", label: "Укладання покриття", unit: "м²", qty: (p) => Math.round(p.area * 0.88), live: "laminate", curated: { price: () => 260, mat: () => 760 } },
-      { key: "plinth", label: "Плінтус", unit: "м.п.", qty: (p) => Math.round(p.area * 0.9), live: "plinth", curated: { price: () => 120, mat: () => 140 } },
+      { key: "floorcover", mats: "floorcover", label: "Укладання покриття", unit: "м²", qty: (p) => Math.round(p.area * 0.88), live: "laminate", curated: { price: () => 260, mat: () => 760 } },
+      { key: "plinth", mats: "plinth", label: "Плінтус", unit: "м.п.", qty: (p) => Math.round(p.area * 0.9), live: "plinth", curated: { price: () => 120, mat: () => 140 } },
     ],
   },
   {
     id: "doors", group: "finish", name: "Двері міжкімнатні", weeks: () => 1,
     scope: "Дверні блоки з коробкою, наличниками, доборами, фурнітурою.",
     items: [
-      { key: "door_block", label: "Дверний блок зі встановленням", unit: "шт", qty: (p) => p.rooms + p.bathrooms, live: "doors_install", curated: { price: () => 3100, mat: () => 8800 } },
+      { key: "door_block", mats: "doors", label: "Дверний блок зі встановленням", unit: "шт", qty: (p) => p.rooms + p.bathrooms, live: "doors_install", curated: { price: () => 3100, mat: () => 8800 } },
     ],
   },
   {
     id: "bath", group: "finish", name: "Комплектація санвузлів", weeks: (p) => p.bathrooms,
     scope: "Ванна/душова, унітаз (інсталяція), раковина, змішувачі, дзеркало, аксесуари, підключення.",
     items: [
-      { key: "bath_set", label: "Сантехніка та монтаж (комплект)", unit: "сануз.", qty: (p) => p.bathrooms, curated: { price: () => 16500, mat: () => 53000 } },
+      { key: "bath_set", mats: "bath", label: "Сантехніка та монтаж (комплект)", unit: "сануз.", qty: (p) => p.bathrooms, curated: { price: () => 16500, mat: () => 53000 } },
     ],
   },
   {
@@ -229,7 +298,10 @@ export const HOUSE_STAGES = [
       { key: "slabs", label: "Перекриття", unit: "м²", qty: (p) => Math.round(p.area * 0.55), curated: { price: () => 1420, mat: () => 2320 } },
     ] },
   { id: "roof", group: "rough", name: "Покрівля", weeks: () => 4, scope: "Кроквяна система, гідро/пароізоляція, покриття, водостоки.",
-    items: [{ key: "roof_full", label: "Покрівля повний цикл", unit: "м²", qty: (p) => Math.round(fpn(p) * 1.25), live: "roofing", curated: { price: () => 1320, mat: () => 1920 } }] },
+    items: [
+      { key: "roof_frame", label: "Кроквяна система + ізоляція", unit: "м²", qty: (p) => Math.round(fpn(p) * 1.25), curated: { price: () => 980, mat: () => 1350 } },
+      { key: "roof_cover", label: "Покриття (металочерепиця)", unit: "м²", qty: (p) => Math.round(fpn(p) * 1.25), live: "roofing", curated: { price: () => 340, mat: () => 570 } },
+    ] },
   { id: "windows", group: "rough", name: "Вікна та вхідні двері", weeks: () => 2, scope: "Металопластикові вікна, вхідні двері, відкоси.",
     items: [{ key: "win_house", label: "Вікна + двері", unit: "м²", qty: (p) => p.area, curated: { price: () => 410, mat: () => 1420 } }] },
   { id: "facade", group: "finish", name: "Фасад", weeks: () => 5, scope: "Утеплення 150–200мм, армування, декоративна штукатурка.",
@@ -242,7 +314,7 @@ export const HOUSE_STAGES = [
   { id: "finish", group: "finish", name: "Внутрішнє оздоблення", weeks: (p) => ({ econom: 8, standart: 12, premium: 20 })[p.tier], scope: "Повний цикл: штукатурка, стяжка, шпаклівка, фарбування, плитка, підлога, двері.",
     items: [{ key: "int_finish", label: "Оздоблення під ключ", unit: "м²", qty: (p) => p.area, curated: { price: () => 3250, mat: () => 4350 } }] },
   { id: "bath", group: "finish", name: "Санвузли", weeks: (p) => p.bathrooms, scope: "Повна комплектація та встановлення сантехніки.",
-    items: [{ key: "bath_house", label: "Сантехніка + монтаж", unit: "сануз.", qty: (p) => p.bathrooms, curated: { price: () => 18500, mat: () => 61000 } }] },
+    items: [{ key: "bath_house", mats: "bath", label: "Сантехніка + монтаж", unit: "сануз.", qty: (p) => p.bathrooms, curated: { price: () => 18500, mat: () => 61000 } }] },
   { id: "yard", group: "extra", name: "Благоустрій", weeks: () => 3, onlyIf: (p) => p.opts?.yard,
     scope: "Вимощення навколо будинку, доріжки, базова огорожа по периметру ділянки.",
     items: [
