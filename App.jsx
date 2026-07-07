@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS, FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED } from "./data.js";
+import { REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS, FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED, FURNITURE, FURN_GROUPS } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
 
@@ -217,6 +217,29 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .matsec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .matlbl{font-size:11.5px;font-weight:700;margin-bottom:7px}
 .matname{color:var(--acc);font-weight:600;font-size:11.5px}
+.furntotals{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;padding:14px 28px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sub);font-family:'IBM Plex Mono'}
+.furntotals b{color:var(--ink)}.furntotals .ft-sum b{color:var(--acc)}
+.furnsec{padding:28px;border-bottom:1px solid var(--line)}
+.furnsec h3{font-size:13.5px;font-weight:700;margin-bottom:8px}
+.fgroup{margin-bottom:16px}
+.fghead{display:flex;justify-content:space-between;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);padding:8px 0;border-bottom:1px solid var(--line)}
+.fgsum{font-family:'IBM Plex Mono';text-transform:none;letter-spacing:0}
+.frow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);flex-wrap:wrap}
+.frow.off{opacity:.42}
+.fcheck{width:18px;height:18px;border-radius:6px;border:2px solid var(--line);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0}
+.frow:not(.off) .fcheck{border-color:var(--acc);background:var(--acc)}
+.fph{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--bg),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden;position:relative}
+.fph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fbody{flex:1;min-width:150px}
+.fname{font-weight:700;font-size:12.5px}
+.fqty{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono';font-size:11px}
+.fqty button{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:13px;line-height:1}
+.fqty span{min-width:52px;text-align:center}
+.fseg .segbtn{padding:4px 8px}
+.ftot{font-family:'IBM Plex Mono';font-weight:600;font-size:12px;min-width:78px;text-align:right}
+.furnsum{text-align:right;font-family:'IBM Plex Mono';font-size:13px;padding-top:12px}
+.furnsum b{color:var(--acc)}
+@media(max-width:720px){.frow{gap:8px}.fseg{width:100%;margin-left:30px}.ftot{margin-left:auto}}
 .paysec{padding:28px;border-bottom:1px solid var(--line)}.paysec h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
 .prow{display:flex;gap:14px;margin-bottom:12px}
 .ppct{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:42px;color:var(--acc)}
@@ -261,8 +284,25 @@ export default function App() {
 
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
+  const [furnOn, setFurnOn] = useState(false);
+  const [furnSel, setFurnSel] = useState({}); // {id:{on,qty,tier}}
+
   const p = mode === "flat" ? flat : house;
   const setP = (k, v) => (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
+  const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
+  const furnRows = useMemo(() => {
+    if (!furnOn) return [];
+    return FURNITURE.map(f => {
+      const defQty = f.qty(p);
+      const s = furnSel[f.id] || {};
+      const on = s.on ?? defQty > 0;
+      const qty = s.qty ?? Math.max(defQty, 1);
+      const ti = s.tier ?? tierIdx;
+      return { ...f, on, qty, ti, price: f.t[ti], total: on ? qty * f.t[ti] : 0 };
+    });
+  }, [furnOn, furnSel, p, tierIdx]);
+  const furnTotal = furnRows.reduce((a, x) => a + x.total, 0);
+  const setFurn = (id, patch) => setFurnSel(s => ({ ...s, [id]: { ...(s[id] || {}), ...patch } }));
   const toggleOpt = (id) => setP("opts", { ...p.opts, [id]: !p.opts[id] });
   const r = useMemo(() => calc(mode, p, sel, live), [mode, p, sel, live]);
   const today = new Date().toLocaleDateString("uk-UA");
@@ -358,6 +398,16 @@ export default function App() {
                     </div></label>}
                 </div></div>}
 
+              <div className="card"><div className="ch"><span className="cn">＋</span><h2>Комплектація меблями</h2></div>
+                <div className="cb">
+                  <div className={"optbox" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)} style={{ maxWidth: 480 }}>
+                    <div className="cbx">{furnOn ? "✓" : ""}</div>
+                    <div><div className="ot">Додати меблі, техніку й декор</div>
+                      <div className="od">Кухня, спальні, вітальня, освітлення, текстиль — окремим підсумком. Деталі налаштуєте у пропозиції.</div></div>
+                  </div>
+                  {furnOn && <span className="hint">У живій оцінці зʼявився рядок «Комплектація». Повний список з цінами й посиланнями — у сформованій пропозиції.</span>}
+                </div></div>
+
               <div className="card"><div className="ch"><span className="cn">{detail ? (mode === "flat" ? "04" : "03") : (mode === "flat" ? "03" : "02")}</span><h2>Бюджет, рівень і стиль</h2></div>
                 <div className="cb">
                   <label className="f">Бюджет<select value={p.budget} onChange={e => setP("budget", e.target.value)}>
@@ -382,6 +432,8 @@ export default function App() {
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0))}</span></div>
                 <div className="lr"><span>Етапів</span><span>{r.rows.length}</span></div>
                 {r.styleDelta !== 0 && <div className="lr"><span>{p.style}</span><span>{r.styleDelta > 0 ? "+" : ""}{r.styleDelta}%</span></div>}
+                {furnOn && <div className="lr"><span>Комплектація</span><span>{fmtM(furnTotal)}</span></div>}
+                {furnOn && <div className="lr" style={{ fontWeight: 600 }}><span>Разом з меблями</span><span>{fmtM(r.total + furnTotal)}</span></div>}
                 <button className="livebtn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Сформувати пропозицію →</button>
               </div>
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
@@ -409,6 +461,12 @@ export default function App() {
             <div className="csub">{p.rooms} {mode === "flat" ? "кімн." : "спал."} · {p.bathrooms} с/в · {r.tier.name} · {p.style}{mode === "flat" && detail ? ` · ${p.floor} пов.` : ""}</div>
             <div className="cmeta">{r.region.name} · {today}</div>
           </div>
+
+          {furnOn && <div className="furntotals">
+            <span>Ремонт: <b>{fmtM(r.total)}</b> грн</span>
+            <span>Комплектація: <b>{fmtM(furnTotal)}</b> грн</span>
+            <span className="ft-sum">Разом: <b>{fmtM(r.total + furnTotal)}</b> грн</span>
+          </div>}
 
           <div className="snums">
             <div className="sn2"><div className="k">Вартість ±{VILKA * 100}%</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div></div>
@@ -484,6 +542,38 @@ export default function App() {
 
           <div className={"fc " + (r.budgetFit ? "ok" : "no")} style={{ borderRadius: 0, padding: "14px 28px", borderBottom: "1px solid var(--line)" }}>
             {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
+
+          {furnOn && <div className="furnsec">
+            <h3>Комплектація меблями, технікою та декором</h3>
+            <p className="hint" style={{ marginBottom: 14 }}>Окремий підсумок — не входить у вартість ремонту. Знімайте позиції, змінюйте кількість і рівень. Ціни — орієнтир Епіцентр/Центр меблів, {MATS_CHECKED}. Фото товарів — за посиланням.</p>
+            {FURN_GROUPS.map(g => {
+              const items = furnRows.filter(f => f.group === g);
+              if (!items.length) return null;
+              const gTotal = items.reduce((a, x) => a + x.total, 0);
+              return <div className="fgroup" key={g}>
+                <div className="fghead"><span>{g}</span><span className="fgsum">{gTotal ? fmt(gTotal) + " грн" : "—"}</span></div>
+                {items.map(f => <div className={"frow" + (f.on ? "" : " off")} key={f.id}>
+                  <div className="fcheck" onClick={() => setFurn(f.id, { on: !f.on })}>{f.on ? "✓" : ""}</div>
+                  <div className="fph"><img src={"/furniture/" + f.id + ".jpg"} alt="" onError={e => { e.target.style.display = "none"; }} /><span>{f.ph}</span></div>
+                  <div className="fbody">
+                    <div className="fname">{f.name}</div>
+                    <div className="srcline" style={{ margin: 0 }}><a href={f.url} target="_blank" rel="noreferrer">Епіцентр →</a></div>
+                  </div>
+                  <div className="fqty no-print">
+                    <button onClick={() => setFurn(f.id, { qty: Math.max(f.qty - 1, 1) })}>−</button>
+                    <span>{f.qty} {f.unit}</span>
+                    <button onClick={() => setFurn(f.id, { qty: f.qty + 1 })}>+</button>
+                  </div>
+                  <div className="seg fseg">
+                    {["Економ", "Стандарт", "Преміум"].map((tn, ti2) => <button key={ti2} className={"segbtn" + (f.ti === ti2 ? " on" : "")} onClick={() => setFurn(f.id, { tier: ti2 })}>
+                      <span className="sgn">{tn}</span><span className="sgp">{fmt(f.t[ti2])}</span></button>)}
+                  </div>
+                  <div className="ftot">{f.on ? fmt(f.total) : "—"}</div>
+                </div>)}
+              </div>;
+            })}
+            <div className="furnsum">Разом комплектація: <b>{fmt(furnTotal)} грн</b></div>
+          </div>}
 
           <div className="paysec"><h3>Графік оплат</h3>
             {PAYMENT.map((ps, i) => <div className="prow" key={i}><span className="ppct">{ps.pct}%</span>
