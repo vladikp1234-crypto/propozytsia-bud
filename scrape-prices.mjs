@@ -31,6 +31,20 @@ const MAPPING = {
   masonry: [{ cat: "kladochnye-raboty", candidates: ["Кладка стін з газобетону", "Кладка газобетонних блоків", "Кладка газоблоку", "Кладка газоблока"] }],
   roofing: [{ cat: "krovelnye-raboty", candidates: ["Монтаж покрівлі з металочерепиці", "Монтаж металочерепиці", "Укладання металочерепиці"] }],
   facade_insul: [{ cat: "fasadnye-raboty", candidates: ["Утеплення фасаду пінопластом", "Утеплення фасаду", "Утеплення фасаду мінватою"] }],
+  // Нові позиції Фази 1 (частина назв — кандидати, промахи логуються)
+  gk_partition: [{ cat: "montazh-gipsokartona", candidates: ["Монтаж перегородки з гіпсокартону", "Перегородка з гіпсокартону", "Монтаж перегородок"] }],
+  wallpaper: [{ cat: "pokleyka-oboev", candidates: ["Поклейка шпалер на флізеліновій основі", "Поклейка шпалер", "Поклейка шпалер на паперовій основі"] }],
+  decor_plaster: [{ cat: "shtukaturnye-raboty", candidates: ["Декоративна штукатурка", "Нанесення декоративної штукатурки"] }],
+  heat_floor: [
+    { cat: "teplyy-pol", candidates: ["Монтаж теплої підлоги", "Укладання теплої підлоги", "Монтаж електричної теплої підлоги"] },
+    { cat: "elektromontazhnye-raboty", candidates: ["Монтаж теплої підлоги", "Тепла підлога"] },
+  ],
+  radiators: [{ cat: "santehnicheskie-raboty", candidates: ["Заміна радіатора опалення", "Установка радіатора", "Заміна радіатора"] }],
+  slopes: [{ cat: "shtukaturnye-raboty", candidates: ["Оздоблення відкосів", "Штукатурка відкосів", "Відкоси"] }],
+  hydroizol: [
+    { cat: "gidroizolyatsionnye-raboty", candidates: ["Гідроізоляція", "Обмазувальна гідроізоляція"] },
+    { cat: "plitochnye-raboty", candidates: ["Гідроізоляція", "Гідроізоляція підлоги"] },
+  ],
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
