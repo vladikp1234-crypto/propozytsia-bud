@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-06",
+  "updated": "2026-07-07",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -43,7 +43,7 @@
       "min": 250,
       "max": 600,
       "unit": "м²",
-      "price": 384,
+      "price": 381,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -53,7 +53,7 @@
       "min": 517,
       "max": 1250,
       "unit": "м²",
-      "price": 902,
+      "price": 895,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -63,7 +63,7 @@
       "min": 400,
       "max": 580,
       "unit": "м²",
-      "price": 468,
+      "price": 472,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -113,13 +113,13 @@
       "min": 200,
       "max": 450,
       "unit": "м²",
-      "price": 312,
+      "price": 321,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
-      "count": 61,
+      "count": 60,
       "min": 630,
       "max": 1150,
       "unit": "м²",
