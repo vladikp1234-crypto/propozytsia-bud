@@ -3,9 +3,9 @@
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
-    "found": 12,
-    "missed": 3,
-    "total": 15
+    "found": 14,
+    "missed": 8,
+    "total": 22
   },
   "works": {
     "walls_plaster": {
@@ -127,6 +127,26 @@
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
+    },
+    "gk_partition": {
+      "count": 113,
+      "min": 400,
+      "max": 1000,
+      "unit": "м²",
+      "price": 713,
+      "name": "Монтаж перегородок",
+      "cat": "montazh-gipsokartona",
+      "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
+    },
+    "wallpaper": {
+      "count": 101,
+      "min": 150,
+      "max": 250,
+      "unit": "м²",
+      "price": 201,
+      "name": "Поклейка шпалер",
+      "cat": "pokleyka-oboev",
+      "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"
     }
   }
 }
