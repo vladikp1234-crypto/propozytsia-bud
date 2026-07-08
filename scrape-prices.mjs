@@ -148,9 +148,19 @@ async function main() {
     works,
   };
 
-  const { writeFileSync, mkdirSync } = await import("node:fs");
+  const { writeFileSync, mkdirSync, readFileSync } = await import("node:fs");
   mkdirSync("public", { recursive: true });
   writeFileSync("public/prices.json", JSON.stringify(out, null, 2));
+
+  // Історія цін: один запис на день, тримаємо останні 180 днів
+  let hist = [];
+  try { hist = JSON.parse(readFileSync("public/price-history.json", "utf8")); } catch {}
+  const snap = { date: out.updated, w: Object.fromEntries(Object.entries(works).map(([k, v]) => [k, v.price])) };
+  hist = hist.filter((h) => h.date !== out.updated);
+  hist.push(snap);
+  hist = hist.slice(-180);
+  writeFileSync("public/price-history.json", JSON.stringify(hist));
+  console.log(`Історія: ${hist.length} днів`);
   console.log(`\nГотово: ${found} знайдено, ${missed} пропущено → public/prices.json`);
 
   if (found === 0) {
