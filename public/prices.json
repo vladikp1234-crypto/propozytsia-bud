@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07",
+  "updated": "2026-07-08",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -73,7 +73,7 @@
       "min": 100,
       "max": 250,
       "unit": "м²",
-      "price": 188,
+      "price": 187,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -83,7 +83,7 @@
       "min": 140,
       "max": 370,
       "unit": "м²",
-      "price": 266,
+      "price": 265,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -113,7 +113,7 @@
       "min": 200,
       "max": 450,
       "unit": "м²",
-      "price": 321,
+      "price": 313,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
