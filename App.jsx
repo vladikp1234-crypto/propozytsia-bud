@@ -318,6 +318,13 @@ export default function App() {
   const [showT, setShowT] = useState(false);
   const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
   const [live, setLive] = useState(null);
+  const [leadSent, setLeadSent] = useState(null); // null | "ok" | "fail"
+  const [startDate, setStartDate] = useState(() => new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10));
+  const [instM, setInstM] = useState(12);
+  const [showCmp, setShowCmp] = useState(false);
+  const [shared, setShared] = useState(false);
+  const [furnOn, setFurnOn] = useState(false);
+  const [furnSel, setFurnSel] = useState({}); // {id:{on,qty,tier}}
 
   // Відновлення стану: пріоритет — посилання (#c=...), потім localStorage
   useEffect(() => {
@@ -345,17 +352,11 @@ export default function App() {
 
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
-  const [leadSent, setLeadSent] = useState(null); // null | "ok" | "fail"
-  const [startDate, setStartDate] = useState(() => new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10));
-  const [instM, setInstM] = useState(12);
-  const [showCmp, setShowCmp] = useState(false);
-  const [shared, setShared] = useState(false);
-  const [furnOn, setFurnOn] = useState(false);
-  const [furnSel, setFurnSel] = useState({}); // {id:{on,qty,tier}}
 
   const p = mode === "flat" ? flat : house;
   const setP = (k, v) => (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
+  const r = useMemo(() => calc(mode, p, sel, live), [mode, p, sel, live]);
   const furnRows = useMemo(() => {
     if (!furnOn) return [];
     return FURNITURE.map(f => {
@@ -392,7 +393,7 @@ export default function App() {
     } catch {}
   };
   const toggleOpt = (id) => setP("opts", { ...p.opts, [id]: !p.opts[id] });
-  const r = useMemo(() => calc(mode, p, sel, live), [mode, p, sel, live]);
+
   const today = new Date().toLocaleDateString("uk-UA");
   const swM = (m) => { setMode(m); setView("form"); setSel({}); setOpn({}); setGrpFilter(null); };
   const maxT = Math.max(...r.rows.map(x => x.total));
