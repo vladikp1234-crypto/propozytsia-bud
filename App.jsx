@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
+import * as XLSX from "xlsx";
 import { REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS, FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED, FURNITURE, FURN_GROUPS } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
@@ -56,7 +57,7 @@ function calc(mode, p, selections, live) {
           const prH = Math.round(lw.max * tier.kWork * region.k * sk);
           lowT = qty * (prL + mt); highT = qty * (prH + mt);
         } else { lowT = total * (1 - VILKA); highT = total * (1 + VILKA); }
-        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, matOpts, matSel, matChosen, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total, lowT, highT };
+        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, liveKey: it.live || null, matOpts, matSel, matChosen, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total, lowT, highT };
       })
       .filter(Boolean);
     if (!items.length) return null;
@@ -228,6 +229,7 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .sp1{font-family:'IBM Plex Mono';font-size:12px;font-weight:600}
 .srcline{font-size:10px;color:var(--sub);margin:5px 0 0 72px}
 .srcline a{color:var(--acc);font-weight:600}
+.trnd{font-weight:700}.trnd.up{color:var(--wrn)}.trnd.dn{color:var(--ok)}
 @media(max-width:560px){.srcline{margin-left:0}}
 .matsec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .matlbl{font-size:11.5px;font-weight:700;margin-bottom:7px}
@@ -255,6 +257,9 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .furnsum{text-align:right;font-family:'IBM Plex Mono';font-size:13px;padding-top:12px}
 .furnsum b{color:var(--acc)}
 @media(max-width:720px){.frow{gap:8px}.fseg{width:100%;margin-left:30px}.ftot{margin-left:auto}}
+.adminbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FFF8E6;border:1px solid #E8C860;border-radius:12px;padding:10px 16px;margin-bottom:14px;font-size:12px;font-weight:600}
+.adminbar .ab-t{font-weight:800}
+.adminbar input[type=range]{accent-color:#B8860B}
 .sharebtn{width:100%;font-family:'Manrope';font-weight:700;font-size:12px;padding:11px;border-radius:12px;border:1.5px dashed var(--line);background:transparent;color:var(--sub);cursor:pointer}
 .sharebtn:hover{border-color:var(--acc);color:var(--acc)}
 .confstrip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 28px;border-bottom:1px solid var(--line)}
@@ -318,6 +323,9 @@ export default function App() {
   const [showT, setShowT] = useState(false);
   const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
   const [live, setLive] = useState(null);
+  const [hist, setHist] = useState(null);
+  const [admin, setAdmin] = useState(false);
+  const [margin, setMargin] = useState(0); // % націнки фірми, видно тільки в admin-режимі
   const [leadSent, setLeadSent] = useState(null); // null | "ok" | "fail"
   const [startDate, setStartDate] = useState(() => new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10));
   const [instM, setInstM] = useState(12);
@@ -325,6 +333,14 @@ export default function App() {
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [furnSel, setFurnSel] = useState({}); // {id:{on,qty,tier}}
+
+  useEffect(() => {
+    try {
+      const q = new URLSearchParams(window.location.search);
+      if (q.get("admin") === "1") { setAdmin(true); const m = +localStorage.getItem("pb_margin"); if (m) setMargin(m); }
+    } catch {}
+  }, []);
+  useEffect(() => { try { localStorage.setItem("pb_margin", String(margin)); } catch {} }, [margin]);
 
   // Відновлення стану: пріоритет — посилання (#c=...), потім localStorage
   useEffect(() => {
@@ -350,6 +366,9 @@ export default function App() {
     try { localStorage.setItem("pb_state", JSON.stringify({ m: mode, f: flat, h: house, d: detail, fo: furnOn, sd: startDate })); } catch {}
   }, [mode, flat, house, detail, furnOn, startDate]);
 
+  useEffect(() => {
+    fetch("/price-history.json").then(x => x.ok ? x.json() : null).then(h => { if (Array.isArray(h) && h.length > 1) setHist(h); }).catch(() => {});
+  }, []);
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
 
@@ -377,10 +396,59 @@ export default function App() {
     return out;
   }, [mode, p, sel, live]);
 
+  // Націнка фірми (admin): застосовується до всіх грошових підсумків при показі
+  const mk = 1 + (admin ? margin : 0) / 100;
+
   const fmtD = (d) => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
   const sDate = new Date(startDate + "T00:00:00");
   const finishDate = new Date(+sDate + (r?.weeks || 0) * 7 * 864e5);
   const stageDate = (w) => new Date(+sDate + w * 7 * 864e5).toLocaleDateString("uk-UA", { day: "numeric", month: "short" });
+
+  const exportXlsx = () => {
+    const wsData = [
+      ["ПРОПОЗИЦІЯ.БУД — Кошторис", "", "", "", "", "", ""],
+      [mode === "flat" ? `Ремонт ${p.area} м², ${p.rooms}-кімн.` : `Будинок ${p.area} м²`, r.region.name, r.tier.name, p.style, "", "", today],
+      [],
+      ["Етап", "Позиція", "К-сть", "Од.", "Робота, грн/од", "Матеріал, грн/од", "Разом, грн"],
+    ];
+    r.rows.forEach(st => {
+      st.items.forEach((it, i) => {
+        wsData.push([i === 0 ? st.name : "", it.label + (it.matChosen ? " · " + it.matChosen.name : ""), it.qty, it.unit,
+          Math.round(it.price * mk), Math.round(it.mat * mk), Math.round(it.total * mk)]);
+      });
+    });
+    wsData.push([]);
+    wsData.push(["", "", "", "", "Роботи:", "", Math.round(r.rows.reduce((a, x) => a + x.work, 0) * mk)]);
+    wsData.push(["", "", "", "", "Матеріали:", "", Math.round(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)]);
+    wsData.push(["", "", "", "", "РАЗОМ:", "", Math.round(r.total * mk)]);
+    if (furnOn) {
+      wsData.push([]);
+      wsData.push(["КОМПЛЕКТАЦІЯ", "", "", "", "", "", ""]);
+      furnRows.filter(f => f.on).forEach(f => wsData.push(["", f.name, f.qty, f.unit, "", f.price, f.total]));
+      wsData.push(["", "", "", "", "Разом комплектація:", "", furnTotal]);
+    }
+    wsData.push([]);
+    wsData.push(["Вилка (ринковий розкид):", "", "", "", "", "", `${Math.round(r.low * mk)} — ${Math.round(r.high * mk)}`]);
+    wsData.push(["Строк:", "", "", "", "", "", `${r.months} міс (${r.weeks} тижнів)`]);
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    ws["!cols"] = [{ wch: 26 }, { wch: 42 }, { wch: 8 }, { wch: 8 }, { wch: 15 }, { wch: 16 }, { wch: 14 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Кошторис");
+    XLSX.writeFile(wb, `koshtorys-${p.area}m2-${today.replace(/\./g, "-")}.xlsx`);
+  };
+
+  // Тренд ціни за ~30 днів: (остання - найближча до 30 днів тому) / стара
+  const trend = (key) => {
+    if (!hist || hist.length < 2) return null;
+    const last = hist[hist.length - 1];
+    const cutoff = new Date(+new Date(last.date) - 30 * 864e5).toISOString().slice(0, 10);
+    let base = hist[0];
+    for (const h of hist) { if (h.date <= cutoff) base = h; else break; }
+    const a = base.w?.[key], b = last.w?.[key];
+    if (!a || !b || base.date === last.date) return null;
+    const d = Math.round(((b - a) / a) * 100);
+    return d === 0 ? null : d;
+  };
 
   const shareLink = () => {
     try {
@@ -420,6 +488,14 @@ export default function App() {
               ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
               : <div className="badge demo">демо · ціни орієнтовні</div>}
           </div>
+
+          {admin && <div className="adminbar no-print">
+            <span className="ab-t">🔧 Режим фірми</span>
+            <span>Націнка:</span>
+            <input type="range" min="0" max="40" value={margin} onChange={e => setMargin(+e.target.value)} style={{ width: 140 }} />
+            <b>{margin}%</b>
+            <span className="hint">застосовується до всіх сум непомітно для клієнта · збережеться на цьому пристрої</span>
+          </div>}
 
           <div className="detail-tgl no-print">
             <button className={!detail ? "on" : ""} onClick={() => setDetail(false)}>Швидкий розрахунок</button>
@@ -518,8 +594,8 @@ export default function App() {
             <div className="rail no-print">
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name}{detail ? " · детальний" : ""}</div>
-                <div className="lv">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div>
-                <div className="ls">{fmt(r.perM2)} грн/м² · ~{r.months} міс.</div>
+                <div className="lv">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div>
+                <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.</div>
                 <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0))}</span></div>
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0))}</span></div>
                 <div className="lr"><span>Етапів</span><span>{r.rows.length}</span></div>
@@ -571,14 +647,14 @@ export default function App() {
           </div>
 
           {furnOn && <div className="furntotals">
-            <span>Ремонт: <b>{fmtM(r.total)}</b> грн</span>
+            <span>Ремонт: <b>{fmtM(r.total * mk)}</b> грн</span>
             <span>Комплектація: <b>{fmtM(furnTotal)}</b> грн</span>
-            <span className="ft-sum">Разом: <b>{fmtM(r.total + furnTotal)}</b> грн</span>
+            <span className="ft-sum">Разом: <b>{fmtM(r.total * mk + furnTotal)}</b> грн</span>
           </div>}
 
           <div className="snums">
-            <div className="sn2"><div className="k">Вартість · ринкова вилка</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div></div>
-            <div className="sn2"><div className="k">Грн / м²</div><div className="v"><em>{fmt(r.perM2)}</em></div></div>
+            <div className="sn2"><div className="k">Вартість · ринкова вилка</div><div className="v">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div></div>
+            <div className="sn2"><div className="k">Грн / м²</div><div className="v"><em>{fmt(r.perM2 * mk)}</em></div></div>
             <div className="sn2"><div className="k">Строк</div><div className="v"><em>{r.months}</em> міс.</div>
               <div className="k" style={{ marginTop: 4 }}>старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)}</div></div>
           </div>
@@ -643,7 +719,7 @@ export default function App() {
                     <span className="sp1">{fmt(it.price)} грн/{it.unit} <span className="hint">· кураторська оцінка</span></span>
                   )}
                 </div>
-                {it.lw && <div className="srcline"><a href={it.lw.url} target="_blank" rel="noreferrer">rabotniki.ua</a> · {it.lw.count} пропозицій · «{it.lw.name}» · <span className="livetag">● live {live?.updated}</span></div>}
+                {it.lw && <div className="srcline"><a href={it.lw.url} target="_blank" rel="noreferrer">rabotniki.ua</a> · {it.lw.count} пропозицій · «{it.lw.name}» · <span className="livetag">● live {live?.updated}</span>{(() => { const t = trend(it.liveKey); return t ? <span className={"trnd " + (t > 0 ? "up" : "dn")}> {t > 0 ? "▲" : "▼"} {Math.abs(t)}% за 30 дн</span> : null; })()}</div>}
 
                 <div className="segrow">
                   <span className="seglbl">Матеріал</span>
@@ -701,13 +777,13 @@ export default function App() {
           <div className="paysec"><h3>Графік оплат</h3>
             {PAYMENT.map((ps, i) => <div className="prow" key={i}><span className="ppct">{ps.pct}%</span>
               <div className="pbody"><div className="plbl">{ps.label}</div><div className="pdesc">{ps.desc}</div>
-                <div className="psum">{fmtM(Math.round(r.total * ps.pct / 100))} грн</div></div></div>)}
+                <div className="psum">{fmtM(Math.round(r.total * mk * ps.pct / 100))} грн</div></div></div>)}
           </div>
 
           <div className="instal">
             <span>У розстрочку:</span>
             {[6, 12, 24].map(m => <button key={m} className={"fchip" + (instM === m ? " on" : "")} onClick={() => setInstM(m)}>{m} міс</button>)}
-            <span className="instv">≈ <b>{fmt(Math.round((r.total + (furnOn ? furnTotal : 0)) / instM))}</b> грн/міс</span>
+            <span className="instv">≈ <b>{fmt(Math.round((r.total * mk + (furnOn ? furnTotal : 0)) / instM))}</b> грн/міс</span>
             <span className="hint">· рівними частинами, без урахування % банку</span>
           </div>
 
@@ -737,6 +813,7 @@ export default function App() {
           <div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name || "—"} · {lead.phone || "—"}{leadSent === "ok" && <span style={{ color: "var(--ok)" }}> · ✓ заявку передано команді</span>}</p>
             <div className="actions no-print">
               <button className="btn" onClick={() => { setView("form"); window.scrollTo(0, 0); }}>← Параметри</button>
+              <button className="btn" onClick={exportXlsx}>Excel ↓</button>
               <button className="btn blue" onClick={() => window.print()}>Зберегти PDF</button>
             </div></div>
         </div>}
