@@ -48,7 +48,15 @@ function calc(mode, p, selections, live) {
         const mt = matOpts
           ? Math.round(matChosen.price * region.k)
           : Math.round(o.mat * tier.kMat * region.k * sk);
-        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, matOpts, matSel, matChosen, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total: qty * (pr + mt) };
+        const total = qty * (pr + mt);
+        // Вилка позиції: live → реальний ринковий розкид min..max; інакше ±12%
+        let lowT, highT;
+        if (lw) {
+          const prL = Math.round(lw.min * tier.kWork * region.k * sk);
+          const prH = Math.round(lw.max * tier.kWork * region.k * sk);
+          lowT = qty * (prL + mt); highT = qty * (prH + mt);
+        } else { lowT = total * (1 - VILKA); highT = total * (1 + VILKA); }
+        return { key, label: it.label, unit: it.unit, qty, opts, sel, lw, matOpts, matSel, matChosen, price: pr, mat: mt, work: qty * pr, matSum: qty * mt, total, lowT, highT };
       })
       .filter(Boolean);
     if (!items.length) return null;
@@ -58,12 +66,19 @@ function calc(mode, p, selections, live) {
       total: items.reduce((a, b) => a + b.total, 0), work: items.reduce((a, b) => a + b.work, 0), matSum: items.reduce((a, b) => a + b.matSum, 0) };
   }).filter(Boolean);
   const total = rows.reduce((a, r) => a + r.total, 0);
+  const allItems = rows.flatMap(r2 => r2.items);
+  let low = allItems.reduce((a, i) => a + i.lowT, 0);
+  let high = allItems.reduce((a, i) => a + i.highT, 0);
+  low = Math.min(low, total * 0.98); high = Math.max(high, total * 1.02);
+  const workSum = allItems.reduce((a, i) => a + i.work, 0);
+  const liveWork = allItems.filter(i => i.lw).reduce((a, i) => a + i.work, 0);
+  const conf = workSum ? Math.round((liveWork / workSum) * 100) : 0;
   const weeks = Math.round(rows.reduce((a, r) => a + r.weeks, 0) * OVERLAP);
   const budget = BUDGETS[mode].find((b) => b.id === p.budget);
   const sd = Object.keys(style.mods).length ? Math.round((total / rows.reduce((a, r) => a + r.total / (r.sk || 1), 0) - 1) * 100) : 0;
-  return { rows, total, region, tier, style, styleDelta: sd, low: total * (1 - VILKA), high: total * (1 + VILKA),
+  return { rows, total, region, tier, style, styleDelta: sd, low, high, conf,
     perM2: Math.round(total / p.area), weeks, months: Math.round((weeks / 4.33) * 10) / 10,
-    budgetFit: budget ? total * (1 - VILKA) <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo) };
+    budgetFit: budget ? low <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo) };
 }
 
 const fmt = (n) => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
@@ -240,6 +255,28 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .furnsum{text-align:right;font-family:'IBM Plex Mono';font-size:13px;padding-top:12px}
 .furnsum b{color:var(--acc)}
 @media(max-width:720px){.frow{gap:8px}.fseg{width:100%;margin-left:30px}.ftot{margin-left:auto}}
+.sharebtn{width:100%;font-family:'Manrope';font-weight:700;font-size:12px;padding:11px;border-radius:12px;border:1.5px dashed var(--line);background:transparent;color:var(--sub);cursor:pointer}
+.sharebtn:hover{border-color:var(--acc);color:var(--acc)}
+.confstrip{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 28px;border-bottom:1px solid var(--line)}
+.confb{font-family:'IBM Plex Mono';font-size:11px;color:var(--ok);background:var(--oks);padding:5px 10px;border-radius:6px;font-weight:600}
+.cmp{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--line)}
+@media(max-width:560px){.cmp{grid-template-columns:1fr}}
+.cmpc{padding:16px 22px;border-right:1px solid var(--line);cursor:pointer;transition:background .1s}
+.cmpc:last-child{border-right:none}.cmpc:hover{background:var(--bg)}
+.cmpc.on{background:var(--acc2)}
+.cmpn{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.3px}
+.cmpc.on .cmpn{color:var(--acc)}
+.cmpv{font-family:'IBM Plex Mono';font-weight:600;font-size:16px;margin-top:4px}
+.cmpd{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--sub);margin-top:2px}
+.instal{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:14px 28px;border-bottom:1px solid var(--line);font-size:12px;font-weight:600}
+.instv{font-family:'IBM Plex Mono';font-size:12px}
+.nextsteps{padding:24px 28px;border-bottom:1px solid var(--line)}
+.nextsteps h3{font-size:13.5px;font-weight:700;margin-bottom:14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:720px){.steps{grid-template-columns:1fr 1fr}}
+.step{display:flex;gap:9px;align-items:flex-start}
+.stepn{width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-family:'IBM Plex Mono';font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stept{font-weight:700;font-size:12px}.stepd{font-size:11px;color:var(--sub);line-height:1.45}
 .paysec{padding:28px;border-bottom:1px solid var(--line)}.paysec h3{font-size:13.5px;font-weight:700;margin-bottom:16px}
 .prow{display:flex;gap:14px;margin-bottom:12px}
 .ppct{font-family:'IBM Plex Mono';font-weight:600;font-size:13px;min-width:42px;color:var(--acc)}
@@ -282,8 +319,37 @@ export default function App() {
   const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
   const [live, setLive] = useState(null);
 
+  // Відновлення стану: пріоритет — посилання (#c=...), потім localStorage
+  useEffect(() => {
+    try {
+      let saved = null;
+      if (window.location.hash.startsWith("#c=")) {
+        saved = JSON.parse(decodeURIComponent(escape(atob(window.location.hash.slice(3)))));
+      } else if (window.localStorage) {
+        const ls = localStorage.getItem("pb_state");
+        if (ls) saved = JSON.parse(ls);
+      }
+      if (saved) {
+        if (saved.f) setFlat(x => ({ ...x, ...saved.f }));
+        if (saved.h) setHouse(x => ({ ...x, ...saved.h }));
+        if (saved.m) setMode(saved.m);
+        if (saved.d != null) setDetail(saved.d);
+        if (saved.fo != null) setFurnOn(saved.fo);
+        if (saved.sd) setStartDate(saved.sd);
+      }
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem("pb_state", JSON.stringify({ m: mode, f: flat, h: house, d: detail, fo: furnOn, sd: startDate })); } catch {}
+  }, [mode, flat, house, detail, furnOn, startDate]);
+
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
+  const [leadSent, setLeadSent] = useState(null); // null | "ok" | "fail"
+  const [startDate, setStartDate] = useState(() => new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10));
+  const [instM, setInstM] = useState(12);
+  const [showCmp, setShowCmp] = useState(false);
+  const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [furnSel, setFurnSel] = useState({}); // {id:{on,qty,tier}}
 
@@ -303,6 +369,28 @@ export default function App() {
   }, [furnOn, furnSel, p, tierIdx]);
   const furnTotal = furnRows.reduce((a, x) => a + x.total, 0);
   const setFurn = (id, patch) => setFurnSel(s => ({ ...s, [id]: { ...(s[id] || {}), ...patch } }));
+
+  const cmp = useMemo(() => {
+    const out = {};
+    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, sel, live).total;
+    return out;
+  }, [mode, p, sel, live]);
+
+  const fmtD = (d) => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
+  const sDate = new Date(startDate + "T00:00:00");
+  const finishDate = new Date(+sDate + (r?.weeks || 0) * 7 * 864e5);
+  const stageDate = (w) => new Date(+sDate + w * 7 * 864e5).toLocaleDateString("uk-UA", { day: "numeric", month: "short" });
+
+  const shareLink = () => {
+    try {
+      const payload = { m: mode, f: flat, h: house, d: detail, fo: furnOn, sd: startDate };
+      const hash = "#c=" + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      const url = window.location.origin + window.location.pathname + hash;
+      navigator.clipboard.writeText(url);
+      window.history.replaceState(null, "", hash);
+      setShared(true); setTimeout(() => setShared(false), 2500);
+    } catch {}
+  };
   const toggleOpt = (id) => setP("opts", { ...p.opts, [id]: !p.opts[id] });
   const r = useMemo(() => calc(mode, p, sel, live), [mode, p, sel, live]);
   const today = new Date().toLocaleDateString("uk-UA");
@@ -410,8 +498,11 @@ export default function App() {
 
               <div className="card"><div className="ch"><span className="cn">{detail ? (mode === "flat" ? "04" : "03") : (mode === "flat" ? "03" : "02")}</span><h2>Бюджет, рівень і стиль</h2></div>
                 <div className="cb">
-                  <label className="f">Бюджет<select value={p.budget} onChange={e => setP("budget", e.target.value)}>
-                    {BUDGETS[mode].map(b => <option key={b.id} value={b.id}>{b.name} грн</option>)}</select></label>
+                  <div className="g2">
+                    <label className="f">Бюджет<select value={p.budget} onChange={e => setP("budget", e.target.value)}>
+                      {BUDGETS[mode].map(b => <option key={b.id} value={b.id}>{b.name} грн</option>)}</select></label>
+                    <label className="f">Бажаний старт робіт<input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} /></label>
+                  </div>
                   <label className="f">Рівень оздоблення
                     <div className="chips">{Object.entries(TIERS).map(([id, t]) => <button key={id} className={"chip acc" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)}>{t.name}</button>)}</div>
                     <button className="tl" onClick={() => setShowT(s => !s)}>{showT ? "Сховати ↑" : "Порівняти рівні ↓"}</button>
@@ -434,10 +525,14 @@ export default function App() {
                 {r.styleDelta !== 0 && <div className="lr"><span>{p.style}</span><span>{r.styleDelta > 0 ? "+" : ""}{r.styleDelta}%</span></div>}
                 {furnOn && <div className="lr"><span>Комплектація</span><span>{fmtM(furnTotal)}</span></div>}
                 {furnOn && <div className="lr" style={{ fontWeight: 600 }}><span>Разом з меблями</span><span>{fmtM(r.total + furnTotal)}</span></div>}
+                {Object.keys(TIERS).filter(t => t !== p.tier).map(t => (
+                  <div className="lr" key={t} style={{ cursor: "pointer" }} onClick={() => setP("tier", t)}>
+                    <span>якби {TIERS[t].name}</span><span>{fmtM(cmp[t])}</span></div>))}
                 <button className="livebtn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Сформувати пропозицію →</button>
               </div>
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
+              <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
             </div>
           </div>
         </>)}
@@ -449,7 +544,19 @@ export default function App() {
             <label className="f">Коментар<input type="text" value={lead.msg} onChange={e => setLead(l => ({ ...l, msg: e.target.value }))} placeholder="Необов'язково" /></label>
             <div style={{ display: "flex", gap: 8 }}>
               <button className="btn" onClick={() => setView("form")}>← Назад</button>
-              <button className="btn blue" style={{ flex: 1 }} onClick={() => { setView("sheet"); window.scrollTo(0, 0); }} disabled={!lead.name.trim() || !lead.phone.trim()}>Отримати пропозицію →</button>
+              <button className="btn blue" style={{ flex: 1 }} onClick={() => {
+                const optNames = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => p.opts[o.id]).map(o => o.name).join(", ");
+                const payload = {
+                  name: lead.name, phone: lead.phone, msg: lead.msg,
+                  summary: `${mode === "flat" ? "Ремонт" : "Будинок"} ${p.area} м², ${p.rooms}-кімн., ${r.region.name} · ${r.tier.name} · ${p.style}`,
+                  estimate: `${fmtM(r.low)} — ${fmtM(r.high)} грн · ~${r.months} міс`,
+                  furniture: furnOn ? `+ ${fmtM(furnTotal)} грн` : "",
+                  options: optNames,
+                };
+                fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+                  .then(x => x.json()).then(d => setLeadSent(d.ok ? "ok" : "fail")).catch(() => setLeadSent("fail"));
+                setView("sheet"); window.scrollTo(0, 0);
+              }} disabled={!lead.name.trim() || !lead.phone.trim()}>Отримати пропозицію →</button>
             </div>
             <span className="hint">Ваші дані бачить тільки команда</span>
           </div></div></div>}
@@ -469,10 +576,25 @@ export default function App() {
           </div>}
 
           <div className="snums">
-            <div className="sn2"><div className="k">Вартість ±{VILKA * 100}%</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div></div>
+            <div className="sn2"><div className="k">Вартість · ринкова вилка</div><div className="v">{fmtM(r.low)} — <em>{fmtM(r.high)}</em></div></div>
             <div className="sn2"><div className="k">Грн / м²</div><div className="v"><em>{fmt(r.perM2)}</em></div></div>
-            <div className="sn2"><div className="k">Строк</div><div className="v"><em>{r.months}</em> міс.</div></div>
+            <div className="sn2"><div className="k">Строк</div><div className="v"><em>{r.months}</em> міс.</div>
+              <div className="k" style={{ marginTop: 4 }}>старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)}</div></div>
           </div>
+
+          <div className="confstrip">
+            {r.conf > 0 && <span className="confb">✓ {r.conf}% вартості робіт — живі ринкові ціни (rabotniki.ua{live ? ", " + live.updated : ""})</span>}
+            <button className="tl" onClick={() => setShowCmp(s => !s)}>{showCmp ? "Сховати порівняння рівнів ↑" : "Порівняти рівні оздоблення ↓"}</button>
+          </div>
+          {showCmp && <div className="cmp">
+            {Object.entries(TIERS).map(([t, tv]) => <div key={t} className={"cmpc" + (t === p.tier ? " on" : "")} onClick={() => setP("tier", t)}>
+              <div className="cmpn">{tv.name}{t === p.tier ? " · обрано" : ""}</div>
+              <div className="cmpv">{fmtM(cmp[t])} грн</div>
+              <div className="cmpd">{t === p.tier ? "\u00a0" : (cmp[t] > cmp[p.tier] ? "+" : "−") + fmtM(Math.abs(cmp[t] - cmp[p.tier])) + " грн"}</div>
+            </div>)}
+          </div>}
+          {mode === "house" && r.perM2 < Math.round(30081 * r.region.k) && <div className="fc no" style={{ borderRadius: 0, padding: "12px 28px" }}>
+            ⚠ Розрахунок нижчий за офіційну опосередковану вартість будівництва для регіону (Мінрозвитку). Перевірте параметри — можливо, занижені обсяги.</div>}
 
           <div className="breakdown"><h3>Розподіл вартості</h3>
             {r.rows.map(st => <div className="brow" key={st.id}><span className="blbl">{st.name}</span>
@@ -482,8 +604,8 @@ export default function App() {
 
           <div className="gantt"><h3>Графік робіт</h3><div className="gg">
             {r.rows.map(st => <div className="gr" key={st.id}><span className="glbl">{st.name}</span>
-              <div className="gtrack"><div className="gbar" style={{ left: `${(st.startWeek / r.totalWeeks) * 100}%`, width: `${Math.max((st.weeks / r.totalWeeks) * 100, 4)}%` }}>{st.weeks}т</div></div></div>)}
-          </div><div className="gmeta">{r.weeks} тижнів ({r.months} міс.) з паралельністю</div></div>
+              <div className="gtrack"><div className="gbar" style={{ left: `${(st.startWeek / r.totalWeeks) * 100}%`, width: `${Math.max((st.weeks / r.totalWeeks) * 100, 4)}%` }}>{stageDate(st.startWeek)}</div></div></div>)}
+          </div><div className="gmeta">{r.weeks} тижнів ({r.months} міс.) · старт {fmtD(sDate)} · здача ≈ {fmtD(finishDate)} · дати орієнтовні</div></div>
 
           <div className="filterbar no-print">
             <button className={"fchip" + (!grpFilter ? " on" : "")} onClick={() => setGrpFilter(null)}>Всі етапи</button>
@@ -581,6 +703,13 @@ export default function App() {
                 <div className="psum">{fmtM(Math.round(r.total * ps.pct / 100))} грн</div></div></div>)}
           </div>
 
+          <div className="instal">
+            <span>У розстрочку:</span>
+            {[6, 12, 24].map(m => <button key={m} className={"fchip" + (instM === m ? " on" : "")} onClick={() => setInstM(m)}>{m} міс</button>)}
+            <span className="instv">≈ <b>{fmt(Math.round((r.total + (furnOn ? furnTotal : 0)) / instM))}</b> грн/міс</span>
+            <span className="hint">· рівними частинами, без урахування % банку</span>
+          </div>
+
           <div className="inex"><h3>Що входить / не входить</h3>
             <ul className="inc">{INCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul>
             <ul className="exc">{EXCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul></div>
@@ -589,11 +718,22 @@ export default function App() {
             <div className="rph"><span className="t">{mode === "flat" ? "Вітальня" : "Екстер'єр"}</span><span className="d">{p.style}</span></div>
             <div className="rph"><span className="t">{mode === "flat" ? "Санвузол" : "Інтер'єр"}</span><span className="d">{r.tier.name}</span></div></div>
 
+          <div className="nextsteps">
+            <h3>Що далі</h3>
+            <div className="steps">
+              {[["1", "Дзвінок", "менеджер звʼяжеться протягом робочого дня"],
+                ["2", "Замір", "безкоштовний виїзд на обʼєкт"],
+                ["3", "Точний кошторис", "з фіксацією цін у договорі"],
+                ["4", "Старт робіт", "з фотозвітами на кожному етапі"]].map(([n, t, d]) => (
+                <div className="step" key={n}><span className="stepn">{n}</span><div><div className="stept">{t}</div><div className="stepd">{d}</div></div></div>))}
+            </div>
+          </div>
+
           <div className="terms"><h3>Умови</h3>
             Попередня оцінка, не є офертою. Точний кошторис — після огляду. {live ? `Розцінки на роботи — середньоринкові за даними rabotniki.ua станом на ${live.updated}; матеріали — орієнтовно.` : `Ціни станом на ${today}.`} Пропозиція дійсна 14 днів. Гарантія — 24 місяці.
             {!live && <><br /><b style={{ color: "var(--wrn)" }}>ДЕМО: ціни не перевірені.</b></>}</div>
 
-          <div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name || "—"} · {lead.phone || "—"}</p>
+          <div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name || "—"} · {lead.phone || "—"}{leadSent === "ok" && <span style={{ color: "var(--ok)" }}> · ✓ заявку передано команді</span>}</p>
             <div className="actions no-print">
               <button className="btn" onClick={() => { setView("form"); window.scrollTo(0, 0); }}>← Параметри</button>
               <button className="btn blue" onClick={() => window.print()}>Зберегти PDF</button>
