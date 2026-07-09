@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08",
+  "updated": "2026-07-09",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -83,7 +83,7 @@
       "min": 140,
       "max": 370,
       "unit": "м²",
-      "price": 265,
+      "price": 266,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
