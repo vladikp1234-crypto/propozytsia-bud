@@ -257,6 +257,11 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .furnsum{text-align:right;font-family:'IBM Plex Mono';font-size:13px;padding-top:12px}
 .furnsum b{color:var(--acc)}
 @media(max-width:720px){.frow{gap:8px}.fseg{width:100%;margin-left:30px}.ftot{margin-left:auto}}
+.ltable{width:100%;border-collapse:collapse;font-size:12px}
+.ltable th{font-family:'IBM Plex Mono';font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--sub);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--bg)}
+.ltable td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.ltable tr:last-child td{border-bottom:none}
+.ltable a{color:var(--acc);font-weight:700}
 .adminbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FFF8E6;border:1px solid #E8C860;border-radius:12px;padding:10px 16px;margin-bottom:14px;font-size:12px;font-weight:600}
 .adminbar .ab-t{font-weight:800}
 .adminbar input[type=range]{accent-color:#B8860B}
@@ -324,6 +329,8 @@ export default function App() {
   const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
   const [live, setLive] = useState(null);
   const [hist, setHist] = useState(null);
+  const [leadsRows, setLeadsRows] = useState(null);
+  const [leadsErr, setLeadsErr] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [margin, setMargin] = useState(0); // % націнки фірми, видно тільки в admin-режимі
   const [leadSent, setLeadSent] = useState(null); // null | "ok" | "fail"
@@ -403,6 +410,24 @@ export default function App() {
   const sDate = new Date(startDate + "T00:00:00");
   const finishDate = new Date(+sDate + (r?.weeks || 0) * 7 * 864e5);
   const stageDate = (w) => new Date(+sDate + w * 7 * 864e5).toLocaleDateString("uk-UA", { day: "numeric", month: "short" });
+
+  const loadLeads = () => {
+    let key = "";
+    try { key = localStorage.getItem("pb_admin_key") || ""; } catch {}
+    if (!key) {
+      key = window.prompt("Введіть ключ доступу до лідів (ADMIN_KEY):") || "";
+      if (!key) return;
+      try { localStorage.setItem("pb_admin_key", key); } catch {}
+    }
+    setView("leads"); setLeadsRows(null); setLeadsErr(null); window.scrollTo(0, 0);
+    fetch("/api/leads?key=" + encodeURIComponent(key))
+      .then(x => x.json())
+      .then(d => {
+        if (d.ok) setLeadsRows(d.rows);
+        else { setLeadsErr(d.configured === false ? "Журнал не налаштовано (немає SUPABASE/ADMIN_KEY у Vercel)." : "Невірний ключ."); try { localStorage.removeItem("pb_admin_key"); } catch {} }
+      })
+      .catch(() => setLeadsErr("Помилка зʼєднання."));
+  };
 
   const exportXlsx = () => {
     const wsData = [
@@ -495,6 +520,7 @@ export default function App() {
             <input type="range" min="0" max="40" value={margin} onChange={e => setMargin(+e.target.value)} style={{ width: 140 }} />
             <b>{margin}%</b>
             <span className="hint">застосовується до всіх сум непомітно для клієнта · збережеться на цьому пристрої</span>
+            <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>📋 Ліди</button>
           </div>}
 
           <div className="detail-tgl no-print">
@@ -613,6 +639,34 @@ export default function App() {
             </div>
           </div>
         </>)}
+
+        {view === "leads" && <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+            <h2 style={{ fontFamily: "Unbounded", fontSize: 20 }}>Журнал лідів</h2>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button className="btn" onClick={loadLeads}>Оновити</button>
+              <button className="btn" onClick={() => setView("form")}>← Назад</button>
+            </div>
+          </div>
+          {leadsErr && <div className="fc no">{leadsErr}</div>}
+          {!leadsErr && !leadsRows && <div className="hint">Завантаження…</div>}
+          {leadsRows && leadsRows.length === 0 && <div className="hint">Поки що жодного ліда.</div>}
+          {leadsRows && leadsRows.length > 0 && <div className="card" style={{ overflowX: "auto" }}>
+            <table className="ltable">
+              <thead><tr><th>Дата</th><th>Імʼя</th><th>Контакт</th><th>Обʼєкт</th><th>Оцінка</th><th>Коментар</th></tr></thead>
+              <tbody>
+                {leadsRows.map(l => <tr key={l.id}>
+                  <td>{new Date(l.created_at).toLocaleString("uk-UA", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })}</td>
+                  <td><b>{l.name}</b></td>
+                  <td><a href={"tel:" + l.phone}>{l.phone}</a></td>
+                  <td>{l.summary}{l.options ? " · " + l.options : ""}{l.furniture ? " · меблі " + l.furniture : ""}</td>
+                  <td style={{ whiteSpace: "nowrap" }}>{l.estimate}</td>
+                  <td>{l.msg}</td>
+                </tr>)}
+              </tbody>
+            </table>
+          </div>}
+        </div>}
 
         {view === "lead" && <div className="leadwrap"><h2>Майже готово</h2><p>Залиште контакт — отримайте PDF з розрахунком</p>
           <div className="card"><div className="cb">
