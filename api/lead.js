@@ -12,6 +12,7 @@ export default async function handler(req, res) {
 
   try {
     const b = req.body || {};
+    if (b.website) return res.status(200).json({ ok: true }); // honeypot: боти заповнюють приховане поле
     const name = String(b.name || "").slice(0, 100).trim();
     const phone = String(b.phone || "").slice(0, 50).trim();
     if (!name || !phone) return res.status(400).json({ ok: false, error: "name and phone required" });
@@ -56,7 +57,10 @@ export default async function handler(req, res) {
         if (!ins.ok) dbErr = "HTTP " + ins.status + ": " + (await ins.text()).slice(0, 300);
       } catch (e) { dbErr = "fetch failed: " + (e?.message || e); }
     }
-    if (!tgOk && !dbOk) return res.status(502).json({ ok: false, error: "no channel delivered", db: dbErr, tg: tgOk });
+    if (!tgOk && !dbOk) {
+      console.error("lead delivery failed:", dbErr); // видно у Vercel → Logs
+      return res.status(502).json({ ok: false, error: "delivery failed" });
+    }
     return res.status(200).json({ ok: true, tg: tgOk, db: dbOk });
   } catch (e) {
     return res.status(500).json({ ok: false, error: "internal" });
