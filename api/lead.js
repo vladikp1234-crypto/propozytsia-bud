@@ -44,6 +44,7 @@ export default async function handler(req, res) {
     }
     // Канал 2: Supabase (якщо налаштовано) — журнал лідів
     const sbUrl = process.env.SUPABASE_URL, sbKey = process.env.SUPABASE_SERVICE_KEY;
+    let dbErr = "not configured";
     if (sbUrl && sbKey) {
       try {
         const ins = await fetch(`${sbUrl}/rest/v1/leads`, {
@@ -52,9 +53,10 @@ export default async function handler(req, res) {
           body: JSON.stringify({ name, phone, msg: b.msg || "", summary: b.summary || "", estimate: b.estimate || "", furniture: b.furniture || "", options: b.options || "" }),
         });
         dbOk = ins.ok;
-      } catch {}
+        if (!ins.ok) dbErr = "HTTP " + ins.status + ": " + (await ins.text()).slice(0, 300);
+      } catch (e) { dbErr = "fetch failed: " + (e?.message || e); }
     }
-    if (!tgOk && !dbOk) return res.status(502).json({ ok: false, error: "no channel delivered" });
+    if (!tgOk && !dbOk) return res.status(502).json({ ok: false, error: "no channel delivered", db: dbErr, tg: tgOk });
     return res.status(200).json({ ok: true, tg: tgOk, db: dbOk });
   } catch (e) {
     return res.status(500).json({ ok: false, error: "internal" });
