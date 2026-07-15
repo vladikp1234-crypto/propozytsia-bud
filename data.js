@@ -163,12 +163,12 @@ export const FLAT_STAGES = [
   { id: "partitions", grp: "walls", name: "Етап 2 · Стіни та перегородки", weeks: () => 1.5,
     scope: "Нові перегородки, прорізи, штроби, закладні.",
     items: [
-      { k: "gk_part", n: "Перегородка ГКЛ 2 шари + мінвата", u: "м²", q: (A, p) => p.opts?.partitions ? Math.round(A.total * 0.2) : 0, w: 650, m: 560, ver: true, live: "gk_partition", opt: "partitions" },
+      { k: "gk_part", n: "Перегородка ГКЛ 2 шари + мінвата", u: "м²", q: (A, p) => p.opts?.partitions ? (p.partArea || 12) : 0, w: 650, m: 560, ver: true, live: "gk_partition", opt: "partitions" },
       { k: "block_part", n: "Кладка перегородок газоблок 100мм", u: "м²", q: (A, p) => p.opts?.blockPart ? Math.round(A.total * 0.15) : 0, w: 520, m: 480, ver: false, opt: "blockPart" },
-      { k: "opening", n: "Проріз у ненесучій стіні + перемичка", u: "шт", q: (A, p) => p.opts?.opening ? 1 : 0, w: 6500, m: 2800, ver: false, opt: "opening" },
+      { k: "opening", n: "Проріз у ненесучій стіні + перемичка", u: "шт", q: (A, p) => p.opts?.opening ? (p.openingCount || 1) : 0, w: 6500, m: 2800, ver: false, opt: "opening" },
       { k: "chase_conc", n: "Штробіння: бетон", u: "м.п.", q: A => Math.round(A.pts * 2.2), w: 160, m: 0, ver: false },
       { k: "chase_soft", n: "Штробіння: цегла/газоблок", u: "м.п.", q: A => Math.round(A.pts * 1.3), w: 90, m: 0, ver: false },
-      { k: "mount_pts", n: "Закладні під важке у ГК (ТВ/бойлер)", u: "шт", q: (A, p) => p.opts?.partitions ? 3 : 0, w: 350, m: 180, ver: false },
+      { k: "mount_pts", n: "Закладні під важке у ГК (ТВ/бойлер)", u: "шт", q: (A, p) => p.opts?.partitions ? 2 : 0, w: 350, m: 180, ver: false },
     ] },
   { id: "windows", grp: "rough", name: "Етап 3 · Вікна, підвіконня, відкоси", weeks: () => 1,
     scope: "У новобудові вікна вже встановлені забудовником — доробляються відкоси й підвіконня.",
@@ -198,7 +198,7 @@ export const FLAT_STAGES = [
       { k: "lan", n: "Слабострум: інтернет/ТБ точка", u: "шт", q: A => Math.round(A.pts * 0.12) + 2, w: 380, m: 260, ver: false },
       { k: "fan_out", n: "Вивід під витяжний вентилятор санвузла", u: "шт", q: A => A.baths, w: 550, m: 380, ver: false },
       { k: "ac_route", n: "Траса кондиціонера (штроба+фреон+дренаж)", u: "компл", q: (A, p) => p.opts?.ac ? (p.acCount || 1) : 0, w: 3400, m: 2700, ver: true, opt: "ac" },
-      { k: "led_niche", n: "LED-підсвітка ніш/кухні (профіль+стрічка+БЖ)", u: "м.п.", q: (A, p) => p.opts?.led ? 6 : 0, w: 450, m: 520, ver: false, opt: "led" },
+      { k: "led_niche", n: "LED-підсвітка ніш/кухні (профіль+стрічка+БЖ)", u: "м.п.", q: (A, p) => p.opts?.led ? (p.ledLen || 6) : 0, w: 450, m: 520, ver: false, opt: "led" },
     ] },
   { id: "plumb", grp: "engineering", name: "Етап 5 · Сантехнічна розводка", weeks: (A) => 1 + A.baths * 0.7,
     scope: "Стояки (за станом), колекторна розводка, каналізація, інсталяції, гідроізоляція випробуванням.",
@@ -326,23 +326,24 @@ export const FLAT_STAGES = [
 ];
 
 /* Глобальні опції (не прив'язані до кімнат) */
+export const OPT_GROUPS = { eng: "Інженерія", constr: "Конструктив", decor: "Оздоблення і сервіс" };
 export const FLAT_OPTS = [
-  { id: "design", name: "Дизайн-проєкт", hint: "плани + візуалізації" },
-  { id: "windows", name: "Заміна вікон", hint: "вторинка", onlyCond: "old" },
-  { id: "slopes", name: "Відкоси та підвіконня", hint: "у новобуді вікна вже стоять", onlyCond: "new", def: true },
-  { id: "entryDoor", name: "Вхідні двері", hint: "заміна" },
-  { id: "radiators", name: "Заміна радіаторів", hint: "", onlyCond: "old" },
-  { id: "radMove", name: "Перенос радіаторів", hint: "стоять від забудовника", onlyCond: "new" },
-  { id: "risers", name: "Заміна стояків", hint: "рекомендовано у старих будинках", onlyCond: "old" },
-  { id: "ac", name: "Кондиціонер", hint: "траса під монтаж" },
-  { id: "sound", name: "Шумоізоляція підлоги", hint: "" },
-  { id: "partitions", name: "Нові перегородки ГКЛ", hint: "" },
-  { id: "opening", name: "Новий проріз у стіні", hint: "ненесуча" },
-  { id: "showerTrap", name: "Душ із трапом у підлозі", hint: "замість піддона" },
-  { id: "hiddenCurtain", name: "Приховані карнизи", hint: "у натяжній стелі" },
-  { id: "led", name: "LED-підсвітка", hint: "ніші, кухня" },
-  { id: "dScreed", name: "Демонтаж стяжки", hint: "якщо стара зруйнована", onlyCond: "old" },
-  { id: "dPartitions", name: "Знесення перегородок", hint: "", onlyCond: "old" },
+  { id: "ac", grp: "eng", name: "Кондиціонер", hint: "траса під монтаж", qty: { key: "acCount", unit: "шт", min: 1, max: 6, def: 1 } },
+  { id: "radiators", grp: "eng", name: "Заміна радіаторів", hint: "", onlyCond: "old", rec: "old" },
+  { id: "radMove", grp: "eng", name: "Перенос радіаторів", hint: "стоять від забудовника", onlyCond: "new" },
+  { id: "risers", grp: "eng", name: "Заміна стояків", hint: "будинки до ~1990 р.", onlyCond: "old", rec: "old" },
+  { id: "showerTrap", grp: "eng", name: "Душ із трапом у підлозі", hint: "замість піддона" },
+  { id: "sound", grp: "eng", name: "Шумоізоляція підлоги", hint: "" },
+  { id: "windows", grp: "constr", name: "Заміна вікон", hint: "з відкосами й підвіконнями", onlyCond: "old" },
+  { id: "slopes", grp: "constr", name: "Відкоси та підвіконня", hint: "вікна вже стоять від забудовника", onlyCond: "new", def: true, rec: "new" },
+  { id: "entryDoor", grp: "constr", name: "Вхідні двері", hint: "заміна" },
+  { id: "partitions", grp: "constr", name: "Нові перегородки ГКЛ", hint: "", qty: { key: "partArea", unit: "м²", min: 2, max: 60, def: 12 } },
+  { id: "opening", grp: "constr", name: "Новий проріз у стіні", hint: "ненесуча", qty: { key: "openingCount", unit: "шт", min: 1, max: 5, def: 1 } },
+  { id: "dScreed", grp: "constr", name: "Демонтаж стяжки", hint: "якщо стара зруйнована", onlyCond: "old" },
+  { id: "dPartitions", grp: "constr", name: "Знесення перегородок", hint: "", onlyCond: "old" },
+  { id: "design", grp: "decor", name: "Дизайн-проєкт", hint: "плани + візуалізації" },
+  { id: "hiddenCurtain", grp: "decor", name: "Приховані карнизи", hint: "у натяжній стелі · авто: по вікнах" },
+  { id: "led", grp: "decor", name: "LED-підсвітка", hint: "ніші, кухня", qty: { key: "ledLen", unit: "м.п.", min: 2, max: 30, def: 6 } },
 ];
 
 export const BUDGETS = {
@@ -489,10 +490,10 @@ export const FURNITURE = [
 /* ---------- БУДИНОК (v2-структура, конвертовано у v3-схему) ---------- */
 const fpn = (p) => Math.round(((p.area || 150) / (p.floors || 2)) * 1.1);
 export const HOUSE_OPTS = [
-  { id: "well", name: "Свердловина", hint: "якщо нема центральної води" },
-  { id: "septic", name: "Септик", hint: "якщо нема каналізації" },
-  { id: "gas", name: "Підключення газу", hint: "" },
-  { id: "yard", name: "Благоустрій", hint: "вимощення + огорожа" },
+  { id: "well", grp: "eng", name: "Свердловина", hint: "якщо нема центральної води" },
+  { id: "septic", grp: "eng", name: "Септик", hint: "якщо нема каналізації" },
+  { id: "gas", grp: "eng", name: "Підключення газу", hint: "" },
+  { id: "yard", grp: "constr", name: "Благоустрій", hint: "вимощення + огорожа" },
 ];
 export const HOUSE_STAGES = [
   { id: "prep", grp: "prep", name: "Проєкт і підготовка", weeks: () => 4, scope: "Архітектура, конструктив, геодезія.",
