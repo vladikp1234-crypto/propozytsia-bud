@@ -90,6 +90,7 @@ export default function App() {
   const [rooms, setRooms] = useState(() => defaultRooms(2, 1, 65));
   const [roomsCustom, setRoomsCustom] = useState(false);
   const [view, setView] = useState("form");
+  const [step, setStep] = useState(0);
   const [detail, setDetail] = useState(false);
   const [sel, setSel] = useState({});
   const [opn, setOpn] = useState({});
@@ -256,7 +257,7 @@ export default function App() {
     XLSX.writeFile(wb, `koshtorys-${Math.round(r.A.total)}m2-${today.replace(/\./g, "-")}.xlsx`);
   };
 
-  const swM = m => { setMode(m); setView("form"); setSel({}); setOpn({}); setGrpFilter(null); };
+  const swM = m => { setMode(m); setView("form"); setStep(0); setSel({}); setOpn({}); setGrpFilter(null); };
   const OPTS = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
   const shownRows = grpFilter ? r.rows.filter(x => x.group === grpFilter) : r.rows;
   const usedGroups = [...new Set(r.rows.map(x => x.group))];
@@ -276,13 +277,25 @@ export default function App() {
       </div></div>
 
       <div className="wrap">
-        {view === "form" && (<>
-          <div className="hero">
+        {view === "form" && (() => {
+          const STEPS = mode === "flat"
+            ? [{ id: "obj", t: "Обʼєкт" }, { id: "rooms", t: "Кімнати" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }]
+            : [{ id: "obj", t: "Будинок" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }];
+          const stepId = STEPS[Math.min(step, STEPS.length - 1)].id;
+          const goto = i => { setStep(Math.max(0, Math.min(i, STEPS.length - 1))); window.scrollTo({ top: 0, behavior: "smooth" }); };
+          const next = () => step >= STEPS.length - 1 ? (setView("lead"), window.scrollTo(0, 0)) : goto(step + 1);
+          return (<>
+          {step === 0 && <div className="hero">
             <h1>{mode === "flat" ? "Ремонт під ключ — з ціною одразу" : "Будинок — з ціною та строком одразу"}</h1>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
               : <div className="badge demo">демо · ціни орієнтовні</div>}
-          </div>
+            <div className="howit">
+              <span><b>1</b> Параметри обʼєкта</span><span className="ha">→</span>
+              <span><b>2</b> Жива ціна одразу</span><span className="ha">→</span>
+              <span><b>3</b> Пропозиція + PDF</span>
+            </div>
+          </div>}
 
           {admin && <div className="adminbar no-print">
             <span className="ab-t">🔧 Режим фірми</span><span>Націнка:</span>
@@ -292,134 +305,139 @@ export default function App() {
             <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>📋 Ліди</button>
           </div>}
 
-          {mode === "flat" && <div className="detail-tgl no-print">
-            <button className={!detail ? "on" : ""} onClick={() => setDetail(false)}>Швидкий розрахунок</button>
-            <button className={detail ? "on" : ""} onClick={() => setDetail(true)}>Кімнати детально</button>
-          </div>}
+          <div className="wsteps no-print">
+            {STEPS.map((s, i) => <button key={s.id} className={"wstep" + (i === step ? " on" : "") + (i < step ? " done" : "")} onClick={() => goto(i)}>
+              <span className="wn">{i < step ? "✓" : i + 1}</span>{s.t}</button>)}
+          </div>
 
           <div className="grid">
             <div style={{ display: "grid", gap: 16 }}>
-              <div className="card"><div className="ch"><span className="cn">01</span><h2>{mode === "flat" ? "Обʼєкт" : "Будинок"}</h2></div>
+
+              {stepId === "obj" && <>
+                <div className="card"><div className="ch"><span className="cn">{mode === "flat" ? "Обʼєкт" : "Будинок"}</span><h2>Де і що ремонтуємо</h2></div>
+                  <div className="cb">
+                    <div className="g2">
+                      <label className="f">Локація
+                        <select value={p.region} onChange={e => setP("region", e.target.value)}>
+                          {REGIONS.map(x => <option key={x.id} value={x.id}>{x.name}{x.k !== 1 ? ` (−${Math.round((1 - x.k) * 100)}%)` : ""}</option>)}</select></label>
+                      {mode === "flat"
+                        ? <label className="f">Поверх / ліфт
+                            <div style={{ display: "flex", gap: 8 }}>
+                              <input type="number" min="1" max="30" value={p.floor} onChange={e => setP("floor", +e.target.value)} style={{ width: 70 }} />
+                              <select value={p.lift} onChange={e => setP("lift", e.target.value)}>
+                                <option value="cargo">Вантажний ліфт</option><option value="pass">Пасажирський</option><option value="none">Без ліфта</option>
+                              </select>
+                            </div></label>
+                        : <label className="f">Спалень
+                            <div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
+                    </div>
+                    {mode === "house" && (<>
+                      <label className="f">Площа<div className="rr"><input type="range" min="80" max="300" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
+                      <div className="g2">
+                        <label className="f">Поверхів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.floors === n ? " on" : "")} onClick={() => setP("floors", n)}>{n}</button>)}</div></label>
+                        <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                      </div>
+                    </>)}
+                  </div></div>
+                {mode === "flat" && <div className="card"><div className="ch"><span className="cn">Стан</span><h2>Стан квартири</h2></div>
+                  <div className="cb"><div className="cond">
+                    {[{ id: "new", t: "Новобудова «сіра коробка»", d: "Вікна, радіатори і вхідні двері вже встановлені забудовником" },
+                      { id: "old", t: "Вторинка зі старим ремонтом", d: "Повний демонтаж по шарах, заміна комунікацій" },
+                      { id: "partial", t: "Часткова готовність", d: "Штукатурка і стяжка вже є — пропускаємо" }].map(o => (
+                      <div key={o.id} className={"opt" + (p.condition === o.id ? " on" : "")} onClick={() => setP("condition", o.id)}>
+                        <div className="rd" /><div><div className="ot">{o.t}</div><div className="od">{o.d}</div></div></div>))}
+                    {p.condition === "new" && <div className="condnote">ℹ️ У новобудові <b>вікна та радіатори вже стоять</b> — у кошторисі лише відкоси, підвіконня та (за бажанням) перенос радіаторів.</div>}
+                  </div></div></div>}
+              </>}
+
+              {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">Кімнати</span><h2>{rooms.length} кімнат · {r.A.total} м²</h2></div>
                 <div className="cb">
+                  <label className="f">Загальна площа
+                    <div className="rr"><input type="range" min="30" max="180" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
                   <div className="g2">
-                    <label className="f">Локація
-                      <select value={p.region} onChange={e => setP("region", e.target.value)}>
-                        {REGIONS.map(x => <option key={x.id} value={x.id}>{x.name}{x.k !== 1 ? ` (−${Math.round((1 - x.k) * 100)}%)` : ""}</option>)}</select></label>
-                    {mode === "flat"
-                      ? <label className="f">Поверх / ліфт
-                          <div style={{ display: "flex", gap: 8 }}>
-                            <input type="number" min="1" max="30" value={p.floor} onChange={e => setP("floor", +e.target.value)} style={{ width: 70 }} />
-                            <select value={p.lift} onChange={e => setP("lift", e.target.value)}>
-                              <option value="cargo">Вантажний ліфт</option><option value="pass">Пасажирський</option><option value="none">Без ліфта</option>
-                            </select>
-                          </div></label>
-                      : <label className="f">Спалень
-                          <div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
+                    <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
+                    <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
                   </div>
-                  {mode === "flat" && !detail && (<>
-                    <label className="f">Загальна площа
-                      <div className="rr"><input type="range" min="30" max="180" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
-                    <div className="g2">
-                      <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
-                      <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                  {roomsCustom && <span className="hint">⚠️ Кімнати налаштовані вручну — слайдери вище більше не перегенеровують список</span>}
+                  <button className="tl" onClick={() => setDetail(d => !d)}>{detail ? "Згорнути кімнати ↑" : "Налаштувати кожну кімнату окремо ↓"}</button>
+                  {detail && (<>
+                    <div style={{ display: "grid", gap: 10 }}>
+                      {rooms.map(rm => {
+                        const t = ROOM_TYPES[rm.type];
+                        return <div className="roomcard" key={rm.id}>
+                          <div className="roomhead"><span>{t.emoji}</span><span className="rn">{t.name}</span>
+                            <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити">✕</button></div>
+                          <div className="rrow">
+                            <label className="rf">Площа, м²<input type="number" min="1" max="80" step="0.5" value={rm.area} onChange={e => updRoom(rm.id, { area: +e.target.value })} /></label>
+                            <label className="rf">Висота, м<input type="number" min="2.3" max="4" step="0.05" value={rm.h} onChange={e => updRoom(rm.id, { h: +e.target.value })} /></label>
+                            <label className="rf">Вікон<input type="number" min="0" max="6" value={rm.win} onChange={e => updRoom(rm.id, { win: +e.target.value })} /></label>
+                            <label className="rf">Дверей<input type="number" min="0" max="4" value={rm.doors} onChange={e => updRoom(rm.id, { doors: +e.target.value })} /></label>
+                          </div>
+                          {!t.wet && rm.type !== "balcony" && <div className="rrow">
+                            <label className="rf">Стіни<select value={rm.walls} onChange={e => updRoom(rm.id, { walls: e.target.value })}>
+                              {Object.entries(WALL_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+                            <label className="rf">Підлога<select value={rm.floor} onChange={e => updRoom(rm.id, { floor: e.target.value })}>
+                              {Object.entries(FLOOR_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+                            <label className="rf">Стеля<select value={rm.ceil} onChange={e => updRoom(rm.id, { ceil: e.target.value })}>
+                              {Object.entries(CEIL_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
+                            <label className="rf" style={{ justifyContent: "end" }}>Тепла підлога
+                              <div className={"optbox" + (rm.heatFloor ? " on" : "")} style={{ padding: "5px 9px" }} onClick={() => updRoom(rm.id, { heatFloor: !rm.heatFloor })}>
+                                <div className="cbx">{rm.heatFloor ? "✓" : ""}</div></div></label>
+                          </div>}
+                          {t.wet && <span className="hint">Мокра зона: плитка, цементна штукатурка, гідроізоляція — автоматично</span>}
+                        </div>;
+                      })}
                     </div>
-                    <span className="hint">Кімнати згенеровано автоматично — перемкніться у «Кімнати детально», щоб задати площу кожної</span>
-                  </>)}
-                  {mode === "house" && (<>
-                    <label className="f">Площа<div className="rr"><input type="range" min="80" max="300" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
-                    <div className="g2">
-                      <label className="f">Поверхів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.floors === n ? " on" : "")} onClick={() => setP("floors", n)}>{n}</button>)}</div></label>
-                      <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                    <div className="addroom">
+                      {Object.entries(ROOM_TYPES).map(([k, t]) => <button key={k} onClick={() => addRoom(k)}>+ {t.emoji} {t.name}</button>)}
                     </div>
                   </>)}
-                </div></div>
-
-              {mode === "flat" && <div className="card"><div className="ch"><span className="cn">02</span><h2>Стан квартири</h2></div>
-                <div className="cb"><div className="cond">
-                  {[{ id: "new", t: "Новобудова «сіра коробка»", d: "Вікна, радіатори і вхідні двері вже встановлені забудовником" },
-                    { id: "old", t: "Вторинка зі старим ремонтом", d: "Повний демонтаж по шарах, заміна комунікацій" },
-                    { id: "partial", t: "Часткова готовність", d: "Штукатурка і стяжка вже є — пропускаємо" }].map(o => (
-                    <div key={o.id} className={"opt" + (p.condition === o.id ? " on" : "")} onClick={() => setP("condition", o.id)}>
-                      <div className="rd" /><div><div className="ot">{o.t}</div><div className="od">{o.d}</div></div></div>))}
-                  {p.condition === "new" && <div className="condnote">ℹ️ У новобудові <b>вікна та радіатори вже стоять</b> — тому в кошторисі лише відкоси, підвіконня та (за бажанням) перенос радіаторів. Опція заміни вікон прихована.</div>}
-                </div></div></div>}
-
-              {mode === "flat" && detail && <div className="card"><div className="ch"><span className="cn">03</span><h2>Кімнати — {rooms.length} · {r.A.total} м²</h2></div>
-                <div className="cb">
-                  <div style={{ display: "grid", gap: 10 }}>
-                    {rooms.map(rm => {
-                      const t = ROOM_TYPES[rm.type];
-                      return <div className="roomcard" key={rm.id}>
-                        <div className="roomhead"><span>{t.emoji}</span><span className="rn">{t.name}</span>
-                          <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити">✕</button></div>
-                        <div className="rrow">
-                          <label className="rf">Площа, м²<input type="number" min="1" max="80" step="0.5" value={rm.area} onChange={e => updRoom(rm.id, { area: +e.target.value })} /></label>
-                          <label className="rf">Висота, м<input type="number" min="2.3" max="4" step="0.05" value={rm.h} onChange={e => updRoom(rm.id, { h: +e.target.value })} /></label>
-                          <label className="rf">Вікон<input type="number" min="0" max="6" value={rm.win} onChange={e => updRoom(rm.id, { win: +e.target.value })} /></label>
-                          <label className="rf">Дверей<input type="number" min="0" max="4" value={rm.doors} onChange={e => updRoom(rm.id, { doors: +e.target.value })} /></label>
-                        </div>
-                        {!t.wet && rm.type !== "balcony" && <div className="rrow">
-                          <label className="rf">Стіни<select value={rm.walls} onChange={e => updRoom(rm.id, { walls: e.target.value })}>
-                            {Object.entries(WALL_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-                          <label className="rf">Підлога<select value={rm.floor} onChange={e => updRoom(rm.id, { floor: e.target.value })}>
-                            {Object.entries(FLOOR_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-                          <label className="rf">Стеля<select value={rm.ceil} onChange={e => updRoom(rm.id, { ceil: e.target.value })}>
-                            {Object.entries(CEIL_FIN).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></label>
-                          <label className="rf" style={{ justifyContent: "end" }}>Тепла підлога
-                            <div className={"optbox" + (rm.heatFloor ? " on" : "")} style={{ padding: "5px 9px" }} onClick={() => updRoom(rm.id, { heatFloor: !rm.heatFloor })}>
-                              <div className="cbx">{rm.heatFloor ? "✓" : ""}</div></div></label>
-                        </div>}
-                        {t.wet && <span className="hint">Мокра зона: плитка стіни+підлога, цементна штукатурка, гідроізоляція — автоматично</span>}
-                      </div>;
-                    })}
-                  </div>
-                  <div className="addroom">
-                    {Object.entries(ROOM_TYPES).map(([k, t]) => <button key={k} onClick={() => addRoom(k)}>+ {t.emoji} {t.name}</button>)}
-                  </div>
                   <span className="roomsum">Разом: {r.A.total} м² · стін під оздоблення ≈ {Math.round(r.A.wallsPlaster)} м² · електроточок ≈ {r.A.pts}</span>
                 </div></div>}
 
-              <div className="card"><div className="ch"><span className="cn">{mode === "flat" ? (detail ? "04" : "03") : "02"}</span><h2>Додаткові роботи</h2></div>
-                <div className="cb">
-                  {Object.entries(OPT_GROUPS).map(([gk, gname]) => {
-                    const list = OPTS.filter(o => (o.grp || "eng") === gk);
-                    if (!list.length) return null;
-                    return <div key={gk}>
-                      <div className="ogcap">{gname}</div>
-                      <div className="optgrid">
-                        {list.map(o => {
-                          const on = p.opts[o.id] ?? (o.def && p.condition === "new");
-                          const d = optDeltas[o.id] || 0;
-                          const qv = o.qty ? (p[o.qty.key] || o.qty.def) : null;
-                          return <div key={o.id} className={"optbox" + (on ? " on" : "")} onClick={() => setP("opts", { ...p.opts, [o.id]: !on })}>
-                            <div className="cbx">{on ? "✓" : ""}</div>
-                            <div style={{ flex: 1 }}>
-                              <div className="ot">{o.name}{o.rec === p.condition && <span className="recb">рекомендовано</span>}</div>
-                              {o.hint && <div className="od">{o.hint}</div>}
-                              {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
-                                <span>{qv} {o.qty.unit}</span>
-                                <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))}>+</button>
-                              </div>}
-                            </div>
-                            {d > 0 && <span className="odelta">+{fmtM(d * mk)}</span>}
-                          </div>;
-                        })}
-                      </div>
-                    </div>;
-                  })}
-                </div></div>
+              {stepId === "opts" && <>
+                <div className="card"><div className="ch"><span className="cn">Роботи</span><h2>Додаткові роботи</h2></div>
+                  <div className="cb">
+                    {Object.entries(OPT_GROUPS).map(([gk, gname]) => {
+                      const list = OPTS.filter(o => (o.grp || "eng") === gk);
+                      if (!list.length) return null;
+                      return <div key={gk}>
+                        <div className="ogcap">{gname}</div>
+                        <div className="optgrid">
+                          {list.map(o => {
+                            const on = p.opts[o.id] ?? (o.def && p.condition === "new");
+                            const d = optDeltas[o.id] || 0;
+                            const qv = o.qty ? (p[o.qty.key] || o.qty.def) : null;
+                            return <div key={o.id} className={"optbox" + (on ? " on" : "")} onClick={() => setP("opts", { ...p.opts, [o.id]: !on })}>
+                              <div className="cbx">{on ? "✓" : ""}</div>
+                              <div style={{ flex: 1 }}>
+                                <div className="ot">{o.name}{o.rec === p.condition && <span className="recb">рекомендовано</span>}</div>
+                                {o.hint && <div className="od">{o.hint}</div>}
+                                {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
+                                  <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
+                                  <span>{qv} {o.qty.unit}</span>
+                                  <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))}>+</button>
+                                </div>}
+                              </div>
+                              {d > 0 && <span className="odelta">+{fmtM(d * mk)}</span>}
+                            </div>;
+                          })}
+                        </div>
+                      </div>;
+                    })}
+                  </div></div>
+                <div className="card"><div className="ch"><span className="cn">＋</span><h2>Комплектація меблями</h2></div>
+                  <div className="cb">
+                    <div className={"optbox" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)} style={{ maxWidth: 480 }}>
+                      <div className="cbx">{furnOn ? "✓" : ""}</div>
+                      <div style={{ flex: 1 }}><div className="ot">Додати меблі, техніку й декор</div>
+                        <div className="od">Окремим підсумком. Деталі — у пропозиції.</div></div>
+                      {furnOn && <span className="odelta">+{fmtM(furnTotal)}</span>}
+                    </div>
+                  </div></div>
+              </>}
 
-              <div className="card"><div className="ch"><span className="cn">＋</span><h2>Комплектація меблями</h2></div>
-                <div className="cb">
-                  <div className={"optbox" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)} style={{ maxWidth: 480 }}>
-                    <div className="cbx">{furnOn ? "✓" : ""}</div>
-                    <div><div className="ot">Додати меблі, техніку й декор</div>
-                      <div className="od">Окремим підсумком. Деталі — у пропозиції.</div></div>
-                  </div>
-                </div></div>
-
-              <div className="card"><div className="ch"><span className="cn">§</span><h2>Бюджет, рівень і стиль</h2></div>
+              {stepId === "style" && <div className="card"><div className="ch"><span className="cn">§</span><h2>Бюджет, рівень і стиль</h2></div>
                 <div className="cb">
                   <div className="g2">
                     <label className="f">Бюджет<select value={p.budget} onChange={e => setP("budget", e.target.value)}>
@@ -434,7 +452,12 @@ export default function App() {
                   <label className="f">Стиль
                     <div className="chips">{Object.keys(STYLE_MODS).map(s => <button key={s} className={"chip" + (p.style === s ? " on" : "")} onClick={() => setP("style", s)}>{s}</button>)}</div>
                     <div className="sn"><b>{p.style}{r.styleDelta ? ` · ${r.styleDelta > 0 ? "+" : ""}${r.styleDelta}%` : ""}:</b> {STYLE_MODS[p.style].note}</div></label>
-                </div></div>
+                </div></div>}
+
+              <div className="wnav no-print">
+                {step > 0 ? <button className="btn" onClick={() => goto(step - 1)}>← Назад</button> : <span />}
+                <button className="btn blue" onClick={next}>{step >= STEPS.length - 1 ? "До пропозиції →" : "Далі →"}</button>
+              </div>
             </div>
 
             <div className="rail no-print">
@@ -459,9 +482,10 @@ export default function App() {
 
           <div className="mobilebar no-print">
             <div className="mb-sum"><span className="mb-v">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
-            <button className="mb-btn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Пропозиція →</button>
+            <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Пропозиція →" : "Далі →"}</button>
           </div>
-        </>)}
+          </>);
+        })()}
 
         {view === "leads" && <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
