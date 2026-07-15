@@ -4,7 +4,7 @@ import { css } from "./styles.js";
 import {
   BETA, REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, buildAgg,
-  FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS,
+  FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS,
   BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED, FURNITURE, FURN_GROUPS,
 } from "./data.js";
 
@@ -80,7 +80,7 @@ const fmt = n => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).fo
 const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2).replace(".", ",") + "\u00a0млн" : fmt(n);
 
 const initF = { region: "kyiv", roomsCount: 2, bathrooms: 1, condition: "new", tier: "standart", style: "Сучасний", budget: "f3",
-  floor: 5, lift: "pass", acCount: 1, area: 65, opts: { slopes: true } };
+  floor: 5, lift: "pass", acCount: 1, openingCount: 1, ledLen: 6, partArea: 12, area: 65, opts: { slopes: true } };
 const initH = { region: "kyiv", area: 150, floors: 2, roomsCount: 3, bathrooms: 2, condition: "new", tier: "standart", style: "Сучасний", budget: "h3", plot: 8, opts: {} };
 
 export default function App() {
@@ -174,6 +174,19 @@ export default function App() {
     return out;
   }, [mode, p, rooms, sel, live]);
 
+  // Дельта ціни кожної опції: калькуляція з опцією і без
+  const optDeltas = useMemo(() => {
+    const out = {};
+    const list = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
+    for (const o of list) {
+      const on = p.opts[o.id] ?? (o.def && p.condition === "new");
+      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live).total;
+      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live).total : r.total;
+      out[o.id] = Math.max(totalWith - totalWithout, 0);
+    }
+    return out;
+  }, [mode, p, rooms, sel, live, r.total]);
+
   const mk = 1 + (admin ? margin : 0) / 100;
   const today = new Date().toLocaleDateString("uk-UA");
   const fmtD = d => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
@@ -244,7 +257,6 @@ export default function App() {
   };
 
   const swM = m => { setMode(m); setView("form"); setSel({}); setOpn({}); setGrpFilter(null); };
-  const maxT = Math.max(...r.rows.map(x => x.total), 1);
   const OPTS = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
   const shownRows = grpFilter ? r.rows.filter(x => x.group === grpFilter) : r.rows;
   const usedGroups = [...new Set(r.rows.map(x => x.group))];
@@ -369,16 +381,33 @@ export default function App() {
 
               <div className="card"><div className="ch"><span className="cn">{mode === "flat" ? (detail ? "04" : "03") : "02"}</span><h2>Додаткові роботи</h2></div>
                 <div className="cb">
-                  <div className="optgrid">
-                    {OPTS.map(o => {
-                      const on = p.opts[o.id] ?? (o.def && p.condition === "new");
-                      return <div key={o.id} className={"optbox" + (on ? " on" : "")} onClick={() => setP("opts", { ...p.opts, [o.id]: !on })}>
-                        <div className="cbx">{on ? "✓" : ""}</div>
-                        <div><div className="ot">{o.name}</div>{o.hint && <div className="od">{o.hint}</div>}</div>
-                      </div>;
-                    })}
-                  </div>
-                  {mode === "flat" && p.opts.ac && <label className="f">Кількість кондиціонерів<input type="number" min="1" max="6" value={p.acCount} onChange={e => setP("acCount", +e.target.value)} style={{ width: 90 }} /></label>}
+                  {Object.entries(OPT_GROUPS).map(([gk, gname]) => {
+                    const list = OPTS.filter(o => (o.grp || "eng") === gk);
+                    if (!list.length) return null;
+                    return <div key={gk}>
+                      <div className="ogcap">{gname}</div>
+                      <div className="optgrid">
+                        {list.map(o => {
+                          const on = p.opts[o.id] ?? (o.def && p.condition === "new");
+                          const d = optDeltas[o.id] || 0;
+                          const qv = o.qty ? (p[o.qty.key] || o.qty.def) : null;
+                          return <div key={o.id} className={"optbox" + (on ? " on" : "")} onClick={() => setP("opts", { ...p.opts, [o.id]: !on })}>
+                            <div className="cbx">{on ? "✓" : ""}</div>
+                            <div style={{ flex: 1 }}>
+                              <div className="ot">{o.name}{o.rec === p.condition && <span className="recb">рекомендовано</span>}</div>
+                              {o.hint && <div className="od">{o.hint}</div>}
+                              {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
+                                <span>{qv} {o.qty.unit}</span>
+                                <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))}>+</button>
+                              </div>}
+                            </div>
+                            {d > 0 && <span className="odelta">+{fmtM(d * mk)}</span>}
+                          </div>;
+                        })}
+                      </div>
+                    </div>;
+                  })}
                 </div></div>
 
               <div className="card"><div className="ch"><span className="cn">＋</span><h2>Комплектація меблями</h2></div>
@@ -426,6 +455,11 @@ export default function App() {
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
               <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
             </div>
+          </div>
+
+          <div className="mobilebar no-print">
+            <div className="mb-sum"><span className="mb-v">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
+            <button className="mb-btn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Пропозиція →</button>
           </div>
         </>)}
 
@@ -489,11 +523,7 @@ export default function App() {
             <div className="cmeta">{r.region.name} · {today} · {r.itemCount} позицій кошторису</div>
           </div>
 
-          {furnOn && <div className="furntotals">
-            <span>Ремонт: <b>{fmtM(r.total * mk)}</b> грн</span>
-            <span>Комплектація: <b>{fmtM(furnTotal)}</b> грн</span>
-            <span className="ft-sum">Разом: <b>{fmtM(r.total * mk + furnTotal)}</b> грн</span>
-          </div>}
+
 
           <div className="snums">
             <div className="sn2"><div className="k">Вартість · ринкова вилка</div><div className="v">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div></div>
@@ -503,6 +533,7 @@ export default function App() {
           </div>
 
           <div className="confstrip">
+            <span className="timeline">📅 старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)} · {r.weeks} тижнів</span>
             {r.conf > 0 && <span className="confb">✓ {r.conf}% вартості робіт — живі ринкові ціни (rabotniki.ua{live ? ", " + live.updated : ""})</span>}
             {BETA && r.betaCount > 0 && <span className="vchip" title="Розцінки очікують перевірки експерта">β {r.betaCount} позицій неперевірено</span>}
             <button className="tl" onClick={() => setShowCmp(s => !s)}>{showCmp ? "Сховати порівняння ↑" : "Порівняти рівні ↓"}</button>
@@ -515,16 +546,7 @@ export default function App() {
             </div>)}
           </div>}
 
-          <div className="breakdown"><h3>Розподіл вартості</h3>
-            {r.rows.map(st => <div className="brow" key={st.id}><span className="blbl">{st.name.replace(/Етап \d+[аб]? · /, "").replace("Наскрізне · ", "")}</span>
-              <div className="btrack"><div className="bfill" style={{ width: `${(st.total / maxT) * 100}%`, opacity: .15 + (st.total / maxT) * .85 }} /></div>
-              <span className="bval">{fmt(st.total * mk)} · {(st.total / r.total * 100).toFixed(0)}%</span></div>)}
-          </div>
 
-          <div className="gantt"><h3>Графік робіт</h3><div className="gg">
-            {r.rows.filter(s => s.weeks > 0).map(st => <div className="gr" key={st.id}><span className="glbl">{st.name.replace(/Етап \d+[аб]? · /, "")}</span>
-              <div className="gtrack"><div className="gbar" style={{ left: `${(st.startWeek / r.totalWeeks) * 100}%`, width: `${Math.max((st.weeks / r.totalWeeks) * 100, 4)}%` }}>{stageDate(st.startWeek)}</div></div></div>)}
-          </div><div className="gmeta">{r.weeks} тижнів ({r.months} міс.) · старт {fmtD(sDate)} · здача ≈ {fmtD(finishDate)} · дати орієнтовні</div></div>
 
           <div className="filterbar no-print">
             <button className={"fchip" + (!grpFilter ? " on" : "")} onClick={() => setGrpFilter(null)}>Всі етапи</button>
@@ -580,6 +602,12 @@ export default function App() {
 
           <div className={"fc " + (r.budgetFit ? "ok" : "no")} style={{ borderRadius: 0, padding: "14px 28px", borderBottom: "1px solid var(--line)" }}>
             {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
+
+          {furnOn && <div className="furntotals">
+            <span>Ремонт: <b>{fmtM(r.total * mk)}</b> грн</span>
+            <span>Комплектація: <b>{fmtM(furnTotal)}</b> грн</span>
+            <span className="ft-sum">Разом: <b>{fmtM(r.total * mk + furnTotal)}</b> грн</span>
+          </div>}
 
           {furnOn && <div className="furnsec">
             <h3>Комплектація меблями, технікою та декором</h3>
@@ -638,9 +666,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="renders">
-            <div className="rph"><span className="t">{mode === "flat" ? "Вітальня" : "Екстер'єр"}</span><span className="d">{p.style}</span></div>
-            <div className="rph"><span className="t">{mode === "flat" ? "Санвузол" : "Інтер'єр"}</span><span className="d">{r.tier.name}</span></div></div>
+
 
           <div className="terms"><h3>Умови</h3>
             Попередня оцінка, не є офертою. Точний кошторис — після заміру. {live ? `Розцінки на роботи — середньоринкові за даними rabotniki.ua станом на ${live.updated}; матеріали — орієнтовно (Епіцентр, ${MATS_CHECKED}).` : `Ціни станом на ${today}.`} {BETA ? "Версія БЕТА: частина розцінок очікує перевірки експертом (позначені β)." : ""} Пропозиція дійсна 14 днів. Гарантія — 24 місяці.</div>
@@ -649,7 +675,7 @@ export default function App() {
             <div className="actions no-print">
               <button className="btn" onClick={() => { setView("form"); window.scrollTo(0, 0); }}>← Параметри</button>
               <button className="btn" onClick={exportXlsx}>Excel ↓</button>
-              <button className="btn blue" onClick={() => window.print()}>Зберегти PDF</button>
+              <button className="btn blue" onClick={() => { const all = {}; r.rows.forEach(x => all[x.id] = true); setOpn(all); setTimeout(() => window.print(), 150); }}>Зберегти PDF</button>
             </div></div>
         </div>}
       </div>
