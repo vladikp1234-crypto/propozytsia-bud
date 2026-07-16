@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-15",
+  "updated": "2026-07-16",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -53,7 +53,7 @@
       "min": 517,
       "max": 1250,
       "unit": "м²",
-      "price": 907,
+      "price": 905,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
