@@ -76,6 +76,20 @@ function calc(mode, p, rooms, selections, live) {
     budgetFit: budget ? low <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo), itemCount: allItems.length };
 }
 
+function useCount(v) {
+  const [d, setD] = useState(v);
+  useEffect(() => {
+    if (typeof requestAnimationFrame === "undefined") { setD(v); return; }
+    const s = d, e = v, t0 = performance.now(), dur = 350;
+    if (Math.abs(e - s) < 1) { setD(e); return; }
+    let raf;
+    const f = t => { const k = Math.min((t - t0) / dur, 1); setD(s + (e - s) * (k * (2 - k))); if (k < 1) raf = requestAnimationFrame(f); };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [v]); // eslint-disable-line
+  return d;
+}
+
 const fmt = n => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
 const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2).replace(".", ",") + "\u00a0млн" : fmt(n);
 
@@ -189,6 +203,7 @@ export default function App() {
   }, [mode, p, rooms, sel, live, r.total]);
 
   const mk = 1 + (admin ? margin : 0) / 100;
+  const lowA = useCount(r.low * mk), highA = useCount(r.high * mk);
   const today = new Date().toLocaleDateString("uk-UA");
   const fmtD = d => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
   const sDate = new Date(startDate + "T00:00:00");
@@ -463,7 +478,7 @@ export default function App() {
             <div className="rail no-print">
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
-                <div className="lv">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div>
+                <div className="lv">{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
                 <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.</div>
                 <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0) * mk)}</span></div>
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)}</span></div>
@@ -481,7 +496,7 @@ export default function App() {
           </div>
 
           <div className="mobilebar no-print">
-            <div className="mb-sum"><span className="mb-v">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
+            <div className="mb-sum"><span className="mb-v">{fmtM(lowA)} — {fmtM(highA)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
             <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Пропозиція →" : "Далі →"}</button>
           </div>
           </>);
