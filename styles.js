@@ -222,7 +222,24 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .btn{font-family:'Manrope';font-weight:700;font-size:12.5px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
 .btn:hover{border-color:var(--ink)}
 .btn.blue{background:var(--acc);border-color:var(--acc);color:#fff;font-family:'Unbounded';font-weight:600;font-size:12px}
-@media print{.no-print{display:none!important}.app{background:#fff}.wrap{padding:0;max-width:100%}.sheet{border:none;border-radius:0;box-shadow:none}.topbar{display:none}.snums,.breakdown,.gantt,.stage,.paysec,.inex,.terms,.renders,.sf{break-inside:avoid}}
+@media print{
+@page{margin:14mm 12mm}
+.no-print,.topbar,.betabar,.mobilebar,.wsteps,.wnav,.adminbar,.sharebtn{display:none!important}
+.app{background:#fff!important;background-image:none!important}
+.wrap{padding:0;max-width:100%}
+.sheet{border:none;border-radius:0;box-shadow:none}
+.cover{padding:20px 8px;background:#fff}
+.snums,.confstrip,.stage,.paysec,.inex,.terms,.furnsec .fgroup,.nextsteps,.instal{break-inside:avoid}
+.stage{page-break-inside:avoid}
+.segbtn{border:none;padding:2px 6px}
+.segbtn:not(.on){display:none}
+.seg .segbtn.on .sgn::after{content:" (обрано)"}
+.oqty button,.fqty button,.fchip,.tl{display:none!important}
+.frow.off{display:none}
+a{color:inherit;text-decoration:none}
+.srcline a::after{content:" (" attr(href) ")";font-size:8px;color:#999}
+.srcline a[href*="rabotniki"]::after,.srcline a[href*="epicentrk"]::after{content:""}
+}
 
 /* v3 additions */
 .betabar{background:#1A1C20;color:#fff;font-family:'IBM Plex Mono';font-size:11px;padding:8px 16px;text-align:center;letter-spacing:.3px}
@@ -275,4 +292,17 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .wstep.done .wn{background:var(--oks);color:var(--ok)}
 .wnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px}
 .wnav .btn.blue{padding:12px 26px}
+
+/* D4 polish */
+::selection{background:var(--acc2);color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.card{transition:box-shadow .15s}
+.card:hover{box-shadow:0 2px 12px rgba(26,28,32,.04)}
+.cb{padding:22px}
+.ch{padding:16px 22px}
+.stage .sth{transition:background .12s}
+.stb{animation:openin .18s ease}
+@keyframes openin{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.lv{transition:color .2s}
+h1,h2,h3{letter-spacing:-.2px}
 `;
