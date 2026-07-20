@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-19",
+  "updated": "2026-07-20",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -9,27 +9,27 @@
   },
   "works": {
     "walls_plaster": {
-      "count": 133,
+      "count": 132,
       "min": 250,
       "max": 517,
       "unit": "м²",
-      "price": 383,
+      "price": 382,
       "name": "Ручна Маякова штукатурка (до 2 см)",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
-      "count": 63,
+      "count": 64,
       "min": 300,
-      "max": 600,
+      "max": 425,
       "unit": "м²",
-      "price": 388,
+      "price": 371,
       "name": "Машинна штукатурка стін",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 126,
+      "count": 127,
       "min": 20,
       "max": 50,
       "unit": "м²",
@@ -43,7 +43,7 @@
       "min": 250,
       "max": 600,
       "unit": "м²",
-      "price": 377,
+      "price": 374,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -53,7 +53,7 @@
       "min": 517,
       "max": 1250,
       "unit": "м²",
-      "price": 909,
+      "price": 906,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -61,9 +61,9 @@
     "putty": {
       "count": 102,
       "min": 300,
-      "max": 580,
+      "max": 650,
       "unit": "м²",
-      "price": 463,
+      "price": 472,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -71,9 +71,9 @@
     "painting": {
       "count": 152,
       "min": 100,
-      "max": 250,
+      "max": 240,
       "unit": "м²",
-      "price": 191,
+      "price": 187,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -81,9 +81,9 @@
     "laminate": {
       "count": 108,
       "min": 150,
-      "max": 450,
+      "max": 380,
       "unit": "м²",
-      "price": 285,
+      "price": 278,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -133,7 +133,7 @@
       "min": 400,
       "max": 1000,
       "unit": "м²",
-      "price": 691,
+      "price": 678,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
