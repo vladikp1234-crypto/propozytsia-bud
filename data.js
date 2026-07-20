@@ -4,6 +4,21 @@
 
 export const BETA = true;
 
+/* Пресети-сценарії: один тап — готова конфігурація */
+export const PRESETS = [
+  { id: "rent", name: "Під оренду", hint: "економно й практично", apply: { tier: "econom", style: "Сучасний", opts: { slopes: true } } },
+  { id: "self", name: "Для себе", hint: "збалансований стандарт", apply: { tier: "standart", style: "Сучасний", opts: { slopes: true, ac: true, hiddenCurtain: true } } },
+  { id: "sale", name: "Під продаж", hint: "виглядає дорого, коштує розумно", apply: { tier: "standart", style: "Мінімалізм", opts: { slopes: true, led: true } } },
+];
+
+/* Обсяг ремонту: які групи етапів включати */
+export const SCOPES = [
+  { id: "full", name: "Під ключ", grps: null },
+  { id: "rough", name: "Тільки чорнові", grps: ["prep", "demolition", "walls", "rough", "engineering", "logistics"] },
+  { id: "finish", name: "Тільки чистові", grps: ["prep", "finish", "complete", "logistics"] },
+  { id: "bathroom", name: "Тільки санвузол", grps: null, wetOnly: true, exclude: ["windows", "entry"] },
+];
+
 export const REGIONS = [
   { id: "kyiv", name: "м. Київ", k: 1 },
   { id: "irpin", name: "Ірпінь / Буча", k: 0.97 },
