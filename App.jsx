@@ -4,7 +4,7 @@ import { css } from "./styles.js";
 import {
   BETA, REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, buildAgg,
-  FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS,
+  FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
   BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED, FURNITURE, FURN_GROUPS,
 } from "./data.js";
 
@@ -22,12 +22,17 @@ function buildOpts(it, live, baseW) {
   return { opts: [{ name: "Оцінка ПРОПОЗИЦІЯ.БУД", price: baseW, tag: "est" }], def: 0, lw: null };
 }
 
-function calc(mode, p, rooms, selections, live) {
+function calc(mode, p, rooms, selections, live, excl = {}) {
   const region = REGIONS.find(x => x.id === p.region) || REGIONS[0];
   const tier = TIERS[p.tier];
   const style = STYLE_MODS[p.style] || STYLE_MODS["Сучасний"];
-  const A = mode === "flat" ? buildAgg(rooms, p) : { total: p.area, baths: p.bathrooms };
-  const stages = (mode === "flat" ? FLAT_STAGES : HOUSE_STAGES).filter(s => !(s.cond && !s.cond(p)));
+  const scope = mode === "flat" ? (SCOPES.find(s => s.id === (p.scope || "full")) || SCOPES[0]) : SCOPES[0];
+  const useRooms = scope.wetOnly ? rooms.filter(rm => ROOM_TYPES[rm.type]?.wet) : rooms;
+  const A = mode === "flat" ? buildAgg(useRooms, p) : { total: p.area, baths: p.bathrooms };
+  const stages = (mode === "flat" ? FLAT_STAGES : HOUSE_STAGES)
+    .filter(s => !(s.cond && !s.cond(p)))
+    .filter(s => !scope.grps || scope.grps.includes(s.grp))
+    .filter(s => !(scope.exclude || []).includes(s.id));
   let wo = 0, betaCount = 0;
   const rows = stages.map(s => {
     const sk = style.mods[s.id] || 1;
@@ -57,44 +62,31 @@ function calc(mode, p, rooms, selections, live) {
     if (!items.length) return null;
     const wk = Math.round((s.weeks(A, p) || 0) * Math.sqrt(Math.max(A.total, 20) / (mode === "flat" ? 60 : 150)) * 10) / 10;
     const sw = wo; wo += wk * OVERLAP;
-    return { id: s.id, group: s.grp, name: s.name, scope: s.scope, sk, items, weeks: wk, startWeek: sw,
+    return { id: s.id, group: s.grp, name: s.name, scope: s.scope, sk, items, weeks: wk, startWeek: sw, off: !!excl[s.id],
       total: items.reduce((a, b) => a + b.total, 0), work: items.reduce((a, b) => a + b.work, 0), matSum: items.reduce((a, b) => a + b.matSum, 0) };
   }).filter(Boolean);
-  const total = rows.reduce((a, r) => a + r.total, 0);
-  const allItems = rows.flatMap(r => r.items);
+  const onRows = rows.filter(x => !x.off);
+  const total = onRows.reduce((a, r) => a + r.total, 0);
+  const allItems = onRows.flatMap(r => r.items);
   let low = allItems.reduce((a, i) => a + i.lowT, 0);
   let high = allItems.reduce((a, i) => a + i.highT, 0);
   low = Math.min(low, total * 0.98); high = Math.max(high, total * 1.02);
   const workSum = allItems.reduce((a, i) => a + i.work, 0);
   const liveWork = allItems.filter(i => i.lw).reduce((a, i) => a + i.work, 0);
   const conf = workSum ? Math.round((liveWork / workSum) * 100) : 0;
-  const weeks = Math.round(rows.reduce((a, r) => a + r.weeks, 0) * OVERLAP);
+  const weeks = Math.round(onRows.reduce((a, r) => a + r.weeks, 0) * OVERLAP);
   const budget = BUDGETS[mode].find(b => b.id === p.budget);
-  const sd = Object.keys(style.mods).length ? Math.round((total / rows.reduce((a, r) => a + r.total / (r.sk || 1), 0) - 1) * 100) : 0;
+  const sd = Object.keys(style.mods).length && total ? Math.round((total / Math.max(onRows.reduce((a, r) => a + r.total / (r.sk || 1), 0), 1) - 1) * 100) : 0;
   return { rows, total, region, tier, style, styleDelta: sd, low, high, conf, betaCount, A,
     perM2: Math.round(total / Math.max(A.total, 1)), weeks, months: Math.round((weeks / 4.33) * 10) / 10,
     budgetFit: budget ? low <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo), itemCount: allItems.length };
-}
-
-function useCount(v) {
-  const [d, setD] = useState(v);
-  useEffect(() => {
-    if (typeof requestAnimationFrame === "undefined") { setD(v); return; }
-    const s = d, e = v, t0 = performance.now(), dur = 350;
-    if (Math.abs(e - s) < 1) { setD(e); return; }
-    let raf;
-    const f = t => { const k = Math.min((t - t0) / dur, 1); setD(s + (e - s) * (k * (2 - k))); if (k < 1) raf = requestAnimationFrame(f); };
-    raf = requestAnimationFrame(f);
-    return () => cancelAnimationFrame(raf);
-  }, [v]); // eslint-disable-line
-  return d;
 }
 
 const fmt = n => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
 const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2).replace(".", ",") + "\u00a0млн" : fmt(n);
 
 const initF = { region: "kyiv", roomsCount: 2, bathrooms: 1, condition: "new", tier: "standart", style: "Сучасний", budget: "f3",
-  floor: 5, lift: "pass", acCount: 1, openingCount: 1, ledLen: 6, partArea: 12, area: 65, opts: { slopes: true } };
+  floor: 5, lift: "pass", acCount: 1, openingCount: 1, ledLen: 6, partArea: 12, area: 65, scope: "full", opts: { slopes: true } };
 const initH = { region: "kyiv", area: 150, floors: 2, roomsCount: 3, bathrooms: 2, condition: "new", tier: "standart", style: "Сучасний", budget: "h3", plot: 8, opts: {} };
 
 export default function App() {
@@ -124,6 +116,10 @@ export default function App() {
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [furnSel, setFurnSel] = useState({});
+  const [excl, setExcl] = useState({});
+  const [q, setQ] = useState("");
+  const [usd, setUsd] = useState(null);
+  const [variants, setVariants] = useState(() => { try { return JSON.parse(localStorage.getItem("pb_variants") || "[]"); } catch { return []; } });
 
   useEffect(() => {
     try {
@@ -146,13 +142,18 @@ export default function App() {
         if (saved.d != null) setDetail(saved.d);
         if (saved.fo != null) setFurnOn(saved.fo);
         if (saved.sd) setStartDate(saved.sd);
+        if (saved.ex) setExcl(saved.ex);
       }
     } catch {}
   }, []);
   useEffect(() => {
-    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate })); } catch {}
-  }, [mode, flat, house, rooms, detail, furnOn, startDate]);
+    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl })); } catch {}
+  }, [mode, flat, house, rooms, detail, furnOn, startDate, excl]);
 
+  useEffect(() => {
+    fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json")
+      .then(x => x.ok ? x.json() : null).then(d => { const r0 = d?.[0]?.rate; if (r0 > 10 && r0 < 200) setUsd(r0); }).catch(() => {});
+  }, []);
   useEffect(() => { fetch("/price-history.json").then(x => x.ok ? x.json() : null).then(h => { if (Array.isArray(h) && h.length > 1) setHist(h); }).catch(() => {}); }, []);
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
@@ -165,7 +166,7 @@ export default function App() {
     }
   };
   const toggleOpt = id => setP("opts", { ...p.opts, [id]: !p.opts[id] });
-  const r = useMemo(() => calc(mode, p, rooms, sel, live), [mode, p, rooms, sel, live]);
+  const r = useMemo(() => calc(mode, p, rooms, sel, live, excl), [mode, p, rooms, sel, live, excl]);
 
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
   const furnRows = useMemo(() => {
@@ -185,7 +186,7 @@ export default function App() {
 
   const cmp = useMemo(() => {
     const out = {};
-    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, rooms, sel, live).total;
+    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, rooms, sel, live, excl).total;
     return out;
   }, [mode, p, rooms, sel, live]);
 
@@ -195,15 +196,14 @@ export default function App() {
     const list = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
     for (const o of list) {
       const on = p.opts[o.id] ?? (o.def && p.condition === "new");
-      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live).total;
-      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live).total : r.total;
+      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live, excl).total;
+      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live, excl).total : r.total;
       out[o.id] = Math.max(totalWith - totalWithout, 0);
     }
     return out;
   }, [mode, p, rooms, sel, live, r.total]);
 
   const mk = 1 + (admin ? margin : 0) / 100;
-  const lowA = useCount(r.low * mk), highA = useCount(r.high * mk);
   const today = new Date().toLocaleDateString("uk-UA");
   const fmtD = d => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
   const sDate = new Date(startDate + "T00:00:00");
@@ -222,9 +222,29 @@ export default function App() {
     return d === 0 ? null : d;
   };
 
+  const saveVariant = () => {
+    const name = window.prompt("Назва варіанта:", "Варіант " + (variants.length + 1));
+    if (!name) return;
+    const v = { id: Date.now(), name, m: mode, f: flat, h: house, r: rooms, fo: furnOn, savedAt: new Date().toISOString().slice(0, 10) };
+    const next = [...variants, v].slice(-6);
+    setVariants(next);
+    try { localStorage.setItem("pb_variants", JSON.stringify(next)); } catch {}
+  };
+  const delVariant = id => {
+    const next = variants.filter(v => v.id !== id);
+    setVariants(next);
+    try { localStorage.setItem("pb_variants", JSON.stringify(next)); } catch {}
+  };
+  const restoreVariant = v => {
+    setMode(v.m); if (v.f) setFlat(v.f); if (v.h) setHouse(v.h);
+    if (v.r) { setRooms(v.r); setRoomsCustom(true); }
+    setFurnOn(!!v.fo); setView("form"); setStep(0); window.scrollTo(0, 0);
+  };
+  const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || rooms, {}, live);
+
   const shareLink = () => {
     try {
-      const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate };
+      const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl };
       const hash = "#c=" + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
       navigator.clipboard.writeText(window.location.origin + window.location.pathname + hash);
       window.history.replaceState(null, "", hash);
@@ -275,6 +295,10 @@ export default function App() {
   const swM = m => { setMode(m); setView("form"); setStep(0); setSel({}); setOpn({}); setGrpFilter(null); };
   const OPTS = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
   const shownRows = grpFilter ? r.rows.filter(x => x.group === grpFilter) : r.rows;
+  const ql = q.trim().toLowerCase();
+  const displayRows = ql
+    ? shownRows.map(st => ({ ...st, items: st.items.filter(i => i.label.toLowerCase().includes(ql)) })).filter(st => st.items.length)
+    : shownRows;
   const usedGroups = [...new Set(r.rows.map(x => x.group))];
   const updRoom = (id, patch) => { setRoomsCustom(true); setRooms(rs => rs.map(x => x.id === id ? { ...x, ...patch } : x)); };
   const delRoom = id => { setRoomsCustom(true); setRooms(rs => rs.filter(x => x.id !== id)); };
@@ -329,6 +353,20 @@ export default function App() {
             <div style={{ display: "grid", gap: 16 }}>
 
               {stepId === "obj" && <>
+                {mode === "flat" && <div className="card"><div className="ch"><span className="cn">Сценарій</span><h2>З чого почнемо</h2></div>
+                  <div className="cb">
+                    <label className="f">Готові сценарії <span className="hint">один тап — типова конфігурація, все можна змінити</span>
+                      <div className="chips">
+                        {PRESETS.map(pr => <button key={pr.id} className="chip" title={pr.hint}
+                          onClick={() => { setP("tier", pr.apply.tier); setP("style", pr.apply.style); setP("opts", { ...pr.apply.opts }); }}>{pr.name}</button>)}
+                      </div></label>
+                    <label className="f">Обсяг ремонту
+                      <div className="chips">
+                        {SCOPES.map(s => <button key={s.id} className={"chip acc" + ((p.scope || "full") === s.id ? " on" : "")} onClick={() => setP("scope", s.id)}>{s.name}</button>)}
+                      </div>
+                      {(p.scope || "full") === "bathroom" && <span className="hint">Рахуються лише мокрі зони (санвузли) з вашого списку кімнат</span>}
+                      {(p.scope || "full") === "finish" && <span className="hint">Припускаємо, що чорнові роботи вже виконані</span>}</label>
+                  </div></div>}
                 <div className="card"><div className="ch"><span className="cn">{mode === "flat" ? "Обʼєкт" : "Будинок"}</span><h2>Де і що ремонтуємо</h2></div>
                   <div className="cb">
                     <div className="g2">
@@ -478,8 +516,8 @@ export default function App() {
             <div className="rail no-print">
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
-                <div className="lv">{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
-                <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.</div>
+                <div className="lv">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div>
+                <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.{usd && <> · ≈ ${fmt(r.low * mk / usd)}–${fmt(r.high * mk / usd)}</>}</div>
                 <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0) * mk)}</span></div>
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)}</span></div>
                 {furnOn && <div className="lr"><span>Комплектація</span><span>{fmtM(furnTotal)}</span></div>}
@@ -492,15 +530,49 @@ export default function App() {
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
               <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>💾 Зберегти варіант</button>
+                {variants.length > 0 && <button className="sharebtn" style={{ flex: 1 }} onClick={() => { setView("variants"); window.scrollTo(0, 0); }}>⇄ Варіанти ({variants.length})</button>}
+              </div>
             </div>
           </div>
 
           <div className="mobilebar no-print">
-            <div className="mb-sum"><span className="mb-v">{fmtM(lowA)} — {fmtM(highA)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
+            <div className="mb-sum"><span className="mb-v">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
             <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Пропозиція →" : "Далі →"}</button>
           </div>
           </>);
         })()}
+
+        {view === "variants" && <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+            <h2 style={{ fontFamily: "Unbounded", fontSize: 20 }}>Порівняння варіантів</h2>
+            <button className="btn" onClick={() => setView("form")}>← Назад</button>
+          </div>
+          <div className="vgrid">
+            <div className="vcard current">
+              <div className="vname">Поточний</div>
+              <div className="vsum">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</div>
+              <div className="vmeta">{Math.round(r.A.total)} м² · {r.tier.name} · {p.style}</div>
+              <div className="vmeta">{r.months} міс · {r.itemCount} позицій{furnOn ? ` · меблі +${fmtM(furnTotal)}` : ""}</div>
+            </div>
+            {variants.map(v => {
+              const vc = variantCalc(v);
+              return <div className="vcard" key={v.id}>
+                <div className="vname">{v.name} <span className="hint">· {v.savedAt}</span></div>
+                <div className="vsum">{fmtM(vc.low * mk)} — {fmtM(vc.high * mk)}</div>
+                <div className="vmeta">{Math.round(vc.A.total)} м² · {vc.tier.name} · {(v.m === "flat" ? v.f : v.h).style}</div>
+                <div className="vmeta">{vc.months} міс · {vc.itemCount} позицій</div>
+                <div className="vdelta">{vc.total > r.total ? "+" : "−"}{fmtM(Math.abs(vc.total - r.total) * mk)} до поточного</div>
+                <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+                  <button className="btn" style={{ flex: 1 }} onClick={() => restoreVariant(v)}>Відкрити</button>
+                  <button className="btn" onClick={() => delVariant(v.id)}>🗑</button>
+                </div>
+              </div>;
+            })}
+          </div>
+          <p className="hint" style={{ marginTop: 14 }}>Зберігається до 6 варіантів на цьому пристрої. Розрахунки оновлюються за актуальними цінами.</p>
+        </div>}
 
         {view === "leads" && <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
@@ -588,21 +660,24 @@ export default function App() {
 
 
           <div className="filterbar no-print">
+            <input className="searchin" value={q} onChange={e => setQ(e.target.value)} placeholder="🔎 Пошук: плитка, кабель, двері…" />
             <button className={"fchip" + (!grpFilter ? " on" : "")} onClick={() => setGrpFilter(null)}>Всі етапи</button>
             {usedGroups.map(g => <button key={g} className={"fchip" + (grpFilter === g ? " on" : "")} onClick={() => setGrpFilter(grpFilter === g ? null : g)}>{GROUPS[g]}</button>)}
             <button className="fchip x" onClick={() => { const all = {}; r.rows.forEach(x => all[x.id] = true); setOpn(Object.keys(opn).length === r.rows.length ? {} : all); }}>
               {Object.keys(opn).length === r.rows.length ? "Згорнути все" : "Розгорнути все"}</button>
           </div>
 
-          {shownRows.map(st => <div key={st.id} className={"stage" + (opn[st.id] ? " open" : "")}>
+          {r.rows.some(x => x.off) && <div className="exclnote no-print">✂️ Виключено {r.rows.filter(x => x.off).length} етап(и) — «зроблю сам». Підсумок їх не враховує.</div>}
+          {displayRows.map(st => <div key={st.id} className={"stage" + ((opn[st.id] || ql) ? " open" : "") + (st.off ? " off" : "")}>
             <div className="sth" onClick={() => setOpn(o => ({ ...o, [st.id]: !o[st.id] }))}>
               <span className="st-caret">▸</span>
               <span className="st-grp">{GROUPS[st.group]}</span>
               <span className="st-name">{st.name}</span>
               {st.sk !== 1 && <span className="st-badge">{st.sk > 1 ? "+" : ""}{Math.round((st.sk - 1) * 100)}%</span>}
+              <button className="exbtn no-print" onClick={e => { e.stopPropagation(); setExcl(x => ({ ...x, [st.id]: !x[st.id] })); }}>{st.off ? "↩ повернути" : "✂ зроблю сам"}</button>
               {st.weeks > 0 && <span className="st-wk">{st.weeks}т</span>}
-              <span className="st-tot">{fmt(st.total * mk)}</span></div>
-            {opn[st.id] && <div className="stb"><div className="scope">{st.scope}</div>
+              <span className="st-tot">{st.off ? <s>{fmt(st.total * mk)}</s> : fmt(st.total * mk)}</span></div>
+            {(opn[st.id] || ql) && <div className="stb"><div className="scope">{st.scope}</div>
               {st.items.map(it => <div className="item" key={it.key}>
                 <div className="itop"><span className="ilbl">{it.label}{!it.ver && <span className="vchip" title="Розцінка очікує перевірки експерта">β</span>}</span><span className="iqty">{fmt(it.qty)} {it.unit} · <b>{fmt(it.total * mk)} грн</b></span></div>
                 <div className="segrow">
