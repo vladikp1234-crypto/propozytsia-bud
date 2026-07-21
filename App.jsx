@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { css } from "./styles.js";
 import {
-  BETA, REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS,
-  ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, buildAgg,
+  BETA, REGIONS, TIERS, TIER_TABLE, GROUPS, FOUNDATIONS, WALLS, ROOFS, HEATING,
+  ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, defaultHouseRooms, buildAgg,
   FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
   BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, FURNITURE, FURN_GROUPS,
 } from "./data.js";
@@ -32,25 +32,27 @@ function buildOpts(it, live, baseW) {
 function calc(mode, p, rooms, selections, live, excl = {}, lmat = null) {
   const region = REGIONS.find(x => x.id === p.region) || REGIONS[0];
   const tier = TIERS[p.tier];
-  const style = STYLE_MODS[p.style] || STYLE_MODS["Сучасний"];
   const scope = mode === "flat" ? (SCOPES.find(s => s.id === (p.scope || "full")) || SCOPES[0]) : SCOPES[0];
   const useRooms = scope.wetOnly ? rooms.filter(rm => ROOM_TYPES[rm.type]?.wet) : rooms;
-  const A = mode === "flat" ? buildAgg(useRooms, p) : { total: p.area, baths: p.bathrooms };
+  const A = buildAgg(useRooms, p);
   const stages = (mode === "flat" ? FLAT_STAGES : HOUSE_STAGES)
     .filter(s => !(s.cond && !s.cond(p)))
     .filter(s => !scope.grps || scope.grps.includes(s.grp))
     .filter(s => !(scope.exclude || []).includes(s.id));
   let wo = 0, betaCount = 0;
   const rows = stages.map(s => {
-    const sk = style.mods[s.id] || 1;
+    const sk = 1;
     const items = s.items.map(it => {
       const qty = Math.round(it.q(A, p) * 10) / 10;
       if (!qty || qty <= 0) return null;
       const baseW = it.dynW ? it.dynW(p) : it.w;
+      const baseM = it.dynM ? it.dynM(p) : it.m;
+      const kwMul = it.kw ? it.kw(p) : 1;
+      const kmMul = it.km ? it.km(p) : 1;
       const { opts, def, lw } = buildOpts(it, live, baseW);
       const sel = selections[it.k] ?? def;
       const o = opts[Math.min(sel, opts.length - 1)];
-      const pr = Math.round(o.price * tier.kWork * region.k * sk);
+      const pr = Math.round(o.price * tier.kWork * region.k * sk * kwMul);
       // Каталог матеріалів: живі ціни Епіцентру мають пріоритет над кураторськими
       const liveCat = it.mats && lmat?.cats?.[it.mats];
       const matOpts = it.mats
@@ -62,7 +64,7 @@ function calc(mode, p, rooms, selections, live, excl = {}, lmat = null) {
       const matDef = matOpts ? Math.min({ econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1, matOpts.length - 1) : 0;
       const matSel = matOpts ? (selections["m:" + it.k] ?? matDef) : 0;
       const matChosen = matOpts ? matOpts[Math.min(matSel, matOpts.length - 1)] : null;
-      const mt = matOpts ? Math.round(matChosen.price * region.k) : Math.round(it.m * tier.kMat * region.k * sk);
+      const mt = matOpts ? Math.round(matChosen.price * region.k) : Math.round(baseM * tier.kMat * region.k * sk * kmMul);
       const total = qty * (pr + mt);
       let lowT, highT;
       if (lw) {
@@ -90,8 +92,7 @@ function calc(mode, p, rooms, selections, live, excl = {}, lmat = null) {
   const conf = workSum ? Math.round((liveWork / workSum) * 100) : 0;
   const weeks = Math.round(onRows.reduce((a, r) => a + r.weeks, 0) * OVERLAP);
   const budget = BUDGETS[mode].find(b => b.id === p.budget);
-  const sd = Object.keys(style.mods).length && total ? Math.round((total / Math.max(onRows.reduce((a, r) => a + r.total / (r.sk || 1), 0), 1) - 1) * 100) : 0;
-  return { rows, total, region, tier, style, styleDelta: sd, low, high, conf, betaCount, A,
+  return { rows, total, region, tier, low, high, conf, betaCount, A,
     perM2: Math.round(total / Math.max(A.total, 1)), weeks, months: Math.round((weeks / 4.33) * 10) / 10,
     budgetFit: budget ? low <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo), itemCount: allItems.length };
 }
@@ -134,15 +135,17 @@ function useCount(v) {
 const fmt = n => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
 const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2).replace(".", ",") + "\u00a0млн" : fmt(n);
 
-const initF = { region: "kyiv", roomsCount: 2, bathrooms: 1, condition: "new", tier: "standart", style: "Сучасний", budget: "f3",
+const initF = { region: "kyiv", roomsCount: 2, bathrooms: 1, condition: "new", tier: "standart", budget: "f3",
   floor: 5, lift: "pass", acCount: 1, openingCount: 1, ledLen: 6, partArea: 12, area: 65, scope: "full", opts: { slopes: true } };
-const initH = { region: "kyiv", area: 150, floors: 2, roomsCount: 3, bathrooms: 2, condition: "new", tier: "standart", style: "Сучасний", budget: "h3", plot: 8, opts: {} };
+const initH = { region: "kyiv", area: 150, floors: 2, roomsCount: 3, bathrooms: 2, tier: "standart", budget: "h3", plot: 8,
+  foundation: "strip", walls: "aerobloc", roof: "metal", heating: "gas", opts: { well: true, septic: true } };
 
 export default function App() {
-  const [mode, setMode] = useState("flat");
+  const [mode, setMode] = useState("house");
   const [flat, setFlat] = useState(initF);
   const [house, setHouse] = useState(initH);
   const [rooms, setRooms] = useState(() => defaultRooms(2, 1, 65));
+  const [hrooms, setHrooms] = useState(() => defaultHouseRooms(3, 2, 150, 2));
   const [roomsCustom, setRoomsCustom] = useState(false);
   const [preset, setPreset] = useState(null);
   const [view, setView] = useState("form");
@@ -189,6 +192,7 @@ export default function App() {
         if (saved.f) setFlat(x => ({ ...x, ...saved.f }));
         if (saved.h) setHouse(x => ({ ...x, ...saved.h }));
         if (saved.r) { setRooms(saved.r); setRoomsCustom(true); }
+        if (saved.hr) { setHrooms(saved.hr); setRoomsCustom(true); }
         if (saved.m) setMode(saved.m);
         if (saved.d != null) setDetail(saved.d);
         if (saved.fo != null) setFurnOn(saved.fo);
@@ -197,8 +201,8 @@ export default function App() {
     } catch {}
   }, []);
   useEffect(() => {
-    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl })); } catch {}
-  }, [mode, flat, house, rooms, detail, furnOn, startDate, excl]);
+    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, hr: hrooms, d: detail, fo: furnOn, sd: startDate, ex: excl })); } catch {}
+  }, [mode, flat, house, rooms, hrooms, detail, furnOn, startDate, excl]);
 
   useEffect(() => {
     fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json")
@@ -211,7 +215,7 @@ export default function App() {
   const p = mode === "flat" ? flat : house;
   // Слайдери ЗАВЖДИ впливають на список кімнат — навіть після ручного налаштування.
   // Ручні площі/оздоблення зберігаються: кімнати додаються/видаляються, площі масштабуються.
-  const syncRooms = (next, k) => setRooms(rs => {
+  const syncRooms = (next, k) => setARooms(rs => {
     let out = [...rs];
     if (k === "roomsCount") {
       const living = out.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen"].includes(x.type));
@@ -244,21 +248,23 @@ export default function App() {
   const setP = (k, v) => {
     if (["tier", "style", "opts"].includes(k)) setPreset(null);
     (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
-    if (mode === "flat" && ["roomsCount", "bathrooms", "area"].includes(k)) syncRooms({ ...flat, [k]: v }, k);
+    if (["roomsCount", "bathrooms", "area"].includes(k)) syncRooms({ ...p, [k]: v }, k);
   };
 
   const applyPreset = pr => {
-    setFlat(s => ({ ...s, tier: pr.apply.tier, style: pr.apply.style, opts: { ...pr.apply.opts } }));
+    setFlat(s => ({ ...s, tier: pr.apply.tier, opts: { ...pr.apply.opts } }));
     setPreset(pr.id);
   };
   const toggleOpt = id => setP("opts", { ...p.opts, [id]: !p.opts[id] });
-  const r = useMemo(() => calc(mode, p, rooms, sel, live, excl, lmat), [mode, p, rooms, sel, live, excl, lmat]);
+  const aRooms = mode === "flat" ? rooms : hrooms;
+  const setARooms = mode === "flat" ? setRooms : setHrooms;
+  const r = useMemo(() => calc(mode, p, aRooms, sel, live, excl, lmat), [mode, p, aRooms, sel, live, excl, lmat]);
 
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
   const furnRows = useMemo(() => {
     if (!furnOn) return [];
     return FURNITURE.map(f => {
-      const fp = { ...p, rooms: p.roomsCount, windowsCount: r.A.wins || 3 };
+      const fp = { ...p, rooms: roomStats.living, bathrooms: r.A.baths, windowsCount: r.A.wins || 3 };
       const defQty = f.qty(fp);
       const s = furnSel[f.id] || {};
       const on = s.on ?? defQty > 0;
@@ -272,7 +278,7 @@ export default function App() {
 
   const cmp = useMemo(() => {
     const out = {};
-    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, rooms, sel, live, excl, lmat).total;
+    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, aRooms, sel, live, excl, lmat).total;
     return out;
   }, [mode, p, rooms, sel, live]);
 
@@ -282,19 +288,70 @@ export default function App() {
     const list = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
     for (const o of list) {
       const on = p.opts[o.id] ?? (o.def && p.condition === "new");
-      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live, excl, lmat).total;
-      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live, excl, lmat).total : r.total;
+      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, aRooms, sel, live, excl, lmat).total;
+      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, aRooms, sel, live, excl, lmat).total : r.total;
       out[o.id] = Math.max(totalWith - totalWithout, 0);
     }
     return out;
   }, [mode, p, rooms, sel, live, r.total]);
 
+  // ── Порадник бюджету: рахує реальну економію кожного варіанта і сортує за вигодою ──
+  const budgetAdvice = useMemo(() => {
+    const b = BUDGETS[mode].find(x => x.id === p.budget);
+    if (!b || b.max === Infinity) return null;
+    const over = r.low - b.max;
+    if (over <= 0) return null;
+    const T = patch => calc(mode, { ...p, ...patch }, patch.__rooms || aRooms, sel, live, excl, lmat).low;
+    const cands = [];
+    const push = (label, why, patch) => {
+      const save = r.low - T(patch);
+      if (save > 1000) cands.push({ label, why, save, patch });
+    };
+    // 1) рівень оздоблення
+    if (p.tier === "premium") push("Рівень: преміум → стандарт", "оздоблення й сантехніка середнього сегмента", { tier: "standart" });
+    if (p.tier !== "econom") push("Рівень: → економ", "надійні бюджетні матеріали", { tier: "econom" });
+    // 2) опції — від найдорожчої
+    const optList = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
+    for (const o of optList) {
+      const on = p.opts[o.id] ?? (o.def && p.condition === "new");
+      if (!on) continue;
+      push(`Відмовитись: ${o.name}`, o.hint || "можна додати пізніше", { opts: { ...p.opts, [o.id]: false } });
+    }
+    // 3) конструктив (будинок)
+    if (mode === "house") {
+      if (p.roof !== "metal") push("Покрівля → металочерепиця", "найпоширеніше рішення, дешевше в монтажі", { roof: "metal" });
+      if (p.heating === "heatpump") push("Опалення → газовий котел", "дешевше на старті, дорожче в експлуатації", { heating: "gas" });
+      if (p.walls !== "aerobloc") push("Стіни → газоблок", "оптимальне співвідношення ціна/тепло", { walls: "aerobloc" });
+      if (p.foundation === "slab") push("Фундамент → стрічковий", "якщо дозволяє геологія", { foundation: "strip" });
+    }
+    // 4) кімнати (квартира) — покриття
+    if (aRooms.some(x => x.floor === "parquet")) {
+      push("Інженерна дошка → вініл/ламінат", "візуально близько, у 3 рази дешевше",
+        { __rooms: aRooms.map(x => x.floor === "parquet" ? { ...x, floor: "lam" } : x) });
+    }
+    if (aRooms.some(x => x.walls === "decor")) {
+      push("Декоративна штукатурка → фарбування", "акцент можна зробити пізніше",
+        { __rooms: aRooms.map(x => x.walls === "decor" ? { ...x, walls: "paint" } : x) });
+    }
+    cands.sort((a, c) => c.save - a.save);
+    // мінімальний набір, що закриває перевищення
+    const plan = []; let acc = 0;
+    for (const c of cands) { if (acc >= over) break; plan.push(c); acc += c.save; }
+    return { over, cands: cands.slice(0, 6), plan, covered: acc >= over, budgetName: b.name };
+  }, [mode, p, aRooms, sel, live, excl, lmat, r.low]);
+
+  const applyAdvice = c => {
+    if (c.patch.__rooms) { setARooms(c.patch.__rooms); setRoomsCustom(true); }
+    const { __rooms, ...rest } = c.patch;
+    if (Object.keys(rest).length) (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, ...rest }));
+  };
+
   const mk = 1 + (admin ? margin : 0) / 100;
   const roomStats = useMemo(() => ({
-    total: rooms.length,
-    living: rooms.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen"].includes(x.type)).length,
-    wet: rooms.filter(x => ROOM_TYPES[x.type].wet).length,
-  }), [rooms]);
+    total: aRooms.length,
+    living: aRooms.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen", "boilerroom", "garage", "terraceR"].includes(x.type)).length,
+    wet: aRooms.filter(x => ROOM_TYPES[x.type].wet).length,
+  }), [aRooms]);
   const lowA = useCount(r.low * mk), highA = useCount(r.high * mk);
   const today = new Date().toLocaleDateString("uk-UA");
   const fmtD = d => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
@@ -317,7 +374,7 @@ export default function App() {
   const saveVariant = () => {
     const name = window.prompt("Назва варіанта:", "Варіант " + (variants.length + 1));
     if (!name) return;
-    const v = { id: Date.now(), name, m: mode, f: flat, h: house, r: rooms, fo: furnOn, savedAt: new Date().toISOString().slice(0, 10) };
+    const v = { id: Date.now(), name, m: mode, f: flat, h: house, r: aRooms, fo: furnOn, savedAt: new Date().toISOString().slice(0, 10) };
     const next = [...variants, v].slice(-6);
     setVariants(next);
     try { localStorage.setItem("pb_variants", JSON.stringify(next)); } catch {}
@@ -329,10 +386,10 @@ export default function App() {
   };
   const restoreVariant = v => {
     setMode(v.m); if (v.f) setFlat(v.f); if (v.h) setHouse(v.h);
-    if (v.r) { setRooms(v.r); setRoomsCustom(true); }
+    if (v.r) { (v.m === "flat" ? setRooms : setHrooms)(v.r); setRoomsCustom(true); }
     setFurnOn(!!v.fo); setView("form"); setStep(0); window.scrollTo(0, 0);
   };
-  const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || rooms, {}, live, {}, lmat);
+  const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || aRooms, {}, live, {}, lmat);
 
   // Номер документа: детермінований від конфігурації і дати
   const docNo = useMemo(() => {
@@ -346,7 +403,7 @@ export default function App() {
   useEffect(() => {
     if (view !== "sheet") return;
     try {
-      const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl };
+      const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, hr: hrooms, d: detail, fo: furnOn, sd: startDate, ex: excl };
       const url = window.location.origin + "/#c=" + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
       import("qrcode").then(Q => Q.toDataURL(url, { margin: 0, width: 120, color: { dark: "#1A1C20", light: "#FFFFFF" } })).then(setQr).catch(() => {});
     } catch {}
@@ -377,7 +434,7 @@ export default function App() {
     const XLSX = await import("xlsx");
     const wsData = [
       ["ПРОПОЗИЦІЯ.БУД — Кошторис" + (BETA ? " (БЕТА)" : ""), "", "", "", "", "", ""],
-      [mode === "flat" ? `Ремонт ${r.A.total} м², кімнат: ${rooms.filter(x => x.type !== "bath" && x.type !== "wc" && x.type !== "hall" && x.type !== "balcony").length}` : `Будинок ${p.area} м²`, r.region.name, r.tier.name, p.style, "", "", today],
+      [mode === "flat" ? `Ремонт ${r.A.total} м², кімнат: ${roomStats.living}` : `Будинок ${p.area} м²`, r.region.name, r.tier.name, "", "", today],
       [],
       ["Етап", "Позиція", "К-сть", "Од.", "Робота грн/од", "Матеріал грн/од", "Разом грн"],
     ];
@@ -411,9 +468,9 @@ export default function App() {
     ? shownRows.map(st => ({ ...st, items: st.items.filter(i => i.label.toLowerCase().includes(ql)) })).filter(st => st.items.length)
     : shownRows;
   const usedGroups = [...new Set(r.rows.map(x => x.group))];
-  const updRoom = (id, patch) => { setRoomsCustom(true); setRooms(rs => rs.map(x => x.id === id ? { ...x, ...patch } : x)); };
-  const delRoom = id => { setRoomsCustom(true); setRooms(rs => rs.filter(x => x.id !== id)); };
-  const addRoom = t => { setRoomsCustom(true); setRooms(rs => [...rs, newRoom(t)]); };
+  const updRoom = (id, patch) => { setRoomsCustom(true); setARooms(rs => rs.map(x => x.id === id ? { ...x, ...patch } : x)); };
+  const delRoom = id => { setRoomsCustom(true); setARooms(rs => rs.filter(x => x.id !== id)); };
+  const addRoom = t => { setRoomsCustom(true); setARooms(rs => [...rs, newRoom(t, mode === "house" ? { lvl: 1 } : {})]); };
 
   return (
     <div className="app"><style>{css}</style>
@@ -429,12 +486,12 @@ export default function App() {
       <div className="wrap">
         {view === "form" && (() => {
           const STEPS = mode === "flat"
-            ? [{ id: "obj", t: "Обʼєкт" }, { id: "rooms", t: "Кімнати" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }]
-            : [{ id: "obj", t: "Будинок" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }];
+            ? [{ id: "obj", t: "Обʼєкт і бюджет" }, { id: "rooms", t: "Кімнати" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Рівень" }]
+            : [{ id: "obj", t: "Будинок і бюджет" }, { id: "constr", t: "Конструктив" }, { id: "rooms", t: "Приміщення" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Рівень" }];
           const stepId = STEPS[Math.min(step, STEPS.length - 1)].id;
           const optsChosen = OPTS.filter(o => p.opts[o.id] ?? (o.def && p.condition === "new")).length;
           const goto = i => { setStep(Math.max(0, Math.min(i, STEPS.length - 1))); window.scrollTo({ top: 0, behavior: "smooth" }); };
-          const next = () => step >= STEPS.length - 1 ? (setView("lead"), window.scrollTo(0, 0)) : goto(step + 1);
+          const next = () => step >= STEPS.length - 1 ? (setView("sheet"), window.scrollTo(0, 0)) : goto(step + 1);
           return (<>
           {step === 0 && <div className="hero">
             <h1>{mode === "flat" ? "Ремонт під ключ — з ціною одразу" : "Будинок — з ціною та строком одразу"}</h1>
@@ -466,6 +523,16 @@ export default function App() {
             <div style={{ display: "grid", gap: 16 }}>
 
               {stepId === "obj" && <>
+                <div className="card"><div className="ch"><span className="cn">Бюджет</span><h2>Скільки плануєте витратити</h2></div>
+                  <div className="cb">
+                    <label className="f">Орієнтовний бюджет
+                      <div className="chips">
+                        {BUDGETS[mode].map(b => <button key={b.id} className={"chip acc" + (p.budget === b.id ? " on" : "")} onClick={() => setP("budget", b.id)}>{b.name}</button>)}
+                      </div>
+                      <span className="hint">Розрахунок покаже, чи вписується проєкт, і як залишитись у межах</span></label>
+                    <label className="f">Бажаний старт робіт<input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} style={{ maxWidth: 200 }} /></label>
+                  </div></div>
+
                 {mode === "flat" && <div className="card"><div className="ch"><span className="cn">Сценарій</span><h2>З чого почнемо</h2></div>
                   <div className="cb">
                     <label className="f">Готові сценарії <span className="hint">один тап — типова конфігурація, все можна змінити</span>
@@ -516,10 +583,27 @@ export default function App() {
                   </div></div></div>}
               </>}
 
-              {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">Кімнати</span><h2>{roomStats.living} кімн. · {roomStats.wet} с/в · {r.A.total} м²</h2></div>
+              {stepId === "constr" && <div className="card"><div className="ch"><span className="cn">Конструктив</span><h2>З чого будуємо</h2></div>
                 <div className="cb">
-                  <label className="f">Загальна площа
-                    <div className="rr"><input type="range" min="30" max="180" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
+                  <label className="f">Фундамент <span className="hint">тип обирається за результатами геології</span>
+                    <div className="chips">{Object.entries(FOUNDATIONS).map(([k, v]) => <button key={k} className={"chip acc" + (p.foundation === k ? " on" : "")} onClick={() => setP("foundation", k)}>{v.name}</button>)}</div>
+                    <span className="hint">{(FOUNDATIONS[p.foundation] || FOUNDATIONS.strip).note}</span></label>
+                  <label className="f">Матеріал стін
+                    <div className="chips">{Object.entries(WALLS).map(([k, v]) => <button key={k} className={"chip acc" + (p.walls === k ? " on" : "")} onClick={() => setP("walls", k)}>{v.name}</button>)}</div>
+                    <span className="hint">{(WALLS[p.walls] || WALLS.aerobloc).note}{(WALLS[p.walls] || WALLS.aerobloc).ins ? ` · утеплення ${(WALLS[p.walls] || WALLS.aerobloc).ins} мм` : " · утеплення в складі стіни"}</span></label>
+                  <label className="f">Покрівля
+                    <div className="chips">{Object.entries(ROOFS).map(([k, v]) => <button key={k} className={"chip acc" + (p.roof === k ? " on" : "")} onClick={() => setP("roof", k)}>{v.name}</button>)}</div>
+                    <span className="hint">{(ROOFS[p.roof] || ROOFS.metal).note}</span></label>
+                  <label className="f">Опалення
+                    <div className="chips">{Object.entries(HEATING).map(([k, v]) => <button key={k} className={"chip acc" + (p.heating === k ? " on" : "")} onClick={() => setP("heating", k)}>{v.name}</button>)}</div>
+                    <span className="hint">{(HEATING[p.heating] || HEATING.gas).note}</span></label>
+                  <div className="condnote">Площа забудови ≈ {Math.round((p.area / (p.floors || 1)) * 1.1)} м² · периметр ≈ {Math.round(4 * Math.sqrt((p.area / (p.floors || 1)) * 1.1))} м · зовнішні стіни ≈ {Math.round(4 * Math.sqrt((p.area / (p.floors || 1)) * 1.1) * 2.9 * (p.floors || 1) * 0.85)} м² — з цього рахуються обсяги</div>
+                </div></div>}
+
+              {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">{mode === "house" ? "Приміщення" : "Кімнати"}</span><h2>{roomStats.living} кімн. · {roomStats.wet} с/в · {r.A.total} м²</h2></div>
+                <div className="cb">
+                  <label className="f">{mode === "house" ? "Житлова площа (сума приміщень)" : "Загальна площа"}
+                    <div className="rr"><input type="range" min={mode === "house" ? 60 : 30} max={mode === "house" ? 400 : 180} step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
                   <div className="g2">
                     <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
                     <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
@@ -527,15 +611,18 @@ export default function App() {
                   <button className="tl" onClick={() => setDetail(d => !d)}>{detail ? "Згорнути кімнати ↑" : "Налаштувати кожну кімнату окремо ↓"}</button>
                   {detail && (<>
                     <div style={{ display: "grid", gap: 10 }}>
-                      {rooms.map((rm, ri) => {
+                      {aRooms.map((rm, ri) => {
                         const t = ROOM_TYPES[rm.type];
-                        const sameType = rooms.filter(x => x.type === rm.type);
+                        const sameType = aRooms.filter(x => x.type === rm.type);
                         const label = sameType.length > 1 ? `${t.name} ${sameType.indexOf(rm) + 1}` : t.name;
                         return <div className="roomcard" key={rm.id}>
                           <div className="roomhead"><span>{t.emoji}</span><span className="rn">{label}</span>
                             <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити">✕</button></div>
                           <div className="rrow">
-                            <label className="rf">Площа, м²<NumInput value={rm.area} def={ROOM_TYPES[rm.type].defA} min={1} max={80} step={0.5} onChange={v => updRoom(rm.id, { area: v })} /></label>
+                            {mode === "house" && (p.floors || 1) > 1 && <label className="rf">Поверх
+                              <select value={rm.lvl || 1} onChange={e => updRoom(rm.id, { lvl: +e.target.value })} style={{ width: 68 }}>
+                                {Array.from({ length: p.floors || 1 }, (_, i) => i + 1).map(n => <option key={n} value={n}>{n}</option>)}</select></label>}
+                            <label className="rf">Площа, м²<NumInput value={rm.area} def={ROOM_TYPES[rm.type].defA} min={1} max={120} step={0.5} onChange={v => updRoom(rm.id, { area: v })} /></label>
                             <label className="rf">Висота, м<NumInput value={rm.h} def={2.7} min={2.3} max={4} step={0.05} onChange={v => updRoom(rm.id, { h: v })} /></label>
                             <label className="rf">Вікон<NumInput value={rm.win} def={0} min={0} max={6} onChange={v => updRoom(rm.id, { win: v })} /></label>
                             <label className="rf">Дверей<NumInput value={rm.doors} def={0} min={0} max={4} onChange={v => updRoom(rm.id, { doors: v })} /></label>
@@ -593,37 +680,29 @@ export default function App() {
                       </div>;
                     })}
                   </div></div>
-                <div className="card"><div className="ch"><span className="cn">＋</span><h2>Комплектація меблями</h2></div>
+                <div className="card"><div className="ch"><span className="cn">＋</span><h2>Меблі, техніка й декор</h2></div>
                   <div className="cb">
                     <div className={"optbox" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)} style={{ maxWidth: 480 }}>
                       <div className="cbx">{furnOn ? "✓" : ""}</div>
-                      <div style={{ flex: 1 }}><div className="ot">Додати меблі, техніку й декор</div>
-                        <div className="od">Окремим підсумком. Деталі — у пропозиції.</div></div>
+                      <div style={{ flex: 1 }}><div className="ot">Додати до розрахунку</div>
+                        <div className="od">Окремим підсумком — не змішується з будівництвом</div></div>
                       {furnOn && <span className="odelta">+{fmtM(furnTotal)}</span>}
                     </div>
                   </div></div>
               </>}
 
-              {stepId === "style" && <div className="card"><div className="ch"><span className="cn">§</span><h2>Бюджет, рівень і стиль</h2></div>
+              {stepId === "style" && <div className="card"><div className="ch"><span className="cn">§</span><h2>Рівень оздоблення</h2></div>
                 <div className="cb">
-                  <div className="g2">
-                    <label className="f">Бюджет<select value={p.budget} onChange={e => setP("budget", e.target.value)}>
-                      {BUDGETS[mode].map(b => <option key={b.id} value={b.id}>{b.name} грн</option>)}</select></label>
-                    <label className="f">Бажаний старт робіт<input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} /></label>
-                  </div>
                   <label className="f">Рівень оздоблення
                     <div className="chips">{Object.entries(TIERS).map(([id, t]) => <button key={id} className={"chip acc" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)}>{t.name}</button>)}</div>
                     <button className="tl" onClick={() => setShowT(s => !s)}>{showT ? "Сховати ↑" : "Порівняти рівні ↓"}</button>
                     {showT && <div className="tt"><div className="ttr h"><div></div><div>Економ</div><div>Стандарт</div><div>Преміум</div></div>
                       {TIER_TABLE.map(t => <div className="ttr" key={t.row}><div>{t.row}</div><div>{t.econom}</div><div>{t.standart}</div><div>{t.premium}</div></div>)}</div>}</label>
-                  <label className="f">Стиль
-                    <div className="chips">{Object.keys(STYLE_MODS).map(s => <button key={s} className={"chip" + (p.style === s ? " on" : "")} onClick={() => setP("style", s)}>{s}</button>)}</div>
-                    <div className="sn"><b>{p.style}{r.styleDelta ? ` · ${r.styleDelta > 0 ? "+" : ""}${r.styleDelta}%` : ""}:</b> {STYLE_MODS[p.style].note}</div></label>
                 </div></div>}
 
               <div className="wnav no-print">
                 {step > 0 ? <button className="btn" onClick={() => goto(step - 1)}>← Назад</button> : <span />}
-                <button className="btn blue" onClick={next}>{step >= STEPS.length - 1 ? "До пропозиції →" : "Далі →"}</button>
+                <button className="btn blue" onClick={next}>{step >= STEPS.length - 1 ? "До кошторису →" : "Далі →"}</button>
               </div>
             </div>
 
@@ -639,10 +718,25 @@ export default function App() {
                 {Object.keys(TIERS).filter(t => t !== p.tier).map(t => (
                   <div className="lr" key={t} style={{ cursor: "pointer" }} onClick={() => setP("tier", t)}>
                     <span>якби {TIERS[t].name}</span><span>{fmtM(cmp[t] * mk)}</span></div>))}
-                <button className="livebtn" onClick={() => { setView("lead"); window.scrollTo(0, 0); }}>Сформувати пропозицію →</button>
+                <button className="livebtn" onClick={() => { setView("sheet"); window.scrollTo(0, 0); }}>Показати кошторис →</button>
               </div>
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
-                {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
+                {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}» на {fmtM(budgetAdvice?.over || 0)} грн</>}</div>
+              {budgetAdvice && <div className="advice">
+                <div className="adv-h">Як залишитись у бюджеті</div>
+                {budgetAdvice.plan.length > 0 && <div className="adv-plan">
+                  Достатньо {budgetAdvice.plan.length === 1 ? "одного кроку" : `${budgetAdvice.plan.length} кроків`}
+                  {budgetAdvice.covered ? "" : " (повністю не покриває — розгляньте менший обсяг)"}
+                </div>}
+                {budgetAdvice.cands.map((c, i) => <div className={"adv-i" + (budgetAdvice.plan.includes(c) ? " key" : "")} key={i}>
+                  <div style={{ flex: 1 }}>
+                    <div className="adv-t">{c.label}</div>
+                    <div className="adv-w">{c.why}</div>
+                  </div>
+                  <div className="adv-s">−{fmtM(c.save * mk)}</div>
+                  <button className="adv-b" onClick={() => applyAdvice(c)}>Застосувати</button>
+                </div>)}
+              </div>}
               <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
               <div style={{ display: "flex", gap: 8 }}>
                 <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>💾 Зберегти варіант</button>
@@ -653,27 +747,27 @@ export default function App() {
 
           {step === 0 && <div className="ground no-print">
             <div className="whyus">
-              {[["📡", "Живі ціни ринку", "розцінки оновлюються щоночі, джерело вказане в кожній позиції"],
-                ["🧩", "Кошторис по кімнатах", "кожна кімната зі своєю площею та оздобленням — без усереднень"],
-                ["📄", "Договір і фіксація", "точний кошторис після заміру фіксується в договорі"],
-                ["📷", "Фотозвіти", "кожен етап документується, гарантія 24 місяці"]].map(([i, t, d]) => (
+              {[["📡", "Живі ринкові розцінки", "вартість робіт оновлюється щоночі з rabotniki.ua, джерело вказане в кожній позиції"],
+                ["🧾", "Повний перелік робіт", "від геології та документів до введення в експлуатацію — нічого не «забувається»"],
+                ["📐", "Обсяги з геометрії", "площі стін, покрівлі, периметр рахуються з ваших параметрів, а не з середніх по ринку"],
+                ["🧮", "Excel і PDF", "кошторис вивантажується для власних розрахунків і коригування"]].map(([i, t, d]) => (
                 <div className="wu" key={t}><span className="wu-i">{i}</span><div><div className="wu-t">{t}</div><div className="wu-d">{d}</div></div></div>))}
             </div>
             <div className="faq">
-              <h3>Часті питання</h3>
-              {[["Наскільки точний онлайн-розрахунок?", "Це попередня оцінка з реальною ринковою вилкою: розцінки на роботи — живі дані rabotniki.ua, матеріали — орієнтир Епіцентра. Точний кошторис складається після безкоштовного заміру й фіксується в договорі."],
-                ["Хто закуповує матеріали?", "Закупівлю ведемо ми за погодженим кошторисом — з чеками та доставкою на обʼєкт. За бажанням частину матеріалів можете придбати самостійно."],
-                ["Чи можна замовити лише частину робіт?", "Так: у калькуляторі є режими «Тільки чорнові», «Тільки чистові» та «Тільки санвузол» — кошторис перерахується лише на обраний обсяг робіт."],
-                ["Чи працюєте з переплануванням?", "Виконуємо демонтаж і зведення ненесучих перегородок. Погодження перепланування з БТІ — окрема послуга, підкажемо процедуру."],
-                ["Як формується графік оплат?", "5 частин, привʼязаних до етапів: аванс 30% на матеріали, далі оплата по факту виконання. Жодних 100% передоплат."],
-                ["Що як ціни на матеріали зміняться?", "Розцінки на роботи фіксуються в договорі. Матеріали закуповуються на старті за кошторисом — тому підсумок не «пливе» посеред ремонту."]].map(([qq, aa]) => (
+              <h3>Методика розрахунку</h3>
+              {[["Звідки беруться ціни?", "Вартість робіт — середньоринкові дані з rabotniki.ua (Київ), збираються щоночі; у кожній позиції видно джерело, кількість пропозицій і дату. Ціни матеріалів збираються з epicentrk.ua. Позиції без ринкового джерела позначені β — це експертна оцінка, яка уточнюється."],
+                ["Наскільки точний результат?", "Це попередній розрахунок з ринковою вилкою «мінімум — максимум», а не фіксована ціна. Реальна вартість залежить від геології, складності проєкту, сезону та кваліфікації бригади."],
+                ["Як рахуються обсяги?", "З геометрії обʼєкта: площа забудови, периметр, площа зовнішніх стін і покрівлі виводяться з площі та поверховості; для квартири — з площі кожної кімнати окремо. Тому зміна будь-якого параметра одразу змінює кошторис."],
+                ["Що не враховано?", "Вартість ділянки, меблі й техніка (окремий блок), нестандартні архітектурні рішення, подорожчання матеріалів під час будівництва та непередбачені роботи — на них зазвичай закладають резерв 10–15%."],
+                ["Чому геологія стоїть до фундаменту?", "Тип фундаменту визначається ґрунтом і рівнем ґрунтових вод. Помилка тут найдорожча: переробити фундамент під готовою коробкою неможливо. Тому геологія — в Етапі 0."],
+                ["Чи можна користуватись для власних розрахунків?", "Так — кошторис вивантажується в Excel з усіма позиціями, обсягами та цінами за одиницю, тож його можна коригувати під свої розцінки."]].map(([qq, aa]) => (
                 <details key={qq}><summary>{qq}</summary><p>{aa}</p></details>))}
             </div>
           </div>}
 
           <div className="mobilebar no-print">
             <div className="mb-sum"><span className="mb-v">{fmtM(lowA)} — {fmtM(highA)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
-            <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Пропозиція →" : "Далі →"}</button>
+            <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Кошторис →" : "Далі →"}</button>
           </div>
           </>);
         })()}
@@ -687,7 +781,7 @@ export default function App() {
             <div className="vcard current">
               <div className="vname">Поточний</div>
               <div className="vsum">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</div>
-              <div className="vmeta">{Math.round(r.A.total)} м² · {r.tier.name} · {p.style}</div>
+              <div className="vmeta">{Math.round(r.A.total)} м² · {r.tier.name}</div>
               <div className="vmeta">{r.months} міс · {r.itemCount} позицій{furnOn ? ` · меблі +${fmtM(furnTotal)}` : ""}</div>
             </div>
             {variants.map(v => {
@@ -695,7 +789,7 @@ export default function App() {
               return <div className="vcard" key={v.id}>
                 <div className="vname">{v.name} <span className="hint">· {v.savedAt}</span></div>
                 <div className="vsum">{fmtM(vc.low * mk)} — {fmtM(vc.high * mk)}</div>
-                <div className="vmeta">{Math.round(vc.A.total)} м² · {vc.tier.name} · {(v.m === "flat" ? v.f : v.h).style}</div>
+                <div className="vmeta">{Math.round(vc.A.total)} м² · {vc.tier.name}</div>
                 <div className="vmeta">{vc.months} міс · {vc.itemCount} позицій</div>
                 <div className="vdelta">{vc.total > r.total ? "+" : "−"}{fmtM(Math.abs(vc.total - r.total) * mk)} до поточного</div>
                 <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
@@ -736,29 +830,6 @@ export default function App() {
           </div>}
         </div>}
 
-        {view === "lead" && <div className="leadwrap"><h2>Майже готово</h2><p>Залиште контакт — отримайте PDF з розрахунком</p>
-          <div className="card"><div className="cb">
-            <label className="f">Ім'я<input type="text" value={lead.name} onChange={e => setLead(l => ({ ...l, name: e.target.value }))} placeholder="Олександр" /></label>
-            <label className="f">Телефон / Telegram<input type="tel" value={lead.phone} onChange={e => setLead(l => ({ ...l, phone: e.target.value }))} placeholder="+380..." /></label>
-            <label className="f">Коментар<input type="text" value={lead.msg} onChange={e => setLead(l => ({ ...l, msg: e.target.value }))} placeholder="Необов'язково" /></label>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button className="btn" onClick={() => setView("form")}>← Назад</button>
-              <button className="btn blue" style={{ flex: 1 }} onClick={() => {
-                const optNames = OPTS.filter(o => p.opts[o.id]).map(o => o.name).join(", ");
-                const payload = {
-                  name: lead.name, phone: lead.phone, msg: lead.msg,
-                  summary: `${mode === "flat" ? "Ремонт" : "Будинок"} ${Math.round(r.A.total)} м², ${r.region.name} · ${r.tier.name} · ${p.style}`,
-                  estimate: `${fmtM(r.low * mk)} — ${fmtM(r.high * mk)} грн · ~${r.months} міс`,
-                  furniture: furnOn ? `+ ${fmtM(furnTotal)} грн` : "",
-                  options: optNames,
-                };
-                fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-                  .then(x => x.json()).then(d => setLeadSent(d.ok ? "ok" : "fail")).catch(() => setLeadSent("fail"));
-                setView("sheet"); window.scrollTo(0, 0);
-              }} disabled={!lead.name.trim() || !lead.phone.trim()}>Отримати пропозицію →</button>
-            </div>
-            <span className="hint">Ваші дані бачить тільки команда</span>
-          </div></div></div>}
 
         {view === "sheet" && <div className="sheet">
           <div className="cover">
@@ -770,9 +841,9 @@ export default function App() {
               {qr && <div className="dh-qr"><img src={qr} alt="QR" /><span>інтерактивна версія</span></div>}
             </div>
             {BETA && <div className="stamp">БЕТА · очікує перевірки експерта</div>}
-            <div className="ceye">Комерційна пропозиція</div>
-            <h1>{mode === "flat" ? `Ремонт ${Math.round(r.A.total)} м² під ключ` : `Будинок ${p.area} м²`}</h1>
-            <div className="csub">{mode === "flat" ? `${rooms.filter(x => !ROOM_TYPES[x.type].wet && x.type !== "hall" && x.type !== "balcony" && x.type !== "wardrobe").length} кімн. · ${r.A.baths} с/в` : `${p.roomsCount} спал. · ${p.bathrooms} с/в`} · {r.tier.name} · {p.style}</div>
+            <div className="ceye">Попередній розрахунок вартості</div>
+            <h1>{mode === "flat" ? `Ремонт ${Math.round(r.A.total)} м²` : `Будинок ${p.area} м², ${p.floors} пов.`}</h1>
+            <div className="csub">{roomStats.living} кімн. · {r.A.baths} с/в · {aRooms.length} приміщень · {r.tier.name}</div>
             <div className="cmeta">{r.region.name} · {today} · {r.itemCount} позицій кошторису</div>
           </div>
 
@@ -896,37 +967,16 @@ export default function App() {
             <div className="furnsum">Разом комплектація: <b>{fmt(furnTotal)} грн</b></div>
           </div>}
 
-          <div className="instal">
-            <span>У розстрочку:</span>
-            {[6, 12, 24].map(m => <button key={m} className={"fchip" + (instM === m ? " on" : "")} onClick={() => setInstM(m)}>{m} міс</button>)}
-            <span className="instv">≈ <b>{fmt(Math.round((r.total * mk + (furnOn ? furnTotal : 0)) / instM))}</b> грн/міс</span>
-            <span className="hint">· без урахування % банку</span>
-          </div>
 
-          <div className="paysec"><h3>Графік оплат</h3>
-            {PAYMENT.map((ps, i) => <div className="prow" key={i}><span className="ppct">{ps.pct}%</span>
-              <div className="pbody"><div className="plbl">{ps.label}</div><div className="pdesc">{ps.desc}</div>
-                <div className="psum">{fmtM(Math.round(r.total * mk * ps.pct / 100))} грн</div></div></div>)}
-          </div>
 
-          <div className="inex"><h3>Що входить / не входить</h3>
+          <div className="inex"><h3>Що враховано в розрахунку</h3>
             <ul className="inc">{INCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul>
             <ul className="exc">{EXCLUDES.map((x, i) => <li key={i}>{x}</li>)}</ul></div>
-
-          <div className="nextsteps"><h3>Що далі</h3>
-            <div className="steps">
-              {[["1", "Дзвінок", "менеджер звʼяжеться протягом робочого дня"],
-                ["2", "Замір", "безкоштовний виїзд на обʼєкт"],
-                ["3", "Точний кошторис", "з фіксацією цін у договорі"],
-                ["4", "Старт робіт", "з фотозвітами на кожному етапі"]].map(([n, t, d]) => (
-                <div className="step" key={n}><span className="stepn">{n}</span><div><div className="stept">{t}</div><div className="stepd">{d}</div></div></div>))}
-            </div>
-          </div>
 
 
 
           <div className="terms"><h3>Умови</h3>
-            Попередня оцінка, не є офертою. Точний кошторис — після заміру. {live ? `Розцінки на роботи — середньоринкові за даними rabotniki.ua станом на ${live.updated}; матеріали — ${lmat ? `живі ціни epicentrk.ua станом на ${lmat.updated}` : "орієнтовні оцінки, уточнюються при закупівлі"}.` : `Ціни станом на ${today}.`} {BETA ? "Версія БЕТА: частина розцінок очікує перевірки експертом (позначені β)." : ""} Пропозиція дійсна 14 днів. Гарантія — 24 місяці.</div>
+            Це попередній розрахунок вартості, а не комерційна пропозиція та не оферта. Точні цифри визначаються проєктом, геологією та фактичними обсягами. {live ? `Вартість робіт — середньоринкові дані rabotniki.ua станом на ${live.updated}. ` : ""}{lmat ? `Матеріали — epicentrk.ua станом на ${lmat.updated}. ` : "Матеріали — орієнтовні оцінки. "}{BETA ? "Версія БЕТА: частина розцінок позначена β. " : ""}Рекомендований резерв на непередбачені роботи — 10–15%.</div>
 
           <div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name || "—"} · {lead.phone || "—"}{leadSent === "ok" && <span style={{ color: "var(--ok)" }}> · ✓ заявку передано команді</span>}</p>
             <div className="actions no-print">
@@ -941,7 +991,7 @@ export default function App() {
         <div className="ft">
           <div>
             <div className="ft-logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
-            <div className="ft-sub">Ремонт і будівництво з прозорим кошторисом</div>
+            <div className="ft-sub">Калькулятор вартості будівництва та ремонту</div>
           </div>
           <div className="ft-col">
             <div className="ft-h">Контакти</div>
@@ -950,10 +1000,10 @@ export default function App() {
             <span>{CONTACTS.city}</span>
           </div>
           <div className="ft-col">
-            <div className="ft-h">Гарантії</div>
-            <span>Договір із фіксацією цін</span>
-            <span>Гарантія на роботи — 24 міс</span>
-            <span>Фотозвіти кожного етапу</span>
+            <div className="ft-h">Джерела даних</div>
+            <span>Роботи — rabotniki.ua (Київ)</span>
+            <span>Матеріали — epicentrk.ua</span>
+            <span>Оновлення — щоночі</span>
           </div>
         </div>
         <div className="ft-legal">© {new Date().getFullYear()} ПРОПОЗИЦІЯ.БУД · {CONTACTS.company} · Всі права захищені. Розцінки на роботи: rabotniki.ua (публічні дані) · Матеріали: орієнтир Епіцентр.</div>
