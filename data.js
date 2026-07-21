@@ -41,14 +41,40 @@ export const TIER_TABLE = [
   { row: "Двері", econom: "Ламіновані · 5–7т", standart: "Шпоновані · 10–15т", premium: "Масив/приховані · 25+" },
   { row: "Електрика", econom: "Мінімум точок", standart: "Schneider/Legrand", premium: "Розумний дім" },
 ];
-export const STYLE_MODS = {
-  "Сучасний": { mods: {}, note: "Базовий орієнтир." },
-  "Мінімалізм": { mods: { paint: 1.15, doors: 1.2, ceil: 1.1 }, note: "Ідеальні площини, приховані двері." },
-  "Класика": { mods: { paint: 1.2, ceil: 1.15, doors: 1.1 }, note: "Молдинги, карнизи, фільонки." },
-  "Лофт": { mods: { walls: 0.85, paint: 0.9, ceil: 0.9 }, note: "Відкриті поверхні — економія." },
-  "Скандинавський": { mods: { paint: 1.05 }, note: "Світле оздоблення." },
-  "Джапанді": { mods: { paint: 1.1, flooring: 1.15, doors: 1.15 }, note: "Натуральні матеріали." },
+
+
+/* ---------- КОНСТРУКТИВ БУДИНКУ: вибір впливає на обсяги і ціну ---------- */
+export const FOUNDATIONS = {
+  strip:  { name: "Стрічковий монолітний", k: 1.0,  note: "класика для щільних ґрунтів" },
+  slab:   { name: "Утеплена плита (УШП)",  k: 1.35, note: "дорожча, але вже з теплою підлогою" },
+  pile:   { name: "Палі + ростверк",       k: 0.85, note: "слабкі/пучинисті ґрунти, схил" },
 };
+export const WALLS = {
+  aerobloc: { name: "Газоблок 375 мм",      kw: 1.0,  km: 1.0,  ins: 50,  note: "оптимум ціна/тепло" },
+  ceramo:   { name: "Керамоблок 380 мм",    kw: 1.15, km: 1.45, ins: 50,  note: "міцніший, дорожчий" },
+  brick:    { name: "Цегла + утеплювач",    kw: 1.3,  km: 1.25, ins: 150, note: "довго і трудомістко" },
+  frame:    { name: "Каркас (дерево)",      kw: 0.75, km: 0.7,  ins: 0,   note: "швидко, легкий фундамент" },
+};
+export const ROOFS = {
+  metal:   { name: "Металочерепиця", k: 1.30, w: 340,  m: 620,  note: "найпоширеніша" },
+  bitum:   { name: "Бітумна черепиця", k: 1.32, w: 420, m: 780, note: "складні форми даху" },
+  falc:    { name: "Фальцева",        k: 1.35, w: 560, m: 980,  note: "довговічна, дорожча" },
+  ceramic: { name: "Керамічна",       k: 1.30, w: 620, m: 1850, note: "преміум, важка — міцніші крокви" },
+};
+export const HEATING = {
+  gas:      { name: "Газовий котел",      w: 22000, m: 48000,  note: "потрібна газифікація" },
+  electro:  { name: "Електрокотел",       w: 14000, m: 26000,  note: "простий, дорогий в експлуатації" },
+  heatpump: { name: "Тепловий насос",     w: 45000, m: 320000, note: "дорого на старті, дешево далі" },
+  solid:    { name: "Твердопаливний",     w: 26000, m: 62000,  note: "потрібна котельня і димохід" },
+};
+
+
+/* ---------- геометрія будинку ---------- */
+export const fpn = (p) => Math.round(((p.area || 150) / (p.floors || 1)) * 1.1);   // площа забудови
+export const perim = (p) => Math.round(4 * Math.sqrt(fpn(p)));                      // периметр
+export const fk = (p) => (FOUNDATIONS[p.foundation] || FOUNDATIONS.strip).k;
+export const wallExt = (p) => Math.round(perim(p) * 2.9 * (p.floors || 1) * 0.85);  // зовнішні стіни мінус отвори
+export const roofArea = (p) => Math.round(fpn(p) * ((ROOFS[p.roof] || ROOFS.metal).k));
 
 /* ---------- КІМНАТИ ---------- */
 // pts = типова к-сть електроточок (β — перевірити в експерта)
@@ -63,6 +89,9 @@ export const ROOM_TYPES = {
   hall:     { name: "Коридор",        defA: 8,  pts: 5,  wet: false, tileFloor: true,  emoji: "🚪" },
   wardrobe: { name: "Гардеробна",     defA: 3,  pts: 2,  wet: false, tileFloor: false, emoji: "👔" },
   balcony:  { name: "Балкон/лоджія",  defA: 4,  pts: 2,  wet: false, tileFloor: false, emoji: "🌤️" },
+  boilerroom: { name: "Котельня / технічна", defA: 6, pts: 6, wet: false, tileFloor: true, emoji: "🔧" },
+  garage:   { name: "Гараж",          defA: 22, pts: 6,  wet: false, tileFloor: true,  emoji: "🚗" },
+  terraceR: { name: "Тераса",         defA: 14, pts: 3,  wet: false, tileFloor: true,  emoji: "🌳" },
 };
 export const WALL_FIN = { paint: "Фарбування", wallpaper: "Шпалери", decor: "Декоративна штукатурка" };
 export const FLOOR_FIN = { lam: "Ламінат/вініл", parquet: "Інженерна дошка", tile: "Плитка" };
@@ -79,8 +108,24 @@ export const newRoom = (type, over = {}) => ({
   floor: ROOM_TYPES[type].tileFloor && (type === "bath" || type === "wc") ? "tile" : "lam",
   ceil: "stretch",
   heatFloor: type === "bath",
+  lvl: 1,
   ...over,
 });
+
+// Типовий набір приміщень будинку: розкидає по поверхах
+export function defaultHouseRooms(nRooms, nBaths, targetArea, floors = 2) {
+  const rooms = [
+    newRoom("hall", { lvl: 1 }), newRoom("kitchen", { lvl: 1 }), newRoom("living", { lvl: 1, area: 26 }),
+    newRoom("boilerroom", { lvl: 1 }),
+  ];
+  for (let i = 0; i < Math.max(nRooms, 1); i++) rooms.push(newRoom("bedroom", { lvl: floors > 1 ? 2 : 1 }));
+  for (let i = 0; i < Math.max(nBaths, 1); i++) rooms.push(newRoom(i === 0 ? "bath" : "wc", { lvl: i === 0 ? 1 : Math.min(2, floors) }));
+  if (floors > 1) rooms.push(newRoom("hall", { lvl: 2, area: 9 }));
+  const sum = rooms.reduce((a, r) => a + r.area, 0);
+  const k = targetArea / sum;
+  rooms.forEach(r => { r.area = Math.max(Math.round(r.area * k), 2); });
+  return rooms;
+}
 
 // Типовий набір кімнат від параметрів (для швидкого режиму)
 export function defaultRooms(nRooms, nBaths, targetArea) {
@@ -378,8 +423,8 @@ export const PAYMENT = [
   { pct: 15, label: "Фініш", desc: "Двері, сантехніка, світло" },
   { pct: 5, label: "Здача", desc: "Прийомка" },
 ];
-export const INCLUDES = ["Усі роботи та матеріали за кошторисом", "Доставка матеріалів", "Вивіз сміття", "Контроль якості", "Фотофіксація", "Прибирання"];
-export const EXCLUDES = ["Меблі та техніка (окремо у Комплектації)", "Кухонний гарнітур", "Погодження перепланування з БТІ", "Авторський нагляд (окремо)"];
+export const INCLUDES = ["Роботи за ринковими розцінками", "Матеріали за поточними цінами", "Логістика й підйом матеріалів", "Вивіз будівельного сміття", "Спецтехніка та риштування", "Документи й введення в експлуатацію"];
+export const EXCLUDES = ["Вартість ділянки", "Меблі й техніка (окремий блок)", "Нестандартні архітектурні рішення", "Подорожчання матеріалів у процесі", "Резерв на непередбачені роботи 10–15%"];
 
 
 /* ---------- перенесено з v2 без змін ---------- */
@@ -516,56 +561,234 @@ export const FURNITURE = [
 ];
 
 /* ---------- БУДИНОК (v2-структура, конвертовано у v3-схему) ---------- */
-const fpn = (p) => Math.round(((p.area || 150) / (p.floors || 2)) * 1.1);
-export const HOUSE_OPTS = [
-  { id: "well", grp: "eng", name: "Свердловина", hint: "якщо нема центральної води" },
-  { id: "septic", grp: "eng", name: "Септик", hint: "якщо нема каналізації" },
-  { id: "gas", grp: "eng", name: "Підключення газу", hint: "" },
-  { id: "yard", grp: "constr", name: "Благоустрій", hint: "вимощення + огорожа" },
-];
 export const HOUSE_STAGES = [
-  { id: "prep", grp: "prep", name: "Проєкт і підготовка", weeks: () => 4, scope: "Архітектура, конструктив, геодезія.",
-    items: [{ k: "h_design", n: "Проєктування", u: "м²", q: (A, p) => p.area, w: 660, m: 150, ver: false }] },
-  { id: "well", grp: "engineering", name: "Свердловина та вода", weeks: () => 1.5,
-    scope: "Буріння 30–60 м, насос, кесон.", items: [{ k: "h_well", n: "Свердловина під ключ", u: "об'єкт", q: (A, p) => p.opts?.well ? 1 : 0, w: 45000, m: 50000, ver: false, opt: "well" }] },
-  { id: "septic", grp: "engineering", name: "Септик / каналізація", weeks: () => 1,
-    scope: "Септик з монтажем.", items: [{ k: "h_septic", n: "Септик під ключ", u: "об'єкт", q: (A, p) => p.opts?.septic ? 1 : 0, w: 35000, m: 55000, ver: false, opt: "septic" }] },
-  { id: "gas", grp: "engineering", name: "Підключення газу", weeks: () => 2,
-    scope: "Проєкт, врізка, труба, лічильник.", items: [{ k: "h_gas", n: "Газифікація під ключ", u: "об'єкт", q: (A, p) => p.opts?.gas ? 1 : 0, w: 30000, m: 45000, ver: false, opt: "gas" }] },
-  { id: "found", grp: "rough", name: "Фундамент", weeks: (A, p) => 4 + (p.area || 150) / 120, scope: "Земляні, опалубка, армування, бетон.",
+  /* ЕТАП 0 — ДОКУМЕНТИ ТА ПРОЄКТ */
+  { id: "docs", grp: "prep", name: "Етап 0 · Документи, вишукування, проєкт", weeks: () => 8,
+    scope: "Топозйомка, геологія (визначає тип фундаменту), містобудівні умови, технічні умови на мережі, повний проєкт, реєстрація початку робіт, технагляд.",
     items: [
-      { k: "h_earth", n: "Земляні роботи", u: "м²", q: (A, p) => fpn(p), w: 460, m: 255, ver: false },
-      { k: "h_monolith", n: "Монолітні роботи", u: "м²", q: (A, p) => fpn(p), w: 1520, m: 2420, ver: true, live: "monolith" },
+      { k: "h_topo", n: "Топографічна зйомка ділянки", u: "об'єкт", q: () => 1, w: 9000, m: 0, ver: false },
+      { k: "h_geo", n: "Геологічні вишукування (3 свердловини)", u: "об'єкт", q: () => 1, w: 22000, m: 0, ver: false },
+      { k: "h_muo", n: "Містобудівні умови та обмеження", u: "об'єкт", q: () => 1, w: 12000, m: 0, ver: false },
+      { k: "h_tu", n: "Технічні умови (електрика, вода, газ)", u: "компл", q: () => 1, w: 15000, m: 0, ver: false },
+      { k: "h_ar", n: "Архітектурний розділ проєкту", u: "м²", q: (A, p) => p.area, w: 260, m: 0, ver: false },
+      { k: "h_kr", n: "Конструктивний розділ (КР)", u: "м²", q: (A, p) => p.area, w: 210, m: 0, ver: false },
+      { k: "h_eng_pr", n: "Інженерні розділи (ОВ, ВК, ЕО)", u: "м²", q: (A, p) => p.area, w: 240, m: 0, ver: false },
+      { k: "h_decl", n: "Реєстрація повідомлення про початок робіт", u: "об'єкт", q: () => 1, w: 8000, m: 0, ver: false },
+      { k: "h_axes", n: "Винесення осей у натуру (геодезія)", u: "об'єкт", q: () => 1, w: 7000, m: 0, ver: false },
+      { k: "h_tech", n: "Технічний нагляд", u: "міс", q: (A, p) => Math.max(6, Math.round(p.area / 25)), w: 9000, m: 0, ver: false },
     ] },
-  { id: "box", grp: "rough", name: "Коробка", weeks: (A, p) => 8 + (p.area || 150) / 80, scope: "Кладка, армопояси, перекриття.",
+
+  /* ЕТАП 1 — МАЙДАНЧИК */
+  { id: "site", grp: "prep", name: "Етап 1 · Підготовка будмайданчика", weeks: () => 2,
+    scope: "Розчистка, тимчасова огорожа, під'їзд, тимчасові електрика й вода, побутівка. Без цього не заходить техніка.",
     items: [
-      { k: "h_masonry", n: "Кладка стін", u: "м²", q: (A, p) => p.area, w: 1920, m: 2620, ver: true, live: "masonry" },
-      { k: "h_slabs", n: "Перекриття", u: "м²", q: (A, p) => Math.round(p.area * 0.55), w: 1420, m: 2320, ver: false },
+      { k: "h_clear", n: "Розчистка ділянки, зняття родючого шару", u: "м²", q: (A, p) => Math.round(fpn(p) * 2.2), w: 95, m: 0, ver: false },
+      { k: "h_fence_t", n: "Тимчасова огорожа майданчика", u: "м.п.", q: (A, p) => Math.round(4 * Math.sqrt((p.plot || 8) * 100)), w: 320, m: 480, ver: false },
+      { k: "h_road", n: "Тимчасовий під'їзд (щебенева відсипка)", u: "м²", q: () => 80, w: 210, m: 420, ver: false },
+      { k: "h_temp_el", n: "Тимчасове електропостачання (щит + кабель)", u: "компл", q: () => 1, w: 9500, m: 12000, ver: false },
+      { k: "h_cabin", n: "Побутівка, біотуалет, охорона (оренда)", u: "міс", q: (A, p) => Math.max(6, Math.round(p.area / 25)), w: 6500, m: 0, ver: false },
     ] },
-  { id: "roof", grp: "rough", name: "Покрівля", weeks: () => 4, scope: "Кроквяна система, ізоляція, покриття.",
+
+  /* ЕТАП 2 — ЗЕМЛЯНІ */
+  { id: "earth", grp: "rough", name: "Етап 2 · Земляні роботи", weeks: (A, p) => 1 + p.area / 200,
+    scope: "Розробка котловану/траншей, вивіз ґрунту, ущільнена піщано-щебенева подушка під фундамент.",
     items: [
-      { k: "h_roof_fr", n: "Кроквяна система + ізоляція", u: "м²", q: (A, p) => Math.round(fpn(p) * 1.25), w: 980, m: 1350, ver: false },
-      { k: "h_roof_cv", n: "Покриття (металочерепиця)", u: "м²", q: (A, p) => Math.round(fpn(p) * 1.25), w: 340, m: 570, ver: true, live: "roofing" },
+      { k: "h_dig", n: "Розробка ґрунту екскаватором", u: "м³", q: (A, p) => Math.round(fpn(p) * (p.opts?.basement ? 2.6 : 0.9)), w: 260, m: 0, ver: false },
+      { k: "h_soil_out", n: "Вивіз надлишкового ґрунту", u: "м³", q: (A, p) => Math.round(fpn(p) * (p.opts?.basement ? 2.0 : 0.55)), w: 320, m: 0, ver: false },
+      { k: "h_sand", n: "Піщано-щебенева подушка з ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.45), w: 480, m: 720, ver: false },
+      { k: "h_dewater", n: "Водозниження (за високих ґрунтових вод)", u: "об'єкт", q: (A, p) => p.opts?.dewater ? 1 : 0, w: 38000, m: 0, ver: false, opt: "dewater" },
     ] },
-  { id: "windows", grp: "rough", name: "Вікна та вхідні двері", weeks: () => 2, scope: "МП вікна, двері, відкоси.",
-    items: [{ k: "h_wins", n: "Вікна + двері", u: "м²", q: (A, p) => p.area, w: 410, m: 1420, ver: false }] },
-  { id: "facade", grp: "finish", name: "Фасад", weeks: () => 5, scope: "Утеплення 150–200мм, штукатурка.",
-    items: [{ k: "h_facade", n: "Утеплення + штукатурка", u: "м²", q: (A, p) => Math.round(p.area * 1.15), w: 870, m: 1120, ver: true, live: "facade_insul" }] },
-  { id: "mep", grp: "engineering", name: "Інженерні мережі", weeks: () => 6, scope: "Електрика, опалення, вода, каналізація.",
+
+  /* ЕТАП 3 — ФУНДАМЕНТ */
+  { id: "found", grp: "rough", name: "Етап 3 · Фундамент", weeks: (A, p) => 3 + p.area / 150,
+    scope: "Опалубка, армування, бетонування з віброущільненням, догляд за бетоном, гідроізоляція, утеплення, дренаж, зворотна засипка. Тип фундаменту обирається у конструктиві.",
     items: [
-      { k: "h_el", n: "Електрика по будинку", u: "м²", q: (A, p) => p.area, w: 720, m: 620, ver: false },
-      { k: "h_heat", n: "Опалення, вода, каналізація", u: "м²", q: (A, p) => p.area, w: 1120, m: 1320, ver: false },
+      { k: "h_formwork", n: "Опалубка (монтаж/демонтаж)", u: "м²", q: (A, p) => Math.round(perim(p) * (p.foundation === "slab" ? 0.6 : 2.4) * fk(p)), w: 420, m: 260, ver: false },
+      { k: "h_rebar", n: "Армування (в'язка каркасу)", u: "т", q: (A, p) => Math.round(fpn(p) * 0.055 * fk(p) * 10) / 10, w: 12500, m: 42000, ver: false, kw: p => fk(p), km: p => fk(p) },
+      { k: "h_concrete", n: "Бетонування М300 з бетононасосом", u: "м³", q: (A, p) => Math.round(fpn(p) * (p.foundation === "slab" ? 0.32 : 0.26) * fk(p) * 10) / 10, w: 1450, m: 3900, ver: true, live: "monolith" },
+      { k: "h_piles", n: "Буронабивні палі", u: "шт", q: (A, p) => p.foundation === "pile" ? Math.round(perim(p) / 2) : 0, w: 3800, m: 4200, ver: false },
+      { k: "h_hydro_f", n: "Гідроізоляція фундаменту (обмазна + рулонна)", u: "м²", q: (A, p) => Math.round(perim(p) * 1.6 + fpn(p) * 0.4), w: 210, m: 190, ver: false },
+      { k: "h_ins_f", n: "Утеплення фундаменту ЕППС 100 мм", u: "м²", q: (A, p) => Math.round(perim(p) * 1.4), w: 190, m: 420, ver: false },
+      { k: "h_drain", n: "Дренаж по периметру + оглядові колодязі", u: "м.п.", q: (A, p) => Math.round(perim(p) * 1.15), w: 620, m: 540, ver: false },
+      { k: "h_backfill", n: "Зворотна засипка з пошаровим ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.5), w: 280, m: 0, ver: false },
     ] },
-  { id: "finish", grp: "finish", name: "Внутрішнє оздоблення", weeks: (A, p) => ({ econom: 8, standart: 12, premium: 20 })[p.tier] || 12, scope: "Повний цикл оздоблення.",
-    items: [{ k: "h_fin", n: "Оздоблення під ключ", u: "м²", q: (A, p) => p.area, w: 3250, m: 4350, ver: false }] },
-  { id: "bath", grp: "complete", name: "Санвузли", weeks: (A, p) => p.bathrooms || 2, scope: "Комплектація та монтаж.",
-    items: [{ k: "h_bath", n: "Сантехніка + монтаж", u: "сануз.", q: (A, p) => p.bathrooms || 2, w: 18500, m: 61000, ver: true, mats: "bath" }] },
-  { id: "yard", grp: "extra", name: "Благоустрій", weeks: () => 3, scope: "Вимощення, огорожа.",
+
+  /* ЕТАП 4 — ЦОКОЛЬ/ПІДВАЛ */
+  { id: "basement", grp: "rough", name: "Етап 4 · Цокольний поверх / підвал", weeks: () => 4,
+    scope: "Стіни підвалу, гідроізоляція, перекриття над підвалом. Опційно.",
     items: [
-      { k: "h_blind", n: "Вимощення", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(4 * Math.sqrt(fpn(p)) * 1.1) : 0, w: 650, m: 750, ver: false, opt: "yard" },
-      { k: "h_fence", n: "Огорожа (профліст)", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(4 * Math.sqrt((p.plot || 8) * 100)) : 0, w: 550, m: 950, ver: false, opt: "yard" },
+      { k: "h_bas_walls", n: "Стіни підвалу (бетон/ФБС)", u: "м²", q: (A, p) => p.opts?.basement ? Math.round(perim(p) * 2.5) : 0, w: 980, m: 1450, ver: false, opt: "basement" },
+      { k: "h_bas_slab", n: "Перекриття над підвалом", u: "м²", q: (A, p) => p.opts?.basement ? fpn(p) : 0, w: 1420, m: 2320, ver: false, opt: "basement" },
+    ] },
+
+  /* ЕТАП 5 — КОРОБКА */
+  { id: "box", grp: "walls", name: "Етап 5 · Коробка (стіни та перекриття)", weeks: (A, p) => 5 + p.area / 60,
+    scope: "Несучі та внутрішні стіни, армопояси, перемички, монолітні ділянки, міжповерхові перекриття, сходи, фронтони.",
+    items: [
+      { k: "h_walls_ext", n: "Кладка зовнішніх несучих стін", u: "м²", q: (A, p) => wallExt(p), w: 620, m: 1180, ver: true, live: "masonry", kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
+      { k: "h_walls_int", n: "Кладка внутрішніх несучих стін", u: "м²", q: (A, p) => Math.round(wallExt(p) * 0.35), w: 540, m: 780, ver: false, kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
+      { k: "h_armo", n: "Армопояс (опалубка + арматура + бетон)", u: "м.п.", q: (A, p) => Math.round(perim(p) * (p.floors || 2)), w: 720, m: 890, ver: false },
+      { k: "h_lintels", n: "Перемички над отворами", u: "шт", q: (A, p) => Math.round((p.area / 12)), w: 850, m: 1250, ver: false },
+      { k: "h_columns", n: "Монолітні колони / пілони", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.03 * 10) / 10, w: 4200, m: 5400, ver: false },
+      { k: "h_slab", n: "Міжповерхове перекриття", u: "м²", q: (A, p) => Math.round(fpn(p) * ((p.floors || 2) - 1)), w: 1420, m: 2320, ver: false },
+      { k: "h_stairs", n: "Монолітні сходи", u: "шт", q: (A, p) => Math.max((p.floors || 2) - 1, 0), w: 32000, m: 26000, ver: false },
+      { k: "h_gable", n: "Фронтони", u: "м²", q: (A, p) => Math.round(fpn(p) * 0.22), w: 640, m: 980, ver: false },
+    ] },
+
+  /* ЕТАП 6 — ПОКРІВЛЯ */
+  { id: "roof", grp: "rough", name: "Етап 6 · Покрівля", weeks: (A, p) => 3 + p.area / 200,
+    scope: "Мауерлат, кроквяна система, обрешітка, мембрани, покриття, утеплення скатів, водостоки, снігозатримувачі, софіти.",
+    items: [
+      { k: "h_mauer", n: "Мауерлат з кріпленням", u: "м.п.", q: (A, p) => perim(p), w: 380, m: 520, ver: false },
+      { k: "h_rafters", n: "Кроквяна система", u: "м²", q: (A, p) => roofArea(p), w: 520, m: 880, ver: false },
+      { k: "h_lath", n: "Контробрешітка та обрешітка", u: "м²", q: (A, p) => roofArea(p), w: 180, m: 280, ver: false },
+      { k: "h_membrane", n: "Гідро-вітрозахисна мембрана", u: "м²", q: (A, p) => roofArea(p), w: 75, m: 110, ver: false },
+      { k: "h_cover", n: "Покриття покрівлі", u: "м²", q: (A, p) => roofArea(p), w: 0, m: 0, ver: true, live: "roofing", dynW: p => (ROOFS[p.roof] || ROOFS.metal).w, dynM: p => (ROOFS[p.roof] || ROOFS.metal).m },
+      { k: "h_roof_ins", n: "Утеплення скатів мінватою 250 мм", u: "м²", q: (A, p) => p.opts?.mansard ? roofArea(p) : 0, w: 320, m: 680, ver: false, opt: "mansard" },
+      { k: "h_vapor", n: "Пароізоляція мансарди", u: "м²", q: (A, p) => p.opts?.mansard ? roofArea(p) : 0, w: 70, m: 95, ver: false, opt: "mansard" },
+      { k: "h_gutters", n: "Водостічна система", u: "м.п.", q: (A, p) => Math.round(perim(p) * 1.1), w: 320, m: 480, ver: false },
+      { k: "h_snow", n: "Снігозатримувачі", u: "м.п.", q: (A, p) => Math.round(perim(p) * 0.55), w: 240, m: 420, ver: false },
+      { k: "h_soffit", n: "Софіти та вітрові планки", u: "м.п.", q: (A, p) => Math.round(perim(p) * 1.15), w: 280, m: 390, ver: false },
+      { k: "h_chimney", n: "Виведення димоходу / вентканалів", u: "шт", q: (A, p) => 2, w: 4800, m: 6200, ver: false },
+    ] },
+
+  /* ЕТАП 7 — ВІКНА ТА ЗОВНІШНІ ДВЕРІ */
+  { id: "windows", grp: "rough", name: "Етап 7 · Вікна, зовнішні двері, ворота", weeks: () => 2,
+    scope: "Заповнення прорізів: вікна, панорамне засклення, вхідні двері, гаражні ворота, відкоси й відливи.",
+    items: [
+      { k: "h_win", n: "Вікна металопластикові з монтажем", u: "шт", q: (A) => A.wins, w: 1750, m: 11500, ver: false },
+      { k: "h_pano", n: "Панорамне засклення / розсувні системи", u: "м²", q: (A, p) => p.opts?.panoramic ? Math.round(p.area * 0.06) : 0, w: 1400, m: 9500, ver: false, opt: "panoramic" },
+      { k: "h_door_in", n: "Вхідні двері", u: "шт", q: () => 1, w: 3200, m: 26000, ver: false },
+      { k: "h_gate", n: "Гаражні ворота секційні з приводом", u: "шт", q: (A, p) => p.opts?.garage ? 1 : 0, w: 6500, m: 42000, ver: false, opt: "garage" },
+      { k: "h_slopes_out", n: "Відкоси, відливи, підвіконня", u: "вікно", q: (A) => A.wins, w: 1900, m: 1250, ver: false, live: "slopes" },
+    ] },
+
+  /* ЕТАП 8 — ЗОВНІШНІ МЕРЕЖІ */
+  { id: "utilities", grp: "engineering", name: "Етап 8 · Зовнішні мережі та підключення", weeks: () => 4,
+    scope: "Підключення електрики, вода (свердловина або центральна), автономна каналізація, газифікація, траншеї, заземлення й блискавкозахист.",
+    items: [
+      { k: "h_el_conn", n: "Підключення електрики (щит обліку, ввід)", u: "об'єкт", q: () => 1, w: 18000, m: 22000, ver: false },
+      { k: "h_well", n: "Свердловина під ключ (насос, кесон, ввід)", u: "об'єкт", q: (A, p) => p.opts?.well ? 1 : 0, w: 48000, m: 62000, ver: false, opt: "well" },
+      { k: "h_water_conn", n: "Підключення до центрального водопроводу", u: "об'єкт", q: (A, p) => p.opts?.well ? 0 : 1, w: 22000, m: 18000, ver: false },
+      { k: "h_septic", n: "Автономна каналізація (септик з монтажем)", u: "об'єкт", q: (A, p) => p.opts?.septic ? 1 : 0, w: 38000, m: 58000, ver: false, opt: "septic" },
+      { k: "h_gas", n: "Газифікація (проєкт, врізка, труба, лічильник)", u: "об'єкт", q: (A, p) => p.heating === "gas" ? 1 : 0, w: 32000, m: 48000, ver: false },
+      { k: "h_trench", n: "Траншеї під зовнішні мережі", u: "м.п.", q: (A, p) => Math.round(Math.sqrt((p.plot || 8) * 100) * 2.2), w: 240, m: 180, ver: false },
+      { k: "h_ground", n: "Заземлення та блискавкозахист", u: "компл", q: () => 1, w: 14000, m: 16000, ver: false },
+    ] },
+
+  /* ЕТАП 9 — ВНУТРІШНЯ ІНЖЕНЕРІЯ */
+  { id: "mep", grp: "engineering", name: "Етап 9 · Внутрішні інженерні системи", weeks: (A, p) => 4 + p.area / 120,
+    scope: "Електрика по точках, водопровід, каналізація, опалення з котлом і тепла підлога, вентиляція, кондиціювання.",
+    items: [
+      { k: "h_el_pts", n: "Електроточка (повний цикл: штроба, кабель, підрозетник)", u: "шт", q: (A) => A.pts, w: 720, m: 520, ver: false },
+      { k: "h_el_panel", n: "Щит на групи з автоматами та УЗО", u: "група", q: (A) => Math.max(8, Math.round(A.pts / 6)), w: 680, m: 890, ver: false },
+      { k: "h_lan", n: "Слабострум (інтернет, ТБ, домофон, камери)", u: "точка", q: (A) => Math.max(4, Math.round(A.pts * 0.12)), w: 420, m: 380, ver: false },
+      { k: "h_water_pts", n: "Водопровід: колекторна розводка", u: "точка", q: (A) => A.baths * 6 + A.kitchens * 3 + 2, w: 980, m: 760, ver: false },
+      { k: "h_sewer", n: "Каналізація: розводка та стояки", u: "точка", q: (A) => A.baths * 4 + A.kitchens * 2, w: 720, m: 480, ver: false },
+      { k: "h_boiler", n: "Котел з обв'язкою та автоматикою", u: "компл", q: () => 1, w: 0, m: 0, ver: false, dynW: p => (HEATING[p.heating] || HEATING.gas).w, dynM: p => (HEATING[p.heating] || HEATING.gas).m },
+      { k: "h_heat_floor", n: "Тепла підлога водяна (труба, колектори, стяжка)", u: "м²", q: (A, p) => p.foundation === "slab" ? Math.round(A.total * 0.85) : Math.round(A.heatFloor), w: 480, m: 620, ver: true, live: "heat_floor" },
+      { k: "h_rads", n: "Радіатори з підключенням", u: "шт", q: (A) => Math.max(1, Math.round(A.total / 18)), w: 2300, m: 5600, ver: true, mats: "radiators", live: "radiators" },
+      { k: "h_hot_water", n: "Бойлер / бак непрямого нагріву", u: "шт", q: () => 1, w: 4200, m: 18000, ver: false },
+      { k: "h_vent", n: "Вентиляція припливно-витяжна", u: "м²", q: (A) => A.total, w: 260, m: 340, ver: false },
+      { k: "h_recup", n: "Рекуператор з монтажем", u: "компл", q: (A, p) => p.opts?.recuperator ? 1 : 0, w: 28000, m: 95000, ver: false, opt: "recuperator" },
+      { k: "h_ac", n: "Кондиціонування: траси + блоки", u: "шт", q: (A, p) => p.opts?.ac ? (p.acCount || Math.max(2, Math.round(A.total / 60))) : 0, w: 6200, m: 28500, ver: false, mats: "ac_unit", opt: "ac" },
+    ] },
+
+  /* ЕТАП 10 — ФАСАД */
+  { id: "facade", grp: "finish", name: "Етап 10 · Фасад", weeks: (A, p) => 3 + p.area / 150,
+    scope: "Утеплення, армування, декоративне оздоблення, цоколь, вимощення.",
+    items: [
+      { k: "h_facade_ins", n: "Утеплення фасаду мінватою/ЕППС", u: "м²", q: (A, p) => (WALLS[p.walls] || WALLS.aerobloc).ins ? wallExt(p) : 0, w: 380, m: 520, ver: true, live: "facade_insul" },
+      { k: "h_facade_mesh", n: "Армування сіткою + базовий шар", u: "м²", q: (A, p) => wallExt(p), w: 290, m: 210, ver: false },
+      { k: "h_facade_fin", n: "Декоративна штукатурка фасадна + фарбування", u: "м²", q: (A, p) => wallExt(p), w: 340, m: 290, ver: false },
+      { k: "h_plinth_out", n: "Оздоблення цоколя", u: "м²", q: (A, p) => Math.round(perim(p) * 0.7), w: 620, m: 780, ver: false },
+      { k: "h_blind", n: "Вимощення по периметру", u: "м.п.", q: (A, p) => Math.round(perim(p) * 1.05), w: 680, m: 760, ver: false },
+    ] },
+
+  /* ЕТАП 11 — ЧОРНОВЕ ОЗДОБЛЕННЯ */
+  { id: "rough_fin", grp: "rough", name: "Етап 11 · Чорнове оздоблення", weeks: (A, p) => 3 + p.area / 100,
+    scope: "Перегородки, штукатурка, стяжка з утепленням, шпаклівка під фініш.",
+    items: [
+      { k: "h_part", n: "Внутрішні перегородки", u: "м²", q: (A) => Math.round((A.wallsPlaster + A.wetWallsPlaster) * 0.28), w: 520, m: 460, ver: false },
+      { k: "h_plaster", n: "Штукатурка стін гіпсова по маяках", u: "м²", q: (A) => Math.round(A.wallsPlaster), w: 340, m: 180, ver: true, live: "walls_plaster" },
+      { k: "h_plaster_c", n: "Штукатурка цементна (мокрі зони)", u: "м²", q: (A) => Math.round(A.wetWallsPlaster), w: 380, m: 210, ver: false },
+      { k: "h_hydro_in", n: "Гідроізоляція мокрих зон", u: "м²", q: (A) => Math.round(A.wetFloor * 1.5), w: 190, m: 165, ver: true, live: "hydroizol" },
+      { k: "h_screed_ins", n: "Утеплення підлоги першого поверху ЕППС", u: "м²", q: (A, p) => fpn(p), w: 140, m: 380, ver: false },
+      { k: "h_screed", n: "Стяжка підлоги", u: "м²", q: (A) => A.total, w: 280, m: 220, ver: true, live: "screed" },
+      { k: "h_putty", n: "Шпаклівка стін і стель під фініш", u: "м²", q: (A) => Math.round(A.wallsPlaster * 0.95 + A.ceilPaint + A.ceilGk), w: 300, m: 100, ver: true, live: "putty" },
+    ] },
+
+  /* ЕТАП 12 — ЧИСТОВЕ ОЗДОБЛЕННЯ */
+  { id: "fine_fin", grp: "finish", name: "Етап 12 · Чистове оздоблення", weeks: (A) => 3 + A.total / 80,
+    scope: "Рахується покімнатно: у кожному приміщенні власні стіни, підлога і стеля.",
+    items: [
+      { k: "h_paint", n: "Фарбування стін у 2 шари", u: "м²", q: (A) => Math.round(A.wallsPaint), w: 175, m: 120, ver: true, mats: "paint", live: "painting" },
+      { k: "h_wallp", n: "Поклейка шпалер", u: "м²", q: (A) => Math.round(A.wallsWallpaper), w: 200, m: 220, ver: true, mats: "wallpaper", live: "wallpaper" },
+      { k: "h_decor", n: "Декоративна штукатурка (акцентні стіни)", u: "м²", q: (A) => Math.round(A.wallsDecor), w: 780, m: 620, ver: false, mats: "decor", live: "decor_plaster" },
+      { k: "h_tile_w", n: "Плитка: стіни мокрих зон", u: "м²", q: (A) => Math.round(A.tileWalls), w: 920, m: 950, ver: true, mats: "tile", live: "tile" },
+      { k: "h_tile_f", n: "Плитка: підлога", u: "м²", q: (A) => Math.round(A.floorTile), w: 880, m: 920, ver: true, mats: "tile", live: "tile" },
+      { k: "h_floor", n: "Ламінат/вініл з підкладкою", u: "м²", q: (A) => Math.round(A.floorLam), w: 270, m: 780, ver: true, mats: "floorcover", live: "laminate" },
+      { k: "h_parquet", n: "Інженерна дошка на клей", u: "м²", q: (A) => Math.round(A.floorParquet), w: 550, m: 2850, ver: false },
+      { k: "h_plinth", n: "Плінтус з установкою", u: "м.п.", q: (A) => Math.round(A.plinth), w: 130, m: 145, ver: true, mats: "plinth", live: "plinth" },
+      { k: "h_ceil_s", n: "Натяжна стеля", u: "м²", q: (A) => Math.round(A.ceilStretch), w: 240, m: 220, ver: true, mats: "ceiling", live: "ceiling" },
+      { k: "h_ceil_gk", n: "Стеля ГКЛ", u: "м²", q: (A) => Math.round(A.ceilGk), w: 480, m: 320, ver: false },
+      { k: "h_doors", n: "Міжкімнатні двері з монтажем", u: "шт", q: (A) => A.doors, w: 3200, m: 9000, ver: true, mats: "doors", live: "doors_install" },
+      { k: "h_bath_set", n: "Санвузли: сантехніка з монтажем", u: "сануз.", q: (A) => A.baths, w: 17000, m: 55000, ver: true, mats: "bath" },
+      { k: "h_final", n: "Фурнітура, світильники, дрібний монтаж", u: "м²", q: (A) => A.total, w: 195, m: 58, ver: false },
+    ] },
+
+  /* ЕТАП 13 — БЛАГОУСТРІЙ */
+  { id: "yard", grp: "extra", name: "Етап 13 · Благоустрій ділянки", weeks: () => 4,
+    scope: "Тераса, доріжки, паркінг, огорожа з воротами, зливова, освітлення, газон.",
+    items: [
+      { k: "h_terrace", n: "Тераса (основа + настил)", u: "м²", q: (A, p) => p.opts?.terrace ? Math.round(p.area * 0.12) : 0, w: 1200, m: 1900, ver: false, opt: "terrace" },
+      { k: "h_paths", n: "Доріжки та паркінг (бруківка)", u: "м²", q: (A, p) => p.opts?.yard ? Math.round((p.plot || 8) * 14) : 0, w: 520, m: 680, ver: false, opt: "yard" },
+      { k: "h_fence", n: "Огорожа капітальна", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(4 * Math.sqrt((p.plot || 8) * 100)) : 0, w: 980, m: 1450, ver: false, opt: "yard" },
+      { k: "h_gates", n: "Ворота відкатні з автоматикою + хвіртка", u: "компл", q: (A, p) => p.opts?.yard ? 1 : 0, w: 18000, m: 62000, ver: false, opt: "yard" },
+      { k: "h_storm", n: "Зливова каналізація ділянки", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(perim(p) * 1.5) : 0, w: 420, m: 380, ver: false, opt: "yard" },
+      { k: "h_yard_light", n: "Вуличне освітлення", u: "точка", q: (A, p) => p.opts?.yard ? 8 : 0, w: 1400, m: 1800, ver: false, opt: "yard" },
+      { k: "h_lawn", n: "Планування ґрунту та газон", u: "м²", q: (A, p) => p.opts?.yard ? Math.round((p.plot || 8) * 55) : 0, w: 120, m: 95, ver: false, opt: "yard" },
+    ] },
+
+  /* ЕТАП 14 — ВВЕДЕННЯ В ЕКСПЛУАТАЦІЮ */
+  { id: "commission", grp: "complete", name: "Етап 14 · Введення в експлуатацію", weeks: () => 3,
+    scope: "Технічна інвентаризація, декларація про готовність, присвоєння адреси, реєстрація права власності.",
+    items: [
+      { k: "h_bti", n: "Технічна інвентаризація (техпаспорт)", u: "об'єкт", q: () => 1, w: 9000, m: 0, ver: false },
+      { k: "h_ready", n: "Декларація про готовність до експлуатації", u: "об'єкт", q: () => 1, w: 12000, m: 0, ver: false },
+      { k: "h_address", n: "Присвоєння поштової адреси", u: "об'єкт", q: () => 1, w: 4500, m: 0, ver: false },
+      { k: "h_reg", n: "Реєстрація права власності", u: "об'єкт", q: () => 1, w: 7500, m: 0, ver: false },
+      { k: "h_clean", n: "Прибирання після будівництва", u: "м²", q: (A) => A.total, w: 85, m: 15, ver: false },
+    ] },
+
+  /* НАСКРІЗНЕ */
+  { id: "logistics", grp: "logistics", name: "Наскрізне · Техніка, риштування, логістика", weeks: () => 0,
+    scope: "Кран і спецтехніка, риштування, доставка матеріалів, вивіз будсміття, тимчасове опалення взимку.",
+    items: [
+      { k: "h_crane", n: "Кран / маніпулятор (зміни)", u: "зміна", q: (A, p) => Math.max(6, Math.round(p.area / 30)), w: 9500, m: 0, ver: false },
+      { k: "h_scaffold", n: "Риштування (оренда, монтаж)", u: "м²", q: (A, p) => wallExt(p), w: 95, m: 0, ver: false },
+      { k: "h_delivery", n: "Доставка матеріалів", u: "рейс", q: (A, p) => Math.max(15, Math.round(p.area / 8)), w: 1800, m: 0, ver: false },
+      { k: "h_waste", n: "Вивіз будівельного сміття (контейнер 8 м³)", u: "шт", q: (A, p) => Math.max(4, Math.round(p.area / 35)), w: 4200, m: 0, ver: false },
+      { k: "h_winter", n: "Тимчасове опалення/просушка (зимовий період)", u: "міс", q: (A, p) => p.opts?.winter ? 3 : 0, w: 14000, m: 0, ver: false, opt: "winter" },
     ] },
 ];
+
+/* Опції будинку */
+export const HOUSE_OPTS = [
+  { id: "basement", grp: "constr", name: "Цокольний поверх / підвал", hint: "суттєво дорожчає земляні та фундамент" },
+  { id: "mansard", grp: "constr", name: "Мансарда (житловий горищний поверх)", hint: "утеплення скатів + пароізоляція" },
+  { id: "garage", grp: "constr", name: "Гараж із воротами", hint: "секційні ворота з приводом" },
+  { id: "panoramic", grp: "constr", name: "Панорамне засклення", hint: "розсувні системи" },
+  { id: "terrace", grp: "constr", name: "Тераса", hint: "основа + настил" },
+  { id: "well", grp: "eng", name: "Свердловина", hint: "замість центрального водопроводу" },
+  { id: "septic", grp: "eng", name: "Септик / автономна каналізація", hint: "" },
+  { id: "recuperator", grp: "eng", name: "Рекуператор", hint: "припливно-витяжна з рекуперацією" },
+  { id: "ac", grp: "eng", name: "Кондиціювання", hint: "траси + блоки" },
+  { id: "dewater", grp: "eng", name: "Водозниження", hint: "за високого рівня ґрунтових вод" },
+  { id: "yard", grp: "decor", name: "Благоустрій ділянки", hint: "доріжки, огорожа, ворота, газон" },
+  { id: "winter", grp: "decor", name: "Зимове будівництво", hint: "тимчасове опалення й просушка" },
+];
+
 BUDGETS.house = [
   { id: "h1", name: "до 3 млн", max: 3e6 }, { id: "h2", name: "3–5 млн", max: 5e6 },
   { id: "h3", name: "5–8 млн", max: 8e6 }, { id: "h4", name: "8–12 млн", max: 12e6 },
