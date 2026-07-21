@@ -4,7 +4,7 @@ import {
   BETA, REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, buildAgg,
   FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
-  BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, MATS_CHECKED, FURNITURE, FURN_GROUPS,
+  BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, FURNITURE, FURN_GROUPS,
 } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
@@ -29,7 +29,7 @@ function buildOpts(it, live, baseW) {
   return { opts: [{ name: "Оцінка ПРОПОЗИЦІЯ.БУД", price: baseW, tag: "est" }], def: 0, lw: null };
 }
 
-function calc(mode, p, rooms, selections, live, excl = {}) {
+function calc(mode, p, rooms, selections, live, excl = {}, lmat = null) {
   const region = REGIONS.find(x => x.id === p.region) || REGIONS[0];
   const tier = TIERS[p.tier];
   const style = STYLE_MODS[p.style] || STYLE_MODS["Сучасний"];
@@ -51,7 +51,14 @@ function calc(mode, p, rooms, selections, live, excl = {}) {
       const sel = selections[it.k] ?? def;
       const o = opts[Math.min(sel, opts.length - 1)];
       const pr = Math.round(o.price * tier.kWork * region.k * sk);
-      const matOpts = it.mats ? MATS[it.mats] : null;
+      // Каталог матеріалів: живі ціни Епіцентру мають пріоритет над кураторськими
+      const liveCat = it.mats && lmat?.cats?.[it.mats];
+      const matOpts = it.mats
+        ? MATS[it.mats].map((m, i) => {
+            const L = liveCat && liveCat[i];
+            return L ? { ...m, price: L.price, url: L.url || m.url, live: true, liveName: L.name, count: L.count } : m;
+          })
+        : null;
       const matDef = matOpts ? Math.min({ econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1, matOpts.length - 1) : 0;
       const matSel = matOpts ? (selections["m:" + it.k] ?? matDef) : 0;
       const matChosen = matOpts ? matOpts[Math.min(matSel, matOpts.length - 1)] : null;
@@ -148,6 +155,7 @@ export default function App() {
   const [lead, setLead] = useState({ name: "", phone: "", msg: "" });
   const [live, setLive] = useState(null);
   const [hist, setHist] = useState(null);
+  const [lmat, setLmat] = useState(null);
   const [admin, setAdmin] = useState(false);
   const [margin, setMargin] = useState(0);
   const [leadsRows, setLeadsRows] = useState(null);
@@ -197,6 +205,7 @@ export default function App() {
       .then(x => x.ok ? x.json() : null).then(d => { const r0 = d?.[0]?.rate; if (r0 > 10 && r0 < 200) setUsd(r0); }).catch(() => {});
   }, []);
   useEffect(() => { fetch("/price-history.json").then(x => x.ok ? x.json() : null).then(h => { if (Array.isArray(h) && h.length > 1) setHist(h); }).catch(() => {}); }, []);
+  useEffect(() => { fetch("/materials.json").then(x => x.ok ? x.json() : null).then(d => { if (d?.updated && d.cats) setLmat(d); }).catch(() => {}); }, []);
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
   const p = mode === "flat" ? flat : house;
@@ -243,7 +252,7 @@ export default function App() {
     setPreset(pr.id);
   };
   const toggleOpt = id => setP("opts", { ...p.opts, [id]: !p.opts[id] });
-  const r = useMemo(() => calc(mode, p, rooms, sel, live, excl), [mode, p, rooms, sel, live, excl]);
+  const r = useMemo(() => calc(mode, p, rooms, sel, live, excl, lmat), [mode, p, rooms, sel, live, excl, lmat]);
 
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
   const furnRows = useMemo(() => {
@@ -263,7 +272,7 @@ export default function App() {
 
   const cmp = useMemo(() => {
     const out = {};
-    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, rooms, sel, live, excl).total;
+    for (const t of Object.keys(TIERS)) out[t] = calc(mode, { ...p, tier: t }, rooms, sel, live, excl, lmat).total;
     return out;
   }, [mode, p, rooms, sel, live]);
 
@@ -273,8 +282,8 @@ export default function App() {
     const list = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
     for (const o of list) {
       const on = p.opts[o.id] ?? (o.def && p.condition === "new");
-      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live, excl).total;
-      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live, excl).total : r.total;
+      const totalWith = on ? r.total : calc(mode, { ...p, opts: { ...p.opts, [o.id]: true } }, rooms, sel, live, excl, lmat).total;
+      const totalWithout = on ? calc(mode, { ...p, opts: { ...p.opts, [o.id]: false } }, rooms, sel, live, excl, lmat).total : r.total;
       out[o.id] = Math.max(totalWith - totalWithout, 0);
     }
     return out;
@@ -323,7 +332,7 @@ export default function App() {
     if (v.r) { setRooms(v.r); setRoomsCustom(true); }
     setFurnOn(!!v.fo); setView("form"); setStep(0); window.scrollTo(0, 0);
   };
-  const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || rooms, {}, live);
+  const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || rooms, {}, live, {}, lmat);
 
   // Номер документа: детермінований від конфігурації і дати
   const docNo = useMemo(() => {
@@ -779,6 +788,7 @@ export default function App() {
           <div className="confstrip">
             <span className="timeline">📅 старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)} · {r.weeks} тижнів</span>
             {r.conf > 0 && <span className="confb">✓ {r.conf}% вартості робіт — живі ринкові ціни (rabotniki.ua{live ? ", " + live.updated : ""})</span>}
+            {lmat && <span className="confb">✓ матеріали: живі ціни Епіцентру, {lmat.updated}</span>}
             {BETA && r.betaCount > 0 && <span className="vchip" title="Розцінки очікують перевірки експерта">β {r.betaCount} позицій неперевірено</span>}
             <button className="tl" onClick={() => setShowCmp(s => !s)}>{showCmp ? "Сховати порівняння ↑" : "Порівняти рівні ↓"}</button>
           </div>
@@ -840,7 +850,9 @@ export default function App() {
                     <span className="sp1">{fmt(it.mat * mk)} грн/{it.unit} <span className="hint">· орієнтовно</span></span>
                   )}
                 </div>
-                {it.matChosen && <div className="srcline">{it.matChosen.note ? it.matChosen.note + " · " : ""}<a href={it.matChosen.url} target="_blank" rel="noreferrer">Епіцентр →</a> · перевірено {MATS_CHECKED}</div>}
+                {it.matChosen && <div className="srcline">{it.matChosen.note ? it.matChosen.note + " · " : ""}<a href={it.matChosen.url} target="_blank" rel="noreferrer">Епіцентр →</a>{it.matChosen.live
+                  ? <> · «{it.matChosen.liveName}» · {it.matChosen.count} товарів · <span className="livetag">● live {lmat?.updated}</span></>
+                  : <> · орієнтовна оцінка, уточнюється при закупівлі</>}</div>}
               </div>)}
             </div>}
           </div>)}
@@ -856,7 +868,7 @@ export default function App() {
 
           {furnOn && <div className="furnsec">
             <h3>Комплектація меблями, технікою та декором</h3>
-            <p className="hint" style={{ marginBottom: 14 }}>Окремий підсумок — не входить у вартість ремонту. Ціни — орієнтир Епіцентр, {MATS_CHECKED}.</p>
+            <p className="hint" style={{ marginBottom: 14 }}>Окремий підсумок — не входить у вартість ремонту. Ціни — орієнтовні оцінки рівня Епіцентр/Центр меблів; уточнюються при закупівлі.</p>
             {FURN_GROUPS.map(g => {
               const items = furnRows.filter(f => f.group === g);
               if (!items.length) return null;
@@ -914,7 +926,7 @@ export default function App() {
 
 
           <div className="terms"><h3>Умови</h3>
-            Попередня оцінка, не є офертою. Точний кошторис — після заміру. {live ? `Розцінки на роботи — середньоринкові за даними rabotniki.ua станом на ${live.updated}; матеріали — орієнтовно (Епіцентр, ${MATS_CHECKED}).` : `Ціни станом на ${today}.`} {BETA ? "Версія БЕТА: частина розцінок очікує перевірки експертом (позначені β)." : ""} Пропозиція дійсна 14 днів. Гарантія — 24 місяці.</div>
+            Попередня оцінка, не є офертою. Точний кошторис — після заміру. {live ? `Розцінки на роботи — середньоринкові за даними rabotniki.ua станом на ${live.updated}; матеріали — ${lmat ? `живі ціни epicentrk.ua станом на ${lmat.updated}` : "орієнтовні оцінки, уточнюються при закупівлі"}.` : `Ціни станом на ${today}.`} {BETA ? "Версія БЕТА: частина розцінок очікує перевірки експертом (позначені β)." : ""} Пропозиція дійсна 14 днів. Гарантія — 24 місяці.</div>
 
           <div className="sf"><p className="note">ПРОПОЗИЦІЯ.БУД · {today} · {lead.name || "—"} · {lead.phone || "—"}{leadSent === "ok" && <span style={{ color: "var(--ok)" }}> · ✓ заявку передано команді</span>}</p>
             <div className="actions no-print">
