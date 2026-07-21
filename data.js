@@ -213,6 +213,7 @@ export const FLAT_STAGES = [
       { k: "lan", n: "Слабострум: інтернет/ТБ точка", u: "шт", q: A => Math.round(A.pts * 0.12) + 2, w: 380, m: 260, ver: false },
       { k: "fan_out", n: "Вивід під витяжний вентилятор санвузла", u: "шт", q: A => A.baths, w: 550, m: 380, ver: false },
       { k: "ac_route", n: "Траса кондиціонера (штроба+фреон+дренаж)", u: "компл", q: (A, p) => p.opts?.ac ? (p.acCount || 1) : 0, w: 3400, m: 2700, ver: true, opt: "ac" },
+      { k: "ac_unit", n: "Кондиціонер: обладнання + монтаж блоків", u: "шт", q: (A, p) => p.opts?.ac ? (p.acCount || 1) : 0, w: 2800, m: 28500, ver: false, mats: "ac_unit", opt: "ac" },
       { k: "led_niche", n: "LED-підсвітка ніш/кухні (профіль+стрічка+БЖ)", u: "м.п.", q: (A, p) => p.opts?.led ? (p.ledLen || 6) : 0, w: 450, m: 520, ver: false, opt: "led" },
     ] },
   { id: "plumb", grp: "engineering", name: "Етап 5 · Сантехнічна розводка", weeks: (A) => 1 + A.baths * 0.7,
@@ -228,6 +229,7 @@ export const FLAT_STAGES = [
       { k: "towel", n: "Полотенцесушитель (перенос/новий)", u: "шт", q: A => A.baths, w: 2200, m: 4500, ver: false },
       { k: "wash_pts", n: "Підводки: пральна/ПММ/фільтр питної", u: "точка", q: A => 2 + A.kitchens, w: 850, m: 480, ver: false },
       { k: "rad_move", n: "Радіатори: заміна (вторинка) / перенос (новобуд)", u: "шт", q: (A, p) => (isOld(p) && p.opts?.radiators) || (p.condition === "new" && p.opts?.radMove) ? (p.roomsCount || 2) + 1 : 0, w: 2300, m: 5600, ver: true, mats: "radiators", live: "radiators" },
+      { k: "boiler", n: "Бойлер: обладнання + монтаж і підключення", u: "шт", q: (A, p) => p.opts?.boiler ? 1 : 0, w: 2400, m: 11500, ver: false, mats: "boiler", opt: "boiler" },
       { k: "pressure", n: "Гідровипробування системи", u: "об'єкт", q: () => 1, w: 1500, m: 0, ver: false },
     ] },
   { id: "vent", grp: "engineering", name: "Етап 6 · Вентиляція та клімат", weeks: () => 0.5,
@@ -343,22 +345,23 @@ export const FLAT_STAGES = [
 /* Глобальні опції (не прив'язані до кімнат) */
 export const OPT_GROUPS = { eng: "Інженерія", constr: "Конструктив", decor: "Оздоблення і сервіс" };
 export const FLAT_OPTS = [
-  { id: "ac", grp: "eng", name: "Кондиціонер", hint: "траса під монтаж", qty: { key: "acCount", unit: "шт", min: 1, max: 6, def: 1 } },
+  { id: "ac", grp: "eng", name: "Кондиціонер", hint: "траса + обладнання + монтаж блоків", qty: { key: "acCount", unit: "шт", min: 1, max: 6, def: 1 } },
+  { id: "boiler", grp: "eng", name: "Бойлер / водонагрівач", hint: "обладнання + підключення" },
   { id: "radiators", grp: "eng", name: "Заміна радіаторів", hint: "", onlyCond: "old", rec: "old" },
   { id: "radMove", grp: "eng", name: "Перенос радіаторів", hint: "стоять від забудовника", onlyCond: "new" },
   { id: "risers", grp: "eng", name: "Заміна стояків", hint: "будинки до ~1990 р.", onlyCond: "old", rec: "old" },
   { id: "showerTrap", grp: "eng", name: "Душ із трапом у підлозі", hint: "замість піддона" },
-  { id: "sound", grp: "eng", name: "Шумоізоляція підлоги", hint: "" },
+  { id: "sound", grp: "eng", name: "Шумоізоляція підлоги", hint: "", unitHint: "≈700 грн/м²" },
   { id: "windows", grp: "constr", name: "Заміна вікон", hint: "з відкосами й підвіконнями", onlyCond: "old" },
   { id: "slopes", grp: "constr", name: "Відкоси та підвіконня", hint: "вікна вже стоять від забудовника", onlyCond: "new", def: true, rec: "new" },
   { id: "entryDoor", grp: "constr", name: "Вхідні двері", hint: "заміна" },
-  { id: "partitions", grp: "constr", name: "Нові перегородки ГКЛ", hint: "", qty: { key: "partArea", unit: "м²", min: 2, max: 60, def: 12 } },
+  { id: "partitions", grp: "constr", name: "Нові перегородки ГКЛ", hint: "", unitHint: "≈1 210 грн/м²", qty: { key: "partArea", unit: "м²", min: 2, max: 60, def: 12 } },
   { id: "opening", grp: "constr", name: "Новий проріз у стіні", hint: "ненесуча", qty: { key: "openingCount", unit: "шт", min: 1, max: 5, def: 1 } },
   { id: "dScreed", grp: "constr", name: "Демонтаж стяжки", hint: "якщо стара зруйнована", onlyCond: "old" },
   { id: "dPartitions", grp: "constr", name: "Знесення перегородок", hint: "", onlyCond: "old" },
-  { id: "design", grp: "decor", name: "Дизайн-проєкт", hint: "плани + візуалізації" },
+  { id: "design", grp: "decor", name: "Дизайн-проєкт", hint: "плани + візуалізації", unitHint: "900 грн/м²" },
   { id: "hiddenCurtain", grp: "decor", name: "Приховані карнизи", hint: "у натяжній стелі · авто: по вікнах" },
-  { id: "led", grp: "decor", name: "LED-підсвітка", hint: "ніші, кухня", qty: { key: "ledLen", unit: "м.п.", min: 2, max: 30, def: 6 } },
+  { id: "led", grp: "decor", name: "LED-підсвітка", hint: "ніші, кухня", unitHint: "≈970 грн/м.п.", qty: { key: "ledLen", unit: "м.п.", min: 2, max: 30, def: 6 } },
 ];
 
 export const BUDGETS = {
@@ -446,6 +449,16 @@ export const MATS = {
   radiators: [
     { name: "Сталеві панельні", note: "", price: 4800, url: EP("радіатор сталевий панельний") },
     { name: "Біметалеві", note: "", price: 6500, url: EP("радіатор біметалевий") },
+  ],
+  ac_unit: [
+    { name: "Спліт економ (on/off)", note: "9k BTU, до 25 м²", price: 18500, url: EP("кондиціонер спліт-система") },
+    { name: "Інверторний стандарт", note: "9–12k BTU, тихіший, економніший", price: 28500, url: EP("кондиціонер інверторний") },
+    { name: "Преміум інвертор", note: "12k+ BTU, Daikin/Mitsubishi клас", price: 52000, url: EP("кондиціонер Daikin") },
+  ],
+  boiler: [
+    { name: "Бойлер 80 л", note: "електричний, емальований", price: 6500, url: EP("бойлер 80 л") },
+    { name: "Бойлер 100 л сухий ТЕН", note: "довший ресурс", price: 11500, url: EP("бойлер сухий тен 100") },
+    { name: "Проточний / тепловий насос", note: "преміум", price: 26000, url: EP("водонагрівач проточний") },
   ],
   decor: [
     { name: "Короїд / камінцева", note: "", price: 450, url: EP("декоративна штукатурка короїд") },
