@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import * as XLSX from "xlsx";
 import { css } from "./styles.js";
 import {
   BETA, REGIONS, TIERS, TIER_TABLE, STYLE_MODS, GROUPS,
@@ -9,6 +8,14 @@ import {
 } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
+
+// ⬇️ ВАШІ ДАНІ — відредагуйте цей блок (єдине місце)
+const CONTACTS = {
+  company: 'ФОП Прізвище Імʼя',          // ← ваша назва / ФОП
+  phone: '+380 XX XXX XX XX',            // ← телефон
+  email: 'hello@propozytsia-bud.com',    // ← email
+  city: 'Київ та Київська область',
+};
 
 function buildOpts(it, live, baseW) {
   const lw = it.live && live?.works?.[it.live];
@@ -82,6 +89,41 @@ function calc(mode, p, rooms, selections, live, excl = {}) {
     budgetFit: budget ? low <= budget.max : true, budgetName: budget?.name || "", totalWeeks: Math.ceil(wo), itemCount: allItems.length };
 }
 
+// Числове поле: дозволяє порожнє значення під час введення (зручно на телефоні),
+// на виході з поля повертає значення за замовчуванням, якщо залишили порожнім.
+function NumInput({ value, onChange, def, min, max, step, style, className }) {
+  const [txt, setTxt] = useState(value == null ? "" : String(value));
+  useEffect(() => { setTxt(value == null ? "" : String(value)); }, [value]);
+  return <input type="number" inputMode="decimal" className={className} style={style}
+    value={txt} min={min} max={max} step={step}
+    onFocus={e => e.target.select()}
+    onChange={e => {
+      const t = e.target.value;
+      setTxt(t);
+      if (t !== "") { const n = Number(t); if (!Number.isNaN(n)) onChange(n); }
+    }}
+    onBlur={() => {
+      if (txt === "" || Number.isNaN(Number(txt))) {
+        const d = def ?? min ?? 0;
+        setTxt(String(d)); onChange(d);
+      }
+    }} />;
+}
+
+function useCount(v) {
+  const [d, setD] = useState(v);
+  useEffect(() => {
+    if (typeof requestAnimationFrame === "undefined") { setD(v); return; }
+    const s = d, e = v, t0 = performance.now(), dur = 350;
+    if (Math.abs(e - s) < 1) { setD(e); return; }
+    let raf;
+    const f = t => { const k = Math.min((t - t0) / dur, 1); setD(s + (e - s) * (k * (2 - k))); if (k < 1) raf = requestAnimationFrame(f); };
+    raf = requestAnimationFrame(f);
+    return () => cancelAnimationFrame(raf);
+  }, [v]); // eslint-disable-line
+  return d;
+}
+
 const fmt = n => new Intl.NumberFormat("uk-UA", { maximumFractionDigits: 0 }).format(Math.round(n));
 const fmtM = n => n >= 1e6 ? (n / 1e6).toFixed(2).replace(".", ",") + "\u00a0млн" : fmt(n);
 
@@ -95,6 +137,7 @@ export default function App() {
   const [house, setHouse] = useState(initH);
   const [rooms, setRooms] = useState(() => defaultRooms(2, 1, 65));
   const [roomsCustom, setRoomsCustom] = useState(false);
+  const [preset, setPreset] = useState(null);
   const [view, setView] = useState("form");
   const [step, setStep] = useState(0);
   const [detail, setDetail] = useState(false);
@@ -116,7 +159,7 @@ export default function App() {
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [furnSel, setFurnSel] = useState({});
-  const [excl, setExcl] = useState({});
+  const excl = {}; // «зроблю сам» вилучено на прохання замовника
   const [q, setQ] = useState("");
   const [usd, setUsd] = useState(null);
   const [variants, setVariants] = useState(() => { try { return JSON.parse(localStorage.getItem("pb_variants") || "[]"); } catch { return []; } });
@@ -142,7 +185,6 @@ export default function App() {
         if (saved.d != null) setDetail(saved.d);
         if (saved.fo != null) setFurnOn(saved.fo);
         if (saved.sd) setStartDate(saved.sd);
-        if (saved.ex) setExcl(saved.ex);
       }
     } catch {}
   }, []);
@@ -158,12 +200,47 @@ export default function App() {
   useEffect(() => { fetch("/prices.json").then(r => r.ok ? r.json() : null).then(d => { if (d?.updated && Object.keys(d.works || {}).length) setLive(d); }).catch(() => {}); }, []);
 
   const p = mode === "flat" ? flat : house;
-  const setP = (k, v) => {
-    (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
-    if (mode === "flat" && !roomsCustom && ["roomsCount", "bathrooms", "area"].includes(k)) {
-      const next = { ...flat, [k]: v };
-      setRooms(defaultRooms(next.roomsCount, next.bathrooms, next.area));
+  // Слайдери ЗАВЖДИ впливають на список кімнат — навіть після ручного налаштування.
+  // Ручні площі/оздоблення зберігаються: кімнати додаються/видаляються, площі масштабуються.
+  const syncRooms = (next, k) => setRooms(rs => {
+    let out = [...rs];
+    if (k === "roomsCount") {
+      const living = out.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen"].includes(x.type));
+      const want = Math.max(next.roomsCount, 1); // «N-кімнатна» = N кімнат + кухня окремо
+      if (living.length > want) {
+        const drop = living.slice(want).map(x => x.id);
+        out = out.filter(x => !drop.includes(x.id));
+      } else if (living.length < want) {
+        for (let i = living.length; i < want; i++) out.push(newRoom("bedroom"));
+      }
     }
+    if (k === "bathrooms") {
+      const wet = out.filter(x => ROOM_TYPES[x.type].wet);
+      const want = Math.max(next.bathrooms, 1);
+      if (wet.length > want) {
+        const drop = wet.slice(want).map(x => x.id);
+        out = out.filter(x => !drop.includes(x.id));
+      } else if (wet.length < want) {
+        for (let i = wet.length; i < want; i++) out.push(newRoom(i === 0 ? "bath" : "wc"));
+      }
+    }
+    if (k === "area") {
+      const sum = out.reduce((a, x) => a + (x.area || 0), 0) || 1;
+      const kf = next.area / sum;
+      out = out.map(x => ({ ...x, area: Math.max(Math.round(x.area * kf * 10) / 10, 1.5) }));
+    }
+    return out;
+  });
+
+  const setP = (k, v) => {
+    if (["tier", "style", "opts"].includes(k)) setPreset(null);
+    (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
+    if (mode === "flat" && ["roomsCount", "bathrooms", "area"].includes(k)) syncRooms({ ...flat, [k]: v }, k);
+  };
+
+  const applyPreset = pr => {
+    setFlat(s => ({ ...s, tier: pr.apply.tier, style: pr.apply.style, opts: { ...pr.apply.opts } }));
+    setPreset(pr.id);
   };
   const toggleOpt = id => setP("opts", { ...p.opts, [id]: !p.opts[id] });
   const r = useMemo(() => calc(mode, p, rooms, sel, live, excl), [mode, p, rooms, sel, live, excl]);
@@ -204,6 +281,12 @@ export default function App() {
   }, [mode, p, rooms, sel, live, r.total]);
 
   const mk = 1 + (admin ? margin : 0) / 100;
+  const roomStats = useMemo(() => ({
+    total: rooms.length,
+    living: rooms.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen"].includes(x.type)).length,
+    wet: rooms.filter(x => ROOM_TYPES[x.type].wet).length,
+  }), [rooms]);
+  const lowA = useCount(r.low * mk), highA = useCount(r.high * mk);
   const today = new Date().toLocaleDateString("uk-UA");
   const fmtD = d => d.toLocaleDateString("uk-UA", { day: "numeric", month: "short", year: "numeric" });
   const sDate = new Date(startDate + "T00:00:00");
@@ -242,6 +325,24 @@ export default function App() {
   };
   const variantCalc = v => calc(v.m, v.m === "flat" ? v.f : v.h, v.r || rooms, {}, live);
 
+  // Номер документа: детермінований від конфігурації і дати
+  const docNo = useMemo(() => {
+    const s = JSON.stringify({ p, rooms: rooms.map(x => [x.type, x.area]) });
+    let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 1000;
+    const d = new Date();
+    return `ПБ-${String(d.getFullYear()).slice(2)}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}-${String(h).padStart(3, "0")}`;
+  }, [p, rooms]);
+  const validUntil = new Date(Date.now() + 14 * 864e5).toLocaleDateString("uk-UA");
+  const [qr, setQr] = useState(null);
+  useEffect(() => {
+    if (view !== "sheet") return;
+    try {
+      const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl };
+      const url = window.location.origin + "/#c=" + btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      import("qrcode").then(Q => Q.toDataURL(url, { margin: 0, width: 120, color: { dark: "#1A1C20", light: "#FFFFFF" } })).then(setQr).catch(() => {});
+    } catch {}
+  }, [view]); // eslint-disable-line
+
   const shareLink = () => {
     try {
       const payload = { v: 3, m: mode, f: flat, h: house, r: rooms, d: detail, fo: furnOn, sd: startDate, ex: excl };
@@ -263,7 +364,8 @@ export default function App() {
     }).catch(() => setLeadsErr("Помилка зʼєднання."));
   };
 
-  const exportXlsx = () => {
+  const exportXlsx = async () => {
+    const XLSX = await import("xlsx");
     const wsData = [
       ["ПРОПОЗИЦІЯ.БУД — Кошторис" + (BETA ? " (БЕТА)" : ""), "", "", "", "", "", ""],
       [mode === "flat" ? `Ремонт ${r.A.total} м², кімнат: ${rooms.filter(x => x.type !== "bath" && x.type !== "wc" && x.type !== "hall" && x.type !== "balcony").length}` : `Будинок ${p.area} м²`, r.region.name, r.tier.name, p.style, "", "", today],
@@ -321,6 +423,7 @@ export default function App() {
             ? [{ id: "obj", t: "Обʼєкт" }, { id: "rooms", t: "Кімнати" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }]
             : [{ id: "obj", t: "Будинок" }, { id: "opts", t: "Роботи" }, { id: "style", t: "Стиль і бюджет" }];
           const stepId = STEPS[Math.min(step, STEPS.length - 1)].id;
+          const optsChosen = OPTS.filter(o => p.opts[o.id] ?? (o.def && p.condition === "new")).length;
           const goto = i => { setStep(Math.max(0, Math.min(i, STEPS.length - 1))); window.scrollTo({ top: 0, behavior: "smooth" }); };
           const next = () => step >= STEPS.length - 1 ? (setView("lead"), window.scrollTo(0, 0)) : goto(step + 1);
           return (<>
@@ -329,6 +432,7 @@ export default function App() {
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
               : <div className="badge demo">демо · ціни орієнтовні</div>}
+            <div className="dimline" />
             <div className="howit">
               <span><b>1</b> Параметри обʼєкта</span><span className="ha">→</span>
               <span><b>2</b> Жива ціна одразу</span><span className="ha">→</span>
@@ -346,7 +450,7 @@ export default function App() {
 
           <div className="wsteps no-print">
             {STEPS.map((s, i) => <button key={s.id} className={"wstep" + (i === step ? " on" : "") + (i < step ? " done" : "")} onClick={() => goto(i)}>
-              <span className="wn">{i < step ? "✓" : i + 1}</span>{s.t}</button>)}
+              <span className="wn">{i < step ? "✓" : i + 1}</span>{s.t}{s.id === "opts" && optsChosen > 0 ? ` · ${optsChosen}` : ""}</button>)}
           </div>
 
           <div className="grid">
@@ -357,8 +461,8 @@ export default function App() {
                   <div className="cb">
                     <label className="f">Готові сценарії <span className="hint">один тап — типова конфігурація, все можна змінити</span>
                       <div className="chips">
-                        {PRESETS.map(pr => <button key={pr.id} className="chip" title={pr.hint}
-                          onClick={() => { setP("tier", pr.apply.tier); setP("style", pr.apply.style); setP("opts", { ...pr.apply.opts }); }}>{pr.name}</button>)}
+                        {PRESETS.map(pr => <button key={pr.id} className={"chip acc" + (preset === pr.id ? " on" : "")} title={pr.hint}
+                          onClick={() => applyPreset(pr)}>{pr.name}</button>)}
                       </div></label>
                     <label className="f">Обсяг ремонту
                       <div className="chips">
@@ -376,7 +480,7 @@ export default function App() {
                       {mode === "flat"
                         ? <label className="f">Поверх / ліфт
                             <div style={{ display: "flex", gap: 8 }}>
-                              <input type="number" min="1" max="30" value={p.floor} onChange={e => setP("floor", +e.target.value)} style={{ width: 70 }} />
+                              <NumInput value={p.floor} def={1} min={1} max={30} onChange={v => setP("floor", v)} style={{ width: 70 }} />
                               <select value={p.lift} onChange={e => setP("lift", e.target.value)}>
                                 <option value="cargo">Вантажний ліфт</option><option value="pass">Пасажирський</option><option value="none">Без ліфта</option>
                               </select>
@@ -403,7 +507,7 @@ export default function App() {
                   </div></div></div>}
               </>}
 
-              {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">Кімнати</span><h2>{rooms.length} кімнат · {r.A.total} м²</h2></div>
+              {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">Кімнати</span><h2>{roomStats.living} кімн. · {roomStats.wet} с/в · {r.A.total} м²</h2></div>
                 <div className="cb">
                   <label className="f">Загальна площа
                     <div className="rr"><input type="range" min="30" max="180" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
@@ -411,20 +515,21 @@ export default function App() {
                     <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
                     <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
                   </div>
-                  {roomsCustom && <span className="hint">⚠️ Кімнати налаштовані вручну — слайдери вище більше не перегенеровують список</span>}
                   <button className="tl" onClick={() => setDetail(d => !d)}>{detail ? "Згорнути кімнати ↑" : "Налаштувати кожну кімнату окремо ↓"}</button>
                   {detail && (<>
                     <div style={{ display: "grid", gap: 10 }}>
-                      {rooms.map(rm => {
+                      {rooms.map((rm, ri) => {
                         const t = ROOM_TYPES[rm.type];
+                        const sameType = rooms.filter(x => x.type === rm.type);
+                        const label = sameType.length > 1 ? `${t.name} ${sameType.indexOf(rm) + 1}` : t.name;
                         return <div className="roomcard" key={rm.id}>
-                          <div className="roomhead"><span>{t.emoji}</span><span className="rn">{t.name}</span>
+                          <div className="roomhead"><span>{t.emoji}</span><span className="rn">{label}</span>
                             <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити">✕</button></div>
                           <div className="rrow">
-                            <label className="rf">Площа, м²<input type="number" min="1" max="80" step="0.5" value={rm.area} onChange={e => updRoom(rm.id, { area: +e.target.value })} /></label>
-                            <label className="rf">Висота, м<input type="number" min="2.3" max="4" step="0.05" value={rm.h} onChange={e => updRoom(rm.id, { h: +e.target.value })} /></label>
-                            <label className="rf">Вікон<input type="number" min="0" max="6" value={rm.win} onChange={e => updRoom(rm.id, { win: +e.target.value })} /></label>
-                            <label className="rf">Дверей<input type="number" min="0" max="4" value={rm.doors} onChange={e => updRoom(rm.id, { doors: +e.target.value })} /></label>
+                            <label className="rf">Площа, м²<NumInput value={rm.area} def={ROOM_TYPES[rm.type].defA} min={1} max={80} step={0.5} onChange={v => updRoom(rm.id, { area: v })} /></label>
+                            <label className="rf">Висота, м<NumInput value={rm.h} def={2.7} min={2.3} max={4} step={0.05} onChange={v => updRoom(rm.id, { h: v })} /></label>
+                            <label className="rf">Вікон<NumInput value={rm.win} def={0} min={0} max={6} onChange={v => updRoom(rm.id, { win: v })} /></label>
+                            <label className="rf">Дверей<NumInput value={rm.doors} def={0} min={0} max={4} onChange={v => updRoom(rm.id, { doors: v })} /></label>
                           </div>
                           {!t.wet && rm.type !== "balcony" && <div className="rrow">
                             <label className="rf">Стіни<select value={rm.walls} onChange={e => updRoom(rm.id, { walls: e.target.value })}>
@@ -465,7 +570,7 @@ export default function App() {
                               <div className="cbx">{on ? "✓" : ""}</div>
                               <div style={{ flex: 1 }}>
                                 <div className="ot">{o.name}{o.rec === p.condition && <span className="recb">рекомендовано</span>}</div>
-                                {o.hint && <div className="od">{o.hint}</div>}
+                                {o.hint && <div className="od">{o.hint}{o.unitHint && <span className="uhint"> · {o.unitHint}</span>}</div>}
                                 {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
                                   <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
                                   <span>{qv} {o.qty.unit}</span>
@@ -516,7 +621,7 @@ export default function App() {
             <div className="rail no-print">
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
-                <div className="lv">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div>
+                <div className="lv">{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
                 <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.{usd && <> · ≈ ${fmt(r.low * mk / usd)}–${fmt(r.high * mk / usd)}</>}</div>
                 <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0) * mk)}</span></div>
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)}</span></div>
@@ -537,8 +642,28 @@ export default function App() {
             </div>
           </div>
 
+          {step === 0 && <div className="ground no-print">
+            <div className="whyus">
+              {[["📡", "Живі ціни ринку", "розцінки оновлюються щоночі, джерело вказане в кожній позиції"],
+                ["🧩", "Кошторис по кімнатах", "кожна кімната зі своєю площею та оздобленням — без усереднень"],
+                ["📄", "Договір і фіксація", "точний кошторис після заміру фіксується в договорі"],
+                ["📷", "Фотозвіти", "кожен етап документується, гарантія 24 місяці"]].map(([i, t, d]) => (
+                <div className="wu" key={t}><span className="wu-i">{i}</span><div><div className="wu-t">{t}</div><div className="wu-d">{d}</div></div></div>))}
+            </div>
+            <div className="faq">
+              <h3>Часті питання</h3>
+              {[["Наскільки точний онлайн-розрахунок?", "Це попередня оцінка з реальною ринковою вилкою: розцінки на роботи — живі дані rabotniki.ua, матеріали — орієнтир Епіцентра. Точний кошторис складається після безкоштовного заміру й фіксується в договорі."],
+                ["Хто закуповує матеріали?", "Закупівлю ведемо ми за погодженим кошторисом — з чеками та доставкою на обʼєкт. За бажанням частину матеріалів можете придбати самостійно."],
+                ["Чи можна замовити лише частину робіт?", "Так: у калькуляторі є режими «Тільки чорнові», «Тільки чистові» та «Тільки санвузол» — кошторис перерахується лише на обраний обсяг робіт."],
+                ["Чи працюєте з переплануванням?", "Виконуємо демонтаж і зведення ненесучих перегородок. Погодження перепланування з БТІ — окрема послуга, підкажемо процедуру."],
+                ["Як формується графік оплат?", "5 частин, привʼязаних до етапів: аванс 30% на матеріали, далі оплата по факту виконання. Жодних 100% передоплат."],
+                ["Що як ціни на матеріали зміняться?", "Розцінки на роботи фіксуються в договорі. Матеріали закуповуються на старті за кошторисом — тому підсумок не «пливе» посеред ремонту."]].map(([qq, aa]) => (
+                <details key={qq}><summary>{qq}</summary><p>{aa}</p></details>))}
+            </div>
+          </div>}
+
           <div className="mobilebar no-print">
-            <div className="mb-sum"><span className="mb-v">{fmtM(r.low * mk)} — {fmtM(r.high * mk)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
+            <div className="mb-sum"><span className="mb-v">{fmtM(lowA)} — {fmtM(highA)}</span><span className="mb-s">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс</span></div>
             <button className="mb-btn" onClick={next}>{step >= STEPS.length - 1 ? "Пропозиція →" : "Далі →"}</button>
           </div>
           </>);
@@ -628,7 +753,15 @@ export default function App() {
 
         {view === "sheet" && <div className="sheet">
           <div className="cover">
-            <div className="ceye">Комерційна пропозиція{BETA ? " · бета" : ""}</div>
+            <div className="dochead">
+              <div className="dh-l">
+                <div className="dh-no">№ {docNo}</div>
+                <div className="dh-d">видано {today} · дійсна до {validUntil}</div>
+              </div>
+              {qr && <div className="dh-qr"><img src={qr} alt="QR" /><span>інтерактивна версія</span></div>}
+            </div>
+            {BETA && <div className="stamp">БЕТА · очікує перевірки експерта</div>}
+            <div className="ceye">Комерційна пропозиція</div>
             <h1>{mode === "flat" ? `Ремонт ${Math.round(r.A.total)} м² під ключ` : `Будинок ${p.area} м²`}</h1>
             <div className="csub">{mode === "flat" ? `${rooms.filter(x => !ROOM_TYPES[x.type].wet && x.type !== "hall" && x.type !== "balcony" && x.type !== "wardrobe").length} кімн. · ${r.A.baths} с/в` : `${p.roomsCount} спал. · ${p.bathrooms} с/в`} · {r.tier.name} · {p.style}</div>
             <div className="cmeta">{r.region.name} · {today} · {r.itemCount} позицій кошторису</div>
@@ -667,14 +800,12 @@ export default function App() {
               {Object.keys(opn).length === r.rows.length ? "Згорнути все" : "Розгорнути все"}</button>
           </div>
 
-          {r.rows.some(x => x.off) && <div className="exclnote no-print">✂️ Виключено {r.rows.filter(x => x.off).length} етап(и) — «зроблю сам». Підсумок їх не враховує.</div>}
           {displayRows.map(st => <div key={st.id} className={"stage" + ((opn[st.id] || ql) ? " open" : "") + (st.off ? " off" : "")}>
             <div className="sth" onClick={() => setOpn(o => ({ ...o, [st.id]: !o[st.id] }))}>
               <span className="st-caret">▸</span>
               <span className="st-grp">{GROUPS[st.group]}</span>
-              <span className="st-name">{st.name}</span>
+              <span className="st-name">{st.name.replace(/^Етап \d+[аб]? · /, "").replace("Наскрізне · ", "")}</span>
               {st.sk !== 1 && <span className="st-badge">{st.sk > 1 ? "+" : ""}{Math.round((st.sk - 1) * 100)}%</span>}
-              <button className="exbtn no-print" onClick={e => { e.stopPropagation(); setExcl(x => ({ ...x, [st.id]: !x[st.id] })); }}>{st.off ? "↩ повернути" : "✂ зроблю сам"}</button>
               {st.weeks > 0 && <span className="st-wk">{st.weeks}т</span>}
               <span className="st-tot">{st.off ? <s>{fmt(st.total * mk)}</s> : fmt(st.total * mk)}</span></div>
             {(opn[st.id] || ql) && <div className="stb"><div className="scope">{st.scope}</div>
@@ -793,6 +924,28 @@ export default function App() {
             </div></div>
         </div>}
       </div>
+
+      <footer className="footer no-print">
+        <div className="ft">
+          <div>
+            <div className="ft-logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
+            <div className="ft-sub">Ремонт і будівництво з прозорим кошторисом</div>
+          </div>
+          <div className="ft-col">
+            <div className="ft-h">Контакти</div>
+            <a href={"tel:" + CONTACTS.phone.replace(/\s/g, "")}>{CONTACTS.phone}</a>
+            <a href={"mailto:" + CONTACTS.email}>{CONTACTS.email}</a>
+            <span>{CONTACTS.city}</span>
+          </div>
+          <div className="ft-col">
+            <div className="ft-h">Гарантії</div>
+            <span>Договір із фіксацією цін</span>
+            <span>Гарантія на роботи — 24 міс</span>
+            <span>Фотозвіти кожного етапу</span>
+          </div>
+        </div>
+        <div className="ft-legal">© {new Date().getFullYear()} ПРОПОЗИЦІЯ.БУД · {CONTACTS.company} · Всі права захищені. Розцінки на роботи: rabotniki.ua (публічні дані) · Матеріали: орієнтир Епіцентр.</div>
+      </footer>
     </div>
   );
 }
