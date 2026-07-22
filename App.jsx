@@ -149,6 +149,7 @@ export default function App() {
   const [roomsCustom, setRoomsCustom] = useState(false);
   const [preset, setPreset] = useState(null);
   const [lastChange, setLastChange] = useState(null);
+  const [showBudget, setShowBudget] = useState(false);
   const snapRef = React.useRef(null);
   const [view, setView] = useState("form");
   const [step, setStep] = useState(0);
@@ -312,30 +313,63 @@ export default function App() {
       if (save > 1000) cands.push({ label, why, save, patch });
     };
     // 1) рівень оздоблення
-    if (p.tier === "premium") push("Рівень: преміум → стандарт", "оздоблення й сантехніка середнього сегмента", { tier: "standart" });
-    if (p.tier !== "econom") push("Рівень: → економ", "надійні бюджетні матеріали", { tier: "econom" });
-    // 2) опції — від найдорожчої
+    if (p.tier === "premium") push("Рівень: преміум → стандарт",
+      "Стандарт — це якісні матеріали середнього сегмента: та сама надійність, різниця здебільшого в бренді сантехніки та класі покриттів. На міцність і довговічність будинку це не впливає, а економія суттєва.",
+      { tier: "standart" });
+    if (p.tier !== "econom") push("Рівень: → економ",
+      "Економ-матеріали цілком надійні й виглядають охайно — просто без преміальних брендів. Плитку, сантехніку чи двері завжди можна замінити на дорожчі пізніше, коли з'явиться бюджет; це не потребує переробок.",
+      { tier: "econom" });
+    // 2) опції — від найдорожчої, з поясненням
+    const optWhy = {
+      basement: "Підвал — найдорожча опція: подвоює земляні роботи й фундамент. Більшість функцій (комора, техприміщення, котельня) можна винести на перший поверх або в окрему споруду значно дешевше.",
+      mansard: "Житлова мансарда потребує утеплення скатів і пароізоляції. Горище можна зробити холодним зараз, а утеплити й переобладнати під кімнату пізніше — коробка від цього не змінюється.",
+      recuperator: "Рекуператор економить на опаленні, але окупається роками. Звичайна припливно-витяжна вентиляція забезпечує свіже повітря; рекуператор легко додати згодом — під нього достатньо передбачити місце.",
+      panoramic: "Панорамне засклення — це передусім естетика. Звичайні великі вікна дають достатньо світла й коштують у рази менше; на комфорт проживання майже не впливає.",
+      terrace: "Терасу зручно добудувати окремим етапом уже після заселення — вона не пов'язана з коробкою будинку й не блокує інші роботи.",
+      garage: "Гараж можна замінити навісом (карпорт) — він захищає авто й коштує в кілька разів дешевше. Повноцінний гараж легко прибудувати пізніше.",
+      well: "Якщо поруч є центральний водопровід — підключення до нього дешевше за свердловину. Свердловину має сенс бурити лише там, де централізованої води немає.",
+      ac: "Кондиціонування можна встановити після заселення — головне зараз передбачити траси в стінах. Це знімає суму обладнання з початкового кошторису.",
+      dewater: "Водозниження потрібне лише за високого рівня ґрунтових вод — якщо геологія цього не показала, опцію можна прибрати без ризику.",
+      yard: "Благоустрій (доріжки, огорожа, газон) — завершальний етап, який зазвичай роблять уже після новосілля, часто поетапно й частково власними силами.",
+      winter: "Зимове будівництво з тимчасовим опаленням дорожче. Якщо можна зсунути графік на теплий сезон — ця стаття витрат зникає.",
+      septic: "Якщо поруч є центральна каналізація — підключення дешевше за септик.",
+    };
     const optList = (mode === "flat" ? FLAT_OPTS : HOUSE_OPTS).filter(o => !o.onlyCond || o.onlyCond === p.condition);
     for (const o of optList) {
       const on = p.opts[o.id] ?? (o.def && p.condition === "new");
       if (!on) continue;
-      push(`Відмовитись: ${o.name}`, o.hint || "можна додати пізніше", { opts: { ...p.opts, [o.id]: false } });
+      push(`Відмовитись: ${o.name}`, optWhy[o.id] || "Цю опцію можна додати пізніше окремим етапом — вона не пов'язана з основною коробкою будинку.", { opts: { ...p.opts, [o.id]: false } });
     }
     // 3) конструктив (будинок)
     if (mode === "house") {
-      if (p.roof !== "metal") push("Покрівля → металочерепиця", "найпоширеніше рішення, дешевше в монтажі", { roof: "metal" });
-      if (p.heating === "heatpump") push("Опалення → газовий котел", "дешевше на старті, дорожче в експлуатації", { heating: "gas" });
-      if (p.walls !== "aerobloc") push("Стіни → газоблок", "оптимальне співвідношення ціна/тепло", { walls: "aerobloc" });
-      if (p.foundation === "slab") push("Фундамент → стрічковий", "якщо дозволяє геологія", { foundation: "strip" });
+      if (p.roof !== "metal") push("Покрівля → металочерепиця",
+        "Металочерепиця — найпоширеніше покриття в Україні: надійна, перевірена, дешевша в монтажі за керамічну чи фальцеву. Прослужить десятиліття; переплата за преміум-покрівлю на функцію не впливає.",
+        { roof: "metal" });
+      if (p.heating === "heatpump") push("Опалення → газовий котел",
+        "Тепловий насос дешевший в експлуатації, але дуже дорогий на старті й окупається роками. Газовий котел — стандарт для України: значно дешевше обладнання, а перейти на насос можна згодом.",
+        { heating: "gas" });
+      if (p.walls !== "aerobloc") push("Стіни → газоблок 375 мм",
+        "Газоблок — оптимум ціни й тепла для приватного будинку: тепліший за цеглу, дешевший, швидший у кладці. Міцності для 1–3 поверхів більш ніж достатньо.",
+        { walls: "aerobloc" });
+      if (p.foundation === "slab") push("Фундамент → стрічковий",
+        "Стрічковий монолітний фундамент — класика для більшості ґрунтів і дешевший за утеплену плиту. Обирати його варто, якщо геологія не вимагає саме плити.",
+        { foundation: "strip" });
     }
-    // 4) кімнати (квартира) — покриття
+    // 4) кімнати — покриття та оздоблення
     if (aRooms.some(x => x.floor === "parquet")) {
-      push("Інженерна дошка → вініл/ламінат", "візуально близько, у 3 рази дешевше",
+      push("Підлога: інженерна дошка → вініл/ламінат",
+        "Сучасний вініл візуально майже не відрізнити від дерева, він тепліший на дотик і в 3 рази дешевший за інженерну дошку. Дошку можна покласти пізніше в кількох ключових кімнатах.",
         { __rooms: aRooms.map(x => x.floor === "parquet" ? { ...x, floor: "lam" } : x) });
     }
     if (aRooms.some(x => x.walls === "decor")) {
-      push("Декоративна штукатурка → фарбування", "акцент можна зробити пізніше",
+      push("Стіни: декоративна штукатурка → фарбування",
+        "Якісне фарбування виглядає чисто й сучасно. Декоративну штукатурку можна зробити пізніше на одній акцентній стіні — це недорого і не потребує переробок.",
         { __rooms: aRooms.map(x => x.walls === "decor" ? { ...x, walls: "paint" } : x) });
+    }
+    if (aRooms.some(x => x.heatFloor)) {
+      push("Прибрати теплу підлогу в частині кімнат",
+        "Тепла підлога приємна, але в спальнях і підсобних приміщеннях без неї цілком комфортно з радіаторами. Достатньо лишити її у ванних і на кухні.",
+        { __rooms: aRooms.map(x => (ROOM_TYPES[x.type].wet || x.type === "kitchen") ? x : { ...x, heatFloor: false }) });
     }
     cands.sort((a, c) => c.save - a.save);
     // мінімальний набір, що закриває перевищення
@@ -550,6 +584,12 @@ export default function App() {
             <b>{margin}%</b>
             <span className="hint">непомітно для клієнта</span>
             <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>📋 Ліди</button>
+          </div>}
+
+          {budgetAdvice && <div className="budgbanner no-print" onClick={() => setShowBudget(true)}>
+            <span className="bb-i">⚠️</span>
+            <span className="bb-t">Перевищення бюджету «{budgetAdvice.budgetName}» на <b>{fmtM(budgetAdvice.over * mk)} грн</b></span>
+            <span className="bb-b">Як зменшити →</span>
           </div>}
 
           <div className="wsteps no-print">
@@ -768,21 +808,7 @@ export default function App() {
               </div>
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}» на {fmtM(budgetAdvice?.over || 0)} грн</>}</div>
-              {budgetAdvice && <div className="advice">
-                <div className="adv-h">Як залишитись у бюджеті</div>
-                {budgetAdvice.plan.length > 0 && <div className="adv-plan">
-                  Достатньо {budgetAdvice.plan.length === 1 ? "одного кроку" : `${budgetAdvice.plan.length} кроків`}
-                  {budgetAdvice.covered ? "" : " (повністю не покриває — розгляньте менший обсяг)"}
-                </div>}
-                {budgetAdvice.cands.map((c, i) => <div className={"adv-i" + (budgetAdvice.plan.includes(c) ? " key" : "")} key={i}>
-                  <div style={{ flex: 1 }}>
-                    <div className="adv-t">{c.label}</div>
-                    <div className="adv-w">{c.why}</div>
-                  </div>
-                  <div className="adv-s">−{fmtM(c.save * mk)}</div>
-                  <button className="adv-b" onClick={() => applyAdvice(c)}>Застосувати</button>
-                </div>)}
-              </div>}
+              {budgetAdvice && <button className="adv-open" onClick={() => setShowBudget(true)}>💡 Як зменшити вартість →</button>}
               <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
               <div style={{ display: "flex", gap: 8 }}>
                 <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>💾 Зберегти варіант</button>
@@ -808,6 +834,33 @@ export default function App() {
                 ["Чому геологія стоїть до фундаменту?", "Тип фундаменту визначається ґрунтом і рівнем ґрунтових вод. Помилка тут найдорожча: переробити фундамент під готовою коробкою неможливо. Тому геологія — в Етапі 0."],
                 ["Чи можна користуватись для власних розрахунків?", "Так — кошторис вивантажується в Excel з усіма позиціями, обсягами та цінами за одиницю, тож його можна коригувати під свої розцінки."]].map(([qq, aa]) => (
                 <details key={qq}><summary>{qq}</summary><p>{aa}</p></details>))}
+            </div>
+          </div>}
+
+          {showBudget && budgetAdvice && <div className="modal-bg no-print" onClick={() => setShowBudget(false)}>
+            <div className="modal" onClick={e => e.stopPropagation()}>
+              <div className="modal-h">
+                <div>
+                  <div className="modal-t">Як залишитись у бюджеті</div>
+                  <div className="modal-s">Перевищення «{budgetAdvice.budgetName}» на <b>{fmtM(budgetAdvice.over * mk)} грн</b>. Ось як його прибрати — від найвигіднішого. Оберіть, що для вас не критично:</div>
+                </div>
+                <button className="modal-x" onClick={() => setShowBudget(false)}>✕</button>
+              </div>
+              {budgetAdvice.plan.length > 0 && <div className="modal-plan">
+                ★ Достатньо {budgetAdvice.plan.length === 1 ? "одного кроку нижче" : `${budgetAdvice.plan.length} кроків нижче`}, щоб вписатись{budgetAdvice.covered ? "" : ". Якщо цього замало — розгляньте менший обсяг або площу."}
+              </div>}
+              <div className="modal-list">
+                {budgetAdvice.cands.map((c, i) => <div className={"madv" + (budgetAdvice.plan.includes(c) ? " key" : "")} key={i}>
+                  <div className="madv-top">
+                    {budgetAdvice.plan.includes(c) && <span className="madv-star">★</span>}
+                    <span className="madv-t">{c.label}</span>
+                    <span className="madv-s">−{fmtM(c.save * mk)} грн</span>
+                  </div>
+                  <div className="madv-w">{c.why}</div>
+                  <button className="madv-b" onClick={() => { applyAdvice(c); if (c.save >= budgetAdvice.over) setShowBudget(false); }}>Застосувати цей варіант</button>
+                </div>)}
+              </div>
+              <div className="modal-foot">Це поради, а не обов'язкові дії — застосовуйте лише те, що прийнятне для вас. Усе можна повернути.</div>
             </div>
           </div>}
 
