@@ -21,14 +21,18 @@ jobs:
       - name: Збір цін
         run: node scrape-prices.mjs
 
+      - name: Збір цін матеріалів (Епіцентр)
+        run: node scrape-materials.mjs
+        continue-on-error: true
+
       - name: Коміт оновлених цін
         run: |
           git config user.name "price-bot"
           git config user.email "actions@github.com"
-          git add public/prices.json public/price-history.json
+          git add public/prices.json public/price-history.json public/materials.json
           if git diff --cached --quiet; then
             echo "Ціни не змінились — коміт не потрібен"
           else
-            git commit -m "Ціни rabotniki.ua станом на $(date +%Y-%m-%d)"
+            git commit -m "Ціни (роботи + матеріали) станом на $(date +%Y-%m-%d)"
             git push
           fi
