@@ -595,7 +595,7 @@ export const HOUSE_STAGES = [
     items: [
       { k: "h_dig", n: "Розробка ґрунту екскаватором", u: "м³", q: (A, p) => Math.round(fpn(p) * (p.opts?.basement ? 2.6 : 0.9)), w: 260, m: 0, ver: false },
       { k: "h_soil_out", n: "Вивіз надлишкового ґрунту", u: "м³", q: (A, p) => Math.round(fpn(p) * (p.opts?.basement ? 2.0 : 0.55)), w: 320, m: 0, ver: false },
-      { k: "h_sand", n: "Піщано-щебенева подушка з ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.45), w: 480, m: 720, ver: false },
+      { k: "h_sand", n: "Піщано-щебенева подушка з ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.45), w: 550, m: 720, ver: false },
       { k: "h_dewater", n: "Водозниження (за високих ґрунтових вод)", u: "об'єкт", q: (A, p) => p.opts?.dewater ? 1 : 0, w: 38000, m: 0, ver: false, opt: "dewater" },
     ] },
 
@@ -610,7 +610,7 @@ export const HOUSE_STAGES = [
       { k: "h_hydro_f", n: "Гідроізоляція фундаменту (обмазна + рулонна)", u: "м²", q: (A, p) => Math.round(perim(p) * 1.6 + fpn(p) * 0.4), w: 210, m: 190, ver: false },
       { k: "h_ins_f", n: "Утеплення фундаменту ЕППС 100 мм", u: "м²", q: (A, p) => Math.round(perim(p) * 1.4), w: 190, m: 420, ver: false },
       { k: "h_drain", n: "Дренаж по периметру + оглядові колодязі", u: "м.п.", q: (A, p) => Math.round(perim(p) * 1.15), w: 620, m: 540, ver: false },
-      { k: "h_backfill", n: "Зворотна засипка з пошаровим ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.5), w: 280, m: 0, ver: false },
+      { k: "h_backfill", n: "Зворотна засипка з пошаровим ущільненням", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.5), w: 440, m: 0, ver: false },
     ] },
 
   /* ЕТАП 4 — ЦОКОЛЬ/ПІДВАЛ */
@@ -625,8 +625,8 @@ export const HOUSE_STAGES = [
   { id: "box", grp: "walls", name: "Етап 5 · Коробка (стіни та перекриття)", weeks: (A, p) => 5 + p.area / 60,
     scope: "Несучі та внутрішні стіни, армопояси, перемички, монолітні ділянки, міжповерхові перекриття, сходи, фронтони.",
     items: [
-      { k: "h_walls_ext", n: "Кладка зовнішніх несучих стін", u: "м²", q: (A, p) => wallExt(p), w: 620, m: 1180, ver: true, live: "masonry", kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
-      { k: "h_walls_int", n: "Кладка внутрішніх несучих стін", u: "м²", q: (A, p) => Math.round(wallExt(p) * 0.35), w: 540, m: 780, ver: false, kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
+      { k: "h_walls_ext", n: "Кладка зовнішніх несучих стін", u: "м²", q: (A, p) => wallExt(p), w: 470, m: 1180, ver: true, live: "masonry", kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
+      { k: "h_walls_int", n: "Кладка внутрішніх несучих стін", u: "м²", q: (A, p) => Math.round(wallExt(p) * 0.35), w: 420, m: 780, ver: false, kw: p => (WALLS[p.walls] || WALLS.aerobloc).kw, km: p => (WALLS[p.walls] || WALLS.aerobloc).km },
       { k: "h_armo", n: "Армопояс (опалубка + арматура + бетон)", u: "м.п.", q: (A, p) => Math.round(perim(p) * (p.floors || 2)), w: 720, m: 890, ver: false },
       { k: "h_lintels", n: "Перемички над отворами", u: "шт", q: (A, p) => Math.round((p.area / 12)), w: 850, m: 1250, ver: false },
       { k: "h_columns", n: "Монолітні колони / пілони", u: "м³", q: (A, p) => Math.round(fpn(p) * 0.03 * 10) / 10, w: 4200, m: 5400, ver: false },
@@ -709,7 +709,7 @@ export const HOUSE_STAGES = [
   { id: "rough_fin", grp: "rough", name: "Етап 11 · Чорнове оздоблення", weeks: (A, p) => 3 + p.area / 100,
     scope: "Перегородки, штукатурка, стяжка з утепленням, шпаклівка під фініш.",
     items: [
-      { k: "h_part", n: "Внутрішні перегородки", u: "м²", q: (A) => Math.round((A.wallsPlaster + A.wetWallsPlaster) * 0.28), w: 520, m: 460, ver: false },
+      { k: "h_part", n: "Внутрішні перегородки", u: "м²", q: (A) => Math.round((A.wallsPlaster + A.wetWallsPlaster) * 0.28), w: 390, m: 460, ver: false },
       { k: "h_plaster", n: "Штукатурка стін гіпсова по маяках", u: "м²", q: (A) => Math.round(A.wallsPlaster), w: 340, m: 180, ver: true, live: "walls_plaster" },
       { k: "h_plaster_c", n: "Штукатурка цементна (мокрі зони)", u: "м²", q: (A) => Math.round(A.wetWallsPlaster), w: 380, m: 210, ver: false },
       { k: "h_hydro_in", n: "Гідроізоляція мокрих зон", u: "м²", q: (A) => Math.round(A.wetFloor * 1.5), w: 190, m: 165, ver: true, live: "hydroizol" },
