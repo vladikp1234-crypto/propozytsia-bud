@@ -148,6 +148,8 @@ export default function App() {
   const [hrooms, setHrooms] = useState(() => defaultHouseRooms(3, 2, 150, 2));
   const [roomsCustom, setRoomsCustom] = useState(false);
   const [preset, setPreset] = useState(null);
+  const [lastChange, setLastChange] = useState(null);
+  const snapRef = React.useRef(null);
   const [view, setView] = useState("form");
   const [step, setStep] = useState(0);
   const [detail, setDetail] = useState(false);
@@ -173,6 +175,7 @@ export default function App() {
   const excl = {}; // «зроблю сам» вилучено на прохання замовника
   const [q, setQ] = useState("");
   const [usd, setUsd] = useState(null);
+  const [usdDate, setUsdDate] = useState(null);
   const [variants, setVariants] = useState(() => { try { return JSON.parse(localStorage.getItem("pb_variants") || "[]"); } catch { return []; } });
 
   useEffect(() => {
@@ -206,7 +209,7 @@ export default function App() {
 
   useEffect(() => {
     fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json")
-      .then(x => x.ok ? x.json() : null).then(d => { const r0 = d?.[0]?.rate; if (r0 > 10 && r0 < 200) setUsd(r0); }).catch(() => {});
+      .then(x => x.ok ? x.json() : null).then(d => { const r0 = d?.[0]?.rate; if (r0 > 10 && r0 < 200) { setUsd(r0); const ed = d[0].exchangedate; if (ed) setUsdDate(ed); } }).catch(() => {});
   }, []);
   useEffect(() => { fetch("/price-history.json").then(x => x.ok ? x.json() : null).then(h => { if (Array.isArray(h) && h.length > 1) setHist(h); }).catch(() => {}); }, []);
   useEffect(() => { fetch("/materials.json").then(x => x.ok ? x.json() : null).then(d => { if (d?.updated && d.cats) setLmat(d); }).catch(() => {}); }, []);
@@ -246,7 +249,8 @@ export default function App() {
   });
 
   const setP = (k, v) => {
-    if (["tier", "style", "opts"].includes(k)) setPreset(null);
+    if (["tier", "opts"].includes(k)) setPreset(null);
+    snapRef.current = { p: { ...p }, rooms: aRooms.map(x => ({ ...x })), k, v };
     (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, [k]: v }));
     if (["roomsCount", "bathrooms", "area"].includes(k)) syncRooms({ ...p, [k]: v }, k);
   };
@@ -346,7 +350,37 @@ export default function App() {
     if (Object.keys(rest).length) (mode === "flat" ? setFlat : setHouse)(s => ({ ...s, ...rest }));
   };
 
+  // Пояснення зміни ціни: рахує РЕАЛЬНУ дельту між попереднім і новим станом
+  // та знаходить позиції кошторису, що змінились найбільше — це і є причина.
+  const explainDelta = (prevP, prevRooms, label) => {
+    const before = calc(mode, prevP, prevRooms, sel, live, excl, lmat);
+    const after = r;
+    const delta = after.total - before.total;
+    if (Math.abs(delta) < 500) return null;
+    const bMap = {}; before.rows.flatMap(x => x.items).forEach(i => { bMap[i.key] = i; });
+    const diffs = [];
+    after.rows.flatMap(x => x.items).forEach(i => {
+      const b = bMap[i.key];
+      const d = i.total - (b ? b.total : 0);
+      if (Math.abs(d) > 300) diffs.push({ label: i.label, d, qBefore: b?.qty || 0, qAfter: i.qty, unit: i.unit });
+    });
+    Object.values(bMap).forEach(b => { if (!after.rows.flatMap(x => x.items).find(i => i.key === b.key) && b.total > 300) diffs.push({ label: b.label, d: -b.total, qBefore: b.qty, qAfter: 0, unit: b.unit }); });
+    diffs.sort((a, c) => Math.abs(c.d) - Math.abs(a.d));
+    return { label, delta, drivers: diffs.slice(0, 4) };
+  };
+
   const mk = 1 + (admin ? margin : 0) / 100;
+  useEffect(() => {
+    const s = snapRef.current;
+    if (!s) return;
+    snapRef.current = null;
+    const labels = { area: "площа", roomsCount: "кількість кімнат", bathrooms: "санвузли", tier: "рівень оздоблення",
+      foundation: "фундамент", walls: "матеріал стін", roof: "покрівля", heating: "опалення", floors: "поверховість", region: "регіон", acCount: "кондиціонери" };
+    const nm = s.k === "room" ? (Object.keys(s.v)[0] === "area" ? "площа кімнати" : Object.keys(s.v)[0] === "h" ? "висота стелі" : Object.keys(s.v)[0] === "win" ? "вікна" : Object.keys(s.v)[0] === "walls" ? "оздоблення стін" : Object.keys(s.v)[0] === "floor" ? "покриття підлоги" : Object.keys(s.v)[0] === "ceil" ? "стеля" : Object.keys(s.v)[0] === "heatFloor" ? "тепла підлога" : "кімната") : (labels[s.k] || s.k);
+    const ex = explainDelta(s.p, s.rooms, nm);
+    if (ex) setLastChange({ ...ex, t: Date.now() });
+  }, [r.total]); // eslint-disable-line
+
   const roomStats = useMemo(() => ({
     total: aRooms.length,
     living: aRooms.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen", "boilerroom", "garage", "terraceR"].includes(x.type)).length,
@@ -468,7 +502,11 @@ export default function App() {
     ? shownRows.map(st => ({ ...st, items: st.items.filter(i => i.label.toLowerCase().includes(ql)) })).filter(st => st.items.length)
     : shownRows;
   const usedGroups = [...new Set(r.rows.map(x => x.group))];
-  const updRoom = (id, patch) => { setRoomsCustom(true); setARooms(rs => rs.map(x => x.id === id ? { ...x, ...patch } : x)); };
+  const updRoom = (id, patch) => {
+    snapRef.current = { p: { ...p }, rooms: aRooms.map(x => ({ ...x })), k: "room", v: patch };
+    setRoomsCustom(true);
+    setARooms(rs => rs.map(x => x.id === id ? { ...x, ...patch } : x));
+  };
   const delRoom = id => { setRoomsCustom(true); setARooms(rs => rs.filter(x => x.id !== id)); };
   const addRoom = t => { setRoomsCustom(true); setARooms(rs => [...rs, newRoom(t, mode === "house" ? { lvl: 1 } : {})]); };
 
@@ -710,7 +748,15 @@ export default function App() {
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
                 <div className="lv">{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
-                <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.{usd && <> · ≈ ${fmt(r.low * mk / usd)}–${fmt(r.high * mk / usd)}</>}</div>
+                <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.</div>
+                {usd && <div className="usdline">≈ ${fmt(r.low * mk / usd)}–${fmt(r.high * mk / usd)} <span className="usdrate">курс НБУ {usd.toFixed(2)} ₴/${usdDate ? " · " + usdDate : ""}</span></div>}
+                {lastChange && <div className="whychange" key={lastChange.t}>
+                  <div className="wc-h">{lastChange.delta > 0 ? "▲" : "▼"} {lastChange.delta > 0 ? "+" : "−"}{fmtM(Math.abs(lastChange.delta) * mk)} грн — {lastChange.label}</div>
+                  {lastChange.drivers.map((d, i) => <div className="wc-d" key={i}>
+                    {d.d > 0 ? "+" : "−"}{fmt(Math.abs(d.d) * mk)} · {d.label}
+                    {d.qBefore !== d.qAfter && <span className="wc-q"> ({fmt(d.qBefore)}→{fmt(d.qAfter)} {d.unit})</span>}
+                  </div>)}
+                </div>}
                 <div className="lr"><span>Роботи</span><span>{fmtM(r.rows.reduce((a, x) => a + x.work, 0) * mk)}</span></div>
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)}</span></div>
                 {furnOn && <div className="lr"><span>Комплектація</span><span>{fmtM(furnTotal)}</span></div>}
@@ -851,7 +897,7 @@ export default function App() {
 
           <div className="snums">
             <div className="sn2"><div className="k">Вартість · ринкова вилка</div><div className="v">{fmtM(r.low * mk)} — <em>{fmtM(r.high * mk)}</em></div></div>
-            <div className="sn2"><div className="k">Грн / м²</div><div className="v"><em>{fmt(r.perM2 * mk)}</em></div></div>
+            <div className="sn2"><div className="k">Грн / м²{usd ? " · $ екв." : ""}</div><div className="v"><em>{fmt(r.perM2 * mk)}</em>{usd && <span className="usdsm"> ≈ ${fmt(r.perM2 * mk / usd)}</span>}</div></div>
             <div className="sn2"><div className="k">Строк</div><div className="v"><em>{r.months}</em> міс.</div>
               <div className="k" style={{ marginTop: 4 }}>старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)}</div></div>
           </div>
