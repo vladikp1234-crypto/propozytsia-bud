@@ -285,6 +285,14 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .stage.off .st-name,.stage.off .st-grp,.stage.off .st-wk{opacity:.45}
 .stage.off .st-tot{color:var(--sub)}
 .exclnote{padding:10px 28px;font-size:11.5px;font-weight:600;color:var(--wrn);background:var(--wrns);border-bottom:1px solid var(--line)}
+.usdline{font-family:'IBM Plex Mono';font-size:12px;color:#93A8FF;margin-top:2px}
+.usdrate{color:#93A8FF88;font-size:9.5px}
+.usdsm{font-family:'IBM Plex Mono';font-size:12px;color:var(--sub);font-weight:400}
+.whychange{margin-top:11px;padding:10px 11px;background:#111830;border:1px solid #26304F;border-radius:9px;animation:wcin .3s ease}
+@keyframes wcin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.wc-h{font-family:'IBM Plex Mono';font-size:11.5px;font-weight:700;color:#fff;margin-bottom:6px}
+.wc-d{font-family:'IBM Plex Mono';font-size:10px;color:#B9BCC4;line-height:1.6}
+.wc-q{color:#93A8FF}
 .advice{background:var(--card);border:1.5px solid #E8C860;border-radius:12px;padding:13px 14px}
 .adv-h{font-weight:800;font-size:12.5px;margin-bottom:3px}
 .adv-plan{font-size:11px;color:var(--sub);margin-bottom:9px;line-height:1.45}
