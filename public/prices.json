@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-21",
+  "updated": "2026-07-22",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -13,17 +13,17 @@
       "min": 250,
       "max": 517,
       "unit": "м²",
-      "price": 382,
+      "price": 378,
       "name": "Ручна Маякова штукатурка (до 2 см)",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
       "count": 64,
-      "min": 300,
+      "min": 220,
       "max": 425,
       "unit": "м²",
-      "price": 371,
+      "price": 361,
       "name": "Машинна штукатурка стін",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
@@ -49,11 +49,11 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 166,
+      "count": 168,
       "min": 517,
       "max": 1250,
       "unit": "м²",
-      "price": 906,
+      "price": 898,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -79,7 +79,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 107,
+      "count": 106,
       "min": 150,
       "max": 380,
       "unit": "м²",
@@ -89,7 +89,7 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "plinth": {
-      "count": 41,
+      "count": 40,
       "min": 170,
       "max": 290,
       "unit": "м.пог.",
@@ -113,7 +113,7 @@
       "min": 200,
       "max": 420,
       "unit": "м²",
-      "price": 291,
+      "price": 292,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
@@ -123,7 +123,7 @@
       "min": 600,
       "max": 1150,
       "unit": "м²",
-      "price": 922,
+      "price": 921,
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
