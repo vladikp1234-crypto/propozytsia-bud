@@ -70,11 +70,17 @@ export const HEATING = {
 
 
 /* ---------- геометрія будинку ---------- */
-export const fpn = (p) => Math.round(((p.area || 150) / (p.floors || 1)) * 1.1);   // площа забудови
-export const perim = (p) => Math.round(4 * Math.sqrt(fpn(p)));                      // периметр
+// Площа забудови (слід будинку) — ЯВНИЙ параметр користувача.
+// Якщо не задана — оцінка: житлова / поверхи × 1.18 (стіни, сходи, простінки).
+export const suggestFootprint = (p) => Math.round(((p.area || 150) / (p.floors || 1)) * 1.18);
+export const fpn = (p) => (p.footprint && p.footprint >= 30) ? p.footprint : suggestFootprint(p);
+export const perim = (p) => Math.round(4 * Math.sqrt(fpn(p) * 1.06));               // периметр сліду
 export const fk = (p) => (FOUNDATIONS[p.foundation] || FOUNDATIONS.strip).k;
-export const wallExt = (p) => Math.round(perim(p) * 2.9 * (p.floors || 1) * 0.85);  // зовнішні стіни мінус отвори
-export const roofArea = (p) => Math.round(fpn(p) * ((ROOFS[p.roof] || ROOFS.metal).k));
+export const floorH = (p) => (p.floorHeight || 3.0);                                 // висота поверху (з перекриттям)
+export const wallExt = (p) => Math.round(perim(p) * floorH(p) * (p.floors || 1) * 0.85); // зовнішні стіни мінус отвори
+export const roofArea = (p) => Math.round(fpn(p) * ((ROOFS[p.roof] || ROOFS.metal).k)); // покрівля вкриває ВЕСЬ слід
+export const lawnA = (p) => Math.max(p.lawnArea || Math.round((p.plot || 8) * 100 - fpn(p) - ((p.pathsArea || Math.round((p.plot || 8) * 9)))), 0);
+export const usableArea = (p) => Math.round(fpn(p) * (p.floors || 1) * 0.82);        // корисна площа з забудови
 
 /* ---------- КІМНАТИ ---------- */
 // pts = типова к-сть електроточок (β — перевірити в експерта)
@@ -737,17 +743,42 @@ export const HOUSE_STAGES = [
       { k: "h_final", n: "Фурнітура, світильники, дрібний монтаж", u: "м²", q: (A) => A.total, w: 195, m: 58, ver: false },
     ] },
 
-  /* ЕТАП 13 — БЛАГОУСТРІЙ */
-  { id: "yard", grp: "extra", name: "Етап 13 · Благоустрій ділянки", weeks: () => 4,
-    scope: "Тераса, доріжки, паркінг, огорожа з воротами, зливова, освітлення, газон.",
+  /* ЕТАП 13 — БЛАГОУСТРІЙ ТА САД */
+  { id: "yard", grp: "extra", name: "Етап 13 · Благоустрій і тверді покриття", weeks: () => 3,
+    scope: "Тераса, доріжки, паркінг, огорожа з воротами, зливова каналізація, вуличне освітлення.",
     items: [
-      { k: "h_terrace", n: "Тераса (основа + настил)", u: "м²", q: (A, p) => p.opts?.terrace ? Math.round(p.area * 0.12) : 0, w: 1200, m: 1900, ver: false, opt: "terrace" },
-      { k: "h_paths", n: "Доріжки та паркінг (бруківка)", u: "м²", q: (A, p) => p.opts?.yard ? Math.round((p.plot || 8) * 14) : 0, w: 520, m: 680, ver: false, opt: "yard" },
+      { k: "h_terrace", n: "Тераса (основа + настил)", u: "м²", q: (A, p) => p.opts?.terrace ? Math.round(fpn(p) * 0.15) : 0, w: 1200, m: 1900, ver: false, opt: "terrace" },
+      { k: "h_paths", n: "Доріжки та паркінг (бруківка на основі)", u: "м²", q: (A, p) => p.opts?.yard ? (p.pathsArea || Math.round((p.plot || 8) * 9)) : 0, w: 520, m: 680, ver: false, opt: "yard" },
       { k: "h_fence", n: "Огорожа капітальна", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(4 * Math.sqrt((p.plot || 8) * 100)) : 0, w: 980, m: 1450, ver: false, opt: "yard" },
       { k: "h_gates", n: "Ворота відкатні з автоматикою + хвіртка", u: "компл", q: (A, p) => p.opts?.yard ? 1 : 0, w: 18000, m: 62000, ver: false, opt: "yard" },
       { k: "h_storm", n: "Зливова каналізація ділянки", u: "м.п.", q: (A, p) => p.opts?.yard ? Math.round(perim(p) * 1.5) : 0, w: 420, m: 380, ver: false, opt: "yard" },
       { k: "h_yard_light", n: "Вуличне освітлення", u: "точка", q: (A, p) => p.opts?.yard ? 8 : 0, w: 1400, m: 1800, ver: false, opt: "yard" },
-      { k: "h_lawn", n: "Планування ґрунту та газон", u: "м²", q: (A, p) => p.opts?.yard ? Math.round((p.plot || 8) * 55) : 0, w: 120, m: 95, ver: false, opt: "yard" },
+    ] },
+
+  /* ЕТАП 13б — САД ТА ОЗЕЛЕНЕННЯ */
+  { id: "garden", grp: "extra", name: "Етап 13б · Сад та озеленення", weeks: () => 2,
+    scope: "Планування, родючий ґрунт, газон (посівний або рулонний), дерева, живопліт, квітники, автополив.",
+    items: [
+      { k: "g_soil", n: "Завезення та розподіл родючого ґрунту (шар ~10 см)", u: "м³",
+        q: (A, p) => (p.lawnType && p.lawnType !== "none") ? Math.round(lawnA(p) * 0.1) : 0, w: 180, m: 420, ver: false },
+      { k: "g_prep", n: "Планування ділянки, культивація, прибирання каміння", u: "м²",
+        q: (A, p) => (p.lawnType && p.lawnType !== "none") ? lawnA(p) : 0, w: 45, m: 0, ver: false },
+      { k: "g_lawn_seed", n: "Газон посівний (насіння, укочування, перший догляд)", u: "м²",
+        q: (A, p) => p.lawnType === "seed" ? lawnA(p) : 0, w: 65, m: 40, ver: false },
+      { k: "g_lawn_roll", n: "Газон рулонний з укладанням", u: "м²",
+        q: (A, p) => p.lawnType === "roll" ? lawnA(p) : 0, w: 120, m: 210, ver: false },
+      { k: "g_tree_fruit", n: "Плодові дерева: саджанець 2–3 р. + посадка (яма, ґрунтосуміш, кілок)", u: "шт",
+        q: (A, p) => p.treesFruit || 0, w: 350, m: 550, ver: false },
+      { k: "g_tree_decor", n: "Декоративні дерева/хвойні до 2 м + посадка", u: "шт",
+        q: (A, p) => p.treesDecor || 0, w: 420, m: 1400, ver: false },
+      { k: "g_tree_big", n: "Великомірні дерева 3–5 м + посадка з гарантією приживлення", u: "шт",
+        q: (A, p) => p.treesBig || 0, w: 4500, m: 9500, ver: false },
+      { k: "g_hedge", n: "Живопліт (туя/граб, 2–3 шт на м.п.) з посадкою", u: "м.п.",
+        q: (A, p) => p.hedgeLen || 0, w: 380, m: 780, ver: false },
+      { k: "g_beds", n: "Квітники та декоративні композиції (багаторічники, мульча)", u: "м²",
+        q: (A, p) => p.flowerBeds || 0, w: 320, m: 480, ver: false },
+      { k: "g_irrig", n: "Автополив (труби, форсунки, контролер, зона на ~100 м²)", u: "м²",
+        q: (A, p) => p.opts?.irrigation && p.lawnType !== "none" ? lawnA(p) : 0, w: 140, m: 210, ver: false, opt: "irrigation" },
     ] },
 
   /* ЕТАП 14 — ВВЕДЕННЯ В ЕКСПЛУАТАЦІЮ */
@@ -785,7 +816,8 @@ export const HOUSE_OPTS = [
   { id: "recuperator", grp: "eng", name: "Рекуператор", hint: "припливно-витяжна з рекуперацією" },
   { id: "ac", grp: "eng", name: "Кондиціювання", hint: "траси + блоки" },
   { id: "dewater", grp: "eng", name: "Водозниження", hint: "за високого рівня ґрунтових вод" },
-  { id: "yard", grp: "decor", name: "Благоустрій ділянки", hint: "доріжки, огорожа, ворота, газон" },
+  { id: "yard", grp: "decor", name: "Благоустрій ділянки", hint: "доріжки, огорожа, ворота, зливова" },
+  { id: "irrigation", grp: "decor", name: "Автополив газону", hint: "труби, форсунки, контролер" },
   { id: "winter", grp: "decor", name: "Зимове будівництво", hint: "тимчасове опалення й просушка" },
 ];
 
