@@ -1,0 +1,104 @@
+{
+  "updated": "2026-07-23",
+  "source": "epicentrk.ua",
+  "stats": {
+    "found": 12,
+    "missed": 20,
+    "total": 32
+  },
+  "cats": {
+    "floorcover": [
+      {
+        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб пісочний 32/АС4/7 мм (68267)",
+        "price": 509.59,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-pisochnyi-32-as4-7-mm-68267.html"
+      },
+      {
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
+        "price": 560,
+        "count": 60,
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
+      },
+      null,
+      null
+    ],
+    "tile": [
+      null,
+      {
+        "name": "Плитка Cersanit Riverwood beige G1 18,5X59,8 см",
+        "price": 429,
+        "count": 36,
+        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-riverwood-beige-g1-18-5x59-8-sm.html"
+      },
+      null
+    ],
+    "wallpaper": [
+      {
+        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аурика 2 5404-04 0,53x10,",
+        "price": 207.6,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-auryka-2-5404-04-0-53x10-05-m.html"
+      },
+      {
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 535,
+        "count": 34,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
+      },
+      {
+        "name": "Шпалери самоклеючі Рване дерево 2800х450х1,8мм (SW-00000727)",
+        "price": 379,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-samokleuci-rvane-derevo-2800h450h1-8mm-sw-00000727-1eee074d-7eac-6f50-a7d2-db3ab19e449e.html"
+      }
+    ],
+    "doors": [
+      {
+        "name": "Дверне полотно ОМіС Lego 10 ПО 600 мм дуб світлий",
+        "price": 2926,
+        "count": 12,
+        "url": "https://epicentrk.ua/ua/shop/dverne-polotno-omis-lego-10-po-600-mm-dub-svitlyi.html"
+      },
+      null,
+      null
+    ],
+    "plinth": [
+      {
+        "name": "Плінтус МДФ ОМіС дуб шале 16x80x2400 мм",
+        "price": 295,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-omis-dub-shale-80x16x2400-mm.html"
+      },
+      null
+    ],
+    "radiators": [
+      {
+        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
+        "price": 4587.3,
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
+      },
+      {
+        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
+        "price": 5157,
+        "count": 37,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+      }
+    ],
+    "decor": [
+      {
+        "name": "Штукатурка декоративна мінеральна DOPS Decor короїд 25 кг зерно до 1,5 мм Білий",
+        "price": 589,
+        "count": 10,
+        "url": "https://epicentrk.ua/ua/shop/mplc-shtukaturka-dekorativna-mineral-na-dops-decor-koroid-25-kg-1ecfb831-681d-6d2c-979b-0f89e6c403cd.html"
+      },
+      {
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 825,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+      }
+    ]
+  }
+}
