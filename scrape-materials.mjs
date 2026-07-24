@@ -1,75 +1,84 @@
-// scrape-materials.mjs v1 — щоденний збір реальних цін матеріалів з epicentrk.ua
-// Результат: public/materials.json → { updated, cats: { <catKey>: [ {name, price, url, count}, ... ] } }
+// scrape-materials.mjs v2 — щоденний збір реальних цін матеріалів з epicentrk.ua
+// Результат: public/materials.json → { updated, cats: { <catKey>: [ {name, price, url, count}|null, ... ] } }
 // Індекс у масиві = рівень (0 економ, 1 стандарт, 2 преміум) і збігається з MATS у data.js.
 //
-// ПРИНЦИП ЧЕСНОСТІ: якщо позицію не вдалося зібрати — вона НЕ підставляється.
-// Застаріле/вигадане краще не показувати: у застосунку така категорія лишається
-// кураторською оцінкою з відповідним підписом.
+// v2 — виправлення за результатами першого прогону (12/32):
+//  • alts: до 3 альтернативних запитів на рівень — якщо перший промахнувся
+//  • div: конвертація роздрібної одиниці в одиницю кошторису
+//    (фарба продається ВІДРАМИ — ділимо на покриття в м²; мат теплої підлоги — на площу комплекту)
+//  • minCount: для дорогих категорій (двері, кондиціонери) достатньо 2 товарів у коридорі
+//  • перевірка монотонності рівнів: якщо «преміум» вийшов дешевшим за «стандарт» —
+//    рівень скидається в MISS (краще кураторська оцінка, ніж хибний рівень)
 //
-// Композитні позиції (натяжна стеля, комплект сантехніки, вікна під замовлення)
-// свідомо не мапляться — це не роздрібний SKU, ціна формується проєктно.
+// ПРИНЦИП ЧЕСНОСТІ: якщо позицію не вдалося зібрати — вона НЕ підставляється,
+// категорія лишається кураторською оцінкою з підписом «орієнтовно».
 
 const BASE = "https://epicentrk.ua";
-const DELAY_MS = 2500;
+const DELAY_MS = 2200;
+const FETCH_TIMEOUT_MS = 20000;   // жоден запит не висить довше 20 с
+const MAX_RUNTIME_MS = 20 * 60 * 1000; // весь збір — не довше 20 хв
+const T0 = Date.now();
+const timeLeft = () => MAX_RUNTIME_MS - (Date.now() - T0);
 
-// catKey → рівні. band = [min, max] грн за одиницю: відсікає аксесуари й випадкові товари.
-// unit — для перевірки: ціна за м²/шт/м.п. Пошук робимо тим самим запитом, що й посилання в UI.
+// band = [min, max] грн за РОЗДРІБНУ одиницю (до div). div — дільник → грн за одиницю кошторису.
 const MAPPING = {
   floorcover: [
-    { q: "ламінат 32 клас", band: [180, 700], unit: "м²" },
-    { q: "ламінат 33 клас", band: [350, 1400], unit: "м²" },
-    { q: "вініловий ламінат SPC", band: [500, 2200], unit: "м²" },
-    { q: "інженерна дошка дуб", band: [1200, 6000], unit: "м²" },
+    { q: "ламінат 32 клас", alts: ["ламінат 8 мм"], band: [180, 700] },
+    { q: "ламінат 33 клас", alts: ["ламінат 33 клас 10 мм"], band: [350, 1400] },
+    { q: "вініловий ламінат SPC", alts: ["вінілова підлога SPC", "кварц вініл"], band: [500, 2200] },
+    { q: "інженерна дошка дуб", alts: ["паркетна дошка дуб"], band: [1200, 6000] },
   ],
   tile: [
-    { q: "плитка керамічна для стін", band: [150, 900], unit: "м²" },
-    { q: "плитка Cersanit", band: [400, 1800], unit: "м²" },
-    { q: "керамограніт 600х1200", band: [900, 4000], unit: "м²" },
+    { q: "плитка керамічна для стін", alts: ["плитка настінна 20х60", "кахель для ванної"], band: [150, 900] },
+    { q: "плитка Cersanit", alts: ["керамограніт 60х60"], band: [400, 1800] },
+    { q: "керамограніт 600х1200", alts: ["керамограніт великоформатний", "плитка під мармур 60х120"], band: [900, 4000], minCount: 2 },
   ],
+  // Фарба: роздріб — відра. Беремо відро ~9–10 л (покриває ≈ 35 м² у 2 шари) → div: 35
   paint: [
-    { q: "фарба інтер'єрна водоемульсійна", band: [40, 260], unit: "м²" },
-    { q: "фарба Sniezka інтер'єрна", band: [60, 400], unit: "м²" },
-    { q: "фарба Tikkurila інтер'єрна", band: [120, 900], unit: "м²" },
+    { q: "фарба інтер'єрна 10 л", alts: ["фарба водоемульсійна 14 кг", "фарба для стін 10 л"], band: [600, 2500], div: 35 },
+    { q: "фарба Sniezka 10 л", alts: ["фарба Sniezka Satynowa", "фарба мийна 10 л"], band: [900, 4000], div: 35 },
+    { q: "фарба Tikkurila 9 л", alts: ["фарба Tikkurila Harmony", "фарба преміум інтер'єрна"], band: [2000, 9000], div: 35, minCount: 2 },
   ],
   wallpaper: [
-    { q: "шпалери паперові", band: [50, 400], unit: "м²" },
-    { q: "шпалери флізелінові", band: [100, 800], unit: "м²" },
-    { q: "шпалери під фарбування", band: [100, 800], unit: "м²" },
+    { q: "шпалери паперові", band: [50, 400] },
+    { q: "шпалери флізелінові", alts: ["шпалери вінілові на флізеліновій основі"], band: [100, 800] },
+    { q: "шпалери під фарбування", alts: ["шпалери флізелінові під фарбування 25 м"], band: [100, 900] },
   ],
   doors: [
-    { q: "двері міжкімнатні ламіновані", band: [2000, 9000], unit: "шт" },
-    { q: "двері міжкімнатні шпоновані", band: [5000, 20000], unit: "шт" },
-    { q: "двері міжкімнатні приховані", band: [12000, 60000], unit: "шт" },
+    { q: "двері міжкімнатні ламіновані", alts: ["двері міжкімнатні екошпон"], band: [2000, 9000] },
+    { q: "двері міжкімнатні шпоновані", alts: ["двері міжкімнатні ПВХ покриття", "двері Новий Стиль"], band: [4000, 20000], minCount: 2 },
+    { q: "двері міжкімнатні фарбовані", alts: ["двері міжкімнатні білі емаль", "двері прихованого монтажу"], band: [8000, 60000], minCount: 2 },
   ],
   plinth: [
-    { q: "плінтус МДФ", band: [40, 350], unit: "м.п." },
-    { q: "плінтус дюрополімер", band: [80, 600], unit: "м.п." },
+    { q: "плінтус МДФ", alts: ["плінтус підлоговий МДФ 2.4"], band: [40, 350] },
+    { q: "плінтус дюрополімер", alts: ["плінтус поліуретановий", "плінтус вологостійкий білий"], band: [80, 600] },
   ],
   entry: [
-    { q: "двері вхідні квартирні", band: [5000, 20000], unit: "шт" },
-    { q: "двері вхідні з терморозривом", band: [12000, 45000], unit: "шт" },
+    { q: "двері вхідні квартирні", alts: ["двері вхідні металеві", "двері вхідні Патріот"], band: [5000, 22000], minCount: 2 },
+    { q: "двері вхідні з терморозривом", alts: ["двері вхідні вуличні терморозрив"], band: [12000, 48000], minCount: 2 },
   ],
+  // Мат теплої підлоги: роздріб — комплект. Типовий комплект ≈ 3 м² → div: 3
   heatfloor: [
-    { q: "нагрівальний мат тепла підлога", band: [300, 2000], unit: "м²" },
-    { q: "інфрачервона плівка тепла підлога", band: [250, 1600], unit: "м²" },
+    { q: "нагрівальний мат 3 м2", alts: ["нагрівальний мат тепла підлога комплект", "мат нагрівальний 3"], band: [1200, 8000], div: 3 },
+    { q: "нагрівальний мат 5 м2", alts: ["тепла підлога електрична 5 м2"], band: [2500, 12000], div: 5, minCount: 2 },
   ],
   radiators: [
-    { q: "радіатор сталевий панельний", band: [1500, 9000], unit: "шт" },
-    { q: "радіатор біметалевий", band: [2000, 14000], unit: "шт" },
+    { q: "радіатор сталевий панельний", band: [1500, 9000] },
+    { q: "радіатор біметалевий", alts: ["радіатор біметалічний 500"], band: [2000, 14000] },
   ],
   decor: [
-    { q: "декоративна штукатурка короїд", band: [150, 900], unit: "м²" },
-    { q: "венеціанська штукатурка", band: [400, 2500], unit: "м²" },
+    { q: "декоративна штукатурка короїд", band: [150, 900] },
+    { q: "венеціанська штукатурка", alts: ["декоративна штукатурка ефект бетону"], band: [400, 2500], minCount: 2 },
   ],
   ac_unit: [
-    { q: "кондиціонер спліт-система 09", band: [10000, 30000], unit: "шт" },
-    { q: "кондиціонер інверторний 09", band: [16000, 50000], unit: "шт" },
-    { q: "кондиціонер Daikin", band: [30000, 120000], unit: "шт" },
+    { q: "кондиціонер 25 м2", alts: ["кондиціонер спліт-система 09", "кондиціонер Cooper Hunter 09"], band: [9000, 32000], minCount: 2 },
+    { q: "кондиціонер інверторний", alts: ["кондиціонер інверторний 12", "кондиціонер TCL інвертор"], band: [15000, 52000], minCount: 2 },
+    { q: "кондиціонер Daikin", alts: ["кондиціонер Mitsubishi Electric", "кондиціонер преміум інвертор"], band: [28000, 130000], minCount: 2 },
   ],
   boiler: [
-    { q: "бойлер 80 л", band: [3500, 14000], unit: "шт" },
-    { q: "бойлер сухий тен 100 л", band: [6000, 25000], unit: "шт" },
-    { q: "водонагрівач проточний", band: [8000, 60000], unit: "шт" },
+    { q: "бойлер 80 л", alts: ["водонагрівач 80 л", "бойлер Atlantic 80"], band: [3500, 15000], minCount: 2 },
+    { q: "бойлер сухий тен 100", alts: ["водонагрівач сухий тен 100 л", "бойлер Atlantic Steatite 100"], band: [6000, 26000], minCount: 2 },
+    { q: "водонагрівач проточний", alts: ["бойлер комбінований непрямий нагрів"], band: [3000, 60000], minCount: 2 },
   ],
 };
 
@@ -81,18 +90,21 @@ const median = (a) => {
 };
 
 async function fetchPage(url) {
+  const ctrl = new AbortController();
+  const tm = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
   const res = await fetch(url, {
+    signal: ctrl.signal,
     headers: {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
       "Accept-Language": "uk-UA,uk;q=0.9",
       Accept: "text/html,application/xhtml+xml",
     },
   });
+  clearTimeout(tm);
   if (!res.ok) throw new Error("HTTP " + res.status);
   return await res.text();
 }
 
-// Стратегія 1: JSON-LD (найнадійніше, якщо є)
 function fromJsonLd(html) {
   const out = [];
   const blocks = html.match(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || [];
@@ -116,7 +128,6 @@ function fromJsonLd(html) {
   return out;
 }
 
-// Стратегія 2: інлайн-дані/розмітка (data-price, itemprop, "price":N)
 function fromMarkup(html) {
   const out = [];
   const patterns = [
@@ -135,30 +146,41 @@ function fromMarkup(html) {
   return out;
 }
 
-async function collect(entry) {
-  const url = `${BASE}/ua/search/?q=${encodeURIComponent(entry.q)}`;
+async function tryQuery(q, entry) {
+  const url = `${BASE}/ua/search/?q=${encodeURIComponent(q)}`;
   const html = await fetchPage(url);
   let items = fromJsonLd(html);
   let via = "json-ld";
-  if (items.length < 3) { items = fromMarkup(html); via = "markup"; }
-
+  if (items.length < 3) { const m = fromMarkup(html); if (m.length > items.length) { items = m; via = "markup"; } }
   const [lo, hi] = entry.band;
+  const need = entry.minCount || 3;
   const inBand = items.filter((x) => x.price >= lo && x.price <= hi);
-  if (inBand.length < 3) {
-    return { ok: false, reason: `знайдено ${items.length} товарів, у діапазоні ${lo}–${hi}: ${inBand.length}`, via, sample: items.slice(0, 5).map(x => `${x.name} = ${x.price}`) };
+  if (inBand.length < need) {
+    return { ok: false, reason: `«${q}»: товарів ${items.length}, у коридорі ${lo}–${hi}: ${inBand.length} (треба ${need})`, via,
+      sample: items.slice(0, 4).map((x) => `${x.name.slice(0, 45)}=${x.price}`) };
   }
-  const price = median(inBand.map((x) => x.price));
-  // репрезентативний товар — найближчий до медіани
-  const rep = inBand.reduce((a, b) => (Math.abs(b.price - price) < Math.abs(a.price - price) ? b : a));
-  return {
-    ok: true, via,
-    data: {
-      name: rep.name,
-      price,
-      count: inBand.length,
-      url: rep.url && rep.url.startsWith("http") ? rep.url : url,
-    },
-  };
+  const retail = median(inBand.map((x) => x.price));
+  const div = entry.div || 1;
+  const rep = inBand.reduce((a, b) => (Math.abs(b.price - retail) < Math.abs(a.price - retail) ? b : a));
+  return { ok: true, via, data: {
+    name: rep.name, price: Math.round((retail / div) * 100) / 100, retail, count: inBand.length,
+    url: rep.url && rep.url.startsWith("http") ? rep.url : url,
+  } };
+}
+
+async function collect(entry) {
+  const queries = [entry.q, ...(entry.alts || [])];
+  const fails = [];
+  for (const q of queries) {
+    if (timeLeft() < 60_000) { fails.push({ reason: `«${q}»: пропущено — вичерпано ліміт часу прогону` }); break; }
+    try {
+      const r = await tryQuery(q, entry);
+      if (r.ok) return r;
+      fails.push(r);
+    } catch (e) { fails.push({ reason: `«${q}»: помилка ${e.message}` }); }
+    await sleep(DELAY_MS);
+  }
+  return { ok: false, reason: fails.map((f) => f.reason).join(" | "), sample: fails.flatMap((f) => f.sample || []).slice(0, 5) };
 }
 
 const main = async () => {
@@ -170,26 +192,25 @@ const main = async () => {
     const row = [];
     for (let i = 0; i < tiers.length; i++) {
       const t = tiers[i];
-      try {
-        const r = await collect(t);
-        if (r.ok) {
-          row[i] = r.data;
-          found++;
-          console.log(`✓ ${key}[${i}] «${t.q}» → ${r.data.price} грн/${t.unit} (${r.data.count} товарів, ${r.via})`);
-        } else {
-          row[i] = null;
-          missed++;
-          misses.push(`${key}[${i}] «${t.q}» — ${r.reason}`);
-          console.log(`MISS ${key}[${i}] «${t.q}» — ${r.reason} [${r.via}]`);
-          if (r.sample?.length) console.log(`     приклади: ${r.sample.join(" | ")}`);
-        }
-      } catch (e) {
-        row[i] = null;
-        missed++;
-        misses.push(`${key}[${i}] «${t.q}» — помилка: ${e.message}`);
-        console.log(`MISS ${key}[${i}] «${t.q}» — помилка: ${e.message}`);
+      const r = await collect(t);
+      if (r.ok) {
+        row[i] = r.data; found++;
+        console.log(`✓ ${key}[${i}] → ${r.data.price} грн/од (роздріб ${r.data.retail}, ${r.data.count} тов., ${r.via})`);
+      } else {
+        row[i] = null; missed++;
+        misses.push(`${key}[${i}] — ${r.reason}`);
+        console.log(`MISS ${key}[${i}] — ${r.reason}`);
+        if (r.sample?.length) console.log(`     приклади: ${r.sample.join(" | ")}`);
       }
       await sleep(DELAY_MS);
+    }
+    // Монотонність рівнів: преміум не може бути дешевшим за стандарт більш ніж на 10%
+    for (let i = 1; i < row.length; i++) {
+      if (row[i] && row[i - 1] && row[i].price < row[i - 1].price * 0.9) {
+        misses.push(`${key}[${i}] — інверсія рівнів (${row[i].price} < ${row[i - 1].price}), скинуто`);
+        console.log(`SANITY ${key}[${i}] — рівень дешевший за попередній (${row[i].price} < ${row[i - 1].price}) → MISS`);
+        row[i] = null; found--; missed++;
+      }
     }
     if (row.some(Boolean)) cats[key] = row;
   }
