@@ -2,18 +2,18 @@
   "updated": "2026-07-24",
   "source": "epicentrk.ua",
   "stats": {
-    "found": 16,
-    "missed": 16,
+    "found": 21,
+    "missed": 11,
     "total": 32
   },
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат SWISS KRONO Promo V4 дуб санторіні 32/АС4/8 мм",
-        "price": 518.61,
-        "retail": 518.61,
+        "name": "Ламінат Kastamonu FP Urban 4V лос анжелес 32/АС4/8 мм",
+        "price": 518.96,
+        "retail": 518.96,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-promo-v4-dub-santorini-32-as4-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-urban-plus-promo-los-angeles-32-as4-197-1205-8-mm.html"
       },
       {
         "name": "Ламінат Peli Parquet Loft 4V дуб північний 33/АС5/8 мм (LF700)",
@@ -32,13 +32,36 @@
       }
     ],
     "tile": [
-      null,
+      {
+        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
+        "price": 399,
+        "retail": 399,
+        "count": 60,
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
+      },
       {
         "name": "Плитка Cersanit Riverwood beige G1 18,5X59,8 см",
         "price": 429,
         "retail": 429,
         "count": 35,
         "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-riverwood-beige-g1-18-5x59-8-sm.html"
+      },
+      null
+    ],
+    "paint": [
+      {
+        "name": "Емаль антикорозійна Polifarb захист 3в1 молоткова, чорний 2,0 кг",
+        "price": 28.4,
+        "retail": 994,
+        "count": 25,
+        "url": "https://epicentrk.ua/ua/shop/mplc-emal-antikorozijna-polifarb-zahist-molotkova-2-0-kg-cornij-30284736-1f0c60be-4317-62e0-bfa6-e9c99750d474.html"
+      },
+      {
+        "name": "Фарба латексна водоемульсійна Kompozit PRIME 7 шовковистий мат білий 2,7 л",
+        "price": 35.33,
+        "retail": 1236.52,
+        "count": 33,
+        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-sten-i-potolkov-prime-kompozit-2-7-l.html"
       },
       null
     ],
@@ -54,10 +77,16 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 40,
+        "count": 36,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
-      null
+      {
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Onyx UNI 253533 1,06x10,05 м",
+        "price": 1297,
+        "retail": 1297,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-onyx-uni-253533-1-06x10-05-m.html"
+      }
     ],
     "doors": [
       {
@@ -140,14 +169,20 @@
       }
     ],
     "boiler": [
-      null,
+      {
+        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400S (1500W)",
+        "price": 7599,
+        "retail": 7599,
+        "count": 41,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-horizontal-hm-080-d400s-1500w.html"
+      },
       null,
       {
-        "name": "Електроводонагрівач проточний Atmor In Line 800 5 кВт",
-        "price": 4869.1,
-        "retail": 4869.1,
-        "count": 5,
-        "url": "https://epicentrk.ua/ua/shop/elektrovodonahrivach-protochnyi-atmor-in-line-800-5-kvt.html"
+        "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 150 л (BOLLY 2 ST 150)",
+        "price": 41713,
+        "retail": 41713,
+        "count": 48,
+        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-150-l-bolly-2-st-150-1efcde90-bfcd-6f2e-abaa-ef6a6aadc9e7.html"
       }
     ]
   }
