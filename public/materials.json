@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-24",
+  "updated": "2026-07-25",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Kastamonu FP Urban 4V лос анжелес 32/АС4/8 мм",
-        "price": 518.96,
-        "retail": 518.96,
+        "name": "Ламінат SWISS KRONO Promo V4 дуб санторіні 32/АС4/8 мм",
+        "price": 518.61,
+        "retail": 518.61,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-urban-plus-promo-los-angeles-32-as4-197-1205-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-promo-v4-dub-santorini-32-as4-8-mm.html"
       },
       {
         "name": "Ламінат Peli Parquet Loft 4V дуб північний 33/АС5/8 мм (LF700)",
@@ -25,8 +25,8 @@
       null,
       {
         "name": "Паркетна дошка OLBER WOOD peach односмугова 2000х180х14 мм",
-        "price": 2410,
-        "retail": 2410,
+        "price": 2418,
+        "retail": 2418,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/parketna-doshka-olber-wood-peach-odnosmuhova-2000kh180kh14-mm.html"
       }
@@ -53,15 +53,15 @@
         "name": "Емаль антикорозійна Polifarb захист 3в1 молоткова, чорний 2,0 кг",
         "price": 28.4,
         "retail": 994,
-        "count": 25,
+        "count": 24,
         "url": "https://epicentrk.ua/ua/shop/mplc-emal-antikorozijna-polifarb-zahist-molotkova-2-0-kg-cornij-30284736-1f0c60be-4317-62e0-bfa6-e9c99750d474.html"
       },
       {
-        "name": "Фарба латексна водоемульсійна Kompozit PRIME 7 шовковистий мат білий 2,7 л",
-        "price": 35.33,
-        "retail": 1236.52,
+        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
+        "price": 35.43,
+        "retail": 1240,
         "count": 33,
-        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-sten-i-potolkov-prime-kompozit-2-7-l.html"
+        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
     ],
@@ -77,7 +77,7 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 36,
+        "count": 40,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -128,9 +128,9 @@
     "radiators": [
       {
         "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний",
-        "price": 4776,
-        "retail": 4776,
-        "count": 52,
+        "price": 4773.6,
+        "retail": 4773.6,
+        "count": 53,
         "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi.html"
       },
       {
@@ -153,7 +153,7 @@
         "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
         "price": 825,
         "retail": 825,
-        "count": 7,
+        "count": 8,
         "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
