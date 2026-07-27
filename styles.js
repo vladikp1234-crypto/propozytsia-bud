@@ -401,4 +401,99 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .madv-b:hover{background:var(--acc);color:#fff}
 .modal-foot{padding:4px 22px 20px;font-size:10.5px;color:var(--sub);line-height:1.5;text-align:center}
 @media(max-width:900px){.budgbanner{top:56px}}
+
+/* регіони і земля */
+.reggrp{margin-bottom:9px}
+.reggrp-t{font-family:'IBM Plex Mono';font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--sub);margin-bottom:5px}
+.regchip{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;line-height:1.25}
+.regland{font-family:'IBM Plex Mono';font-size:9px;color:var(--acc);font-weight:600}
+.chip.regchip.on .regland{color:#fff}
+.landsec{padding:20px 28px;border-bottom:1px solid var(--line);background:#F7FAF7}
+.landsec h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.landrow{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:6px 0;border-bottom:1px dashed var(--line)}
+
+/* ============ MOTION LAYER — «жива» сторінка ============ */
+html{scroll-behavior:smooth}
+::selection{background:var(--acc);color:#fff}
+*{scrollbar-width:thin;scrollbar-color:#C9C5BA transparent}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#C9C5BA;border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:var(--acc)}
+
+/* Появи при скролі: старт нижче і прозоро → плавно на місце, каскадом */
+.rv{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms),transform .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms)}
+.rv.in{opacity:1;transform:none}
+
+/* Перемикання кроків майстра: колонка в'їжджає */
+.stepcol{animation:stepin .42s cubic-bezier(.2,.75,.25,1)}
+@keyframes stepin{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+
+/* Картки: глибина і відгук на курсор */
+.card{transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease,border-color .35s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(20,26,51,.09);border-color:#CFCabc}
+.card:hover::before,.card:hover::after{opacity:1}
+.card::before,.card::after{transition:opacity .35s ease}
+
+/* Чіпи: пружний відгук */
+.chip{transition:transform .18s cubic-bezier(.3,1.4,.5,1),background .18s,border-color .18s,color .18s,box-shadow .18s}
+.chip:hover{transform:translateY(-1.5px);box-shadow:0 4px 12px rgba(20,26,51,.08)}
+.chip:active{transform:scale(.95)}
+.chip.on{animation:chippop .28s cubic-bezier(.3,1.5,.5,1)}
+@keyframes chippop{0%{transform:scale(.92)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+/* Кнопки */
+.btn,.livebtn,.mb-btn,.adv-b,.madv-b{transition:transform .2s cubic-bezier(.3,1.3,.5,1),box-shadow .2s ease,background .2s,color .2s}
+.btn:hover,.livebtn:hover,.mb-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(29,63,204,.22)}
+.btn:active,.livebtn:active,.mb-btn:active{transform:translateY(0) scale(.97)}
+.livebtn{background:linear-gradient(135deg,var(--acc),#3D5FE8);background-size:150% 150%;transition:transform .2s,box-shadow .2s,background-position .5s}
+.livebtn:hover{background-position:100% 100%}
+
+/* Панель ціни: живе дихання + пульс при зміні суми */
+.live{transition:box-shadow .4s ease}
+.live:hover{box-shadow:0 16px 48px rgba(17,24,51,.35)}
+.lv{animation:pricepop .4s cubic-bezier(.25,1.3,.4,1)}
+@keyframes pricepop{0%{transform:scale(.97);opacity:.6}55%{transform:scale(1.015)}100%{transform:scale(1)}}
+
+/* Hero: великий вхід + плаваюча пляма-градієнт у тлі */
+.hero{position:relative;overflow:visible}
+.hero h1{animation:heroin .7s cubic-bezier(.2,.75,.25,1) both}
+.hero .hsub,.hero .howit{animation:heroin .7s cubic-bezier(.2,.75,.25,1) .12s both}
+@keyframes heroin{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.hblob{position:absolute;top:-90px;right:-60px;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(circle at 35% 35%,rgba(29,63,204,.14),rgba(147,168,255,.07) 45%,transparent 70%);
+  animation:blobfloat 11s ease-in-out infinite alternate;filter:blur(2px)}
+@keyframes blobfloat{from{transform:translate(0,0) scale(1)}to{transform:translate(-46px,34px) scale(1.12)}}
+
+/* Кроки майстра: активний підкреслюється плавно */
+.wstep{transition:color .25s,background .25s,transform .2s}
+.wstep:hover{transform:translateY(-1px)}
+.wstep.on{animation:chippop .3s cubic-bezier(.3,1.4,.5,1)}
+
+/* Приховані дрібниці */
+.optbox{transition:transform .25s cubic-bezier(.2,.8,.3,1),border-color .25s,background .25s,box-shadow .25s}
+.optbox:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20,26,51,.07)}
+.optbox:active{transform:scale(.985)}
+.faq details{transition:border-color .3s,box-shadow .3s}
+.faq details[open]{border-color:var(--acc);box-shadow:0 8px 26px rgba(29,63,204,.08)}
+.faq summary::after{transition:transform .3s cubic-bezier(.3,1.3,.5,1)}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(180deg)}
+.whychange{animation:wcin .38s cubic-bezier(.2,.9,.3,1.15)}
+.budgbanner{animation:bannerin .5s cubic-bezier(.2,.8,.3,1.1)}
+@keyframes bannerin{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+.regchip:hover .regland{color:var(--acc)}
+input[type="range"]{transition:filter .2s}
+input[type="range"]:hover{filter:brightness(1.08)}
+select,input[type="number"],input[type="date"],input[type="text"]{transition:border-color .2s,box-shadow .2s}
+select:focus,input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(29,63,204,.12);outline:none}
+
+/* Пошана до тих, кому рух шкодить, і до друку */
+@media (prefers-reduced-motion: reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .stepcol,.hero h1,.hero .hsub,.hero .howit,.hblob,.lv,.chip.on,.wstep.on,.whychange,.budgbanner{animation:none}
+  html{scroll-behavior:auto}
+}
+@media print{.rv{opacity:1!important;transform:none!important}.hblob{display:none}}
+
+/* Шапка: скло з розмиттям, м'яка тінь при скролі */
+.hd{backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);background:rgba(247,246,242,.78);transition:box-shadow .3s ease}
 `;
