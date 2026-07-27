@@ -20,14 +20,18 @@ export const SCOPES = [
 ];
 
 export const REGIONS = [
-  { id: "kyiv", name: "м. Київ", k: 1 },
-  { id: "irpin", name: "Ірпінь / Буча", k: 0.97 },
-  { id: "brovary", name: "Бровари", k: 0.96 },
-  { id: "boryspil", name: "Бориспіль", k: 0.95 },
-  { id: "vyshneve", name: "Вишневе / Крюківщина", k: 0.96 },
-  { id: "obukhiv", name: "Обухів / Українка", k: 0.93 },
-  { id: "oblast", name: "Інше, Київська обл.", k: 0.92 },
+  // k — коефіцієнт вартості робіт; landUsd — ціна землі $/сотка (ЛУН, DIM.RIA, SvitBudov, RIELTOR — липень 2026, орієнтовно β)
+  { id: "kyiv", name: "м. Київ (Осокорки, Жуляни…)", k: 1.05, grp: "P2", landUsd: [4000, 12000], landNote: "ділянки в межах міста, поруч метро" },
+  { id: "koncha", name: "Конча-Заспа · Козин · Плюти", k: 1.08, grp: "P1", landUsd: [8000, 25000], landNote: "еліт: сосни, Дніпро, закриті вулиці; біля води — дорожче" },
+  { id: "irpin", name: "Буча · Ірпінь · Ворзель · Гостомель", k: 1.0, grp: "P2", landUsd: [3000, 9000], landNote: "популярний північний захід; лісові — верх вилки" },
+  { id: "brovary", name: "Бровари · Погреби · Зазим'я", k: 0.98, grp: "P3", landUsd: [1200, 5000], landNote: "лівий берег, напрямок Десни" },
+  { id: "vyshneve", name: "Вишневе · Борщагівки · Крюківщина", k: 1.0, grp: "P3", landUsd: [2500, 6000], landNote: "захід, найближче до міста" },
+  { id: "boryspil", name: "Бориспіль · схід", k: 0.95, grp: "P3", landUsd: [1000, 3500], landNote: "східний напрямок, траса" },
+  { id: "obukhiv", name: "Обухів · Українка", k: 0.95, grp: "P3", landUsd: [800, 3000], landNote: "південь, Обухівська траса" },
+  { id: "far", name: "Дальня область (50+ км)", k: 0.88, grp: "P4", landUsd: [300, 1500], landNote: "Ржищів, Гребінки, Макарів — найдешевша земля" },
 ];
+export const REGION_GROUPS = { P1: "🌲 Преміум", P2: "🏙 Місто і ближні", P3: "🏡 Передмістя", P4: "🌾 Область" };
+
 export const TIERS = {
   econom: { name: "Економ", kWork: 0.85, kMat: 0.8 },
   standart: { name: "Стандарт", kWork: 1, kMat: 1 },
