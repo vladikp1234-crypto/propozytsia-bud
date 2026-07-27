@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { css } from "./styles.js";
 import {
-  BETA, REGIONS, TIERS, TIER_TABLE, GROUPS, FOUNDATIONS, WALLS, ROOFS, HEATING,
+  BETA, REGIONS, REGION_GROUPS, TIERS, TIER_TABLE, GROUPS, FOUNDATIONS, WALLS, ROOFS, HEATING,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, defaultHouseRooms, buildAgg, suggestFootprint, lawnA,
   FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
   BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, FURNITURE, FURN_GROUPS,
@@ -118,6 +118,18 @@ function NumInput({ value, onChange, def, min, max, step, style, className }) {
     }} />;
 }
 
+// Появи блоків при скролі (Apple-стиль): спостерігач додає .in, CSS робить решту.
+function useReveal(deps) {
+  useEffect(() => {
+    if (typeof document === "undefined" || typeof IntersectionObserver === "undefined") return;
+    const els = document.querySelectorAll(".wrap .card, .whyus .wu, .faq details, .footer .ft > div, .sheet > div, .stage");
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    els.forEach((el, i) => { el.classList.add("rv"); el.style.setProperty("--rvd", `${Math.min(i % 6, 4) * 60}ms`); io.observe(el); });
+    return () => io.disconnect();
+  }, deps); // eslint-disable-line
+}
+
 function useCount(v) {
   const [d, setD] = useState(v);
   useEffect(() => {
@@ -173,6 +185,7 @@ export default function App() {
   const [showCmp, setShowCmp] = useState(false);
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
+  const [landOn, setLandOn] = useState(false);
   const [furnSel, setFurnSel] = useState({});
   const excl = {}; // «зроблю сам» вилучено на прохання замовника
   const [q, setQ] = useState("");
@@ -201,13 +214,14 @@ export default function App() {
         if (saved.m) setMode(saved.m);
         if (saved.d != null) setDetail(saved.d);
         if (saved.fo != null) setFurnOn(saved.fo);
+        if (saved.lo2 != null) setLandOn(saved.lo2);
         if (saved.sd) setStartDate(saved.sd);
       }
     } catch {}
   }, []);
   useEffect(() => {
-    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, hr: hrooms, d: detail, fo: furnOn, sd: startDate, ex: excl })); } catch {}
-  }, [mode, flat, house, rooms, hrooms, detail, furnOn, startDate, excl]);
+    try { localStorage.setItem("pb_state3", JSON.stringify({ v: 3, m: mode, f: flat, h: house, r: rooms, hr: hrooms, d: detail, fo: furnOn, lo2: landOn, sd: startDate, ex: excl })); } catch {}
+  }, [mode, flat, house, rooms, hrooms, detail, furnOn, landOn, startDate, excl]);
 
   useEffect(() => {
     fetch("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json")
@@ -266,11 +280,23 @@ export default function App() {
   const setARooms = mode === "flat" ? setRooms : setHrooms;
   const r = useMemo(() => calc(mode, p, aRooms, sel, live, excl, lmat), [mode, p, aRooms, sel, live, excl, lmat]);
 
+  useReveal([view, step, mode]);
+
   const roomStats = useMemo(() => ({
     total: aRooms.length,
     living: aRooms.filter(x => !ROOM_TYPES[x.type].wet && !["hall", "balcony", "wardrobe", "kitchen", "boilerroom", "garage", "terraceR"].includes(x.type)).length,
     wet: aRooms.filter(x => ROOM_TYPES[x.type].wet).length,
   }), [aRooms]);
+  const landCost = useMemo(() => {
+    if (mode !== "house") return null;
+    const reg = REGIONS.find(x => x.id === p.region) || REGIONS[0];
+    if (!reg.landUsd) return null;
+    const rate = usd || 42;
+    const [lo, hi] = reg.landUsd;
+    return { lo: lo * (p.plot || 8) * rate, hi: hi * (p.plot || 8) * rate,
+      loUsd: lo * (p.plot || 8), hiUsd: hi * (p.plot || 8), perSotka: reg.landUsd, note: reg.landNote, rate, name: reg.name };
+  }, [mode, p.region, p.plot, usd]);
+
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
   const furnRows = useMemo(() => {
     if (!furnOn) return [];
@@ -567,6 +593,7 @@ export default function App() {
           const next = () => step >= STEPS.length - 1 ? (setView("sheet"), window.scrollTo(0, 0)) : goto(step + 1);
           return (<>
           {step === 0 && <div className="hero">
+            <div className="hblob" aria-hidden="true" />
             <h1>{mode === "flat" ? "Ремонт під ключ — з ціною одразу" : "Будинок — з ціною та строком одразу"}</h1>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
@@ -599,7 +626,7 @@ export default function App() {
           </div>
 
           <div className="grid">
-            <div style={{ display: "grid", gap: 16 }}>
+            <div className="stepcol" key={stepId || "hero"} style={{ display: "grid", gap: 16 }}>
 
               {stepId === "obj" && <>
                 <div className="card"><div className="ch"><span className="cn">Бюджет</span><h2>Скільки плануєте витратити</h2></div>
@@ -630,8 +657,23 @@ export default function App() {
                   <div className="cb">
                     <div className="g2">
                       <label className="f">Локація
-                        <select value={p.region} onChange={e => setP("region", e.target.value)}>
-                          {REGIONS.map(x => <option key={x.id} value={x.id}>{x.name}{x.k !== 1 ? ` (−${Math.round((1 - x.k) * 100)}%)` : ""}</option>)}</select></label>
+                        {mode === "flat" ? <select value={p.region} onChange={e => setP("region", e.target.value)}>
+                          {REGIONS.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}</select>
+                        : <>
+                          {Object.entries(REGION_GROUPS).map(([g, gname]) => {
+                            const list = REGIONS.filter(x => x.grp === g);
+                            if (!list.length) return null;
+                            return <div key={g} className="reggrp">
+                              <div className="reggrp-t">{gname}</div>
+                              <div className="chips">{list.map(x =>
+                                <button key={x.id} className={"chip regchip" + (p.region === x.id ? " on" : "")} onClick={() => setP("region", x.id)}>
+                                  <span>{x.name}</span>
+                                  {x.landUsd && <span className="regland">${x.landUsd[0] >= 1000 ? (x.landUsd[0] / 1000) : (x.landUsd[0] / 1000).toFixed(1)}–{x.landUsd[1] / 1000} тис/сот</span>}
+                                </button>)}</div>
+                            </div>;
+                          })}
+                          {(() => { const reg = REGIONS.find(x => x.id === p.region); return reg?.landNote ? <span className="hint">📍 {reg.landNote} · вартість робіт ×{reg.k}</span> : null; })()}
+                        </>}</label>
                       {mode === "flat"
                         ? <label className="f">Поверх / ліфт
                             <div style={{ display: "flex", gap: 8 }}>
@@ -651,6 +693,19 @@ export default function App() {
                       </div>
                     </>)}
                   </div></div>
+                {mode === "house" && landCost && <div className="card"><div className="ch"><span className="cn">Земля</span><h2>Вартість ділянки</h2></div>
+                  <div className="cb">
+                    <div className={"optbox" + (landOn ? " on" : "")} onClick={() => setLandOn(v => !v)} style={{ maxWidth: 560 }}>
+                      <div className="cbx">{landOn ? "✓" : ""}</div>
+                      <div style={{ flex: 1 }}>
+                        <div className="ot">Включити купівлю ділянки в розрахунок</div>
+                        <div className="od">{p.plot} соток у «{landCost.name}»: ${landCost.perSotka[0].toLocaleString("uk")}–{landCost.perSotka[1].toLocaleString("uk")}/сотка · окремим підсумком</div>
+                      </div>
+                      {landOn && <span className="odelta">+{fmtM(landCost.lo)}–{fmtM(landCost.hi)}</span>}
+                    </div>
+                    <span className="hint">Оцінка ринку: оголошення ЛУН, DIM.RIA, SvitBudov, RIELTOR (07.2026), курс НБУ {landCost.rate.toFixed(1)} ₴/$. Фактична ціна сильно залежить від вулиці, комунікацій і форми ділянки — вилка чесно широка. β</span>
+                  </div></div>}
+
                 {mode === "flat" && <div className="card"><div className="ch"><span className="cn">Стан</span><h2>Стан квартири</h2></div>
                   <div className="cb"><div className="cond">
                     {[{ id: "new", t: "Новобудова «сіра коробка»", d: "Вікна, радіатори і вхідні двері вже встановлені забудовником" },
@@ -837,7 +892,7 @@ export default function App() {
             <div className="rail no-print">
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
-                <div className="lv">{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
+                <div className="lv" key={"lv" + Math.round(r.total / 5000)}>{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
                 <div className="ls">{fmt(r.perM2 * mk)} грн/м² · ~{r.months} міс.</div>
                 {usd && <div className="usdline">≈ ${fmt(r.low * mk / usd)}–${fmt(r.high * mk / usd)} <span className="usdrate">курс НБУ {usd.toFixed(2)} ₴/${usdDate ? " · " + usdDate : ""}</span></div>}
                 {lastChange && <div className="whychange" key={lastChange.t}>
@@ -851,6 +906,8 @@ export default function App() {
                 <div className="lr"><span>Матеріали</span><span>{fmtM(r.rows.reduce((a, x) => a + x.matSum, 0) * mk)}</span></div>
                 {furnOn && <div className="lr"><span>Комплектація</span><span>{fmtM(furnTotal)}</span></div>}
                 {furnOn && <div className="lr" style={{ fontWeight: 600 }}><span>Разом з меблями</span><span>{fmtM(r.total * mk + furnTotal)}</span></div>}
+                {landOn && landCost && <div className="lr"><span>Ділянка (оцінка)</span><span>{fmtM(landCost.lo)}–{fmtM(landCost.hi)}</span></div>}
+                {landOn && landCost && <div className="lr" style={{ fontWeight: 600 }}><span>Проєкт разом</span><span>{fmtM(r.total * mk + furnTotal + (landCost.lo + landCost.hi) / 2)}</span></div>}
                 {Object.keys(TIERS).filter(t => t !== p.tier).map(t => (
                   <div className="lr" key={t} style={{ cursor: "pointer" }} onClick={() => setP("tier", t)}>
                     <span>якби {TIERS[t].name}</span><span>{fmtM(cmp[t] * mk)}</span></div>))}
@@ -1079,6 +1136,16 @@ export default function App() {
 
           <div className={"fc " + (r.budgetFit ? "ok" : "no")} style={{ borderRadius: 0, padding: "14px 28px", borderBottom: "1px solid var(--line)" }}>
             {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}»</>}</div>
+
+          {landOn && landCost && <div className="landsec">
+            <h3>Ділянка · {landCost.name}</h3>
+            <div className="landrow">
+              <span>{p.plot} соток × ${landCost.perSotka[0].toLocaleString("uk")}–{landCost.perSotka[1].toLocaleString("uk")}/сотка</span>
+              <b>{fmtM(landCost.lo)} — {fmtM(landCost.hi)} грн</b>
+            </div>
+            <div className="landrow"><span>У доларах</span><b>${fmt(landCost.loUsd)} — ${fmt(landCost.hiUsd)}</b></div>
+            <p className="hint">Оцінка ринку землі за оголошеннями ЛУН, DIM.RIA, SvitBudov, RIELTOR станом на 07.2026, курс НБУ {landCost.rate.toFixed(2)} ₴/$. {landCost.note}. Окремий підсумок — не входить у вартість будівництва. β</p>
+          </div>}
 
           {furnOn && <div className="furntotals">
             <span>Ремонт: <b>{fmtM(r.total * mk)}</b> грн</span>
