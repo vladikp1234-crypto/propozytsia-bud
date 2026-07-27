@@ -496,4 +496,143 @@ select:focus,input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(29,63
 
 /* Шапка: скло з розмиттям, м'яка тінь при скролі */
 .hd{backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);background:rgba(247,246,242,.78);transition:box-shadow .3s ease}
+
+/* ═══════════════════════════════════════════════════════════
+   REDESIGN «STUDIO DARK» — темна сцена, велика типографіка,
+   один зухвалий акцент. Кошторис — світлий папір (друк!).
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --bg:#0D0E12; --card:#15171D; --ink:#F2F0EA; --sub:#9A9DA6;
+  --line:#24262E; --acc:#FF6A2B; --acc2:#2A1A10;
+  --ok:#7BD98A; --oks:#12291A; --wrn:#FF8A5C; --wrns:#2E1810;
+}
+body{background:var(--bg)}
+.app{background:var(--bg);background-image:
+  linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+  radial-gradient(ellipse 70% 50% at 85% -10%,rgba(255,106,43,.08),transparent 60%);
+  background-size:44px 44px,44px 44px,auto;color:var(--ink)}
+
+/* Шапка: чорне скло */
+.topbar,.hd{background:rgba(13,14,18,.75);backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid var(--line)}
+.hd{box-shadow:none}
+.logo,.topbar b{color:var(--ink)}
+
+/* Hero: масштаб Trionn */
+.hero h1{font-size:clamp(40px,7vw,92px);line-height:.98;letter-spacing:-.02em;text-transform:uppercase;color:var(--ink)}
+.hero h1 em,.hero h1 b{color:var(--acc);font-style:normal}
+.hsub{font-size:clamp(14px,1.6vw,18px);color:var(--sub);max-width:560px}
+.hero::after,.hero .dimline{border-color:var(--acc);opacity:.9}
+.hblob{background:radial-gradient(circle at 35% 35%,rgba(255,106,43,.22),rgba(255,106,43,.08) 45%,transparent 70%);filter:blur(6px)}
+
+/* Рухомий рядок-марквіза */
+.marq{overflow:hidden;white-space:nowrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:34px 0 6px;padding:13px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marq-in{display:inline-block;animation:marq 26s linear infinite;font-family:'Unbounded';font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub)}
+.marq-in b{color:var(--acc);margin:0 14px}
+.marq:hover .marq-in{animation-play-state:paused}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Картки: глибокі панелі без креслярських засічок */
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+.card::before,.card::after{display:none}
+.card:hover{border-color:#33363F;box-shadow:0 18px 50px rgba(0,0,0,.45);transform:translateY(-3px)}
+.ch h2{color:var(--ink)}
+.cn{border-color:var(--acc);color:var(--acc);background:transparent}
+
+/* Чіпи-пігулки */
+.chip{background:#1B1D24;border:1px solid var(--line);color:var(--ink);border-radius:999px}
+.chip:hover{border-color:#3A3D47;box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#0D0E12;font-weight:800}
+.chip.acc.on{background:var(--acc);color:#0D0E12}
+.regchip .regland{color:var(--acc)}
+.chip.regchip.on .regland{color:#0D0E12}
+
+/* Панель ціни: ГОЛОВНИЙ акцент сайту — помаранчевий блок */
+.live{background:linear-gradient(160deg,var(--acc),#E8501A 80%);border:none;background-size:auto;box-shadow:0 20px 60px rgba(255,106,43,.25)}
+.live,.live .lk,.live .ls{color:#14100C}
+.live .lv{color:#0D0E12;font-size:clamp(22px,2.4vw,30px)}
+.live .lv em{color:#0D0E12;font-style:normal}
+.usdline{color:#3A2415}
+.usdline .usdrate{color:#3A241599}
+.whychange{background:rgba(13,14,18,.28);border:1px solid rgba(13,14,18,.25)}
+.wc-h{color:#14100C}
+.wc-d{color:#3A2415}
+.wc-q{color:#14100C;font-weight:700}
+.adv-open{background:rgba(13,14,18,.22);border:1.5px solid rgba(13,14,18,.3);color:#14100C}
+.adv-open:hover{background:rgba(13,14,18,.32)}
+.livebtn{background:#0D0E12;color:#fff}
+.livebtn:hover{box-shadow:0 10px 26px rgba(0,0,0,.5)}
+.confb{background:rgba(13,14,18,.2);color:#14100C}
+.vchip{background:rgba(13,14,18,.2);color:#14100C;border-color:transparent}
+.fc.ok{background:rgba(13,40,20,.25);color:#0E2A14}
+.fc.no{background:rgba(70,10,0,.28);color:#2E0C00}
+
+/* Кнопки й поля */
+.btn{background:#1B1D24;border:1px solid var(--line);color:var(--ink)}
+.btn:hover{border-color:var(--acc);color:var(--acc);box-shadow:0 8px 22px rgba(255,106,43,.15)}
+.mb-btn{background:var(--acc);color:#0D0E12}
+select,input[type="number"],input[type="date"],input[type="text"]{background:#1B1D24;border:1px solid var(--line);color:var(--ink);border-radius:10px}
+select:focus,input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(255,106,43,.18)}
+input[type="range"]{accent-color:var(--acc)}
+.rv2,.rr .rv{color:var(--ink)}
+.optbox{background:#171921;border:1px solid var(--line)}
+.optbox.on{border-color:var(--acc);background:#1E1712}
+.optbox .cbx{border-color:var(--acc);color:var(--acc)}
+.odelta{color:var(--acc)}
+.uhint{color:var(--acc)}
+.condnote{background:#171921;border:1px solid var(--line);color:var(--sub)}
+.hint{color:var(--sub)}
+.sn{color:var(--sub)}
+.reggrp-t{color:var(--sub)}
+
+/* Кроки майстра */
+.wstep{color:var(--sub)}
+.wstep.on{background:var(--acc);color:#0D0E12}
+.wstep.done{color:var(--ink)}
+.wsteps{border-color:var(--line)}
+
+/* Банер бюджету і модалка — темні */
+.budgbanner{background:#2A1208;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.budgbanner{border:1.5px solid #7A3316}
+.bb-t{color:#FFB08A}
+.bb-b{background:var(--acc);color:#0D0E12}
+.modal{background:#15171D;color:var(--ink)}
+.modal-h{border-color:var(--line)}
+.modal-s{color:var(--sub)}
+.modal-x{background:#1B1D24;color:var(--sub)}
+.modal-plan{background:#241408;color:var(--acc)}
+.madv{border-color:var(--line)}
+.madv.key{border-color:var(--acc);background:#1B1410}
+.madv-w{color:var(--sub)}
+.madv-s{color:var(--ok)}
+.madv-b{background:transparent;border-color:var(--acc);color:var(--acc)}
+.madv-b:hover{background:var(--acc);color:#0D0E12}
+.modal-foot{color:var(--sub)}
+.adv-open{width:100%}
+
+/* Ground floor */
+.wu{background:var(--card);border-color:var(--line)}
+.wu-d{color:var(--sub)}
+.faq details{background:var(--card);border-color:var(--line)}
+.faq details[open]{border-color:var(--acc);box-shadow:0 10px 30px rgba(255,106,43,.08)}
+.faq summary::after{color:var(--acc)}
+.faq details p{color:var(--sub)}
+
+/* Футер: гігантський водяний знак */
+.footer{background:#0A0B0E;border-top:1px solid var(--line);position:relative;overflow:hidden}
+.ft-logo{font-size:clamp(28px,4vw,54px);letter-spacing:-.02em}
+.ft-logo span{color:var(--acc)}
+
+/* ─── КОШТОРИС: світлий «папір» — острів документа ─── */
+.sheet{--bg:#F7F6F2;--card:#FFF;--ink:#1A1C20;--sub:#6B6E75;--line:#E8E5DE;--acc:#1D3FCC;--acc2:#EEF0FA;--ok:#1A6B2E;
+  background:#FDFCF9;color:#1A1C20;border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+.sheet select,.sheet input{background:#fff;border-color:#E8E5DE;color:#1A1C20}
+.sheet .chip{background:#fff;border-color:#E8E5DE;color:#1A1C20;}
+.sheet .chip.on{background:#1D3FCC;border-color:#1D3FCC;color:#fff}
+.sheet .btn{background:#fff;border-color:#E8E5DE;color:#1A1C20}
+.landsec{background:#F2F7F2}
+@media print{.sheet{box-shadow:none;border-radius:0}body,.app{background:#fff!important}}
+
+/* Мобільне: марквіза компактніша */
+@media(max-width:700px){.marq{margin:22px 0 0}.hero h1{font-size:clamp(34px,11vw,52px)}}
 `;
