@@ -594,7 +594,7 @@ export default function App() {
           return (<>
           {step === 0 && <div className="hero">
             <div className="hblob" aria-hidden="true" />
-            <h1>{mode === "flat" ? "Ремонт під ключ — з ціною одразу" : "Будинок — з ціною та строком одразу"}</h1>
+            <h1>{mode === "flat" ? <>Ремонт.<br /><em>Ціна одразу.</em></> : <>Будинок.<br /><em>Ціна одразу.</em></>}</h1>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
               : <div className="badge demo">демо · ціни орієнтовні</div>}
@@ -613,6 +613,12 @@ export default function App() {
             <span className="hint">непомітно для клієнта</span>
             <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>📋 Ліди</button>
           </div>}
+
+          {step === 0 && <div className="marq no-print" aria-hidden="true"><div className="marq-in">
+            {Array.from({ length: 2 }).map((_, i) => <span key={i}>
+              {r.itemCount} позицій кошторису<b>●</b>живі ціни ринку<b>●</b>{Object.keys(TIERS).length} рівні оздоблення<b>●</b>ринкова вилка чесно<b>●</b>Excel і PDF<b>●</b>землі й сад враховано<b>●</b>
+            </span>)}
+          </div></div>}
 
           {budgetAdvice && <div className="budgbanner no-print" onClick={() => setShowBudget(true)}>
             <span className="bb-i">⚠️</span>
