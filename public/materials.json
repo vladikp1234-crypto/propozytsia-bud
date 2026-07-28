@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-27",
+  "updated": "2026-07-28",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -10,9 +10,9 @@
     "floorcover": [
       {
         "name": "Ламінат Kastamonu FP Urban 4V лос анжелес 32/АС4/8 мм",
-        "price": 519,
-        "retail": 519,
-        "count": 56,
+        "price": 523,
+        "retail": 523,
+        "count": 52,
         "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-urban-plus-promo-los-angeles-32-as4-197-1205-8-mm.html"
       },
       {
@@ -40,45 +40,45 @@
         "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-lazurro-bezhevyy-3l1870-40kh40.html"
       },
       {
-        "name": "Плитка Cersanit Riverwood beige G1 18,5X59,8 см",
-        "price": 429,
-        "retail": 429,
-        "count": 35,
-        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-riverwood-beige-g1-18-5x59-8-sm.html"
+        "name": "Плитка Cersanit Lukas Brown 59,8x29,8 см",
+        "price": 458,
+        "retail": 458,
+        "count": 42,
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-lukas-brown-59-8x29-8.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 26.91,
-        "retail": 942,
+        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат білий RAL 9016 3,5 кг",
+        "price": 23.51,
+        "retail": 823,
         "count": 23,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-bilyi-ral-9016-3-5-kh.html"
       },
       {
-        "name": "Емаль Kompozit антикорозійна 3в1 PROTECT Срібляста 2,4 кг + Розчинник універсальний Kompoz",
-        "price": 34.81,
-        "retail": 1218.5,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antykoroziina-3v1-protect-sribliasta-2-4-kh-rozchynnyk-universalnyi-kompozit-0-5-l.html"
+        "name": "Фарба латексна водоемульсійна Kompozit PRIME 7 шовковистий мат білий 2,7 л",
+        "price": 35.37,
+        "retail": 1238,
+        "count": 30,
+        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-sten-i-potolkov-prime-kompozit-2-7-l.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Лінда 6403-01 0,53x10,05 м",
-        "price": 205,
-        "retail": 205,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-linda-6403-01-0-53x10-05-m.html"
+        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 9435-06 0,53x10,05",
+        "price": 208,
+        "retail": 208,
+        "count": 54,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-9435-06-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
-        "price": 535,
-        "retail": 535,
+        "name": "Шпалери вінілові на флізеліновій основі RASCH Sel. Vi/Vl 401943 0,53x10,05 м",
+        "price": 445,
+        "retail": 445,
         "count": 37,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-rasch-sel-vi-vl-401943-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra Onyx UNI 253533 1,06x10,05 м",
@@ -107,11 +107,11 @@
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ ОМіС дуб сонома 16x80x2400 мм",
-        "price": 295,
-        "retail": 295,
+        "name": "Плінтус МДФ Super Profil ПП1260К білий лідо 2070х59х12 мм",
+        "price": 298,
+        "retail": 298,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/plintus-omis-laminirovannyy-dub-sonoma-16kh80kh2400-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-super-profil-pp1260k-bilyi-lido-2070kh59kh12-mm.html"
       },
       null
     ],
@@ -120,34 +120,34 @@
         "name": "Двері вхідні метал/мдф Люкс 2 860х960х2050 мм",
         "price": 13100,
         "retail": 13100,
-        "count": 18,
+        "count": 10,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-2-860h960h2050-mm-1ef8bce7-b63d-61fe-9759-25479df057d7.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
-        "price": 4785.5,
-        "retail": 4785.5,
-        "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
+        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
+        "price": 4873.5,
+        "retail": 4873.5,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
       },
       {
-        "name": "Радіатор біметалевий SANTERRA THERMO 500/96 10 секцій",
-        "price": 5018,
-        "retail": 5018,
-        "count": 40,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-santerra-thermo-500-96-10-sektsiy.html"
+        "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
+        "price": 4980,
+        "retail": 4980,
+        "count": 20,
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-evro-termo-sektsionnyy-350-96-10-sektsiy-70214275.html"
       }
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка Teknodeko Cizgili Короїд 3 мм 25 кг (TDEKOCIZ)",
-        "price": 584,
-        "retail": 584,
-        "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-teknodeko-cizgili-koroid-3-mm-25-kg-tdekociz-1f17b992-302a-63f2-8335-db426ba66fa2.html"
+        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
+        "price": 543,
+        "retail": 543,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
         "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
@@ -170,11 +170,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400S (1500W)",
-        "price": 7599,
-        "retail": 7599,
-        "count": 41,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-horizontal-hm-080-d400s-1500w.html"
+        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
+        "price": 7549,
+        "retail": 7549,
+        "count": 40,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
       {
