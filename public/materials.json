@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-02",
+  "updated": "2026-08-03",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -51,9 +51,9 @@
     "paint": [
       {
         "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 26.91,
-        "retail": 942,
-        "count": 21,
+        "price": 24.26,
+        "retail": 849,
+        "count": 20,
         "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
@@ -68,9 +68,9 @@
     "wallpaper": [
       {
         "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 9435-06 0,53x10,05",
-        "price": 207.6,
-        "retail": 207.6,
-        "count": 53,
+        "price": 208,
+        "retail": 208,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-9435-06-0-53x10-05-m.html"
       },
       {
@@ -143,18 +143,18 @@
     ],
     "decor": [
       {
-        "name": "Штукатурка декоративна Teknodeko Баранчик 2 мм 25 кг Білий",
-        "price": 564,
-        "retail": 564,
-        "count": 12,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-barancik-2-mm-25-kg-bilij-1ee2d4c5-9296-67d4-8e9e-4d856af3afd7.html"
+        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
+        "price": 543,
+        "retail": 543,
+        "count": 13,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
-        "price": 921,
-        "retail": 921,
-        "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 1017,
+        "retail": 1017,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "ac_unit": [
