@@ -124,7 +124,9 @@ function useMotion(deps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let ctx, killed = false;
+    let ctx, killed = false, raf = 0;
+    const listeners = [];
+    const on = (t, ev, fn, opt) => { t.addEventListener(ev, fn, opt); listeners.push([t, ev, fn]); };
     (async () => {
       try {
         const { gsap } = await import("gsap");
@@ -132,34 +134,93 @@ function useMotion(deps) {
         gsap.registerPlugin(ScrollTrigger);
         if (killed) return;
         ctx = gsap.context(() => {
-          // 1) Вхідна сцена (лише на першому кроці)
-          const h1 = document.querySelector(".hero h1");
-          if (h1) {
-            gsap.timeline({ defaults: { ease: "power3.out" } })
-              .from(h1, { y: 54, opacity: 0, duration: .85 })
-              .from(".hero .hsub", { y: 24, opacity: 0, duration: .6 }, "-=.45")
-              .from(".hero .howit", { y: 18, opacity: 0, duration: .5 }, "-=.35")
-              .from(".marq", { opacity: 0, duration: .6 }, "-=.3")
-              .from(".rail .live", { x: 42, opacity: 0, duration: .7, ease: "power2.out" }, "-=.55")
-              .from(".wsteps .wstep", { y: 14, opacity: 0, stagger: .05, duration: .4 }, "-=.5");
+          /* 1) Вхідна сцена: рядки заголовка виїжджають з масок */
+          if (document.querySelector(".hero .hl")) {
+            gsap.timeline({ defaults: { ease: "power4.out" } })
+              .fromTo(".hero .hl > *", { yPercent: 115 }, { yPercent: 0, stagger: .14, duration: .95 })
+              .from(".hero .hsub", { y: 26, opacity: 0, duration: .6, ease: "power3.out" }, "-=.5")
+              .from(".hero .howit", { y: 18, opacity: 0, duration: .5, ease: "power3.out" }, "-=.4")
+              .from(".marq", { opacity: 0, duration: .6 }, "-=.35")
+              .from(".rail .live", { x: 46, opacity: 0, duration: .8, ease: "power3.out" }, "-=.6")
+              .from(".wsteps .wstep", { y: 14, opacity: 0, stagger: .05, duration: .4, ease: "power2.out" }, "-=.55");
           }
-          // 2) Паралакс зеленої плями за hero
-          const blob = document.querySelector(".hblob");
-          if (blob) gsap.to(blob, { yPercent: 26, ease: "none",
-            scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .6 } });
-          // 3) Картки: глибша поява знизу зі стаґером, ніж CSS-версія
+          /* 2) Свічення: повільний дрейф + паралакс за мишею */
+          const g1 = document.querySelector(".glow.g1"), g2 = document.querySelector(".glow.g2");
+          if (g1 && g2) {
+            gsap.to(g1, { x: 70, y: 50, duration: 11, ease: "sine.inOut", repeat: -1, yoyo: true });
+            gsap.to(g2, { x: -60, y: -44, duration: 13, ease: "sine.inOut", repeat: -1, yoyo: true });
+            const x1 = gsap.quickTo(g1, "xPercent", { duration: 1.2, ease: "power2" });
+            const y1 = gsap.quickTo(g1, "yPercent", { duration: 1.2, ease: "power2" });
+            const x2 = gsap.quickTo(g2, "xPercent", { duration: 1.6, ease: "power2" });
+            const y2 = gsap.quickTo(g2, "yPercent", { duration: 1.6, ease: "power2" });
+            on(window, "mousemove", e => {
+              const nx = e.clientX / window.innerWidth - .5, ny = e.clientY / window.innerHeight - .5;
+              x1(nx * 6); y1(ny * 6); x2(nx * -8); y2(ny * -8);
+            }, { passive: true });
+          }
+          /* 3) Магнітні CTA: тягнуться до курсора, пружина на відпусканні */
+          document.querySelectorAll(".livebtn,.mb-btn,.bb-b").forEach(el => {
+            const xTo = gsap.quickTo(el, "x", { duration: .3, ease: "power3" });
+            const yTo = gsap.quickTo(el, "y", { duration: .3, ease: "power3" });
+            on(el, "mousemove", e => {
+              const r = el.getBoundingClientRect();
+              xTo((e.clientX - r.left - r.width / 2) * .3);
+              yTo((e.clientY - r.top - r.height / 2) * .45);
+            });
+            on(el, "mouseleave", () => gsap.to(el, { x: 0, y: 0, duration: .55, ease: "elastic.out(1,.45)" }));
+          });
+          /* 4) Появи при скролі зі стаґером */
           ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in)", {
-            start: "top 88%",
-            once: true,
+            start: "top 88%", once: true,
             onEnter: els => gsap.fromTo(els,
-              { y: 34, opacity: 0, scale: .985 },
-              { y: 0, opacity: 1, scale: 1, stagger: .09, duration: .75, ease: "power3.out",
+              { y: 36, opacity: 0, scale: .985 },
+              { y: 0, opacity: 1, scale: 1, stagger: .09, duration: .8, ease: "power3.out",
                 onStart: () => els.forEach(e => e.classList.add("in")) }),
           });
         });
-      } catch { /* GSAP недоступний — CSS-появи нижче лишаються запасним планом */ }
+        /* 5) Частинки: сітка точок, що світлішає і розступається під курсором */
+        const cv = document.getElementById("fx-dots");
+        if (cv && window.innerWidth > 760 && !window.__fxDots) {
+          window.__fxDots = true;
+          const cx = cv.getContext("2d");
+          let W, H, dots = [];
+          const SP = 58;
+          const resize = () => {
+            const d = Math.min(window.devicePixelRatio || 1, 2);
+            W = cv.width = window.innerWidth * d; H = cv.height = window.innerHeight * d;
+            cv.style.width = window.innerWidth + "px"; cv.style.height = window.innerHeight + "px";
+            cx.setTransform(d, 0, 0, d, 0, 0);
+            dots = [];
+            for (let y = SP / 2; y < window.innerHeight; y += SP)
+              for (let x = SP / 2; x < window.innerWidth; x += SP) dots.push([x, y]);
+          };
+          resize(); on(window, "resize", resize);
+          const mouse = { x: -9999, y: -9999 };
+          on(window, "mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+          const loop = () => {
+            cx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            for (const [x, y] of dots) {
+              const dx = x - mouse.x, dy = y - mouse.y;
+              const d = Math.hypot(dx, dy);
+              const a = Math.max(0, 1 - d / 240);
+              const px = x + (d > 0 ? dx / d : 0) * a * 12, py = y + (d > 0 ? dy / d : 0) * a * 12;
+              cx.beginPath();
+              cx.arc(px, py, .9 + a * 1.5, 0, 6.2832);
+              cx.fillStyle = `rgba(${a > .01 ? "129,140,248" : "148,163,184"},${.07 + a * .55})`;
+              cx.fill();
+            }
+            raf = requestAnimationFrame(loop);
+          };
+          raf = requestAnimationFrame(loop);
+        }
+      } catch { /* без GSAP — CSS-запасний план нижче */ }
     })();
-    return () => { killed = true; ctx && ctx.revert(); };
+    return () => {
+      killed = true;
+      ctx && ctx.revert();
+      listeners.forEach(([t, ev, fn]) => t.removeEventListener(ev, fn));
+      if (raf) { cancelAnimationFrame(raf); window.__fxDots = false; }
+    };
   }, deps); // eslint-disable-line
 }
 
@@ -618,7 +679,12 @@ export default function App() {
   const addRoom = t => { setRoomsCustom(true); setARooms(rs => [...rs, newRoom(t, mode === "house" ? { lvl: 1 } : {})]); };
 
   return (
-    <div className="app"><style>{css}</style>
+    <div className="app">
+      <div className="fx" aria-hidden="true">
+        <div className="glow g1" />
+        <div className="glow g2" />
+        <canvas id="fx-dots" />
+      </div><style>{css}</style>
       {BETA && <div className="betabar no-print">v3.0 <b>БЕТА</b> · повний кошторис · {r.itemCount} позицій · структура очікує перевірки експерта · позначка <b>β</b> = розцінка неперевірена</div>}
       <div className="topbar no-print"><div className="tb">
         <div className="logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
@@ -640,7 +706,9 @@ export default function App() {
           return (<>
           {step === 0 && <div className="hero">
             <div className="hblob" aria-hidden="true" />
-            <h1>{mode === "flat" ? <>Ремонт.<br /><em>Ціна одразу.</em></> : <>Будинок.<br /><em>Ціна одразу.</em></>}</h1>
+            <h1>{mode === "flat"
+                ? <><span className="hl"><span>Ремонт.</span></span><span className="hl"><em>Ціна одразу.</em></span></>
+                : <><span className="hl"><span>Будинок.</span></span><span className="hl"><em>Ціна одразу.</em></span></>}</h1>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
               : <div className="badge demo">демо · ціни орієнтовні</div>}
