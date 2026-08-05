@@ -33,7 +33,7 @@ select,input[type=number],input[type=text],input[type=tel]{font-family:'IBM Plex
 select:focus,input:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc2)}
 .rr{display:flex;align-items:center;gap:14px}
 input[type=range]{flex:1;accent-color:var(--acc)}
-.rv{font-family:'IBM Plex Mono';font-weight:600;font-size:15px;min-width:80px;text-align:right}
+.rv{font-family:'IBM Plex Mono';font-weight:700;font-size:15px;min-width:86px;text-align:right;color:var(--ink);opacity:1!important;transform:none!important}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .chip{font-family:'Manrope';font-weight:600;font-size:12.5px;padding:8px 14px;border:1.5px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;color:var(--sub);transition:all .12s}
 .chip:hover{border-color:var(--ink);color:var(--ink)}
@@ -421,8 +421,8 @@ html{scroll-behavior:smooth}
 ::-webkit-scrollbar-thumb:hover{background:var(--acc)}
 
 /* Появи при скролі: старт нижче і прозоро → плавно на місце, каскадом */
-.rv{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms),transform .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms)}
-.rv.in{opacity:1;transform:none}
+.rvl{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms),transform .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms)}
+.rvl.in{opacity:1;transform:none}
 
 /* Перемикання кроків майстра: колонка в'їжджає */
 .stepcol{animation:stepin .42s cubic-bezier(.2,.75,.25,1)}
@@ -488,11 +488,11 @@ select:focus,input:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(29,63
 
 /* Пошана до тих, кому рух шкодить, і до друку */
 @media (prefers-reduced-motion: reduce){
-  .rv{opacity:1;transform:none;transition:none}
+  .rvl{opacity:1;transform:none;transition:none}
   .stepcol,.hero h1,.hero .hsub,.hero .howit,.hblob,.lv,.chip.on,.wstep.on,.whychange,.budgbanner{animation:none}
   html{scroll-behavior:auto}
 }
-@media print{.rv{opacity:1!important;transform:none!important}.hblob{display:none}}
+@media print{.rvl{opacity:1!important;transform:none!important}.hblob{display:none}}
 
 /* Шапка: скло з розмиттям, м'яка тінь при скролі */
 .hd{backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);background:rgba(247,246,242,.78);transition:box-shadow .3s ease}
@@ -635,7 +635,35 @@ input[type="range"]{accent-color:#6366F1}
 .ft-legal{border-color:var(--line);color:#5B6478}
 
 /* Кошторис: світлий паперовий артефакт над сценою */
-.sheet{background:#FDFCF9;border-radius:22px;box-shadow:0 0 80px rgba(79,70,229,.2),0 40px 100px rgba(0,0,0,.6)}
+/* КОШТОРИС: світлий артефакт із ПОВНИМ власним набором токенів.
+   Без цього темні токени теми робили текст білим на білому. */
+.sheet{
+  --bg:#F4F5F8; --card:#FFFFFF; --ink:#0F1524; --sub:#5B6478;
+  --line:#E4E7EE; --acc:#4F46E5; --acc2:#EEF0FE;
+  --ok:#0E7A48; --oks:#E8F6EF; --wrn:#9A6300; --wrns:#FDF3E2;
+  background:#F7F8FB;color:var(--ink);border-radius:22px;
+  box-shadow:0 0 70px rgba(79,70,229,.16),0 30px 80px rgba(0,0,0,.5)}
+.sheet *{color:inherit}
+.sheet .card,.sheet .stage,.sheet .snums,.sheet .inex,.sheet .terms,.sheet .furnrow,.sheet .landsec{background:#fff;backdrop-filter:none}
+.sheet .hint,.sheet .sub,.sheet .srcline,.sheet .seglbl,.sheet .modal-s{color:var(--sub)}
+.sheet b,.sheet strong,.sheet h1,.sheet h2,.sheet h3{color:var(--ink)}
+.sheet .cn{border-color:var(--acc);color:var(--acc)}
+.sheet .chip{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.sheet .chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.sheet select,.sheet input{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.sheet select option{background:#fff;color:var(--ink)}
+.sheet .btn{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.sheet .btn:hover{border-color:var(--acc);color:var(--acc)}
+.sheet .confb{background:var(--oks);color:var(--ok)}
+.sheet .vchip{background:var(--acc2);color:var(--acc)}
+.sheet .livetag{color:var(--ok)}
+.sheet .beta,.sheet .b-mark{color:var(--wrn)}
+.sheet .dochead,.sheet .dh-no{color:var(--ink)}
+.sheet .dh-d{color:var(--sub)}
+.sheet .stage{border:1px solid var(--line);border-radius:14px;margin-bottom:8px}
+.sheet .segrow{border-color:var(--line)}
+.sheet .landsec{background:var(--oks)}
+.sheet .sn2 .v,.sheet .snums .v{color:var(--acc)}
 @media print{.sheet{box-shadow:none;border-radius:0}body,.app{background:#fff!important}.app::before,.app::after,.fx{display:none}}
 @media (prefers-reduced-motion: reduce){.app::after{animation:none}.glow{opacity:.35}}
 @media(max-width:760px){.glow{filter:blur(46px)}.app::after{display:none}}
@@ -680,4 +708,67 @@ input[type="range"]{accent-color:#6366F1}
 .ground .faq h3,.whyus .wu-t{color:var(--ink)}
 .landsec{background:rgba(52,211,153,.06)}
 .dochead,.dh-no{color:#1A1C20}
+
+/* ═══ КАЛЬКУЛЯТОР: липка панель поруч із кошторисом ═══ */
+.sheetwrap{display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:22px;align-items:start}
+@media(max-width:1080px){.sheetwrap{grid-template-columns:1fr}}
+.calcbar{position:sticky;top:84px;display:grid;gap:9px;padding:18px;border-radius:20px;
+  background:linear-gradient(160deg,rgba(79,70,229,.22),rgba(6,182,212,.06) 60%),rgba(13,17,28,.78);
+  backdrop-filter:blur(22px);border:1px solid rgba(99,102,241,.4);
+  box-shadow:0 0 50px rgba(79,70,229,.22),0 20px 60px rgba(0,0,0,.45)}
+@media(max-width:1080px){.calcbar{position:static;order:-1;margin-bottom:18px}}
+.cbx-h{font-family:'IBM Plex Mono';font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:#A5B4FC}
+.cbx-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:12.5px;color:#C7CFE2}
+.cbx-row b{font-family:'IBM Plex Mono';font-size:13px;color:#fff;font-weight:700}
+.cbx-row.sum{border-top:1px solid rgba(148,163,184,.22);padding-top:9px;margin-top:3px}
+.cbx-row.sum b{color:#A5B4FC}
+.cbx-ctl{display:grid;grid-template-columns:1fr auto;gap:3px 8px;align-items:center;margin:-2px 0 5px}
+.cbx-ctl>span{grid-column:1/-1;font-size:10px;color:#8B94A7;font-family:'IBM Plex Mono'}
+.cbx-ctl input[type="range"]{width:100%;accent-color:#6366F1;height:3px}
+.cbx-k{font-family:'IBM Plex Mono';font-size:11px;color:#A5B4FC;min-width:38px;text-align:right}
+.cbx-t{display:flex;align-items:center;gap:8px;width:100%;padding:9px 11px;border-radius:11px;cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid rgba(148,163,184,.2);color:#C7CFE2;font-family:'Manrope';
+  font-size:11.5px;font-weight:700;text-align:left;transition:all .22s cubic-bezier(.2,.8,.3,1)}
+.cbx-t:hover{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.12)}
+.cbx-t.on{border-color:rgba(99,102,241,.65);background:rgba(79,70,229,.18);color:#fff}
+.cbx-t>span{width:15px;height:15px;flex:none;border-radius:5px;border:1.5px solid #6366F1;display:grid;place-items:center;font-size:9px;color:#A5B4FC}
+.cbx-t em{margin-left:auto;font-style:normal;font-family:'IBM Plex Mono';font-size:11px;color:#94A3B8}
+.cbx-t.on em{color:#fff}
+.cbx-grand{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px;
+  margin-top:5px;padding-top:11px;border-top:1px solid rgba(148,163,184,.28)}
+.cbx-grand>span{font-size:11.5px;color:#A5B4FC;font-family:'IBM Plex Mono';text-transform:uppercase;letter-spacing:.5px}
+.cbx-grand b{font-family:'Unbounded';font-size:20px;color:#fff;text-shadow:0 0 26px rgba(129,140,248,.6);
+  animation:cbxpop .38s cubic-bezier(.25,1.35,.4,1)}
+@keyframes cbxpop{0%{transform:scale(.96);opacity:.65}55%{transform:scale(1.02)}100%{transform:scale(1)}}
+.cbx-grand em{width:100%;font-style:normal;font-family:'IBM Plex Mono';font-size:11px;color:#7DD3FC}
+.cbx-reset{background:none;border:none;color:#8B94A7;font-family:'Manrope';font-size:10.5px;cursor:pointer;text-decoration:underline;padding:0;text-align:left}
+.cbx-reset:hover{color:#A5B4FC}
+.cbx-note{font-size:10px;line-height:1.5;color:#7A8598;margin-top:2px}
+
+/* ═══ ЛЕГШЕ ДИХАННЯ: менше «важкості», більше повітря ═══ */
+.card{padding:0}
+.cb{padding:20px 22px 22px}
+.ch{padding:16px 22px 13px}
+.grid{gap:22px}
+.f{margin-bottom:16px}
+.chips{gap:7px}
+.chip{padding:8px 14px;font-size:12.5px}
+.wrap{padding-top:18px}
+.stage{margin-bottom:7px}
+.sheet .segrow{padding:9px 0}
+@media(max-width:760px){
+  .cb{padding:15px 15px 17px}.ch{padding:13px 15px 10px}
+  .grid{gap:14px}.wrap{padding-left:12px;padding-right:12px}
+  .hero h1{font-size:clamp(30px,10vw,46px)}
+  .marq{margin:18px 0 2px}
+  .budgbanner{flex-wrap:wrap;gap:7px}.bb-t{font-size:11.5px}.bb-b{width:100%;text-align:center}
+  .calcbar{padding:15px}
+  .rr{flex-wrap:wrap}.rv{min-width:auto}
+  .sheet{border-radius:14px}
+}
+/* Дрібні перекриття тексту */
+.ch h2{padding-right:8px;line-height:1.25;word-break:break-word}
+.f>span.hint{display:block;margin-top:5px;line-height:1.45}
+.optbox .ot,.optbox .od{min-width:0;overflow-wrap:anywhere}
+.lr span:first-child{min-width:0;overflow-wrap:anywhere}
 `;
