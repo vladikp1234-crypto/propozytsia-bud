@@ -300,6 +300,7 @@ export default function App() {
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [landOn, setLandOn] = useState(false);
+  const [showAllOpts, setShowAllOpts] = useState(false);
   const [kWork, setKWork] = useState(100);   // % до вартості робіт
   const [kMat, setKMat] = useState(100);     // % до вартості матеріалів
   const [furnSel, setFurnSel] = useState({});
@@ -941,10 +942,21 @@ export default function App() {
                 </div></div>}
 
               {stepId === "opts" && <>
-                <div className="card"><div className="ch"><span className="cn">Роботи</span><h2>Додаткові роботи</h2></div>
+                {(() => {
+                  // Часто обирають: базовий набір, який закриває більшість запитів.
+                  // Решта — під кнопкою, щоб перший екран не був стіною з 20 позицій.
+                  const POPULAR = mode === "house"
+                    ? ["well", "septic", "ac", "yard", "terrace", "garage"]
+                    : ["slopes", "partitions", "ac", "led", "design"];
+                  const visible = o => showAllOpts || POPULAR.includes(o.id) || (p.opts[o.id] ?? (o.def && p.condition === "new"));
+                  const hiddenCount = OPTS.filter(o => !visible(o)).length;
+                  const onCount = OPTS.filter(o => p.opts[o.id]).length;
+                  return <>
+                <div className="card"><div className="ch"><span className="cn">Роботи</span><h2>Додаткові роботи</h2>
+                  {onCount > 0 && <button className="chreset" onClick={() => setP("opts", {})}>скинути ({onCount})</button>}</div>
                   <div className="cb">
                     {Object.entries(OPT_GROUPS).map(([gk, gname]) => {
-                      const list = OPTS.filter(o => (o.grp || "eng") === gk);
+                      const list = OPTS.filter(o => (o.grp || "eng") === gk).filter(visible);
                       if (!list.length) return null;
                       return <div key={gk}>
                         <div className="ogcap">{gname}</div>
@@ -955,22 +967,29 @@ export default function App() {
                             const qv = o.qty ? (p[o.qty.key] || o.qty.def) : null;
                             return <div key={o.id} className={"optbox" + (on ? " on" : "")} onClick={() => setP("opts", { ...p.opts, [o.id]: !on })}>
                               <div className="cbx">{on ? "✓" : ""}</div>
-                              <div style={{ flex: 1 }}>
-                                <div className="ot">{o.name}{o.rec === p.condition && <span className="recb">рекомендовано</span>}</div>
-                                {o.hint && <div className="od">{o.hint}{o.unitHint && <span className="uhint"> · {o.unitHint}</span>}</div>}
+                              <div style={{ flex: 1, minWidth: 0 }}>
+                                <div className="otline">
+                                  <span className="ot">{o.name}</span>
+                                  {d > 0 && <span className="odelta">+{fmtM(d * mk)}</span>}
+                                </div>
+                                {o.hint && <div className="od">{o.rec === p.condition && <span className="recb">рекомендовано</span>}{o.hint}{o.unitHint && <span className="uhint"> · {o.unitHint}</span>}</div>}
                                 {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
                                   <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
                                   <span>{qv} {o.qty.unit}</span>
                                   <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))}>+</button>
                                 </div>}
                               </div>
-                              {d > 0 && <span className="odelta">+{fmtM(d * mk)}</span>}
                             </div>;
                           })}
                         </div>
                       </div>;
                     })}
+                    {(hiddenCount > 0 || showAllOpts) && <button className="moreopts" onClick={() => setShowAllOpts(v => !v)}>
+                      {showAllOpts ? "Згорнути до основних ↑" : `Показати всі опції (ще ${hiddenCount}) ↓`}
+                    </button>}
                   </div></div>
+                  </>;
+                })()}
                 {mode === "house" && <div className="card"><div className="ch"><span className="cn">🌳</span><h2>Сад та озеленення</h2></div>
                   <div className="cb">
                     <label className="f">Газон
