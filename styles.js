@@ -635,4 +635,25 @@ input[type="range"]{accent-color:var(--acc)}
 
 /* Мобільне: марквіза компактніша */
 @media(max-width:700px){.marq{margin:22px 0 0}.hero h1{font-size:clamp(34px,11vw,52px)}}
+
+/* ═══ FIX PASS 1 — перевірено наживо в браузері 05.08.2026 ═══ */
+/* Кімнати = «паперові картки»: світлі поля на білому, як окремі аркуші */
+.roomcard{background:#FBFAF6 !important;border:1px solid #E8E5DE !important}
+.roomcard select,.roomcard input{background:#fff !important;border:1.5px solid #D8D4CA !important;color:#1A1C20 !important}
+.roomcard .rn{color:#1A1C20 !important;font-weight:800;opacity:1}
+.roomcard label,.roomcard .rf{color:#6B6E75 !important}
+.roomcard button{color:#8A8D93}
+.roomcard .hint{color:#8A8D93}
+/* Помаранчева панель: контраст рядків підсумків */
+.lr,.lr span{color:#1A0F08 !important;font-weight:600}
+.live .lk{color:#3A2415 !important}
+.live .tl{color:#1A0F08 !important}
+/* Посилання «авто/згорнути» на темному тлі — акцентні, не чорні */
+.tl{color:#FF6A2B}
+/* Червоний блок бюджету в панелі — без «привида» */
+.fc.no{background:#3A1408 !important;color:#FFB08A !important;filter:none !important}
+/* Банер перевищення: компактніший */
+.budgbanner{padding:8px 14px;font-size:12px}
+/* Підписи полів: завжди ліворуч, біля своїх полів */
+.f,.f .hint,.cb label{text-align:left !important}
 `;
