@@ -413,7 +413,8 @@ input[type=range]{flex:1;accent-color:var(--acc)}
 .landrow{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:6px 0;border-bottom:1px dashed var(--line)}
 
 /* ============ MOTION LAYER — «жива» сторінка ============ */
-html{scroll-behavior:smooth}
+/* прокрутка миттєва: перехід між кроками не має «їхати» */
+html{scroll-behavior:auto}
 ::selection{background:var(--acc);color:#fff}
 *{scrollbar-width:thin;scrollbar-color:#C9C5BA transparent}
 ::-webkit-scrollbar{width:9px;height:9px}
@@ -771,4 +772,124 @@ input[type="range"]{accent-color:#6366F1}
 .f>span.hint{display:block;margin-top:5px;line-height:1.45}
 .optbox .ot,.optbox .od{min-width:0;overflow-wrap:anywhere}
 .lr span:first-child{min-width:0;overflow-wrap:anywhere}
+
+/* ═══ СПРИНТ 1: цілісність макета ═══ */
+html,body{max-width:100%;overflow-x:hidden}
+.app,.wrap,.grid,.card,.live,.rail,.sheetwrap{min-width:0}
+.fx{overflow:hidden}
+/* Панель ціни перестає бути липкою і розтягується, коли колонка одна */
+@media(max-width:900px){
+  .rail{position:static;top:auto}
+  .live{width:100%}
+  .budgbanner{position:static}
+}
+/* Заголовок: маска більше не ріже літери */
+.hero h1{padding-bottom:.06em}
+.hero h1 .hl{overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+/* Стисліший вхід: без порожнечі під заголовком */
+.hero{padding-top:34px;padding-bottom:16px}
+.hero .hsub{margin-top:14px}
+.hero .howit{margin-top:18px}
+.marq{margin:22px 0 4px}
+@media(max-width:760px){.hero{padding-top:22px}.hero .howit{display:none}}
+
+/* ═══ СПРИНТ 2: легший вибір опцій ═══ */
+.otline{display:flex;align-items:baseline;gap:10px;justify-content:space-between}
+.ot{font-weight:700;font-size:13.5px;line-height:1.35;min-width:0}
+.odelta{font-family:'IBM Plex Mono';font-size:12px;font-weight:700;color:#A5B4FC;white-space:nowrap;flex:none}
+.od{font-size:11.5px;line-height:1.5;color:var(--sub);margin-top:4px}
+.recb{display:inline-block;font-family:'IBM Plex Mono';font-size:9px;text-transform:uppercase;letter-spacing:.4px;
+  color:#6EE7B7;background:rgba(52,211,153,.12);border-radius:5px;padding:2px 6px;margin-right:7px;vertical-align:1px}
+.optbox{padding:13px 14px;border-radius:14px;align-items:flex-start;gap:11px}
+.optgrid{gap:9px}
+.moreopts{width:100%;margin-top:6px;padding:12px;border-radius:12px;cursor:pointer;
+  background:rgba(255,255,255,.04);border:1px dashed rgba(148,163,184,.3);color:#A5B4FC;
+  font-family:'Manrope';font-weight:700;font-size:12px;transition:all .22s}
+.moreopts:hover{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.5);border-style:solid}
+.chreset{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--sub);
+  font-family:'IBM Plex Mono';font-size:10.5px;text-decoration:underline;padding:0}
+.chreset:hover{color:#A5B4FC}
+.ch{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ogcap{font-family:'IBM Plex Mono';font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--sub);margin:14px 0 8px}
+.ogcap:first-child{margin-top:0}
+/* Читабельність: підняти дрібне */
+.hint,.od{font-size:11.5px}
+.lr,.lr span{font-size:12.5px}
+.sheet .segrow,.sheet .stage{font-size:12.5px}
+
+/* ═══ СПРИНТ 3: ТИПОГРАФІЧНА ШКАЛА ═══
+   Було 17 розмірів — стало 6. Кожен щабель має роль:
+   micro 10.5 (службові мітки) · caption 12 (підказки) · body 13 (текст і поля)
+   emph 14 (назви позицій) · title 15.5 (заголовки карток) · num 13.5 (моно-числа) */
+:root{--t-micro:10.5px;--t-cap:12px;--t-body:13px;--t-emph:14px;--t-title:15.5px;--t-num:13.5px}
+
+/* micro — моно-мітки та надзаголовки */
+.cn,.ogcap,.cbx-h,.ft-h,.seglbl,.betabar,.dh-qr span,.reggrp-t,.ceye,.confstrip,.marq-in,.cbx-ctl>span,.wc-d,.usdrate,.regland
+{font-size:var(--t-micro);letter-spacing:.045em}
+
+/* caption — підказки й пояснення */
+.hint,.od,.wu-d,.cbx-note,.adv-w,.madv-w,.modal-foot,.srcline,.condnote,.terms,.ft-legal,.hsub small,.cbx-t em
+{font-size:var(--t-cap);line-height:1.55}
+
+/* body — основний текст, поля, рядки */
+.f,.cb label,.lr,.lr span,.chip,.segrow,.sheet .segrow,.od+*,.faq details p,.ft-col,.modal-s,.rr,.oqty span,select,input,.wstep,.bb-t,.madv-b,.moreopts,.btn
+{font-size:var(--t-body)}
+
+/* emph — назви позицій і опцій */
+.ot,.wu-t,.adv-t,.madv-t,.rn,.stage-name,.fname,.dh-no
+{font-size:var(--t-emph);line-height:1.35}
+
+/* title — заголовки карток і секцій */
+.ch h2,.faq h3,.landsec h3,.modal-t,.furntotals h3
+{font-size:var(--t-title);line-height:1.3;letter-spacing:-.01em}
+
+/* num — моно-числа мають бути помітні */
+.rv,.odelta,.cbx-row b,.cbx-k,.madv-s,.adv-s,.snums .v,.sheet .segrow b,.lr b
+{font-size:var(--t-num);font-variant-numeric:tabular-nums}
+
+/* ═══ МОБІЛЬНА РЕВІЗІЯ ПО КРОКАХ ═══ */
+@media(max-width:760px){
+  :root{--t-micro:10.5px;--t-cap:12px;--t-body:13px;--t-emph:13.5px;--t-title:14.5px;--t-num:13px}
+  /* Крок 1: чіпи бюджету не тиснуться */
+  .chips{gap:6px}
+  .chip{padding:9px 13px}
+  /* Крок 2: геометрія в один стовпчик */
+  .g2{grid-template-columns:1fr;gap:12px}
+  /* Крок 3: картка кімнати — поля по два в ряд, не по п'ять */
+  .roomcard .rrow{flex-wrap:wrap;gap:9px}
+  .roomcard .rf{flex:1 1 calc(50% - 5px);min-width:0}
+  .roomcard select,.roomcard input{width:100%}
+  .roomhead{gap:8px}
+  /* Крок 4: опції в один стовпчик */
+  .optgrid{grid-template-columns:1fr}
+  .otline{flex-wrap:wrap;gap:4px}
+  .odelta{margin-left:auto}
+  /* Крок 5: порівняння рівнів прокручується, а не ламається */
+  .cmp,.tiertable{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* Кошторис: етапи й числа */
+  .sheet{padding:0}
+  .sheet .cover h1{font-size:22px;line-height:1.2}
+  .snums{grid-template-columns:1fr;gap:0}
+  .sn2{padding:13px 15px;border-bottom:1px solid var(--line)}
+  .sheet .segrow{flex-wrap:wrap;gap:3px 8px}
+  .stage{padding:11px 13px}
+  /* Липка нижня панель не накриває останню картку */
+  .wrap{padding-bottom:96px}
+  /* Модалка порадника — на весь екран */
+  .modal{max-height:92vh;border-radius:16px}
+  .modal-h{padding:17px 17px 12px}
+  .modal-list{padding:12px 15px}
+  /* Нічого не вилазить за край */
+  .ot,.od,.rn,.lr span,.madv-t{overflow-wrap:anywhere}
+}
+@media(max-width:400px){
+  .wsteps{gap:5px}
+  .wstep{padding:8px 10px;font-size:11.5px}
+  .live{padding:15px}
+  .cbx-grand b{font-size:18px}
+}
+
+/* Перехід між кроками — миттєвий, без плавної прокрутки */
+html{scroll-behavior:auto}
 `;
