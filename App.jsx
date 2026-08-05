@@ -118,7 +118,52 @@ function NumInput({ value, onChange, def, min, max, step, style, className }) {
     }} />;
 }
 
-// Появи блоків при скролі (Apple-стиль): спостерігач додає .in, CSS робить решту.
+// GSAP-режисура: вхідна сцена hero, паралакс плями, глибші появи при скролі.
+// Динамічний імпорт — нуль ризику для SSR і мінус з основного бандла.
+function useMotion(deps) {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let ctx, killed = false;
+    (async () => {
+      try {
+        const { gsap } = await import("gsap");
+        const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+        gsap.registerPlugin(ScrollTrigger);
+        if (killed) return;
+        ctx = gsap.context(() => {
+          // 1) Вхідна сцена (лише на першому кроці)
+          const h1 = document.querySelector(".hero h1");
+          if (h1) {
+            gsap.timeline({ defaults: { ease: "power3.out" } })
+              .from(h1, { y: 54, opacity: 0, duration: .85 })
+              .from(".hero .hsub", { y: 24, opacity: 0, duration: .6 }, "-=.45")
+              .from(".hero .howit", { y: 18, opacity: 0, duration: .5 }, "-=.35")
+              .from(".marq", { opacity: 0, duration: .6 }, "-=.3")
+              .from(".rail .live", { x: 42, opacity: 0, duration: .7, ease: "power2.out" }, "-=.55")
+              .from(".wsteps .wstep", { y: 14, opacity: 0, stagger: .05, duration: .4 }, "-=.5");
+          }
+          // 2) Паралакс зеленої плями за hero
+          const blob = document.querySelector(".hblob");
+          if (blob) gsap.to(blob, { yPercent: 26, ease: "none",
+            scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .6 } });
+          // 3) Картки: глибша поява знизу зі стаґером, ніж CSS-версія
+          ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in)", {
+            start: "top 88%",
+            once: true,
+            onEnter: els => gsap.fromTo(els,
+              { y: 34, opacity: 0, scale: .985 },
+              { y: 0, opacity: 1, scale: 1, stagger: .09, duration: .75, ease: "power3.out",
+                onStart: () => els.forEach(e => e.classList.add("in")) }),
+          });
+        });
+      } catch { /* GSAP недоступний — CSS-появи нижче лишаються запасним планом */ }
+    })();
+    return () => { killed = true; ctx && ctx.revert(); };
+  }, deps); // eslint-disable-line
+}
+
+// Появи блоків при скролі (CSS-запасний план, працює і без GSAP)
 function useReveal(deps) {
   useEffect(() => {
     if (typeof document === "undefined" || typeof IntersectionObserver === "undefined") return;
@@ -281,6 +326,7 @@ export default function App() {
   const r = useMemo(() => calc(mode, p, aRooms, sel, live, excl, lmat), [mode, p, aRooms, sel, live, excl, lmat]);
 
   useReveal([view, step, mode]);
+  useMotion([view, step, mode]);
 
   const roomStats = useMemo(() => ({
     total: aRooms.length,
