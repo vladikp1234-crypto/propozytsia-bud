@@ -135,6 +135,14 @@ function useMotion(deps) {
         if (killed) return;
         ctx = gsap.context(() => {
           /* 1) Вхідна сцена: рядки заголовка виїжджають з масок */
+          const sh = document.querySelector(".sheet");
+          if (sh) {
+            gsap.timeline({ defaults: { ease: "power3.out" } })
+              .from(sh, { y: 26, opacity: 0, duration: .6 })
+              .from(".sheet .cover", { y: 18, opacity: 0, duration: .5 }, "-=.35")
+              .from(".calcbar", { x: 36, opacity: 0, duration: .6 }, "-=.45")
+              .from(".sheet .sn2, .sheet .snums > div", { y: 16, opacity: 0, stagger: .07, duration: .45 }, "-=.35");
+          }
           if (document.querySelector(".hero .hl")) {
             gsap.timeline({ defaults: { ease: "power4.out" } })
               .fromTo(".hero .hl > *", { yPercent: 115 }, { yPercent: 0, stagger: .14, duration: .95 })
@@ -170,7 +178,7 @@ function useMotion(deps) {
             on(el, "mouseleave", () => gsap.to(el, { x: 0, y: 0, duration: .55, ease: "elastic.out(1,.45)" }));
           });
           /* 4) Появи при скролі зі стаґером */
-          ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in)", {
+          ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in), .sheet .stage:not(.in), .sheet .snums:not(.in), .sheet .inex:not(.in), .sheet .landsec:not(.in), .sheet .furntotals:not(.in)", {
             start: "top 88%", once: true,
             onEnter: els => gsap.fromTo(els,
               { y: 36, opacity: 0, scale: .985 },
@@ -231,7 +239,7 @@ function useReveal(deps) {
     const els = document.querySelectorAll(".wrap .card, .whyus .wu, .faq details, .footer .ft > div, .sheet > div, .stage");
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-    els.forEach((el, i) => { el.classList.add("rv"); el.style.setProperty("--rvd", `${Math.min(i % 6, 4) * 60}ms`); io.observe(el); });
+    els.forEach((el, i) => { el.classList.add("rvl"); el.style.setProperty("--rvd", `${Math.min(i % 6, 4) * 60}ms`); io.observe(el); });
     return () => io.disconnect();
   }, deps); // eslint-disable-line
 }
@@ -292,6 +300,8 @@ export default function App() {
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
   const [landOn, setLandOn] = useState(false);
+  const [kWork, setKWork] = useState(100);   // % до вартості робіт
+  const [kMat, setKMat] = useState(100);     // % до вартості матеріалів
   const [furnSel, setFurnSel] = useState({});
   const excl = {}; // «зроблю сам» вилучено на прохання замовника
   const [q, setQ] = useState("");
@@ -418,6 +428,7 @@ export default function App() {
     });
   }, [furnOn, furnSel, p, tierIdx, r.A]);
   const furnTotal = furnRows.reduce((a, x) => a + x.total, 0);
+
   const setFurn = (id, patch) => setFurnSel(s => ({ ...s, [id]: { ...(s[id] || {}), ...patch } }));
 
   const cmp = useMemo(() => {
@@ -543,6 +554,18 @@ export default function App() {
   };
 
   const mk = 1 + (admin ? margin : 0) / 100;
+
+  // Живий калькулятор: перерахунок із готових сум — без повторного проходу по кошторису
+  const calcLive = useMemo(() => {
+    const work = r.rows.reduce((s, x) => s + x.work, 0) * mk;
+    const mat = r.rows.reduce((s, x) => s + x.matSum, 0) * mk;
+    const workAdj = work * (kWork / 100);
+    const matAdj = mat * (kMat / 100);
+    const build = workAdj + matAdj;
+    const land = landOn && landCost ? (landCost.lo + landCost.hi) / 2 : 0;
+    const furn = furnOn ? furnTotal : 0;
+    return { work, mat, workAdj, matAdj, build, land, furn, grand: build + land + furn };
+  }, [r.rows, mk, kWork, kMat, landOn, landCost, furnOn, furnTotal]);
   useEffect(() => {
     const s = snapRef.current;
     if (!s) return;
@@ -1157,7 +1180,43 @@ export default function App() {
         </div>}
 
 
-        {view === "sheet" && <div className="sheet">
+        {view === "sheet" && <div className="sheetwrap">
+        <aside className="calcbar no-print">
+          <div className="cbx-h">Живий підсумок</div>
+
+          <div className="cbx-row"><span>Роботи</span><b>{fmtM(calcLive.workAdj)}</b></div>
+          <label className="cbx-ctl">
+            <span>коефіцієнт робіт</span>
+            <input type="range" min="60" max="160" step="5" value={kWork} onChange={e => setKWork(+e.target.value)} />
+            <b className="cbx-k">{kWork}%</b>
+          </label>
+
+          <div className="cbx-row"><span>Матеріали</span><b>{fmtM(calcLive.matAdj)}</b></div>
+          <label className="cbx-ctl">
+            <span>коефіцієнт матеріалів</span>
+            <input type="range" min="60" max="160" step="5" value={kMat} onChange={e => setKMat(+e.target.value)} />
+            <b className="cbx-k">{kMat}%</b>
+          </label>
+
+          <div className="cbx-row sum"><span>Будівництво</span><b>{fmtM(calcLive.build)}</b></div>
+
+          <button className={"cbx-t" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)}>
+            <span>{furnOn ? "✓" : ""}</span> Меблі й техніка<em>{furnOn ? fmtM(calcLive.furn) : "вимкнено"}</em>
+          </button>
+          {landCost && <button className={"cbx-t" + (landOn ? " on" : "")} onClick={() => setLandOn(v => !v)}>
+            <span>{landOn ? "✓" : ""}</span> Ділянка<em>{landOn ? fmtM(calcLive.land) : "вимкнено"}</em>
+          </button>}
+
+          <div className="cbx-grand">
+            <span>Разом</span>
+            <b key={Math.round(calcLive.grand / 1000)}>{fmtM(calcLive.grand)}</b>
+            {usd && <em>≈ ${fmt(calcLive.grand / usd)}</em>}
+          </div>
+          {(kWork !== 100 || kMat !== 100) && <button className="cbx-reset" onClick={() => { setKWork(100); setKMat(100); }}>Скинути коефіцієнти</button>}
+          <p className="cbx-note">Коефіцієнти змінюють підсумок, не чіпаючи позиції кошторису — зручно приміряти власні розцінки.</p>
+        </aside>
+
+        <div className="sheet">
           <div className="cover">
             <div className="dochead">
               <div className="dh-l">
@@ -1320,6 +1379,7 @@ export default function App() {
               <button className="btn" onClick={exportXlsx}>Excel ↓</button>
               <button className="btn blue" onClick={() => { const all = {}; r.rows.forEach(x => all[x.id] = true); setOpn(all); setTimeout(() => window.print(), 150); }}>Зберегти PDF</button>
             </div></div>
+          </div>
         </div>}
       </div>
 
