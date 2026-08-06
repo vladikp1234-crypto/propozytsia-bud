@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-05",
+  "updated": "2026-08-06",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -39,11 +39,11 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 102,
+      "count": 101,
       "min": 250,
       "max": 600,
       "unit": "м²",
-      "price": 353,
+      "price": 339,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -53,7 +53,7 @@
       "min": 517,
       "max": 1150,
       "unit": "м²",
-      "price": 870,
+      "price": 872,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"

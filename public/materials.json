@@ -1,19 +1,19 @@
 {
-  "updated": "2026-08-05",
+  "updated": "2026-08-06",
   "source": "epicentrk.ua",
   "stats": {
-    "found": 21,
-    "missed": 11,
+    "found": 19,
+    "missed": 13,
     "total": 32
   },
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Classen Casa Vintage 4V дуб пікардія 32/АС4/8 мм (54435)",
-        "price": 527.63,
-        "retail": 527.63,
+        "name": "Ламінат Kastamonu FP Prime 4V akashi 32/АС4/8 мм (FR010)",
+        "price": 528.1,
+        "retail": 528.1,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-classen-casa-vintage-4v-54435-dub-pikardiya-32-as4-1286x194x8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-prime-fr010-akashi-32-as4-1205kh193kh8-mm.html"
       },
       {
         "name": "Ламінат AGT Natura Ultra Line 4V Patara 33/АС5/8 мм (PRK214)",
@@ -24,44 +24,44 @@
       },
       null,
       {
-        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Luxary",
-        "price": 2337,
-        "retail": 2337,
+        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Grand",
+        "price": 2360,
+        "retail": 2360,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-luxary.html"
+        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-grand.html"
       }
     ],
     "tile": [
       {
         "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
-        "price": 397,
-        "retail": 397,
+        "price": 399,
+        "retail": 399,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
       },
       {
-        "name": "Плитка Cersanit Romero beige matt 42x42 см",
-        "price": 439,
-        "retail": 439,
+        "name": "Плитка Cersanit Clody pattern 29,7x60 см",
+        "price": 449.65,
+        "retail": 449.65,
         "count": 37,
-        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-romero-beige-matt-42x42-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-pattern-30x60.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат сірий RAL 7046 3,5 кг",
-        "price": 20.94,
-        "retail": 733,
-        "count": 21,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-siryi-ral-7046-3-5-kh.html"
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 23.94,
+        "retail": 838,
+        "count": 20,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
-        "name": "Фарба Kompozit для басейнів АК-12 блакитний мат 2,8 кг",
-        "price": 40.49,
-        "retail": 1417,
-        "count": 32,
-        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
+        "name": "Фарба силіконова структурна Kompozit STRUCTURE S130 мат білий 7 кг",
+        "price": 31.2,
+        "retail": 1092,
+        "count": 31,
+        "url": "https://epicentrk.ua/ua/shop/kraska-strukturnaya-structure-s130-kompozit-belyy-4-38-l-7-kg.html"
       },
       null
     ],
@@ -74,11 +74,11 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-9435-06-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
-        "price": 535,
-        "retail": 535,
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
+        "price": 581,
+        "retail": 581,
         "count": 35,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
@@ -98,11 +98,11 @@
       },
       null,
       {
-        "name": "Блок дверний ОМіС FLAT 11 B L торець BLK ПГ 860 мм цемент",
-        "price": 10452,
-        "retail": 10452,
-        "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/blok-dvernyi-omis-flat-11-b-l-torets-blk-ph-860-mm-tsement.html"
+        "name": "Двері прихованого монтажу під оздоблення на алюмінієвому каркасі анод 2000x600 мм Хром мат",
+        "price": 9990,
+        "retail": 9990,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovanogo-montazu-pid-ozdoblenna-na-aluminievomu-karkasi-anod-2000x600-mm-hrom-matovij-28769316-1f09238b-a97b-6cd4-8a70-9964ba8a28d1.html"
       }
     ],
     "plinth": [
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ ОМіС дуб сонома 16x80x2400 мм",
         "price": 295,
         "retail": 295,
-        "count": 53,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/plintus-omis-laminirovannyy-dub-sonoma-16kh80kh2400-mm.html"
       },
       null
@@ -126,46 +126,29 @@
       null
     ],
     "radiators": [
-      {
-        "name": "Радіатор сталевий Romstal 22x500x600 мм, 1086 Вт, Ниж.",
-        "price": 4926,
-        "retail": 4926,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-romstal-22x500x600-mm-1086-vt-nyzh.html"
-      },
+      null,
       {
         "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
-        "price": 5192,
-        "retail": 5192,
-        "count": 33,
+        "price": 5175,
+        "retail": 5175,
+        "count": 32,
         "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
       }
     ],
     "decor": [
       {
-        "name": "Штукатурка декоративна Teknodeko Баранчик 2 мм 25 кг Білий",
+        "name": "Декоративна штукатурка Teknodeko Cizgili Короїд 3 мм 25 кг (TDEKOCIZ)",
         "price": 584,
         "retail": 584,
         "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-barancik-2-mm-25-kg-bilij-1ee2d4c5-9296-67d4-8e9e-4d856af3afd7.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-teknodeko-cizgili-koroid-3-mm-25-kg-tdekociz-1f17b992-302a-63f2-8335-db426ba66fa2.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
-        "price": 1017,
-        "retail": 1017,
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 825,
+        "retail": 825,
         "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
-      }
-    ],
-    "ac_unit": [
-      null,
-      null,
-      {
-        "name": "Кондиціонер Mitsubishi Electric MSZ-EF35VGKB/MUZ-EF35VG (1277)",
-        "price": 77187,
-        "retail": 77187,
-        "count": 34,
-        "url": "https://epicentrk.ua/ua/shop/mplc-konditsioner-mitsubishi-electric-msz-ef35vgkb-muz-ef35vg-1277-1ebcdeac-1c9f-6290-9586-e1278da5f9bb.html"
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
     "boiler": [
@@ -179,9 +162,9 @@
       null,
       {
         "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 150 л (BOLLY 2 ST 150)",
-        "price": 41556.9,
-        "retail": 41556.9,
-        "count": 43,
+        "price": 40048,
+        "retail": 40048,
+        "count": 20,
         "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-150-l-bolly-2-st-150-1efcde90-bfcd-6f2e-abaa-ef6a6aadc9e7.html"
       }
     ]
