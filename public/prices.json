@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-06",
+  "updated": "2026-08-07",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -49,11 +49,11 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 169,
+      "count": 168,
       "min": 517,
       "max": 1150,
       "unit": "м²",
-      "price": 872,
+      "price": 875,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -83,7 +83,7 @@
       "min": 150,
       "max": 380,
       "unit": "м²",
-      "price": 279,
+      "price": 282,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -109,17 +109,17 @@
       "url": "https://www.rabotniki.ua/uk/dveri/kiev"
     },
     "roofing": {
-      "count": 42,
+      "count": 43,
       "min": 200,
-      "max": 420,
+      "max": 400,
       "unit": "м²",
-      "price": 316,
+      "price": 306,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
-      "count": 60,
+      "count": 59,
       "min": 600,
       "max": 1300,
       "unit": "м²",

@@ -1,26 +1,26 @@
 {
-  "updated": "2026-08-06",
+  "updated": "2026-08-07",
   "source": "epicentrk.ua",
   "stats": {
-    "found": 19,
-    "missed": 13,
+    "found": 20,
+    "missed": 12,
     "total": 32
   },
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Kastamonu FP Prime 4V akashi 32/АС4/8 мм (FR010)",
-        "price": 528.1,
-        "retail": 528.1,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-prime-fr010-akashi-32-as4-1205kh193kh8-mm.html"
+        "name": "Ламінат Kastamonu FP Urban 4V лос анжелес 32/АС4/8 мм",
+        "price": 519,
+        "retail": 519,
+        "count": 56,
+        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-urban-plus-promo-los-angeles-32-as4-197-1205-8-mm.html"
       },
       {
-        "name": "Ламінат AGT Natura Ultra Line 4V Patara 33/АС5/8 мм (PRK214)",
+        "name": "Ламінат AGT Natura Ultra Line 4V vegas 33/АС5/8 мм (PRK104)",
         "price": 551,
         "retail": 551,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-agt-natura-line-ultra-4v-patara-33-as5-8-mm-prk214.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-luna-4v-vegas-33-as5-8-mm-prk104.html"
       },
       null,
       {
@@ -50,18 +50,18 @@
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 23.94,
-        "retail": 838,
+        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат сірий RAL 7046 3,5 кг",
+        "price": 20.4,
+        "retail": 714,
         "count": 20,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-siryi-ral-7046-3-5-kh.html"
       },
       {
-        "name": "Фарба силіконова структурна Kompozit STRUCTURE S130 мат білий 7 кг",
-        "price": 31.2,
-        "retail": 1092,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/kraska-strukturnaya-structure-s130-kompozit-belyy-4-38-l-7-kg.html"
+        "name": "Фарба інтер'єрна Kompozit SUPERMATT NEO Біла 7 кг + Ґрунтовка акрилова Kompozit UNIVERSAL-",
+        "price": 33.13,
+        "retail": 1159.5,
+        "count": 33,
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-kompozit-supermatt-neo-bila-7-kh-gruntovka-akrylova-kompozit-universal-bio-1-l.html"
       },
       null
     ],
@@ -74,17 +74,17 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-9435-06-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
-        "price": 581,
-        "retail": 581,
-        "count": 35,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 535,
+        "retail": 535,
+        "count": 33,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
         "price": 1297,
         "retail": 1297,
-        "count": 54,
+        "count": 55,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524626-1-06x10-05-m.html"
       }
     ],
@@ -126,13 +126,19 @@
       null
     ],
     "radiators": [
-      null,
       {
-        "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
-        "price": 5175,
-        "retail": 5175,
-        "count": 32,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
+        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
+        "price": 4879,
+        "retail": 4879,
+        "count": 56,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
+      },
+      {
+        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
+        "price": 5114,
+        "retail": 5114,
+        "count": 36,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
       }
     ],
     "decor": [
