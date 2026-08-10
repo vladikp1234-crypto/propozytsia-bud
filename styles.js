@@ -422,8 +422,11 @@ html{scroll-behavior:auto}
 ::-webkit-scrollbar-thumb:hover{background:var(--acc)}
 
 /* Появи при скролі: старт нижче і прозоро → плавно на місце, каскадом */
-.rvl{opacity:0;transform:translateY(22px) scale(.985);transition:opacity .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms),transform .6s cubic-bezier(.2,.7,.3,1) var(--rvd,0ms)}
+/* Контент НІКОЛИ не ховається засобами CSS: якщо JS/GSAP не завантажиться,
+   сторінка лишається читабельною. Появи робить лише GSAP. */
+.rvl{opacity:1}
 .rvl.in{opacity:1;transform:none}
+.sheet .rvl,.sheet [style*="opacity: 0"]{opacity:1 !important}
 
 /* Перемикання кроків майстра: колонка в'їжджає */
 .stepcol{animation:stepin .42s cubic-bezier(.2,.75,.25,1)}
