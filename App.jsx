@@ -4,7 +4,7 @@ import {
   BETA, REGIONS, REGION_GROUPS, TIERS, TIER_TABLE, GROUPS, FOUNDATIONS, WALLS, ROOFS, HEATING,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, defaultHouseRooms, buildAgg, suggestFootprint, lawnA,
   FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
-  BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS, FURNITURE, FURN_GROUPS,
+  BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS,
 } from "./data.js";
 
 const VILKA = 0.12, OVERLAP = 0.85;
@@ -120,6 +120,32 @@ function NumInput({ value, onChange, def, min, max, step, style, className }) {
 
 // GSAP-режисура: вхідна сцена hero, паралакс плями, глибші появи при скролі.
 // Динамічний імпорт — нуль ризику для SSR і мінус з основного бандла.
+// Єдиний набір тонких іконок (currentColor, 1.6px штрих) — замість емодзі.
+const ICON_PATHS = {
+  hall: "M4 20V9l8-5 8 5v11M9 20v-6h6v6",
+  kitchen: "M4 4h16v7H4zM7 11v9M17 11v9M4 15h16",
+  living: "M3 17v-4a2 2 0 012-2h14a2 2 0 012 2v4M5 11V8a2 2 0 012-2h10a2 2 0 012 2v3M3 17h18v3H3z",
+  bedroom: "M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6M3 14h18M6 10V7h12v3",
+  bath: "M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4zM7 12V6a2 2 0 014 0M6 19l-1 2M18 19l1 2",
+  wc: "M12 4a2 2 0 110 4 2 2 0 010-4zM9 20v-5H7l2-5h6l2 5h-2v5z",
+  wardrobe: "M5 3h14v18H5zM12 3v18M9 11h1M14 11h1",
+  balcony: "M4 12h16M6 12v8M10 12v8M14 12v8M18 12v8M5 12V7a7 7 0 0114 0v5",
+  boilerroom: "M6 4h12v16H6zM10 8h4M10 12h4M9 20v2M15 20v2",
+  garage: "M3 20V9l9-5 9 5v11M7 20v-7h10v7M7 16h10",
+  terraceR: "M12 3v18M5 8l7-5 7 5M4 21h16M8 12h8",
+  garden: "M12 21v-7M12 14c-3 0-5-2-5-5s2-6 5-6 5 3 5 6-2 5-5 5zM7 21h10",
+  furniture: "M4 18v-7a2 2 0 012-2h12a2 2 0 012 2v7M4 14h16M7 18v2M17 18v2",
+  search: "M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4.5-4.5",
+};
+function Icon({ name, size = 17 }) {
+  const d = ICON_PATHS[name];
+  if (!d) return null;
+  return <svg className="ic" width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true"
+    stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    {d.split("M").filter(Boolean).map((seg, i) => <path key={i} d={"M" + seg} />)}
+  </svg>;
+}
+
 function useMotion(deps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -303,6 +329,14 @@ export default function App() {
   const [showCmp, setShowCmp] = useState(false);
   const [shared, setShared] = useState(false);
   const [furnOn, setFurnOn] = useState(false);
+  // Каталог меблів — окремий чанк: вантажиться лише коли блок увімкнено
+  const [furnCat, setFurnCat] = useState(null);
+  useEffect(() => {
+    if (!furnOn || furnCat) return;
+    let alive = true;
+    import("./furniture.js").then(m => { if (alive) setFurnCat({ list: m.FURNITURE, groups: m.FURN_GROUPS }); }).catch(() => {});
+    return () => { alive = false; };
+  }, [furnOn, furnCat]);
   const [landOn, setLandOn] = useState(false);
   const [showAllOpts, setShowAllOpts] = useState(false);
   const [kWork, setKWork] = useState(100);   // % до вартості робіт
@@ -422,7 +456,8 @@ export default function App() {
   const tierIdx = { econom: 0, standart: 1, premium: 2 }[p.tier] ?? 1;
   const furnRows = useMemo(() => {
     if (!furnOn) return [];
-    return FURNITURE.map(f => {
+    if (!furnCat) return [];
+    return furnCat.list.map(f => {
       const fp = { ...p, rooms: roomStats.living, bathrooms: r.A.baths, windowsCount: r.A.wins || 3 };
       const defQty = f.qty(fp);
       const s = furnSel[f.id] || {};
@@ -431,7 +466,7 @@ export default function App() {
       const ti = s.tier ?? tierIdx;
       return { ...f, on, qty, ti, price: f.t[ti], total: on ? qty * f.t[ti] : 0 };
     });
-  }, [furnOn, furnSel, p, tierIdx, r.A]);
+  }, [furnOn, furnCat, furnSel, p, tierIdx, r.A]);
   const furnTotal = furnRows.reduce((a, x) => a + x.total, 0);
 
   const setFurn = (id, patch) => setFurnSel(s => ({ ...s, [id]: { ...(s[id] || {}), ...patch } }));
@@ -912,8 +947,8 @@ export default function App() {
                         const sameType = aRooms.filter(x => x.type === rm.type);
                         const label = sameType.length > 1 ? `${t.name} ${sameType.indexOf(rm) + 1}` : t.name;
                         return <div className="roomcard" key={rm.id}>
-                          <div className="roomhead"><span>{t.emoji}</span><span className="rn">{label}</span>
-                            <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити">✕</button></div>
+                          <div className="roomhead"><span className="ricon"><Icon name={rm.type} /></span><span className="rn">{label}</span>
+                            <button className="rdel" onClick={() => delRoom(rm.id)} title="Видалити приміщення" aria-label={"Видалити приміщення: " + label}>✕</button></div>
                           <div className="rrow">
                             {mode === "house" && (p.floors || 1) > 1 && <label className="rf">Поверх
                               <select value={rm.lvl || 1} onChange={e => updRoom(rm.id, { lvl: +e.target.value })} style={{ width: 68 }}>
@@ -939,7 +974,7 @@ export default function App() {
                       })}
                     </div>
                     <div className="addroom">
-                      {Object.entries(ROOM_TYPES).map(([k, t]) => <button key={k} onClick={() => addRoom(k)}>+ {t.emoji} {t.name}</button>)}
+                      {Object.entries(ROOM_TYPES).map(([k, t]) => <button key={k} onClick={() => addRoom(k)}><Icon name={k} size={14} /> {t.name}</button>)}
                     </div>
                   </>)}
                   <span className="roomsum">Разом: {r.A.total} м² · стін під оздоблення ≈ {Math.round(r.A.wallsPlaster)} м² · електроточок ≈ {r.A.pts}</span>
@@ -978,9 +1013,9 @@ export default function App() {
                                 </div>
                                 {o.hint && <div className="od">{o.rec === p.condition && <span className="recb">рекомендовано</span>}{o.hint}{o.unitHint && <span className="uhint"> · {o.unitHint}</span>}</div>}
                                 {on && o.qty && <div className="oqty" onClick={e => e.stopPropagation()}>
-                                  <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))}>−</button>
+                                  <button onClick={() => setP(o.qty.key, Math.max((qv || o.qty.def) - 1, o.qty.min))} aria-label={"Зменшити: " + o.name}>−</button>
                                   <span>{qv} {o.qty.unit}</span>
-                                  <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))}>+</button>
+                                  <button onClick={() => setP(o.qty.key, Math.min((qv || o.qty.def) + 1, o.qty.max))} aria-label={"Збільшити: " + o.name}>+</button>
                                 </div>}
                               </div>
                             </div>;
@@ -994,7 +1029,7 @@ export default function App() {
                   </div></div>
                   </>;
                 })()}
-                {mode === "house" && <div className="card"><div className="ch"><span className="cn">🌳</span><h2>Сад та озеленення</h2></div>
+                {mode === "house" && <div className="card"><div className="ch"><span className="cn cn-ic"><Icon name="garden" size={14} /></span><h2>Сад та озеленення</h2></div>
                   <div className="cb">
                     <label className="f">Газон
                       <div className="chips">
@@ -1029,7 +1064,7 @@ export default function App() {
                       <NumInput value={p.flowerBeds} def={0} min={0} max={200} onChange={v => setP("flowerBeds", v)} style={{ width: 90 }} /></label>
                   </div></div>}
 
-                <div className="card"><div className="ch"><span className="cn">＋</span><h2>Меблі, техніка й декор</h2></div>
+                <div className="card"><div className="ch"><span className="cn cn-ic"><Icon name="furniture" size={14} /></span><h2>Меблі, техніка й декор</h2></div>
                   <div className="cb">
                     <div className={"optbox" + (furnOn ? " on" : "")} onClick={() => setFurnOn(v => !v)} style={{ maxWidth: 480 }}>
                       <div className="cbx">{furnOn ? "✓" : ""}</div>
@@ -1082,9 +1117,9 @@ export default function App() {
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}» на {fmtM(budgetAdvice?.over || 0)} грн</>}</div>
               {budgetAdvice && <button className="adv-open" onClick={() => setShowBudget(true)}>💡 Як зменшити вартість →</button>}
-              <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "🔗 Поділитись розрахунком"}</button>
+              <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "Поділитись розрахунком"}</button>
               <div style={{ display: "flex", gap: 8 }}>
-                <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>💾 Зберегти варіант</button>
+                <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>Зберегти варіант</button>
                 {variants.length > 0 && <button className="sharebtn" style={{ flex: 1 }} onClick={() => { setView("variants"); window.scrollTo(0, 0); }}>⇄ Варіанти ({variants.length})</button>}
               </div>
             </div>
@@ -1117,7 +1152,7 @@ export default function App() {
                   <div className="modal-t">Як залишитись у бюджеті</div>
                   <div className="modal-s">Перевищення «{budgetAdvice.budgetName}» на <b>{fmtM(budgetAdvice.over * mk)} грн</b>. Ось як його прибрати — від найвигіднішого. Оберіть, що для вас не критично:</div>
                 </div>
-                <button className="modal-x" onClick={() => setShowBudget(false)}>✕</button>
+                <button className="modal-x" onClick={() => setShowBudget(false)} aria-label="Закрити вікно">✕</button>
               </div>
               {budgetAdvice.plan.length > 0 && <div className="modal-plan">
                 ★ Достатньо {budgetAdvice.plan.length === 1 ? "одного кроку нижче" : `${budgetAdvice.plan.length} кроків нижче`}, щоб вписатись{budgetAdvice.covered ? "" : ". Якщо цього замало — розгляньте менший обсяг або площу."}
@@ -1281,8 +1316,29 @@ export default function App() {
 
 
 
+          {(() => {
+            const byGrp = {};
+            r.rows.forEach(x => { if (!x.off) byGrp[x.group] = (byGrp[x.group] || 0) + x.total; });
+            const list = Object.entries(byGrp).sort((x, y) => y[1] - x[1]);
+            const sum = list.reduce((s, [, v]) => s + v, 0) || 1;
+            return <div className="breakdown">
+              <div className="bd-h">Структура витрат</div>
+              <div className="bd-bar">
+                {list.map(([g, v], i) => <span key={g} className={"bd-seg c" + (i % 8)} style={{ width: (v / sum * 100) + "%" }} title={GROUPS[g]} />)}
+              </div>
+              <div className="bd-legend">
+                {list.map(([g, v], i) => <div className="bd-li" key={g}>
+                  <i className={"bd-dot c" + (i % 8)} />
+                  <span className="bd-n">{GROUPS[g]}</span>
+                  <span className="bd-p">{Math.round(v / sum * 100)}%</span>
+                  <b className="bd-v">{fmtM(v * mk)}</b>
+                </div>)}
+              </div>
+            </div>;
+          })()}
+
           <div className="filterbar no-print">
-            <input className="searchin" value={q} onChange={e => setQ(e.target.value)} placeholder="🔎 Пошук: плитка, кабель, двері…" />
+            <input className="searchin" value={q} onChange={e => setQ(e.target.value)} placeholder="Пошук: плитка, кабель, двері…" />
             <button className={"fchip" + (!grpFilter ? " on" : "")} onClick={() => setGrpFilter(null)}>Всі етапи</button>
             {usedGroups.map(g => <button key={g} className={"fchip" + (grpFilter === g ? " on" : "")} onClick={() => setGrpFilter(grpFilter === g ? null : g)}>{GROUPS[g]}</button>)}
             <button className="fchip x" onClick={() => { const all = {}; r.rows.forEach(x => all[x.id] = true); setOpn(Object.keys(opn).length === r.rows.length ? {} : all); }}>
@@ -1290,13 +1346,24 @@ export default function App() {
           </div>
 
           {displayRows.map(st => <div key={st.id} className={"stage" + ((opn[st.id] || ql) ? " open" : "") + (st.off ? " off" : "")}>
-            <div className="sth" onClick={() => setOpn(o => ({ ...o, [st.id]: !o[st.id] }))}>
-              <span className="st-caret">▸</span>
-              <span className="st-grp">{GROUPS[st.group]}</span>
-              <span className="st-name">{st.name.replace(/^Етап \d+[аб]? · /, "").replace("Наскрізне · ", "")}</span>
-              {st.sk !== 1 && <span className="st-badge">{st.sk > 1 ? "+" : ""}{Math.round((st.sk - 1) * 100)}%</span>}
-              {st.weeks > 0 && <span className="st-wk">{st.weeks}т</span>}
-              <span className="st-tot">{st.off ? <s>{fmt(st.total * mk)}</s> : fmt(st.total * mk)}</span></div>
+            <div className="sth" role="button" tabIndex={0} aria-expanded={!!opn[st.id]}
+              aria-label={(opn[st.id] ? "Згорнути етап: " : "Розгорнути етап: ") + st.name}
+              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpn(o => ({ ...o, [st.id]: !o[st.id] })); } }}
+              onClick={() => setOpn(o => ({ ...o, [st.id]: !o[st.id] }))}>
+              <span className="st-caret" aria-hidden="true">▸</span>
+              <div className="st-main">
+                <div className="st-top">
+                  <span className="st-name">{st.name.replace(/^Етап \d+[аб]? · /, "").replace("Наскрізне · ", "")}</span>
+                  <span className="st-tot">{st.off ? <s>{fmt(st.total * mk)}</s> : fmt(st.total * mk)}</span>
+                </div>
+                <div className="st-sub">
+                  <span className="st-grp">{GROUPS[st.group]}</span>
+                  {st.weeks > 0 && <span className="st-wk">{st.weeks} тижн.</span>}
+                  {st.sk !== 1 && <span className="st-badge">{st.sk > 1 ? "+" : ""}{Math.round((st.sk - 1) * 100)}%</span>}
+                  <span className="st-share"><i style={{ width: Math.max(Math.round(st.total / (r.total || 1) * 100), 1) + "%" }} /></span>
+                  <span className="st-pct">{Math.round(st.total / (r.total || 1) * 100)}%</span>
+                </div>
+              </div></div>
             {(opn[st.id] || ql) && <div className="stb"><div className="scope">{st.scope}</div>
               {st.items.map(it => <div className="item" key={it.key}>
                 <div className="itop"><span className="ilbl">{it.label}{!it.ver && <span className="vchip" title="Розцінка очікує перевірки експерта">β</span>}</span><span className="iqty">{fmt(it.qty)} {it.unit} · <b>{fmt(it.total * mk)} грн</b></span></div>
@@ -1358,7 +1425,7 @@ export default function App() {
           {furnOn && <div className="furnsec">
             <h3>Комплектація меблями, технікою та декором</h3>
             <p className="hint" style={{ marginBottom: 14 }}>Окремий підсумок — не входить у вартість ремонту. Ціни — орієнтовні оцінки рівня Епіцентр/Центр меблів; уточнюються при закупівлі.</p>
-            {FURN_GROUPS.map(g => {
+            {(furnCat?.groups || []).map(g => {
               const items = furnRows.filter(f => f.group === g);
               if (!items.length) return null;
               const gTotal = items.reduce((a, x) => a + x.total, 0);
@@ -1370,9 +1437,9 @@ export default function App() {
                   <div className="fbody"><div className="fname">{f.name}</div>
                     <div className="srcline" style={{ margin: 0 }}><a href={f.url} target="_blank" rel="noreferrer">Епіцентр →</a></div></div>
                   <div className="fqty no-print">
-                    <button onClick={() => setFurn(f.id, { qty: Math.max(f.qty - 1, 1) })}>−</button>
+                    <button onClick={() => setFurn(f.id, { qty: Math.max(f.qty - 1, 1) })} aria-label={"Зменшити кількість: " + f.name}>−</button>
                     <span>{f.qty} {f.unit}</span>
-                    <button onClick={() => setFurn(f.id, { qty: f.qty + 1 })}>+</button>
+                    <button onClick={() => setFurn(f.id, { qty: f.qty + 1 })} aria-label={"Збільшити кількість: " + f.name}>+</button>
                   </div>
                   <div className="seg fseg">
                     {["Економ", "Стандарт", "Преміум"].map((tn, ti2) => <button key={ti2} className={"segbtn" + (f.ti === ti2 ? " on" : "")} onClick={() => setFurn(f.id, { tier: ti2 })}>
