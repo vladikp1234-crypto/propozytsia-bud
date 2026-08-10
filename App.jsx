@@ -137,11 +137,14 @@ function useMotion(deps) {
           /* 1) Вхідна сцена: рядки заголовка виїжджають з масок */
           const sh = document.querySelector(".sheet");
           if (sh) {
-            gsap.timeline({ defaults: { ease: "power3.out" } })
-              .from(sh, { y: 26, opacity: 0, duration: .6 })
-              .from(".sheet .cover", { y: 18, opacity: 0, duration: .5 }, "-=.35")
-              .from(".calcbar", { x: 36, opacity: 0, duration: .6 }, "-=.45")
-              .from(".sheet .sn2, .sheet .snums > div", { y: 16, opacity: 0, stagger: .07, duration: .45 }, "-=.35");
+            // fromTo + clearProps: гарантія, що жоден елемент не лишиться невидимим,
+            // якщо React перемалює вміст під час анімації.
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" },
+              onComplete: () => gsap.set([sh, ".sheet .cover", ".calcbar", ".sheet .sn2", ".sheet .snums > div"], { clearProps: "all" }) });
+            tl.fromTo(sh, { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .55 })
+              .fromTo(".sheet .cover", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .45 }, "-=.3")
+              .fromTo(".calcbar", { x: 30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: .5 }, "-=.4")
+              .fromTo(".sheet .sn2, .sheet .snums > div", { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .06, duration: .4 }, "-=.3");
           }
           if (document.querySelector(".hero .hl")) {
             gsap.timeline({ defaults: { ease: "power4.out" } })
@@ -183,7 +186,8 @@ function useMotion(deps) {
             onEnter: els => gsap.fromTo(els,
               { y: 36, opacity: 0, scale: .985 },
               { y: 0, opacity: 1, scale: 1, stagger: .09, duration: .8, ease: "power3.out",
-                onStart: () => els.forEach(e => e.classList.add("in")) }),
+                onStart: () => els.forEach(e => e.classList.add("in")),
+                onComplete: () => gsap.set(els, { clearProps: "all" }) }),
           });
         });
         /* 5) Частинки: сітка точок, що світлішає і розступається під курсором */
