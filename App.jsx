@@ -136,6 +136,10 @@ const ICON_PATHS = {
   garden: "M12 21v-7M12 14c-3 0-5-2-5-5s2-6 5-6 5 3 5 6-2 5-5 5zM7 21h10",
   furniture: "M4 18v-7a2 2 0 012-2h12a2 2 0 012 2v7M4 14h16M7 18v2M17 18v2",
   search: "M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4.5-4.5",
+  signal: "M5 12a7 7 0 0114 0M8.5 15a3.5 3.5 0 017 0M12 19v.01M2 9a13 13 0 0120 0",
+  list: "M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01",
+  ruler: "M3 15l6-6 3 3 3-3 6 6-9 5zM9 9L7 7M15 12l-2-2",
+  sheet: "M5 3h14v18H5zM5 9h14M5 15h14M10 3v18M15 3v18",
 };
 function Icon({ name, size = 17 }) {
   const d = ICON_PATHS[name];
@@ -435,8 +439,18 @@ export default function App() {
   const setARooms = mode === "flat" ? setRooms : setHrooms;
   const r = useMemo(() => calc(mode, p, aRooms, sel, live, excl, lmat), [mode, p, aRooms, sel, live, excl, lmat]);
 
-  useReveal([view, step, mode]);
   useMotion([view, step, mode]);
+  // Запобіжник: якщо анімацію перервано зміною виду, знімаємо «залиплу» прозорість,
+  // щоб жоден блок не лишився невидимим.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const t = setTimeout(() => {
+      document.querySelectorAll('.sheet [style*="opacity"], .wrap [style*="opacity"]').forEach(el => {
+        if (parseFloat(el.style.opacity) < 1) { el.style.opacity = ""; el.style.visibility = ""; }
+      });
+    }, 1400);
+    return () => clearTimeout(t);
+  }, [view, step, mode]);
 
   const roomStats = useMemo(() => ({
     total: aRooms.length,
@@ -855,7 +869,7 @@ export default function App() {
                                 </button>)}</div>
                             </div>;
                           })}
-                          {(() => { const reg = REGIONS.find(x => x.id === p.region); return reg?.landNote ? <span className="hint">📍 {reg.landNote} · вартість робіт ×{reg.k}</span> : null; })()}
+                          {(() => { const reg = REGIONS.find(x => x.id === p.region); return reg?.landNote ? <span className="hint">{reg.landNote} · вартість робіт ×{reg.k}</span> : null; })()}
                         </>}</label>
                       {mode === "flat"
                         ? <label className="f">Поверх / ліфт
@@ -866,13 +880,13 @@ export default function App() {
                               </select>
                             </div></label>
                         : <label className="f">Спалень
-                            <div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
+                            <div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} aria-label={n + " кімнат"} aria-pressed={p.roomsCount === n} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
                     </div>
                     {mode === "house" && (<>
                       <label className="f">Площа<div className="rr"><input type="range" min="80" max="300" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
                       <div className="g2">
                         <label className="f">Поверхів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.floors === n ? " on" : "")} onClick={() => setP("floors", n)}>{n}</button>)}</div></label>
-                        <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                        <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} aria-label={n + " санвузлів"} aria-pressed={p.bathrooms === n} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
                       </div>
                     </>)}
                   </div></div>
@@ -914,7 +928,7 @@ export default function App() {
                       <span className="hint">впливає на площу стін, кладку і фасад</span></label>
                   </div>
                   <label className="f">Ділянка, соток
-                    <div className="chips">{[4, 6, 8, 10, 12, 15, 20, 25].map(n => <button key={n} className={"chip" + (p.plot === n ? " on" : "")} onClick={() => setP("plot", n)}>{n}</button>)}</div>
+                    <div className="chips">{[4, 6, 8, 10, 12, 15, 20, 25].map(n => <button key={n} className={"chip" + (p.plot === n ? " on" : "")} aria-label={n + " соток"} aria-pressed={p.plot === n} onClick={() => setP("plot", n)}>{n}</button>)}</div>
                     <span className="hint">впливає на огорожу, доріжки, газон і сад</span></label>
                   <label className="f">Фундамент <span className="hint">тип обирається за результатами геології</span>
                     <div className="chips">{Object.entries(FOUNDATIONS).map(([k, v]) => <button key={k} className={"chip acc" + (p.foundation === k ? " on" : "")} onClick={() => setP("foundation", k)}>{v.name}</button>)}</div>
@@ -936,8 +950,8 @@ export default function App() {
                   <label className="f">{mode === "house" ? "Житлова площа (сума приміщень)" : "Загальна площа"}
                     <div className="rr"><input type="range" min={mode === "house" ? 60 : 30} max={mode === "house" ? 400 : 180} step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
                   <div className="g2">
-                    <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
-                    <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                    <label className="f">Кімнат<div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} aria-label={n + " кімнат"} aria-pressed={p.roomsCount === n} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>
+                    <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} aria-label={n + " санвузлів"} aria-pressed={p.bathrooms === n} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
                   </div>
                   <button className="tl" onClick={() => setDetail(d => !d)}>{detail ? "Згорнути кімнати ↑" : "Налаштувати кожну кімнату окремо ↓"}</button>
                   {detail && (<>
@@ -1127,11 +1141,11 @@ export default function App() {
 
           {step === 0 && <div className="ground no-print">
             <div className="whyus">
-              {[["📡", "Живі ринкові розцінки", "вартість робіт оновлюється щоночі з rabotniki.ua, джерело вказане в кожній позиції"],
-                ["🧾", "Повний перелік робіт", "від геології та документів до введення в експлуатацію — нічого не «забувається»"],
-                ["📐", "Обсяги з геометрії", "площі стін, покрівлі, периметр рахуються з ваших параметрів, а не з середніх по ринку"],
-                ["🧮", "Excel і PDF", "кошторис вивантажується для власних розрахунків і коригування"]].map(([i, t, d]) => (
-                <div className="wu" key={t}><span className="wu-i">{i}</span><div><div className="wu-t">{t}</div><div className="wu-d">{d}</div></div></div>))}
+              {[["signal", "Живі ринкові розцінки", "вартість робіт оновлюється щоночі з rabotniki.ua, джерело вказане в кожній позиції"],
+                ["list", "Повний перелік робіт", "від геології та документів до введення в експлуатацію — нічого не «забувається»"],
+                ["ruler", "Обсяги з геометрії", "площі стін, покрівлі, периметр рахуються з ваших параметрів, а не з середніх по ринку"],
+                ["sheet", "Excel і PDF", "кошторис вивантажується для власних розрахунків і коригування"]].map(([i, t, d]) => (
+                <div className="wu" key={t}><span className="wu-i"><Icon name={i} size={18} /></span><div><div className="wu-t">{t}</div><div className="wu-d">{d}</div></div></div>))}
             </div>
             <div className="faq">
               <h3>Методика розрахунку</h3>
