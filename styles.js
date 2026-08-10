@@ -901,4 +901,94 @@ html{scroll-behavior:auto}
 .sheet,.sheet .cover,.sheet .snums,.sheet .sn2,.calcbar{visibility:visible}
 .sheet .cover{opacity:1}
 @media print{.sheet *{opacity:1!important;visibility:visible!important;transform:none!important}}
+
+/* ═══ КОШТОРИС: структура витрат + рядок етапу з ієрархією ═══ */
+.breakdown{padding:20px 28px;border-bottom:1px solid var(--line)}
+.bd-h{font-family:'IBM Plex Mono';font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--sub);margin-bottom:11px}
+.bd-bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:#EDEFF4;box-shadow:inset 0 1px 2px rgba(15,21,36,.08)}
+.bd-seg{transition:opacity .2s,transform .3s cubic-bezier(.2,.8,.3,1);transform-origin:center}
+.bd-bar:hover .bd-seg{opacity:.45}
+.bd-bar .bd-seg:hover{opacity:1;transform:scaleY(1.35)}
+.bd-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:3px 20px;margin-top:14px}
+.bd-li{display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.bd-dot{width:9px;height:9px;border-radius:3px;flex:none;transform:translateY(1px)}
+.bd-n{font-size:12.5px;color:var(--ink);flex:1;min-width:0}
+.bd-p{font-family:'IBM Plex Mono';font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+.bd-v{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ink);font-variant-numeric:tabular-nums;min-width:74px;text-align:right}
+.c0{background:#4F46E5}.c1{background:#06B6D4}.c2{background:#8B5CF6}.c3{background:#0EA5E9}
+.c4{background:#F59E0B}.c5{background:#10B981}.c6{background:#EC4899}.c7{background:#64748B}
+
+/* Рядок етапу: назва домінує, ціна велика, під ними — частка бюджету */
+.sth{align-items:flex-start;padding:15px 28px;gap:12px;cursor:pointer;transition:background .2s}
+.sth:hover{background:#F0F2F7}
+.st-main{flex:1;min-width:0;display:grid;gap:7px}
+.st-top{display:flex;align-items:baseline;gap:14px;justify-content:space-between}
+.st-name{font-size:15px;font-weight:800;line-height:1.3;letter-spacing:-.01em;min-width:0}
+.st-tot{font-family:'IBM Plex Mono';font-size:16px;font-weight:700;color:var(--acc);
+  font-variant-numeric:tabular-nums;white-space:nowrap;flex:none}
+.stage.off .st-tot{color:var(--sub)}
+.st-sub{display:flex;align-items:center;gap:10px}
+.st-grp{font-family:'IBM Plex Mono';font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--sub);background:#EEF0F6;border-radius:5px;padding:3px 7px;flex:none}
+.st-wk,.st-badge{font-family:'IBM Plex Mono';font-size:11px;color:var(--sub);flex:none}
+.st-badge{color:var(--wrn)}
+.st-share{flex:1;height:5px;border-radius:99px;background:#EDEFF4;overflow:hidden;min-width:40px}
+.st-share i{display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#6366F1,#06B6D4);transition:width .45s cubic-bezier(.2,.8,.3,1)}
+.st-pct{font-family:'IBM Plex Mono';font-size:11px;color:var(--sub);min-width:32px;text-align:right;
+  font-variant-numeric:tabular-nums;flex:none}
+.st-caret{color:var(--sub);font-size:11px;margin-top:4px;transition:transform .25s cubic-bezier(.3,1.3,.5,1)}
+.stage.open .st-caret{transform:rotate(90deg)}
+.stage{border:1px solid var(--line);border-radius:14px;margin-bottom:8px;overflow:hidden;
+  transition:border-color .25s,box-shadow .25s}
+.stage:hover{border-color:#C9CEDC;box-shadow:0 6px 20px rgba(15,21,36,.06)}
+.stage.open{border-color:var(--acc);box-shadow:0 10px 30px rgba(79,70,229,.10)}
+
+@media(max-width:760px){
+  .breakdown{padding:15px}
+  .bd-legend{grid-template-columns:1fr}
+  .sth{padding:13px 14px;gap:9px}
+  .st-name{font-size:14px}
+  .st-tot{font-size:15px}
+  .st-top{flex-wrap:wrap;gap:2px 10px}
+  .st-share{min-width:24px}
+}
+
+/* ═══ ДОСТУПНІСТЬ + ІКОНКИ (аудит 08.2026) ═══ */
+/* 1. Контраст: --sub був 3.05:1 → тепер ≈4.7:1 (WCAG AA) */
+:root{--sub:#A8B0C0}
+.betabar{color:#A8B0C0}
+.cn{color:#A5B4FC;border-color:rgba(129,140,248,.55)}
+.ft-legal,.footer,.ft-col a,.ft-sub,.ft-col span{color:#9AA3B4}
+.wc-d,.cbx-note,.usdrate{color:#9AA3B4}
+.sheet{--sub:#525C70}
+
+/* 2. Видимий фокус з клавіатури (WCAG 2.4.7) */
+:focus-visible{outline:2px solid #818CF8;outline-offset:2px;border-radius:8px}
+.chip:focus-visible,.wstep:focus-visible,.btn:focus-visible,.optbox:focus-visible,
+.sth:focus-visible,.fchip:focus-visible,.moreopts:focus-visible{
+  outline:2px solid #818CF8;outline-offset:2px;box-shadow:0 0 0 5px rgba(129,140,248,.2)}
+.sheet :focus-visible{outline-color:#4F46E5;box-shadow:0 0 0 5px rgba(79,70,229,.18)}
+.sth{cursor:pointer}
+
+/* 3. Тап-зони ≥44px на дотикових екранах */
+@media(hover:none),(max-width:760px){
+  button,.chip,.fchip,.wstep,select,input[type="date"],.rdel,.modal-x,.oqty button{min-height:44px}
+  .oqty button{min-width:44px}
+  .chip{padding:11px 15px}
+  .rdel,.modal-x{min-width:44px;display:grid;place-items:center}
+  .st-caret{min-width:24px}
+}
+
+/* 4. Іконки замість емодзі */
+.ic{flex:none;vertical-align:-2px}
+.ricon{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;flex:none;
+  background:rgba(99,102,241,.14);color:#A5B4FC}
+.sheet .ricon{background:#EEF0FE;color:#4F46E5}
+.cn-ic{display:inline-grid;place-items:center;padding:4px 7px}
+.addroom button .ic,.roomadd button .ic{opacity:.75}
+.searchin{padding-left:14px}
+
+/* 5. Не даємо зникнути контрасту в друку */
+@media print{*{color:#111 !important}.sheet{--sub:#444}}
 `;
