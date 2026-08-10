@@ -712,7 +712,11 @@ input[type="range"]{accent-color:#6366F1}
 
 /* ═══ КАЛЬКУЛЯТОР: липка панель поруч із кошторисом ═══ */
 .sheetwrap{display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:22px;align-items:start}
-@media(max-width:1080px){.sheetwrap{grid-template-columns:1fr}}
+/* Панель у розмітці стоїть ПЕРШОЮ — явно кажемо їй бути у правій колонці,
+   інакше вона займає широку, а кошторис стискається у вузьку. */
+.sheetwrap>.calcbar{grid-column:2;grid-row:1}
+.sheetwrap>.sheet{grid-column:1;grid-row:1;min-width:0}
+@media(max-width:1080px){.sheetwrap{grid-template-columns:1fr}.sheetwrap>.calcbar,.sheetwrap>.sheet{grid-column:1;grid-row:auto}}
 .calcbar{position:sticky;top:84px;display:grid;gap:9px;padding:18px;border-radius:20px;
   background:linear-gradient(160deg,rgba(79,70,229,.22),rgba(6,182,212,.06) 60%),rgba(13,17,28,.78);
   backdrop-filter:blur(22px);border:1px solid rgba(99,102,241,.4);
@@ -892,4 +896,9 @@ html,body{max-width:100%;overflow-x:hidden}
 
 /* Перехід між кроками — миттєвий, без плавної прокрутки */
 html{scroll-behavior:auto}
+
+/* Страховка: жоден елемент кошторису не може лишитись невидимим */
+.sheet,.sheet .cover,.sheet .snums,.sheet .sn2,.calcbar{visibility:visible}
+.sheet .cover{opacity:1}
+@media print{.sheet *{opacity:1!important;visibility:visible!important;transform:none!important}}
 `;
