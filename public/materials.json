@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12",
+  "updated": "2026-08-13",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат SWISS KRONO Promo V4 дуб санторіні 32/АС4/8 мм",
-        "price": 518.61,
-        "retail": 518.61,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-promo-v4-dub-santorini-32-as4-8-mm.html"
+        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб пісочний 32/АС4/7 мм (68267)",
+        "price": 514,
+        "retail": 514,
+        "count": 56,
+        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-pisochnyi-32-as4-7-mm-68267.html"
       },
       {
         "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
@@ -33,59 +33,59 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
-        "price": 397,
-        "retail": 397,
+        "name": "Плитка Golden Tile Lazurro grey 3L2870 40х40 см",
+        "price": 391,
+        "retail": 391,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-lazurro-seryy-3l2870-40kh40.html"
       },
       {
-        "name": "Плитка Cersanit Clody grey 29,7x60 см",
-        "price": 450,
-        "retail": 450,
+        "name": "Плитка Cersanit Romero grey matt 42x42 см",
+        "price": 444,
+        "retail": 444,
         "count": 38,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-grey-30x60.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-romero-grey-matt-42x42-sm.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 24.26,
-        "retail": 849,
+        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат графіт RAL 7024 3,5 кг",
+        "price": 20.71,
+        "retail": 725,
         "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-hrafit-ral-7024-3-5-kh.html"
       },
       {
-        "name": "Фарба інтер'єрна Kompozit SUPERMATT NEO Біла 7 кг + Ґрунтовка акрилова Kompozit UNIVERSAL-",
-        "price": 33.13,
-        "retail": 1159.5,
-        "count": 29,
-        "url": "https://epicentrk.ua/ua/shop/farba-interierna-kompozit-supermatt-neo-bila-7-kh-gruntovka-akrylova-kompozit-universal-bio-1-l.html"
+        "name": "Фарба інтер'єрна латексна Kompozit MATT LATEX NEO глибокий мат біла 14 кг",
+        "price": 40.29,
+        "retail": 1410,
+        "count": 30,
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-lateksna-kompozit-matt-latex-neo-hlybokyi-mat-bila-14-kh.html"
       },
       null
     ],
     "wallpaper": [
       {
         "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 2 9436-03 0,53x10,",
-        "price": 208,
-        "retail": 208,
-        "count": 54,
+        "price": 207.6,
+        "retail": 207.6,
+        "count": 53,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-03-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 2 3754-06 1",
         "price": 581,
         "retail": 581,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
+        "count": 34,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-2-3754-06-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Jacomo UNI 423141 1,06x10,05 м",
         "price": 1297,
         "retail": 1297,
         "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524626-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-jacomo-uni-423141-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -117,28 +117,28 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Технічні 1200 RAL7024 права з лиштвою 1200х2050 см (32810869)",
-        "price": 12950,
-        "retail": 12950,
-        "count": 20,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-tehnicni-1200-ral7024-prava-z-listvou-1200h2050-sm-32810869-1f11bae3-8ac3-63f8-8b1b-37679188aff8.html"
+        "name": "Двері вхідні метал/мдф Люкс 1 860х960х2050 мм",
+        "price": 13200,
+        "retail": 13200,
+        "count": 19,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-1-860h960h2050-mm-1ef8bce7-b6a0-6362-bb1c-25479df057d7.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
-        "price": 4787,
-        "retail": 4787,
+        "name": "Радіатор сталевий Hofmann/TT 22 400x1400 мм бічне підключення Білий",
+        "price": 4815,
+        "retail": 4815,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-tt-22-400x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-893b-6796-9a7b-39532950e03a.html"
       },
       {
-        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
-        "price": 5060,
-        "retail": 5060,
-        "count": 38,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
+        "name": "Радіатор біметалічний Thermo Alliance Bi-Vulcan 500/96 1,76 кг (VRM00045466)",
+        "price": 5070,
+        "retail": 5070,
+        "count": 37,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalicnij-thermo-alliance-bi-vulcan-500-96-1-76-kg-vrm00045466-1edbc153-a1b9-6ad6-8e64-3705108d0fe9.html"
       }
     ],
     "decor": [
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
-        "price": 1017,
-        "retail": 1017,
+        "name": "Штукатурка декоративна акрилова Feidal Veneciano база прозора ефект зрізу мармуру з прожил",
+        "price": 1286,
+        "retail": 1286,
         "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-veneciano-baza-prozora-efekt-zrizu-marmuru-z-prozilkami-1-kg-1815864433-1f013b06-ddde-6442-aa29-77ad47873956.html"
       }
     ],
     "ac_unit": [
@@ -171,18 +171,18 @@
     "boiler": [
       {
         "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7499,
-        "retail": 7499,
-        "count": 37,
+        "price": 7399,
+        "retail": 7399,
+        "count": 38,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
       {
-        "name": "Бойлер непрямого нагріву Cordivari BOLLY 1 ST 1 змійовик 150 л (CORDIVARI)",
-        "price": 38538.5,
-        "retail": 38538.5,
-        "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-1-st-1-zmijovik-150-l-cordivari-1efcdeb0-6a2b-61be-8be3-957cb9540cbc.html"
+        "name": "Бойлер непрямого нагріву Cordivari 1 змійовик MURALE 1 ST горизонтально вертикальний 200 л",
+        "price": 36382.5,
+        "retail": 36382.5,
+        "count": 25,
+        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-1-zmijovik-murale-1-st-gorizontal-no-vertikal-nij-200-l-murale-1-st-200-1efcde85-8181-60d2-bf20-b9cd2ec86e1f.html"
       }
     ]
   }
