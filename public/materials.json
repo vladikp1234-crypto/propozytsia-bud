@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-14",
+  "updated": "2026-08-15",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб пісочний 32/АС4/7 мм (68267)",
-        "price": 510,
-        "retail": 510,
+        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб світлий 32/АС4/7 мм (68268)",
+        "price": 514,
+        "retail": 514,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-pisochnyi-32-as4-7-mm-68267.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-svitlyi-32-as4-7-mm-68268.html"
       },
       {
         "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
@@ -43,23 +43,23 @@
         "name": "Плитка Cersanit Romero grey matt 42x42 см",
         "price": 439,
         "retail": 439,
-        "count": 37,
+        "count": 38,
         "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-romero-grey-matt-42x42-sm.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат графіт RAL 7024 3,5 кг",
-        "price": 20.71,
-        "retail": 725,
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 23.4,
+        "retail": 819,
         "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-hrafit-ral-7024-3-5-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
         "name": "Фарба Kompozit для басейнів АК-12 блакитний мат 2,8 кг",
-        "price": 40.57,
-        "retail": 1420,
+        "price": 41.37,
+        "retail": 1448,
         "count": 30,
         "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
       },
@@ -74,11 +74,11 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-03-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 2 3754-06 1",
-        "price": 581,
-        "retail": 581,
-        "count": 37,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-2-3754-06-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 558,
+        "retail": 558,
+        "count": 36,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
@@ -127,11 +127,11 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hofmann/TT 22 400x1400 мм бічне підключення Білий",
-        "price": 4815,
-        "retail": 4815,
+        "name": "Радіатор сталевий TERRA Teknik Premium Plus 600/22х1000 НП (6532777)",
+        "price": 4782,
+        "retail": 4782,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-tt-22-400x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-893b-6796-9a7b-39532950e03a.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-terra-teknik-premium-plus-600-22h1000-np-6532777-1ee682d2-15f6-6b3e-83fa-31d4ccbba786.html"
       },
       {
         "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
@@ -170,11 +170,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Profi VM 100 D400S (1500W)",
-        "price": 7299,
-        "retail": 7299,
-        "count": 39,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-profi-vm-100-d400s-1500w.html"
+        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
+        "price": 7399,
+        "retail": 7399,
+        "count": 40,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
       {
