@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15",
+  "updated": "2026-08-16",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -69,7 +69,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 151,
+      "count": 150,
       "min": 100,
       "max": 230,
       "unit": "м²",
