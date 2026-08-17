@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-08-17",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -77,7 +77,7 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 2 3754-06 1",
         "price": 581,
         "retail": 581,
-        "count": 34,
+        "count": 36,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-2-3754-06-1-06x10-05-m.html"
       },
       {
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ ОМіС дуб сонома 16x80x2400 мм",
         "price": 295,
         "retail": 295,
-        "count": 52,
+        "count": 53,
         "url": "https://epicentrk.ua/ua/shop/plintus-omis-laminirovannyy-dub-sonoma-16kh80kh2400-mm.html"
       },
       null
@@ -127,34 +127,34 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
-        "price": 4857,
-        "retail": 4857,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
+        "name": "Радіатор сталевий Hofmann/TT 22 400x1400 мм бічне підключення Білий",
+        "price": 4840.35,
+        "retail": 4840.35,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-tt-22-400x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-893b-6796-9a7b-39532950e03a.html"
       },
       {
-        "name": "Радіатор біметалічний Thermo Alliance Bi-Vulcan 500/96 1,76 кг (VRM00045466)",
-        "price": 5070,
-        "retail": 5070,
+        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
+        "price": 5157,
+        "retail": 5157,
         "count": 37,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalicnij-thermo-alliance-bi-vulcan-500-96-1-76-kg-vrm00045466-1edbc153-a1b9-6ad6-8e64-3705108d0fe9.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
       }
     ],
     "decor": [
       {
         "name": "Сумiш штукатурна ANSERGLOB ТМК 110 декоративна короїд 2,5 мм 25 кг Білий (15954)",
-        "price": 565,
-        "retail": 565,
+        "price": 569,
+        "retail": 569,
         "count": 14,
         "url": "https://epicentrk.ua/ua/shop/mplc-sumis-stukaturna-anserglob-tmk-110-dekorativna-koroid-2-5-mm-25-kg-bilij-15954-1ef5ed10-58e6-6ffe-8aff-2d7130522cbb.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
-        "price": 1017,
-        "retail": 1017,
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 825,
+        "retail": 825,
         "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
     "ac_unit": [
@@ -170,11 +170,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7499,
-        "retail": 7499,
-        "count": 41,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
+        "name": "Бойлер Atlantic Steatite Ego VM 050 D400S-1-BC 1200W",
+        "price": 7249,
+        "retail": 7249,
+        "count": 42,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-050-d400s-1-bc-1200w.html"
       },
       null,
       {
