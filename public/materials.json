@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18",
+  "updated": "2026-08-19",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат SWISS KRONO Promo V4 дуб санторіні 32/АС4/8 мм",
-        "price": 518.61,
-        "retail": 518.61,
+        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб пісочний 32/АС4/7 мм (68267)",
+        "price": 509.59,
+        "retail": 509.59,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-promo-v4-dub-santorini-32-as4-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-pisochnyi-32-as4-7-mm-68267.html"
       },
       {
         "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
@@ -57,11 +57,11 @@
         "url": "https://epicentrk.ua/ua/shop/emal-polifarb-dekomal-gf-021-seryy-glyanets-2-7-kg.html"
       },
       {
-        "name": "Емаль Kompozit антикорозійна 3в1 PROTECT Срібляста 2,4 кг + Розчинник універсальний Kompoz",
-        "price": 40.2,
-        "retail": 1407,
+        "name": "Фарба інтер'єрна Kompozit SUPERMATT NEO Біла 7 кг + Ґрунтовка акрилова Kompozit UNIVERSAL-",
+        "price": 33.13,
+        "retail": 1159.5,
         "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antykoroziina-3v1-protect-sribliasta-2-4-kh-rozchynnyk-universalnyi-kompozit-0-5-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-kompozit-supermatt-neo-bila-7-kh-gruntovka-akrylova-kompozit-universal-bio-1-l.html"
       },
       null
     ],
@@ -70,14 +70,14 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Лінда 6403-01 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 54,
+        "count": 53,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-linda-6403-01-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
-        "price": 563,
-        "retail": 563,
-        "count": 38,
+        "price": 581,
+        "retail": 581,
+        "count": 37,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
       },
       {
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ ОМіС дуб кембридж 16x80x2400 мм",
         "price": 295,
         "retail": 295,
-        "count": 53,
+        "count": 52,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-omis-laminirovannyy-dub-kembridzh-80kh16kh2400mm-mm.html"
       },
       null
@@ -118,27 +118,27 @@
     "entry": [
       {
         "name": "Двері вхідні Redfort Технічні 1200 RAL7024 права з лиштвою 1200х2050 см (32810869)",
-        "price": 12950,
-        "retail": 12950,
-        "count": 18,
+        "price": 12700,
+        "retail": 12700,
+        "count": 19,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-tehnicni-1200-ral7024-prava-z-listvou-1200h2050-sm-32810869-1f11bae3-8ac3-63f8-8b1b-37679188aff8.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Korado 11K 500x1000",
-        "price": 5012.8,
-        "retail": 5012.8,
+        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
+        "price": 4873.5,
+        "retail": 4873.5,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
       },
       {
-        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5114,
-        "retail": 5114,
+        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
+        "price": 5060,
+        "retail": 5060,
         "count": 38,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
     "decor": [
@@ -146,15 +146,15 @@
         "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
         "price": 574,
         "retail": 574,
-        "count": 15,
+        "count": 13,
         "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
-        "price": 825,
-        "retail": 825,
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 1017,
+        "retail": 1017,
         "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "ac_unit": [

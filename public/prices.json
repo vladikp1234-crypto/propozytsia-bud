@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18",
+  "updated": "2026-08-19",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -119,11 +119,11 @@
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
-      "count": 59,
+      "count": 58,
       "min": 600,
       "max": 1300,
       "unit": "м²",
-      "price": 916,
+      "price": 913,
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
