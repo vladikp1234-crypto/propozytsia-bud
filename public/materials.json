@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-19",
+  "updated": "2026-08-20",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -24,11 +24,11 @@
       },
       null,
       {
-        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Luxary",
-        "price": 2337,
-        "retail": 2337,
+        "name": "Паркетна дошка Ekoparket дуб Household трисмугова 1092х207х14 мм (1,58 кв.м)",
+        "price": 2320,
+        "retail": 2320,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-luxary.html"
+        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-household-trekhpolosnaya-1092kh207kh14-mm-1-58-kv-m.html"
       }
     ],
     "tile": [
@@ -50,18 +50,18 @@
     ],
     "paint": [
       {
-        "name": "Емаль Polifarb DekoMal ГФ-021 сірий глянець 2,7 кг",
-        "price": 19.86,
-        "retail": 695,
+        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат графіт RAL 7024 3,5 кг",
+        "price": 21.57,
+        "retail": 755,
         "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/emal-polifarb-dekomal-gf-021-seryy-glyanets-2-7-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-hrafit-ral-7024-3-5-kh.html"
       },
       {
-        "name": "Фарба інтер'єрна Kompozit SUPERMATT NEO Біла 7 кг + Ґрунтовка акрилова Kompozit UNIVERSAL-",
-        "price": 33.13,
-        "retail": 1159.5,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/farba-interierna-kompozit-supermatt-neo-bila-7-kh-gruntovka-akrylova-kompozit-universal-bio-1-l.html"
+        "name": "Фарба інтер'єрна латексна Kompozit MATT LATEX NEO глибокий мат біла 14 кг",
+        "price": 40.29,
+        "retail": 1410,
+        "count": 30,
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-lateksna-kompozit-matt-latex-neo-hlybokyi-mat-bila-14-kh.html"
       },
       null
     ],
@@ -70,22 +70,22 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Лінда 6403-01 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 53,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-linda-6403-01-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
         "price": 581,
         "retail": 581,
-        "count": 37,
+        "count": 38,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
         "price": 1297,
         "retail": 1297,
         "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524626-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-sumatra-uni-445501-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -107,11 +107,11 @@
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ ОМіС дуб кембридж 16x80x2400 мм",
+        "name": "Плінтус МДФ ОМіС дуб сонома 16x80x2400 мм",
         "price": 295,
         "retail": 295,
-        "count": 52,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-omis-laminirovannyy-dub-kembridzh-80kh16kh2400mm-mm.html"
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/plintus-omis-laminirovannyy-dub-sonoma-16kh80kh2400-mm.html"
       },
       null
     ],
@@ -120,41 +120,41 @@
         "name": "Двері вхідні Redfort Технічні 1200 RAL7024 права з лиштвою 1200х2050 см (32810869)",
         "price": 12700,
         "retail": 12700,
-        "count": 19,
+        "count": 20,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-tehnicni-1200-ral7024-prava-z-listvou-1200h2050-sm-32810869-1f11bae3-8ac3-63f8-8b1b-37679188aff8.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
-        "price": 4873.5,
-        "retail": 4873.5,
+        "name": "Радіатор сталевий Hofmann/TT 22 400x1400 мм бічне підключення Білий",
+        "price": 4840.35,
+        "retail": 4840.35,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-tt-22-400x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-893b-6796-9a7b-39532950e03a.html"
       },
       {
         "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
-        "price": 5060,
-        "retail": 5060,
+        "price": 5020,
+        "retail": 5020,
         "count": 38,
         "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
-        "price": 574,
-        "retail": 574,
-        "count": 13,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
+        "name": "Сумiш штукатурна ANSERGLOB ТМК 110 декоративна короїд 2,5 мм 25 кг Білий (15954)",
+        "price": 569,
+        "retail": 569,
+        "count": 12,
+        "url": "https://epicentrk.ua/ua/shop/mplc-sumis-stukaturna-anserglob-tmk-110-dekorativna-koroid-2-5-mm-25-kg-bilij-15954-1ef5ed10-58e6-6ffe-8aff-2d7130522cbb.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
-        "price": 1017,
-        "retail": 1017,
-        "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
+        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
+        "price": 1039,
+        "retail": 1039,
+        "count": 8,
+        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
       }
     ],
     "ac_unit": [
@@ -171,9 +171,9 @@
     "boiler": [
       {
         "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7499,
-        "retail": 7499,
-        "count": 41,
+        "price": 7399,
+        "retail": 7399,
+        "count": 42,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
