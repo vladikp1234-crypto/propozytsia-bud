@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -49,11 +49,11 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 171,
-      "min": 550,
+      "count": 170,
+      "min": 650,
       "max": 1300,
       "unit": "м²",
-      "price": 933,
+      "price": 943,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -113,7 +113,7 @@
       "min": 200,
       "max": 400,
       "unit": "м²",
-      "price": 318,
+      "price": 320,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
@@ -123,7 +123,7 @@
       "min": 600,
       "max": 1300,
       "unit": "м²",
-      "price": 910,
+      "price": 911,
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
@@ -133,7 +133,7 @@
       "min": 400,
       "max": 900,
       "unit": "м²",
-      "price": 665,
+      "price": 670,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
