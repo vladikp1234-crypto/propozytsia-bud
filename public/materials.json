@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-23",
+  "updated": "2026-08-24",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -67,17 +67,17 @@
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
         "price": 205,
         "retail": 205,
         "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
         "price": 581,
         "retail": 581,
-        "count": 35,
+        "count": 37,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
       },
       {
@@ -143,18 +143,18 @@
     ],
     "decor": [
       {
-        "name": "Сумiш штукатурна ANSERGLOB ТМК 110 декоративна короїд 2,5 мм 25 кг Білий (15954)",
-        "price": 564.6,
-        "retail": 564.6,
+        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
+        "price": 574,
+        "retail": 574,
         "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/mplc-sumis-stukaturna-anserglob-tmk-110-dekorativna-koroid-2-5-mm-25-kg-bilij-15954-1ef5ed10-58e6-6ffe-8aff-2d7130522cbb.html"
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
-        "price": 825,
-        "retail": 825,
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 1017,
+        "retail": 1017,
         "count": 7,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "ac_unit": [
@@ -171,9 +171,9 @@
     "boiler": [
       {
         "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7399,
-        "retail": 7399,
-        "count": 40,
+        "price": 7499,
+        "retail": 7499,
+        "count": 41,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,

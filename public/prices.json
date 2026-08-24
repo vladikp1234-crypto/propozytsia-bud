@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-23",
+  "updated": "2026-08-24",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -59,17 +59,17 @@
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 99,
+      "count": 100,
       "min": 300,
       "max": 580,
       "unit": "м²",
-      "price": 444,
+      "price": 434,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 147,
+      "count": 148,
       "min": 100,
       "max": 250,
       "unit": "м²",
@@ -129,11 +129,11 @@
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
     },
     "gk_partition": {
-      "count": 113,
+      "count": 114,
       "min": 400,
       "max": 900,
       "unit": "м²",
-      "price": 667,
+      "price": 652,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
