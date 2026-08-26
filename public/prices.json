@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-25",
+  "updated": "2026-08-26",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -9,7 +9,7 @@
   },
   "works": {
     "walls_plaster": {
-      "count": 128,
+      "count": 127,
       "min": 210,
       "max": 550,
       "unit": "м²",
@@ -29,7 +29,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 124,
+      "count": 122,
       "min": 25,
       "max": 50,
       "unit": "м²",
@@ -39,7 +39,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 99,
+      "count": 97,
       "min": 200,
       "max": 600,
       "unit": "м²",
@@ -49,7 +49,7 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 169,
+      "count": 166,
       "min": 650,
       "max": 1300,
       "unit": "м²",
@@ -59,7 +59,7 @@
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 100,
+      "count": 98,
       "min": 300,
       "max": 580,
       "unit": "м²",
@@ -69,7 +69,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 148,
+      "count": 145,
       "min": 100,
       "max": 250,
       "unit": "м²",
@@ -79,7 +79,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 103,
+      "count": 102,
       "min": 150,
       "max": 380,
       "unit": "м²",
@@ -93,7 +93,7 @@
       "min": 130,
       "max": 300,
       "unit": "м.пог.",
-      "price": 227,
+      "price": 230,
       "name": "Монтаж плінтуса",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -139,7 +139,7 @@
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 101,
+      "count": 100,
       "min": 150,
       "max": 300,
       "unit": "м²",

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-25",
+  "updated": "2026-08-26",
   "source": "epicentrk.ua",
   "stats": {
     "found": 21,
@@ -10,25 +10,25 @@
     "floorcover": [
       {
         "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб пісочний 32/АС4/7 мм (68267)",
-        "price": 509.59,
-        "retail": 509.59,
-        "count": 55,
+        "price": 514,
+        "retail": 514,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-pisochnyi-32-as4-7-mm-68267.html"
       },
       {
         "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
-        "price": 560,
-        "retail": 560,
+        "price": 573,
+        "retail": 573,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
       },
       null,
       {
-        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Luxary",
-        "price": 2337,
-        "retail": 2337,
+        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Grand",
+        "price": 2360,
+        "retail": 2360,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-luxary.html"
+        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-grand.html"
       }
     ],
     "tile": [
@@ -41,8 +41,8 @@
       },
       {
         "name": "Плитка Cersanit Riverwood beige G1 18,5X59,8 см",
-        "price": 434,
-        "retail": 434,
+        "price": 439,
+        "retail": 439,
         "count": 38,
         "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-riverwood-beige-g1-18-5x59-8-sm.html"
       },
@@ -50,18 +50,18 @@
     ],
     "paint": [
       {
-        "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.51,
-        "retail": 963,
-        "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
+        "name": "Фарба універсальна гумова Polifarb RUBBER FARBA мат сірий RAL 7046 3,5 кг",
+        "price": 20.94,
+        "retail": 733,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-rubber-farba-mat-siryi-ral-7046-3-5-kh.html"
       },
       {
-        "name": "Фарба Kompozit для басейнів АК-12 блакитний мат 2,8 кг",
-        "price": 40.57,
-        "retail": 1420,
+        "name": "Фарба інтер'єрна латексна Kompozit MATT LATEX NEO глибокий мат біла 14 кг",
+        "price": 40.29,
+        "retail": 1410,
         "count": 32,
-        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-lateksna-kompozit-matt-latex-neo-hlybokyi-mat-bila-14-kh.html"
       },
       null
     ],
@@ -74,11 +74,11 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Багіра 3753-10 1,0",
-        "price": 563,
-        "retail": 563,
-        "count": 36,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-bahira-3753-10-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 535,
+        "retail": 535,
+        "count": 33,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
@@ -110,18 +110,18 @@
         "name": "Плінтус МДФ ОМіС дуб шале 16x80x2400 мм",
         "price": 295,
         "retail": 295,
-        "count": 53,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-omis-dub-shale-80x16x2400-mm.html"
       },
       null
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Оптима Блейд ліва метал/мдф 960х2040 мм (13314186)",
+        "name": "Двері вхідні Redfort Оптима Блейд 8017 права метал/мдф 960х1900 мм (13329386)",
         "price": 12600,
         "retail": 12600,
         "count": 17,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-optima-blejd-metal-mdf-960h2040-sm-liva-1ee8d367-9311-6744-9bae-7b5649c29662.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-optima-blejd-8017-metal-mdf-960h1900-sm-prava-1ee8d367-92cb-6d34-8284-7b5649c29662.html"
       },
       null
     ],
@@ -135,9 +135,9 @@
       },
       {
         "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
-        "price": 5060,
-        "retail": 5060,
-        "count": 38,
+        "price": 5020,
+        "retail": 5020,
+        "count": 34,
         "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-sumis-stukaturna-anserglob-tmk-110-dekorativna-koroid-2-5-mm-25-kg-bilij-15954-1ef5ed10-58e6-6ffe-8aff-2d7130522cbb.html"
       },
       {
-        "name": "Штукатурка декоративна акрилова Feidal Veneciano база прозора ефект зрізу мармуру з прожил",
-        "price": 1152,
-        "retail": 1152,
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 921,
+        "retail": 921,
         "count": 6,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-veneciano-baza-prozora-efekt-zrizu-marmuru-z-prozilkami-1-kg-1815864433-1f013b06-ddde-6442-aa29-77ad47873956.html"
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "ac_unit": [
@@ -170,11 +170,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7549,
-        "retail": 7549,
-        "count": 42,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
+        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400S (1500W)",
+        "price": 7599,
+        "retail": 7599,
+        "count": 43,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-horizontal-hm-080-d400s-1500w.html"
       },
       null,
       {
