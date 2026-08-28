@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27",
+  "updated": "2026-08-28",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -24,11 +24,11 @@
       },
       null,
       {
-        "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Grand",
-        "price": 2360,
-        "retail": 2360,
+        "name": "Паркетна дошка Ekoparket дуб Household трисмугова 1092х207х14 мм (1,58 кв.м)",
+        "price": 2320,
+        "retail": 2320,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-grand.html"
+        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-household-trekhpolosnaya-1092kh207kh14-mm-1-58-kv-m.html"
       }
     ],
     "tile": [
@@ -40,52 +40,52 @@
         "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
       },
       {
-        "name": "Плитка Cersanit Armando light grey mat 42x42 см",
-        "price": 439,
-        "retail": 439,
+        "name": "Плитка Cersanit Riverwood beige G1 18,5X59,8 см",
+        "price": 429,
+        "retail": 429,
         "count": 37,
-        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-armando-light-grey-mat-42x42-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-cersanit-riverwood-beige-g1-18-5x59-8-sm.html"
       },
       null
     ],
     "paint": [
       {
         "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 26.91,
-        "retail": 942,
-        "count": 15,
+        "price": 23.94,
+        "retail": 838,
+        "count": 16,
         "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
         "name": "Фарба Kompozit для басейнів АК-12 мат 2,8 кг",
-        "price": 40.77,
-        "retail": 1427,
-        "count": 31,
+        "price": 41.37,
+        "retail": 1448,
+        "count": 32,
         "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 9435-06 0,53x10,05",
+        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 2 9436-03 0,53x10,",
         "price": 208,
         "retail": 208,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-9435-06-0-53x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-03-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 33,
+        "count": 36,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Alicante UNI 406335 1,06x10,05 м",
         "price": 1297,
         "retail": 1297,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-sumatra-uni-445501-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-alicante-uni-406335-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -117,21 +117,21 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Оптима Блейд 8017 права метал/мдф 960х1900 мм (13329386)",
-        "price": 12600,
-        "retail": 12600,
-        "count": 17,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-optima-blejd-8017-metal-mdf-960h1900-sm-prava-1ee8d367-92cb-6d34-8284-7b5649c29662.html"
+        "name": "Двері вхідні Троя метал/МДФ Срібло світле (1642)",
+        "price": 11900,
+        "retail": 11900,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-troa-metal-mdf-sriblo-svitle-1642-1f0738af-f806-6296-9f55-81a69c1f4f86.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 21K 500x1200 мм",
-        "price": 4788.9,
-        "retail": 4788.9,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-21k-500x1200-mm.html"
+        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
+        "price": 4785.5,
+        "retail": 4785.5,
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
       },
       {
         "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
@@ -144,26 +144,26 @@
     "decor": [
       {
         "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
-        "price": 574,
-        "retail": 574,
-        "count": 11,
+        "price": 579,
+        "retail": 579,
+        "count": 12,
         "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
-        "price": 1152,
-        "retail": 1152,
+        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
+        "price": 1173,
+        "retail": 1173,
         "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400S (1500W)",
-        "price": 7649,
-        "retail": 7649,
-        "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-horizontal-hm-080-d400s-1500w.html"
+        "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
+        "price": 7749,
+        "retail": 7749,
+        "count": 42,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
       },
       null,
       {
