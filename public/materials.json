@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-30",
+  "updated": "2026-08-31",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -58,8 +58,8 @@
       },
       {
         "name": "Фарба Kompozit для басейнів АК-12 мат 2,8 кг",
-        "price": 41.37,
-        "retail": 1448,
+        "price": 37.14,
+        "retail": 1300,
         "count": 30,
         "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
       },
@@ -67,17 +67,17 @@
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Лінда 6403-01 0,53x10,05 м",
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
         "price": 205,
         "retail": 205,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-linda-6403-01-0-53x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 33,
+        "count": 35,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -127,18 +127,18 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hofmann/TT 22 400x1400 мм бічне підключення Білий",
-        "price": 4815,
-        "retail": 4815,
-        "count": 52,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-tt-22-400x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-893b-6796-9a7b-39532950e03a.html"
+        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
+        "price": 4785.5,
+        "retail": 4785.5,
+        "count": 51,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
       },
       {
-        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5114,
-        "retail": 5114,
-        "count": 36,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+        "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
+        "price": 5545,
+        "retail": 5545,
+        "count": 35,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-britolli-d13-30-bar-500-100-mm-10-sektsii-1ecf178b-6990-608e-878b-3f9cb81e5cec.html"
       }
     ],
     "decor": [
@@ -159,11 +159,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400S (1500W)",
-        "price": 7649,
-        "retail": 7649,
-        "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-horizontal-hm-080-d400s-1500w.html"
+        "name": "Бойлер Atlantic Opro Horizontal HM 080 D400-1-M 1500W з мокрим теном",
+        "price": 7599,
+        "retail": 7599,
+        "count": 43,
+        "url": "https://epicentrk.ua/ua/shop/mplc-boiler-atlantic-opro-horizontal-hm-080-d400-1-m-1500w-z-mokrim-tenom-1ecd2bec-82c4-6672-b6d2-2b64b548f968.html"
       },
       null,
       {
