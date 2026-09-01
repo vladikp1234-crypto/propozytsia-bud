@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-31",
+  "updated": "2026-09-01",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -9,7 +9,7 @@
   },
   "works": {
     "walls_plaster": {
-      "count": 127,
+      "count": 126,
       "min": 210,
       "max": 550,
       "unit": "м²",
@@ -29,7 +29,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 122,
+      "count": 121,
       "min": 25,
       "max": 55,
       "unit": "м²",
@@ -39,7 +39,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 97,
+      "count": 96,
       "min": 200,
       "max": 600,
       "unit": "м²",
@@ -49,17 +49,17 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 165,
+      "count": 167,
       "min": 700,
       "max": 1300,
       "unit": "м²",
-      "price": 968,
+      "price": 974,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 97,
+      "count": 96,
       "min": 300,
       "max": 600,
       "unit": "м²",
@@ -69,7 +69,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 144,
+      "count": 143,
       "min": 100,
       "max": 250,
       "unit": "м²",
@@ -83,7 +83,7 @@
       "min": 150,
       "max": 380,
       "unit": "м²",
-      "price": 293,
+      "price": 286,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -93,7 +93,7 @@
       "min": 130,
       "max": 320,
       "unit": "м.пог.",
-      "price": 230,
+      "price": 234,
       "name": "Монтаж плінтуса",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -129,7 +129,7 @@
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
     },
     "gk_partition": {
-      "count": 111,
+      "count": 110,
       "min": 400,
       "max": 900,
       "unit": "м²",
@@ -143,7 +143,7 @@
       "min": 150,
       "max": 300,
       "unit": "м²",
-      "price": 220,
+      "price": 218,
       "name": "Поклейка шпалер",
       "cat": "pokleyka-oboev",
       "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"
