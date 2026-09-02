@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01",
+  "updated": "2026-09-02",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,17 +10,17 @@
     "floorcover": [
       {
         "name": "Ламінат Kastamonu FP Prime 4V akashi 32/АС4/8 мм (FR010)",
-        "price": 524,
-        "retail": 524,
+        "price": 532,
+        "retail": 532,
         "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-prime-fr010-akashi-32-as4-1205kh193kh8-mm.html"
       },
       {
-        "name": "Ламінат AGT Gold 4V dion 33/АС5/8 мм (PRK1202)",
-        "price": 596,
-        "retail": 596,
+        "name": "Ламінат King Floor Royal Line V4 дуб королівський віковий 33/АС5/10 мм (KF108)",
+        "price": 592,
+        "retail": 592,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-agt-gold-4v-dion-33-as5-8-mm-prk1202.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-royal-line-v4-kf108-dub-starinnyy-33-as5-1380x193x10-mm.html"
       },
       null,
       {
@@ -33,18 +33,18 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Lordwood brown LD7P10 20x65 см",
-        "price": 499,
-        "retail": 499,
+        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
+        "price": 399,
+        "retail": 399,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-lordwood-brown-ld7p10-20x65-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
       },
       {
-        "name": "Плитка Cersanit Yasmina beige 18,5х59,8 см",
+        "name": "Плитка Cersanit Jackwood light grey 18,5x59,8 см",
         "price": 519,
         "retail": 519,
-        "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/plitka-opoczno-yasmina-bezh-18-5kh59-8-.html"
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-dzhekvud-svetlo-seraya-18-5x59-8.html"
       },
       null
     ],
@@ -58,9 +58,9 @@
       },
       {
         "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 7 кг",
-        "price": 43.09,
-        "retail": 1508,
-        "count": 32,
+        "price": 44.06,
+        "retail": 1542,
+        "count": 33,
         "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-7-kg.html"
       },
       null
@@ -68,33 +68,33 @@
     "wallpaper": [
       {
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
-        "price": 205,
-        "retail": 205,
-        "count": 55,
+        "price": 206,
+        "retail": 206,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Природа 2 1117-04 ",
-        "price": 581,
-        "retail": 581,
-        "count": 35,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-pryroda-2-1117-04-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 535,
+        "retail": 535,
+        "count": 33,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
         "price": 1297,
         "retail": 1297,
-        "count": 54,
+        "count": 53,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524626-1-06x10-05-m.html"
       }
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 800 мм дуб неаполь",
-        "price": 3020,
-        "retail": 3020,
+        "name": "Дверне полотно ОМіС Лего 05 ПО чорне скло 700 мм дуб темний",
+        "price": 3061,
+        "retail": 3061,
         "count": 12,
-        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-800-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-05-po-chernoe-steklo-700-mm-dub-temnyy.html"
       },
       null,
       {
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ Classen CASAline D6436 дуб сіерра 75x15x2400 мм",
         "price": 325,
         "retail": 325,
-        "count": 49,
+        "count": 50,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-classen-casaline-d6436-75x15x2400-mm.html"
       },
       null
@@ -127,18 +127,18 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
-        "price": 4785.5,
-        "retail": 4785.5,
+        "name": "Радіатор сталевий Korado 11K 500x1000",
+        "price": 5012.8,
+        "retail": 5012.8,
         "count": 51,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
       },
       {
-        "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
-        "price": 5418,
-        "retail": 5418,
-        "count": 36,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-britolli-d13-30-bar-500-100-mm-10-sektsii-1ecf178b-6990-608e-878b-3f9cb81e5cec.html"
+        "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
+        "price": 5224,
+        "retail": 5224,
+        "count": 38,
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-evro-termo-sektsionnyy-350-96-10-sektsiy-70214275.html"
       }
     ],
     "decor": [
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1173,
-        "retail": 1173,
-        "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
+        "price": 1286,
+        "retail": 1286,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
       }
     ],
     "boiler": [
@@ -162,16 +162,16 @@
         "name": "Бойлер Atlantic Opro Horizontal HM 080 D400-1-M 1500W з мокрим теном",
         "price": 7599,
         "retail": 7599,
-        "count": 44,
+        "count": 45,
         "url": "https://epicentrk.ua/ua/shop/mplc-boiler-atlantic-opro-horizontal-hm-080-d400-1-m-1500w-z-mokrim-tenom-1ecd2bec-82c4-6672-b6d2-2b64b548f968.html"
       },
       null,
       {
-        "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 150 л (BOLLY 2 ST 150)",
-        "price": 41713,
-        "retail": 41713,
-        "count": 16,
-        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-150-l-bolly-2-st-150-1efcde90-bfcd-6f2e-abaa-ef6a6aadc9e7.html"
+        "name": "Бойлер Tesy EV7/5S2 200 60 200л 2 теплообмінники",
+        "price": 41870,
+        "retail": 41870,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/boiler-tesy-ev7-5s2-200-60-200l-2-teploobminnyky.html"
       }
     ]
   }

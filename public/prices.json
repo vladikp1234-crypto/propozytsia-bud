@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01",
+  "updated": "2026-09-02",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -43,17 +43,17 @@
       "min": 200,
       "max": 600,
       "unit": "м²",
-      "price": 386,
+      "price": 403,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 167,
+      "count": 166,
       "min": 700,
       "max": 1300,
       "unit": "м²",
-      "price": 974,
+      "price": 982,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -63,7 +63,7 @@
       "min": 300,
       "max": 600,
       "unit": "м²",
-      "price": 446,
+      "price": 456,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -79,7 +79,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 102,
+      "count": 101,
       "min": 150,
       "max": 380,
       "unit": "м²",
@@ -89,7 +89,7 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "plinth": {
-      "count": 39,
+      "count": 38,
       "min": 130,
       "max": 320,
       "unit": "м.пог.",
@@ -113,7 +113,7 @@
       "min": 200,
       "max": 450,
       "unit": "м²",
-      "price": 345,
+      "price": 339,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
@@ -133,13 +133,13 @@
       "min": 400,
       "max": 900,
       "unit": "м²",
-      "price": 647,
+      "price": 641,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 99,
+      "count": 98,
       "min": 150,
       "max": 300,
       "unit": "м²",
