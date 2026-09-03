@@ -755,13 +755,16 @@ export default function App() {
                 ? <><span className="hl"><span>Ремонт.</span></span><span className="hl"><em>Ціна одразу.</em></span></>
                 : <><span className="hl"><span>Будинок.</span></span><span className="hl"><em>Ціна одразу.</em></span></>}</h1>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
-            {live ? <div className="badge live">роботи: ціни rabotniki.ua від {live.updated} · матеріали: орієнтовні</div>
-              : <div className="badge demo">демо · ціни орієнтовні</div>}
-            <div className="dimline" />
-            <div className="howit">
-              <span><b>1</b> Параметри обʼєкта</span><span className="ha">→</span>
-              <span><b>2</b> Жива ціна одразу</span><span className="ha">→</span>
-              <span><b>3</b> Пропозиція + PDF</span>
+            {/* Один «технічний рядок» замість трьох окремих блоків, що плавали
+                кожен у своїй порожнечі. Так це читається як специфікація. */}
+            <div className="herometa">
+              <div className="howit">
+                <span><b>01</b> Параметри обʼєкта</span>
+                <span><b>02</b> Жива ціна одразу</span>
+                <span><b>03</b> Пропозиція + PDF</span>
+              </div>
+              {live ? <div className="badge live">ціни rabotniki.ua · {live.updated}</div>
+                : <div className="badge demo">демо · ціни орієнтовні</div>}
             </div>
           </div>}
 

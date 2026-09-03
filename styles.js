@@ -10,44 +10,49 @@ export const css = `
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root{
-  /* Тло і папір */
-  --bg:#FAFAF8;            /* теплий офвайт — основне полотно */
-  --bg-soft:#F2F1EB;       /* ледь заглиблене: шапки таблиць, рідко */
-  --paper:#FFFFFF;         /* аркуш кошторису */
+  /* Тло і папір. Полотно навмисно НЕ біле: тоді білі поверхні
+     (панель ціни, кошторис) читаються як предмети, що лежать на ньому. */
+  --bg:#F4F3EF;
+  --bg-soft:#EBE9E3;
+  --paper:#FFFFFF;
+  --deep:#111112;          /* маса: підвал, головна дія */
 
-  /* Чорнило. Перевірено на --bg: 16.9 / 5.9 / 4.6 : 1 */
-  --ink:#12131A;
-  --ink-2:#555A63;
-  --ink-3:#686D77;
+  /* Чорнило. Перший захід був сірий і кволий — тепер контраст справжній:
+     на --bg це 17.4 / 8.9 / 4.9 : 1 */
+  --ink:#0B0B0C;
+  --ink-2:#3A3D44;
+  --ink-3:#6A6E76;
 
-  /* Лінії — майже невидимі */
-  --line:#E6E4DE;
-  --line-2:#D2CFC7;
+  --line:#DEDBD3;
+  --line-2:#C9C5BB;
 
-  /* Єдиний акцент. Тільки головна дія і поточний вибір. */
+  /* Акцент лише для стану «обрано» й посилань. Головну дію тримає чорне. */
   --acc:#1B3BD6;
-  --acc-soft:#EFF1FE;
+  --acc-soft:#ECEFFD;
 
-  /* Семантика. Лише там, де колір = зміст. */
-  --warn:#9E3413;
-  --warn-soft:#FAF0EB;
-  --ok:#1C6238;
-  --ok-soft:#EDF3EE;
+  --warn:#8E2F10;
+  --warn-soft:#F7EDE8;
+  --ok:#175731;
+  --ok-soft:#EAF1EC;
 
-  /* Типографічна шкала — 6 щаблів, нових не додавати.
-     Розсунута: раніше все жило в діапазоні 10.5–15.5 і ієрархії не існувало. */
+  /* Шкала — 6 щаблів. Розсунута ще ширше: контраст розмірів і є
+     ієрархія. Дрібне лишається дрібним, велике стає по-справжньому великим. */
   --t-micro:11px;
-  --t-cap:12.5px;
-  --t-body:15px;
-  --t-emph:17px;
-  --t-title:22px;
-  --t-num:15px;
+  --t-cap:13px;
+  --t-body:16px;
+  --t-emph:19px;
+  --t-title:32px;
+  --t-num:16px;
 
-  /* Ритм */
-  --r:4px;
-  --r-lg:6px;
-  --gut:32px;
-  --col:1120px;
+  /* Ритм. Строгий: 12 / 24 / 48 / 96 / 144. Усередині блоку — малі
+     значення, між блоками — великі. Раніше вони були майже однакові,
+     тому ніщо не групувалось і сторінка розсипалась. */
+  --s1:12px; --s2:24px; --s3:48px; --s4:96px; --s5:144px;
+
+  --r:3px;
+  --r-lg:4px;
+  --gut:40px;
+  --col:1240px;
 
   --sans:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -131,72 +136,82 @@ button{font-family:inherit;color:inherit}
 .mode button.on{color:var(--ink);border-bottom-color:var(--ink)}
 
 /* ─── Полотно ──────────────────────────────────────────────────────── */
-.wrap{position:relative;z-index:1;max-width:var(--col);margin:0 auto;padding:72px var(--gut) 160px}
+.wrap{position:relative;z-index:1;max-width:var(--col);margin:0 auto;padding:var(--s4) var(--gut) var(--s5)}
 
-/* ─── Герой ────────────────────────────────────────────────────────── */
-.hero{max-width:760px;margin-bottom:96px}
-.hblob{display:none}
+/* ─── Герой ────────────────────────────────────────────────────────
+   Був: заголовок, під ним три окремі рядки, кожен у власній порожнечі.
+   Став: щільний блок — заголовок, підзаголовок і один технічний рядок
+   під спільною лінією. Порожнеча тепер навколо блоку, а не всередині. */
+.hero{max-width:1000px;margin-bottom:var(--s4)}
+.hblob,.dimline{display:none}
 .hero h1{
-  font-size:clamp(38px,7vw,76px);
+  font-size:clamp(46px,8.4vw,104px);
   font-weight:800;
-  line-height:1.02;
-  letter-spacing:-.035em;
-  margin-bottom:28px;
+  line-height:.96;
+  letter-spacing:-.045em;
+  margin-bottom:var(--s2);
 }
-.hero h1 .hl{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero h1 .hl{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
 .hero h1 .hl>*{display:inline-block;will-change:transform}
-.hero h1 em{font-style:normal;color:var(--ink-3)}
-.hero p{font-size:var(--t-emph);color:var(--ink-2);line-height:1.55;max-width:46ch}
-.dimline{display:none}
+/* Обидва рядки повним чорнилом. Сірий другий рядок виглядав вицвілим —
+   ієрархію тут тримає порядок і розмір, а не блідість. */
+.hero h1 em{font-style:normal;color:var(--ink)}
+.hero p{font-size:var(--t-emph);color:var(--ink-2);line-height:1.5;max-width:44ch;font-weight:500}
+
+.herometa{
+  display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2);
+  flex-wrap:wrap;margin-top:var(--s3);padding-top:var(--s1);
+  border-top:1px solid var(--line-2);
+}
+.howit{display:flex;gap:var(--s3);align-items:baseline;flex-wrap:wrap;font-size:var(--t-cap);color:var(--ink-2);font-weight:600;margin:0}
+.howit>span{display:flex;align-items:baseline;gap:9px}
+.howit b{font-family:var(--mono);font-size:var(--t-micro);font-weight:500;color:var(--ink-3);background:none;width:auto;height:auto;border-radius:0;display:inline}
+.howit .ha{display:none}
 
 .badge{
-  display:inline-flex;align-items:center;gap:9px;margin-top:28px;
+  display:inline-flex;align-items:center;gap:8px;margin:0;
   font-family:var(--mono);font-size:var(--t-micro);letter-spacing:.06em;
   color:var(--ink-3);background:none;padding:0;border-radius:0;text-transform:none;
 }
 .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ok);flex:none}
 .badge.demo::before{background:var(--warn)}
 
-.howit{display:flex;gap:36px;align-items:center;margin-top:56px;flex-wrap:wrap;font-size:var(--t-cap);color:var(--ink-2);font-weight:600}
-.howit>span{display:flex;align-items:baseline;gap:10px}
-.howit b{font-family:var(--mono);font-size:var(--t-micro);font-weight:600;color:var(--ink-3);background:none;width:auto;height:auto;border-radius:0;display:inline}
-.howit .ha{display:none}
-
 /* Біжучий рядок прибрано повністю */
 .marq,.marq-in{display:none!important}
 
-/* ─── Кроки майстра ────────────────────────────────────────────────── */
-.wsteps{display:flex;gap:0;margin-bottom:64px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+/* ─── Кроки майстра: суцільна навігаційна смуга, а не окремі пігулки ── */
+.wsteps{display:flex;gap:0;margin-bottom:var(--s4);flex-wrap:wrap;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)}
 .wstep{
   display:flex;align-items:baseline;gap:10px;
-  background:none;border:none;border-bottom:1.5px solid transparent;
-  margin-bottom:-1px;padding:0 24px 16px 0;
+  background:none;border:none;border-bottom:2px solid transparent;
+  margin-bottom:-1px;padding:18px 36px 16px 0;
   font-size:var(--t-cap);font-weight:600;color:var(--ink-3);
-  cursor:pointer;transition:color .3s var(--ease),border-color .3s var(--ease);
+  cursor:pointer;transition:color .35s var(--ease),border-color .35s var(--ease);
 }
-.wstep:hover{color:var(--ink-2)}
+.wstep:hover{color:var(--ink)}
 .wstep .wn{font-family:var(--mono);font-size:var(--t-micro);color:var(--ink-3);background:none;width:auto;height:auto;border-radius:0;display:inline}
 .wstep.on{color:var(--ink);border-bottom-color:var(--ink)}
-.wstep.on .wn{color:var(--acc)}
+.wstep.on .wn{color:var(--ink)}
 .wstep.done{color:var(--ink-2)}
 .wstep.done .wn{color:var(--ok)}
-.wnav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:56px;padding-top:32px;border-top:1px solid var(--line)}
+.wnav{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:var(--s4);padding-top:var(--s2);border-top:1px solid var(--line-2)}
 
 /* ─── Дві колонки: робота + жива ціна ─────────────────────────────── */
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:80px;align-items:start}
-@media(max-width:960px){.grid{grid-template-columns:1fr;gap:56px}}
-.stepcol{display:grid;gap:72px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 328px;gap:var(--s4);align-items:start}
+@media(max-width:1040px){.grid{grid-template-columns:1fr;gap:var(--s3)}}
+.stepcol{display:grid;gap:var(--s4)}
 
-/* ─── Секція. Була карткою з рамкою — стала повітрям. ─────────────── */
+/* ─── Секція. Не картка з рамкою, але й не безтілесний текст:
+   масу дає великий заголовок і власна лінія зверху. ───────────────── */
 .card{background:none;border:none;border-radius:0;overflow:visible;padding:0}
-.ch{display:grid;gap:6px;padding:0 0 28px;border-bottom:none;align-items:start}
-.ch h2{font-size:var(--t-title);font-weight:700;letter-spacing:-.025em;line-height:1.25}
+.ch{display:grid;gap:var(--s1);padding:0 0 var(--s3);border-bottom:none;align-items:start}
+.ch h2{font-size:var(--t-title);font-weight:700;letter-spacing:-.035em;line-height:1.1;max-width:24ch}
 .cn{background:none;padding:0;border-radius:0;color:var(--ink-3)}
-.cb{padding:0;display:grid;gap:44px}
+.cb{padding:0;display:grid;gap:var(--s3)}
 
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:start}
-@media(max-width:640px){.g2,.g3{grid-template-columns:1fr;gap:36px}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);align-items:start}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s2);align-items:start}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr;gap:var(--s2)}}
 
 label.f,.f{display:grid;gap:12px;align-content:start;font-size:var(--t-cap);font-weight:600;color:var(--ink-2);text-align:left}
 .f,.f .hint,.cb label{text-align:left}
@@ -343,14 +358,23 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .chreset,.tl{font-size:var(--t-cap);font-weight:600;color:var(--acc);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
 
 /* ─── Жива ціна: була чорна коробка, стала типографіка ────────────── */
-.rail{position:sticky;top:104px;display:grid;gap:32px}
-@media(max-width:960px){.rail{position:static;top:auto}}
-.live{background:none;color:var(--ink);border-radius:0;padding:0;border-top:1.5px solid var(--ink);padding-top:20px}
-.lk{margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--ink-3)}
+/* Панель ціни — головний предмет на сторінці. Білий аркуш на теплому
+   полотні: саме контраст поверхонь дає глибину без жодної тіні-неону. */
+.rail{position:sticky;top:96px;display:grid;gap:var(--s2)}
+@media(max-width:1040px){.rail{position:static;top:auto}}
+/* Обов'язково .rail .live, а не просто .live: у героя є бейдж
+   className="badge live", і голе правило робило з нього білу коробку.
+   Та сама колізія імен, що колись сталася з .rv. */
+.rail .live{
+  background:var(--paper);color:var(--ink);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:28px 26px 26px;
+  box-shadow:0 1px 2px rgba(11,11,12,.04),0 12px 32px -18px rgba(11,11,12,.22);
+}
+.lk{margin-bottom:var(--s2);display:flex;align-items:center;gap:8px;color:var(--ink-3);line-height:1.5}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--ok);flex:none}
-.lv{font-family:var(--mono);font-weight:600;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-.03em;color:var(--ink)}
-.lv em{font-style:normal;color:var(--ink-3)}
-.ls{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-3);margin-top:10px;line-height:1.6}
+.lv{font-family:var(--mono);font-weight:500;font-size:clamp(30px,3.4vw,40px);line-height:1.1;letter-spacing:-.045em;color:var(--ink)}
+.lv em{font-style:normal;color:var(--ink)}
+.ls{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-3);margin-top:var(--s1);line-height:1.6}
 .usdline{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-2);margin-top:4px}
 .usdrate{color:var(--ink-3);font-size:var(--t-micro)}
 .usdsm{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-3);font-weight:400}
@@ -358,12 +382,16 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .lr:first-of-type{margin-top:24px}
 .lr span:first-child{min-width:0;overflow-wrap:anywhere}
 .lr span:last-child{color:var(--ink)}
+/* Головна дія — чорна, не синя. Синій кричав; чорне на теплому папері
+   виглядає дорожче й лишає акцент для станів «обрано». */
 .livebtn{
-  width:100%;margin-top:28px;font-family:var(--sans);font-weight:700;font-size:var(--t-cap);
-  background:var(--acc);color:#fff;border:none;border-radius:var(--r);padding:16px;
-  cursor:pointer;letter-spacing:.01em;transition:background-color .25s var(--ease);
+  width:100%;margin-top:var(--s2);font-family:var(--sans);font-weight:700;font-size:var(--t-cap);
+  background:var(--deep);color:#fff;border:1px solid var(--deep);border-radius:var(--r);padding:17px;
+  cursor:pointer;letter-spacing:.01em;
+  transition:background-color .35s var(--ease),transform .35s var(--ease);
 }
-.livebtn:hover{background:#1631B4}
+.livebtn:hover{background:#26262A;transform:translateY(-1px)}
+.livebtn:active{transform:translateY(0)}
 .sharebtn{
   width:100%;font-family:var(--sans);font-weight:600;font-size:var(--t-cap);padding:13px;
   border-radius:var(--r);border:1px solid var(--line);background:none;color:var(--ink-3);cursor:pointer;
@@ -462,32 +490,39 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .adminbar input[type=range]{accent-color:var(--ink)}
 
 /* ─── Підвал сторінки і «чому ми» ──────────────────────────────────── */
-.ground{margin-top:140px;display:grid;gap:120px}
-.whyus{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:56px}
+.ground{margin-top:var(--s5);display:grid;gap:var(--s5)}
+.whyus{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3);border-top:1px solid var(--line-2);padding-top:var(--s3)}
 .wu{display:grid;gap:10px;align-content:start}
 .wu-i{color:var(--ink-3)}
-.wu-t{font-weight:700;font-size:var(--t-emph);color:var(--ink);letter-spacing:-.02em}
+.wu-t{font-weight:700;font-size:var(--t-emph);color:var(--ink);letter-spacing:-.025em}
 .wu-d{font-size:var(--t-cap);color:var(--ink-2);line-height:1.65}
-.faq{display:grid;max-width:760px}
-.faq h3{font-size:var(--t-title);margin-bottom:24px;letter-spacing:-.025em}
-.faq details{border-bottom:1px solid var(--line);padding:22px 0}
+.faq{display:grid;max-width:820px}
+.faq h3{font-size:var(--t-title);margin-bottom:var(--s2);letter-spacing:-.035em;line-height:1.1}
+.faq details{border-bottom:1px solid var(--line);padding:var(--s2) 0}
+.faq details:first-of-type{border-top:1px solid var(--line)}
 .faq summary{cursor:pointer;font-weight:700;font-size:var(--t-body);list-style:none;display:flex;justify-content:space-between;gap:20px;color:var(--ink)}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:'+';font-family:var(--mono);color:var(--ink-3);font-weight:400;font-size:var(--t-emph);line-height:1}
 .faq details[open] summary::after{content:'\\2212'}
 .faq p{margin-top:14px;font-size:var(--t-cap);color:var(--ink-2);line-height:1.75;max-width:64ch}
 
-.footer{margin-top:140px;padding-top:40px;border-top:1px solid var(--line);display:grid;gap:40px}
-.ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px}
-@media(max-width:720px){.ft{grid-template-columns:1fr;gap:32px}}
-.ft-logo{font-size:var(--t-emph);font-weight:800;letter-spacing:-.03em}
-.ft-logo span{color:var(--ink-3);font-weight:500}
-.ft-sub{font-size:var(--t-cap);color:var(--ink-3);margin-top:6px}
-.ft-col{display:grid;gap:8px;align-content:start;font-size:var(--t-cap);color:var(--ink-2)}
-.ft-h{font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.12em;color:var(--ink-3);margin-bottom:6px}
-.ft-col a{color:var(--ink-2)}
-.ft-col a:hover{color:var(--ink)}
-.ft-legal{font-size:var(--t-micro);color:var(--ink-3);line-height:1.7;padding-top:28px;border-top:1px solid var(--line)}
+/* Підвал — темна смуга на всю ширину. Сторінка нарешті має низ і вагу;
+   без неї композиція просто розчинялась у білому. */
+.footer{
+  margin:var(--s5) calc(50% - 50vw) calc(var(--s5) * -1);
+  padding:var(--s4) calc(50vw - 50% + var(--gut)) var(--s3);
+  background:var(--deep);color:#F2F2F0;display:grid;gap:var(--s3);border-top:none;
+}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s3);max-width:var(--col);width:100%}
+@media(max-width:760px){.ft{grid-template-columns:1fr;gap:var(--s2)}}
+.ft-logo{font-size:var(--t-emph);font-weight:800;letter-spacing:-.03em;color:#fff}
+.ft-logo span{color:#8B8F98;font-weight:500}
+.ft-sub{font-size:var(--t-cap);color:#9AA0A8;margin-top:8px}
+.ft-col{display:grid;gap:10px;align-content:start;font-size:var(--t-cap);color:#C9CDD3}
+.ft-h{font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.12em;color:#7E838C;margin-bottom:6px}
+.ft-col a{color:#C9CDD3}
+.ft-col a:hover{color:#fff}
+.ft-legal{font-size:var(--t-micro);color:#7E838C;line-height:1.7;padding-top:var(--s2);border-top:1px solid #2A2A2E;max-width:var(--col)}
 
 /* ─── Кнопки ───────────────────────────────────────────────────────── */
 .btn{
@@ -496,8 +531,9 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
   transition:border-color .25s var(--ease),background-color .25s var(--ease);
 }
 .btn:hover{border-color:var(--ink)}
-.btn.blue{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
-.btn.blue:hover{background:#1631B4;border-color:#1631B4}
+.btn.blue{background:var(--deep);border-color:var(--deep);color:#fff;font-weight:700}
+.btn.blue:hover{background:#26262A;border-color:#26262A}
+.mb-btn{background:var(--deep)!important}
 
 /* ═══════════════════════════════════════════════════════════════════
    КОШТОРИС — аркуш. Тепер він не контрастує з сайтом, а продовжує його.
@@ -511,8 +547,11 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
   .calcbar{position:static;order:-1}
 }
 
-.sheet{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:none}
-.cover{padding:72px 48px 56px;text-align:center;background:none;border-bottom:1px solid var(--line)}
+.sheet{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:0 1px 2px rgba(11,11,12,.04),0 20px 60px -30px rgba(11,11,12,.28);
+}
+.cover{padding:88px 56px 64px;text-align:center;background:none;border-bottom:1px solid var(--line)}
 .ceye{margin-bottom:20px}
 .cover h1{font-size:clamp(26px,4vw,38px);font-weight:700;margin-bottom:12px;letter-spacing:-.03em}
 .csub{color:var(--ink-2);font-size:var(--t-body)}
@@ -672,9 +711,10 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 
 /* ─── Калькулятор поруч із кошторисом ──────────────────────────────── */
 .calcbar{
-  position:sticky;top:104px;display:grid;gap:14px;padding:24px 0 0;
-  border-top:1.5px solid var(--ink);border-radius:0;
-  background:none;backdrop-filter:none;box-shadow:none;
+  position:sticky;top:96px;display:grid;gap:14px;padding:26px 24px 24px;
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  background:var(--paper);backdrop-filter:none;
+  box-shadow:0 1px 2px rgba(11,11,12,.04),0 12px 32px -18px rgba(11,11,12,.22);
 }
 .cbx-h{margin-bottom:2px}
 .cbx-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:var(--t-cap);color:var(--ink-2)}
@@ -731,31 +771,26 @@ html{scroll-behavior:auto}
 }
 
 /* ═══ АДАПТИВ ══════════════════════════════════════════════════════ */
-@media(max-width:960px){
-  :root{--gut:24px}
-  .wrap{padding-top:56px}
-  .hero{margin-bottom:72px}
-  .stepcol{gap:56px}
+@media(max-width:1040px){
+  :root{--gut:32px;--s4:72px;--s5:104px;--t-title:28px}
+  .hero h1{font-size:clamp(42px,8vw,72px)}
 }
 @media(max-width:640px){
-  :root{--gut:20px}
+  :root{--gut:20px;--s3:32px;--s4:56px;--s5:80px;--t-title:26px;--t-emph:17px}
   .tb{padding:18px var(--gut)}
   .mode{gap:20px}
-  .wrap{padding-top:44px;padding-bottom:180px}
-  .hero{margin-bottom:56px}
-  .howit{gap:20px;margin-top:36px}
-  .wsteps{margin-bottom:44px;gap:0;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .wrap{padding-bottom:190px}
+  .hero h1{font-size:clamp(38px,11vw,54px);letter-spacing:-.035em}
+  .howit{gap:20px}
+  .herometa{gap:14px}
+  .wsteps{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
   .wsteps::-webkit-scrollbar{display:none}
-  .wstep{white-space:nowrap;padding-right:20px}
-  .stepcol{gap:48px}
-  .cb{gap:32px}
+  .wstep{white-space:nowrap;padding-right:24px}
+  .rail .live{padding:22px 20px}
   .cover{padding:44px 24px 36px}
   .dochead,.confstrip,.filterbar{padding-left:24px;padding-right:24px}
   .sth,.stb,.breakdown,.furnsec,.landsec,.inex,.terms,.sf,.furntotals{padding-left:24px;padding-right:24px}
   .sn2{padding:24px}
-  .ground{margin-top:96px;gap:80px}
-  .whyus{gap:36px}
-  .footer{margin-top:96px}
   .modal{padding:28px 22px}
 }
 
