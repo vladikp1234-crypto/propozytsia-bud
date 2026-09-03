@@ -10,21 +10,22 @@ export const css = `
    ═══════════════════════════════════════════════════════════════════════ */
 
 :root{
-  /* Тло і папір. Полотно навмисно НЕ біле: тоді білі поверхні
-     (панель ціни, кошторис) читаються як предмети, що лежать на ньому. */
-  --bg:#F4F3EF;
-  --bg-soft:#EBE9E3;
-  --paper:#FFFFFF;
-  --deep:#111112;          /* маса: підвал, головна дія */
+  /* Тло і папір. #F4F3EF усе ще різало очі на великому екрані — полотно
+     опущено до справжнього теплого паперу, а «білі» поверхні більше не
+     чисто-білі: саме пара чорне-на-#FFF і давала різь. Глибина лишається,
+     бо --paper світліший за полотно; контраст поверхонь нікуди не зник. */
+  --bg:#E9E6DD;
+  --bg-soft:#E0DCD1;
+  --paper:#F7F5F0;
+  --deep:#1A1915;          /* маса: підвал, головна дія */
 
-  /* Чорнило. Перший захід був сірий і кволий — тепер контраст справжній:
-     на --bg це 17.4 / 8.9 / 4.9 : 1 */
-  --ink:#0B0B0C;
-  --ink-2:#3A3D44;
-  --ink-3:#6A6E76;
+  /* Чорнило тепле, не крижане. На --bg: 14.1 / 6.9 / 4.8 : 1 */
+  --ink:#1B1A16;
+  --ink-2:#4A4840;
+  --ink-3:#5F5C54;
 
-  --line:#DEDBD3;
-  --line-2:#C9C5BB;
+  --line:#D6D1C4;
+  --line-2:#C2BCAC;
 
   /* Акцент лише для стану «обрано» й посилань. Головну дію тримає чорне. */
   --acc:#1B3BD6;
@@ -368,7 +369,7 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .rail .live{
   background:var(--paper);color:var(--ink);border:1px solid var(--line);
   border-radius:var(--r-lg);padding:28px 26px 26px;
-  box-shadow:0 1px 2px rgba(11,11,12,.04),0 12px 32px -18px rgba(11,11,12,.22);
+  box-shadow:0 1px 2px rgba(26,25,21,.05),0 12px 32px -18px rgba(26,25,21,.20);
 }
 .lk{margin-bottom:var(--s2);display:flex;align-items:center;gap:8px;color:var(--ink-3);line-height:1.5}
 .dot{width:5px;height:5px;border-radius:50%;background:var(--ok);flex:none}
@@ -419,7 +420,7 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 @media(max-width:960px){
   .mobilebar{
     display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
-    background:rgba(250,250,248,.94);backdrop-filter:blur(16px);
+    background:rgba(233,230,221,.92);backdrop-filter:blur(16px);
     border-top:1px solid var(--line);
     padding:12px 20px calc(12px + env(safe-area-inset-bottom));
     align-items:center;gap:16px;
@@ -444,7 +445,7 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .bb-b{margin-left:auto;font-weight:700;color:var(--acc);background:none;border:none;cursor:pointer;font-size:var(--t-cap)}
 
 /* ─── Модалка ──────────────────────────────────────────────────────── */
-.modal-bg{position:fixed;inset:0;z-index:100;background:rgba(18,19,26,.32);backdrop-filter:blur(3px);display:grid;place-items:center;padding:24px}
+.modal-bg{position:fixed;inset:0;z-index:100;background:rgba(26,25,21,.38);backdrop-filter:blur(3px);display:grid;place-items:center;padding:24px}
 .modal{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);max-width:520px;width:100%;max-height:86vh;overflow:auto;padding:36px}
 .modal-h{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px}
 .modal-t{font-size:var(--t-title);font-weight:700;flex:1;letter-spacing:-.02em}
@@ -549,7 +550,7 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 
 .sheet{
   background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
-  box-shadow:0 1px 2px rgba(11,11,12,.04),0 20px 60px -30px rgba(11,11,12,.28);
+  box-shadow:0 1px 2px rgba(26,25,21,.05),0 20px 60px -30px rgba(26,25,21,.26);
 }
 .cover{padding:88px 56px 64px;text-align:center;background:none;border-bottom:1px solid var(--line)}
 .ceye{margin-bottom:20px}
@@ -714,7 +715,7 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
   position:sticky;top:96px;display:grid;gap:14px;padding:26px 24px 24px;
   border:1px solid var(--line);border-radius:var(--r-lg);
   background:var(--paper);backdrop-filter:none;
-  box-shadow:0 1px 2px rgba(11,11,12,.04),0 12px 32px -18px rgba(11,11,12,.22);
+  box-shadow:0 1px 2px rgba(26,25,21,.05),0 12px 32px -18px rgba(26,25,21,.20);
 }
 .cbx-h{margin-bottom:2px}
 .cbx-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:var(--t-cap);color:var(--ink-2)}
