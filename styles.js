@@ -994,4 +994,20 @@ html{scroll-behavior:auto}
 
 /* 5. Не даємо зникнути контрасту в друку */
 @media print{*{color:#111 !important}.sheet{--sub:#444}}
+
+/* ═══ ВИПРАВЛЕННЯ: чіпи розтягувались у вертикальні стовпи ═══
+   Причина: .g2 — сітка з align-items:stretch, тож колонка тягнулась на
+   висоту сусідньої (Локація), а всередині тягнулись і самі кнопки. */
+.g2{align-items:start}
+label.f{align-content:start}
+.chips{align-items:flex-start}
+.chips>button{align-self:flex-start;height:auto}
+
+/* Числові чіпи (кімнати, санвузли, поверхи, сотки) — рівний сегментований ряд */
+.numchips{display:inline-flex;gap:6px;flex-wrap:wrap}
+.numchips>button{min-width:46px;height:44px;padding:0;display:grid;place-items:center;
+  font-family:'IBM Plex Mono';font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;
+  border-radius:12px;flex:none}
+.numchips>button.on{box-shadow:0 0 20px rgba(79,70,229,.45)}
+@media(max-width:760px){.numchips>button{min-width:44px;height:44px}}
 `;

@@ -880,13 +880,13 @@ export default function App() {
                               </select>
                             </div></label>
                         : <label className="f">Спалень
-                            <div className="chips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} aria-label={n + " кімнат"} aria-pressed={p.roomsCount === n} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
+                            <div className="chips numchips">{[1, 2, 3, 4, 5].map(n => <button key={n} className={"chip" + (p.roomsCount === n ? " on" : "")} aria-label={n + " кімнат"} aria-pressed={p.roomsCount === n} onClick={() => setP("roomsCount", n)}>{n}</button>)}</div></label>}
                     </div>
                     {mode === "house" && (<>
                       <label className="f">Площа<div className="rr"><input type="range" min="80" max="300" step="5" value={p.area} onChange={e => setP("area", +e.target.value)} /><span className="rv">{p.area} м²</span></div></label>
                       <div className="g2">
-                        <label className="f">Поверхів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.floors === n ? " on" : "")} onClick={() => setP("floors", n)}>{n}</button>)}</div></label>
-                        <label className="f">Санвузлів<div className="chips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} aria-label={n + " санвузлів"} aria-pressed={p.bathrooms === n} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
+                        <label className="f">Поверхів<div className="chips numchips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.floors === n ? " on" : "")} aria-label={n + " поверхів"} aria-pressed={p.floors === n} onClick={() => setP("floors", n)}>{n}</button>)}</div></label>
+                        <label className="f">Санвузлів<div className="chips numchips">{[1, 2, 3].map(n => <button key={n} className={"chip" + (p.bathrooms === n ? " on" : "")} aria-label={n + " санвузлів"} aria-pressed={p.bathrooms === n} onClick={() => setP("bathrooms", n)}>{n}</button>)}</div></label>
                       </div>
                     </>)}
                   </div></div>
@@ -928,7 +928,7 @@ export default function App() {
                       <span className="hint">впливає на площу стін, кладку і фасад</span></label>
                   </div>
                   <label className="f">Ділянка, соток
-                    <div className="chips">{[4, 6, 8, 10, 12, 15, 20, 25].map(n => <button key={n} className={"chip" + (p.plot === n ? " on" : "")} aria-label={n + " соток"} aria-pressed={p.plot === n} onClick={() => setP("plot", n)}>{n}</button>)}</div>
+                    <div className="chips numchips">{[4, 6, 8, 10, 12, 15, 20, 25].map(n => <button key={n} className={"chip" + (p.plot === n ? " on" : "")} aria-label={n + " соток"} aria-pressed={p.plot === n} onClick={() => setP("plot", n)}>{n}</button>)}</div>
                     <span className="hint">впливає на огорожу, доріжки, газон і сад</span></label>
                   <label className="f">Фундамент <span className="hint">тип обирається за результатами геології</span>
                     <div className="chips">{Object.entries(FOUNDATIONS).map(([k, v]) => <button key={k} className={"chip acc" + (p.foundation === k ? " on" : "")} onClick={() => setP("foundation", k)}>{v.name}</button>)}</div>

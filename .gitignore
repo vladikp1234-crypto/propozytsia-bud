@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.local
+.DS_Store
+t.mjs
+.claude/
+
+# внутрішній брифінг — не публікувати в публічному репозиторії
+CLAUDE.md
