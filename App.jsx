@@ -140,6 +140,7 @@ const ICON_PATHS = {
   list: "M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01",
   ruler: "M3 15l6-6 3 3 3-3 6 6-9 5zM9 9L7 7M15 12l-2-2",
   sheet: "M5 3h14v18H5zM5 9h14M5 15h14M10 3v18M15 3v18",
+  alert: "M12 4l9 16H3zM12 10v4M12 17v.01",
 };
 function Icon({ name, size = 17 }) {
   const d = ICON_PATHS[name];
@@ -154,7 +155,7 @@ function useMotion(deps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let ctx, killed = false, raf = 0;
+    let ctx, killed = false;
     const listeners = [];
     const on = (t, ev, fn, opt) => { t.addEventListener(ev, fn, opt); listeners.push([t, ev, fn]); };
     (async () => {
@@ -163,118 +164,72 @@ function useMotion(deps) {
         const { ScrollTrigger } = await import("gsap/ScrollTrigger");
         gsap.registerPlugin(ScrollTrigger);
         if (killed) return;
+        /* Страховка, оплачена порожнім кошторисом у минулому: анімація ховає
+           вміст, і якщо вона застрягне (вкладка у фоні, зупинений rAF, обірваний
+           таймлайн) — блок лишиться прозорим назавжди. Тому кожну появу дублює
+           таймер на setTimeout: за 2.2 с властивості знімаються попри все. */
+        const safety = els => setTimeout(() => { try { gsap.set(els, { clearProps: "all" }); } catch {} }, 2200);
         ctx = gsap.context(() => {
-          /* 1) Вхідна сцена: рядки заголовка виїжджають з масок */
+          /* 1) Вхід у сторінку. Рядки заголовка виїжджають з масок — повільно,
+             один за одним. Це єдиний «ефектний» момент на всьому сайті.
+             fromTo + clearProps: якщо React перемалює вміст посеред анімації,
+             жоден елемент не залишиться прозорим. */
+          if (document.querySelector(".hero .hl")) {
+            gsap.timeline({ defaults: { ease: "power3.out" } })
+              .fromTo(".hero .hl > *", { yPercent: 108 }, { yPercent: 0, stagger: .12, duration: 1.15 })
+              .fromTo(".hero p", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .8 }, "-=.75")
+              .fromTo(".hero .badge", { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: .7 }, "-=.6")
+              .fromTo(".hero .howit > span", { y: 12, opacity: 0 }, { y: 0, opacity: 1, stagger: .08, duration: .7 }, "-=.5")
+              .fromTo(".wsteps .wstep", { y: 10, opacity: 0 }, { y: 0, opacity: 1, stagger: .05, duration: .6 }, "-=.45")
+              .fromTo(".rail .live", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .9 }, "-=.6");
+            safety([".hero .hl > *", ".hero p", ".hero .badge", ".hero .howit > span", ".wsteps .wstep", ".rail .live"]);
+          }
+
+          /* 2) Кошторис: той самий спокійний вхід */
           const sh = document.querySelector(".sheet");
           if (sh) {
-            // fromTo + clearProps: гарантія, що жоден елемент не лишиться невидимим,
-            // якщо React перемалює вміст під час анімації.
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" },
-              onComplete: () => gsap.set([sh, ".sheet .cover", ".calcbar", ".sheet .sn2", ".sheet .snums > div"], { clearProps: "all" }) });
-            tl.fromTo(sh, { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .55 })
-              .fromTo(".sheet .cover", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .45 }, "-=.3")
-              .fromTo(".calcbar", { x: 30, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: .5 }, "-=.4")
-              .fromTo(".sheet .sn2, .sheet .snums > div", { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .06, duration: .4 }, "-=.3");
+            gsap.timeline({ defaults: { ease: "power3.out" } })
+              .fromTo(sh, { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .8,
+                onComplete: () => gsap.set(sh, { clearProps: "all" }) })
+              .fromTo(".calcbar", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .7,
+                onComplete: () => gsap.set(".calcbar", { clearProps: "all" }) }, "-=.55");
+            safety([sh, ".calcbar"]);
           }
-          if (document.querySelector(".hero .hl")) {
-            gsap.timeline({ defaults: { ease: "power4.out" } })
-              .fromTo(".hero .hl > *", { yPercent: 115 }, { yPercent: 0, stagger: .14, duration: .95 })
-              .from(".hero .hsub", { y: 26, opacity: 0, duration: .6, ease: "power3.out" }, "-=.5")
-              .from(".hero .howit", { y: 18, opacity: 0, duration: .5, ease: "power3.out" }, "-=.4")
-              .from(".marq", { opacity: 0, duration: .6 }, "-=.35")
-              .from(".rail .live", { x: 46, opacity: 0, duration: .8, ease: "power3.out" }, "-=.6")
-              .from(".wsteps .wstep", { y: 14, opacity: 0, stagger: .05, duration: .4, ease: "power2.out" }, "-=.55");
-          }
-          /* 2) Свічення: повільний дрейф + паралакс за мишею */
-          const g1 = document.querySelector(".glow.g1"), g2 = document.querySelector(".glow.g2");
-          if (g1 && g2) {
-            gsap.to(g1, { x: 70, y: 50, duration: 11, ease: "sine.inOut", repeat: -1, yoyo: true });
-            gsap.to(g2, { x: -60, y: -44, duration: 13, ease: "sine.inOut", repeat: -1, yoyo: true });
-            const x1 = gsap.quickTo(g1, "xPercent", { duration: 1.2, ease: "power2" });
-            const y1 = gsap.quickTo(g1, "yPercent", { duration: 1.2, ease: "power2" });
-            const x2 = gsap.quickTo(g2, "xPercent", { duration: 1.6, ease: "power2" });
-            const y2 = gsap.quickTo(g2, "yPercent", { duration: 1.6, ease: "power2" });
-            on(window, "mousemove", e => {
-              const nx = e.clientX / window.innerWidth - .5, ny = e.clientY / window.innerHeight - .5;
-              x1(nx * 6); y1(ny * 6); x2(nx * -8); y2(ny * -8);
-            }, { passive: true });
-          }
-          /* 3) Магнітні CTA: тягнуться до курсора, пружина на відпусканні */
-          document.querySelectorAll(".livebtn,.mb-btn,.bb-b").forEach(el => {
-            const xTo = gsap.quickTo(el, "x", { duration: .3, ease: "power3" });
-            const yTo = gsap.quickTo(el, "y", { duration: .3, ease: "power3" });
-            on(el, "mousemove", e => {
-              const r = el.getBoundingClientRect();
-              xTo((e.clientX - r.left - r.width / 2) * .3);
-              yTo((e.clientY - r.top - r.height / 2) * .45);
-            });
-            on(el, "mouseleave", () => gsap.to(el, { x: 0, y: 0, duration: .55, ease: "elastic.out(1,.45)" }));
-          });
-          /* 4) Появи при скролі зі стаґером */
-          ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in), .sheet .stage:not(.in), .sheet .snums:not(.in), .sheet .inex:not(.in), .sheet .landsec:not(.in), .sheet .furntotals:not(.in)", {
-            start: "top 88%", once: true,
+
+          /* 3) Появи при скролі: тільки прозорість і невеликий підйом.
+             Ніякого масштабування — саме воно робило сторінку «стрибучою». */
+          ScrollTrigger.batch(".wrap .card:not(.in), .whyus .wu:not(.in), .faq details:not(.in), .sheet .stage:not(.in), .sheet .snums:not(.in), .sheet .inex:not(.in), .sheet .landsec:not(.in), .sheet .furnsec:not(.in), .footer .ft > div:not(.in)", {
+            start: "top 90%", once: true,
             onEnter: els => gsap.fromTo(els,
-              { y: 36, opacity: 0, scale: .985 },
-              { y: 0, opacity: 1, scale: 1, stagger: .09, duration: .8, ease: "power3.out",
-                onStart: () => els.forEach(e => e.classList.add("in")),
+              { y: 22, opacity: 0 },
+              { y: 0, opacity: 1, stagger: .07, duration: .9, ease: "power2.out",
+                onStart: () => { els.forEach(e => e.classList.add("in")); safety(els); },
                 onComplete: () => gsap.set(els, { clearProps: "all" }) }),
           });
+
+          /* 4) Геометричний мотив: волосяні лінії дрейфують від прокрутки.
+             Різні швидкості дають глибину; рух настільки повільний, що
+             помічається лише периферійним зором. */
+          document.querySelectorAll(".fx [data-drift]").forEach(el => {
+            gsap.to(el, {
+              y: () => window.innerHeight * parseFloat(el.dataset.drift),
+              ease: "none",
+              scrollTrigger: { start: 0, end: "max", scrub: 1.6 },
+            });
+          });
+
+          /* 5) Шапка відділяється лінією, лише коли під нею вже є вміст */
+          const tb = document.querySelector(".topbar");
+          if (tb) ScrollTrigger.create({ start: 24, end: "max",
+            onToggle: s => tb.classList.toggle("stuck", s.isActive) });
         });
-        /* 5) Частинки: сітка точок, що світлішає і розступається під курсором */
-        const cv = document.getElementById("fx-dots");
-        if (cv && window.innerWidth > 760 && !window.__fxDots) {
-          window.__fxDots = true;
-          const cx = cv.getContext("2d");
-          let W, H, dots = [];
-          const SP = 58;
-          const resize = () => {
-            const d = Math.min(window.devicePixelRatio || 1, 2);
-            W = cv.width = window.innerWidth * d; H = cv.height = window.innerHeight * d;
-            cv.style.width = window.innerWidth + "px"; cv.style.height = window.innerHeight + "px";
-            cx.setTransform(d, 0, 0, d, 0, 0);
-            dots = [];
-            for (let y = SP / 2; y < window.innerHeight; y += SP)
-              for (let x = SP / 2; x < window.innerWidth; x += SP) dots.push([x, y]);
-          };
-          resize(); on(window, "resize", resize);
-          const mouse = { x: -9999, y: -9999 };
-          on(window, "mousemove", e => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
-          const loop = () => {
-            cx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-            for (const [x, y] of dots) {
-              const dx = x - mouse.x, dy = y - mouse.y;
-              const d = Math.hypot(dx, dy);
-              const a = Math.max(0, 1 - d / 240);
-              const px = x + (d > 0 ? dx / d : 0) * a * 12, py = y + (d > 0 ? dy / d : 0) * a * 12;
-              cx.beginPath();
-              cx.arc(px, py, .9 + a * 1.5, 0, 6.2832);
-              cx.fillStyle = `rgba(${a > .01 ? "129,140,248" : "148,163,184"},${.07 + a * .55})`;
-              cx.fill();
-            }
-            raf = requestAnimationFrame(loop);
-          };
-          raf = requestAnimationFrame(loop);
-        }
-      } catch { /* без GSAP — CSS-запасний план нижче */ }
+      } catch { /* без GSAP сторінка просто стоїть на місці — і вона видима */ }
     })();
     return () => {
       killed = true;
       ctx && ctx.revert();
       listeners.forEach(([t, ev, fn]) => t.removeEventListener(ev, fn));
-      if (raf) { cancelAnimationFrame(raf); window.__fxDots = false; }
     };
-  }, deps); // eslint-disable-line
-}
-
-// Появи блоків при скролі (CSS-запасний план, працює і без GSAP)
-function useReveal(deps) {
-  useEffect(() => {
-    if (typeof document === "undefined" || typeof IntersectionObserver === "undefined") return;
-    const els = document.querySelectorAll(".wrap .card, .whyus .wu, .faq details, .footer .ft > div, .sheet > div, .stage");
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }),
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-    els.forEach((el, i) => { el.classList.add("rvl"); el.style.setProperty("--rvd", `${Math.min(i % 6, 4) * 60}ms`); io.observe(el); });
-    return () => io.disconnect();
   }, deps); // eslint-disable-line
 }
 
@@ -757,10 +712,23 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Геометричний мотив: чотири волосяні лінії й два кола, що поволі
+          дрейфують при прокрутці з різною швидкістю. Замінив собою дві
+          плями-свічення, сітчастий візерунок і канвас із частинками. */}
       <div className="fx" aria-hidden="true">
-        <div className="glow g1" />
-        <div className="glow g2" />
-        <canvas id="fx-dots" />
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <g data-drift="-0.06">
+            <line className="fxline" x1="176" y1="-200" x2="176" y2="1100" />
+            <line className="fxline" x1="1264" y1="-200" x2="1264" y2="1100" />
+          </g>
+          <g data-drift="0.1">
+            <line className="fxline" x1="-200" y1="248" x2="1640" y2="248" />
+            <circle className="fxring" cx="1264" cy="248" r="118" />
+          </g>
+          <g data-drift="-0.14">
+            <circle className="fxring" cx="176" cy="706" r="196" />
+          </g>
+        </svg>
       </div><style>{css}</style>
       {BETA && <div className="betabar no-print">v3.0 <b>БЕТА</b> · повний кошторис · {r.itemCount} позицій · структура очікує перевірки експерта · позначка <b>β</b> = розцінка неперевірена</div>}
       <div className="topbar no-print"><div className="tb">
@@ -798,21 +766,15 @@ export default function App() {
           </div>}
 
           {admin && <div className="adminbar no-print">
-            <span className="ab-t">🔧 Режим фірми</span><span>Націнка:</span>
+            <span className="ab-t">Режим фірми</span><span>Націнка:</span>
             <input type="range" min="0" max="40" value={margin} onChange={e => setMargin(+e.target.value)} style={{ width: 140 }} />
             <b>{margin}%</b>
             <span className="hint">непомітно для клієнта</span>
-            <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>📋 Ліди</button>
+            <button className="btn" style={{ marginLeft: "auto" }} onClick={loadLeads}>Ліди</button>
           </div>}
 
-          {step === 0 && <div className="marq no-print" aria-hidden="true"><div className="marq-in">
-            {Array.from({ length: 2 }).map((_, i) => <span key={i}>
-              {r.itemCount} позицій кошторису<b>●</b>живі ціни ринку<b>●</b>{Object.keys(TIERS).length} рівні оздоблення<b>●</b>ринкова вилка чесно<b>●</b>Excel і PDF<b>●</b>землі й сад враховано<b>●</b>
-            </span>)}
-          </div></div>}
-
           {budgetAdvice && <div className="budgbanner no-print" onClick={() => setShowBudget(true)}>
-            <span className="bb-i">⚠️</span>
+            <span className="bb-i"><Icon name="alert" size={15} /></span>
             <span className="bb-t">Перевищення бюджету «{budgetAdvice.budgetName}» на <b>{fmtM(budgetAdvice.over * mk)} грн</b></span>
             <span className="bb-b">Як зменшити →</span>
           </div>}
@@ -910,7 +872,7 @@ export default function App() {
                       { id: "partial", t: "Часткова готовність", d: "Штукатурка і стяжка вже є — пропускаємо" }].map(o => (
                       <div key={o.id} className={"opt" + (p.condition === o.id ? " on" : "")} onClick={() => setP("condition", o.id)}>
                         <div className="rd" /><div><div className="ot">{o.t}</div><div className="od">{o.d}</div></div></div>))}
-                    {p.condition === "new" && <div className="condnote">ℹ️ У новобудові <b>вікна та радіатори вже стоять</b> — у кошторисі лише відкоси, підвіконня та (за бажанням) перенос радіаторів.</div>}
+                    {p.condition === "new" && <div className="condnote">У новобудові <b>вікна та радіатори вже стоять</b> — у кошторисі лише відкоси, підвіконня та (за бажанням) перенос радіаторів.</div>}
                   </div></div></div>}
               </>}
 
@@ -942,7 +904,7 @@ export default function App() {
                   <label className="f">Опалення
                     <div className="chips">{Object.entries(HEATING).map(([k, v]) => <button key={k} className={"chip acc" + (p.heating === k ? " on" : "")} onClick={() => setP("heating", k)}>{v.name}</button>)}</div>
                     <span className="hint">{(HEATING[p.heating] || HEATING.gas).note}</span></label>
-                  <div className="condnote">Слід {p.footprint || suggestFootprint(p)} м² · корисна площа ≈ {Math.round((p.footprint || suggestFootprint(p)) * (p.floors || 1) * 0.82)} м² на {p.floors} пов. · покрівля вкриває весь слід · {r.A.total ? `приміщення задані: ${r.A.total} м²` : ""}{Math.abs((p.footprint || suggestFootprint(p)) * (p.floors || 1) * 0.82 - r.A.total) > 25 ? " ⚠️ сума приміщень помітно відрізняється від корисної площі — звірте забудову або кімнати" : ""}</div>
+                  <div className="condnote">Слід {p.footprint || suggestFootprint(p)} м² · корисна площа ≈ {Math.round((p.footprint || suggestFootprint(p)) * (p.floors || 1) * 0.82)} м² на {p.floors} пов. · покрівля вкриває весь слід · {r.A.total ? `приміщення задані: ${r.A.total} м²` : ""}{Math.abs((p.footprint || suggestFootprint(p)) * (p.floors || 1) * 0.82 - r.A.total) > 25 ? " сума приміщень помітно відрізняється від корисної площі — звірте забудову або кімнати" : ""}</div>
                 </div></div>}
 
               {stepId === "rooms" && <div className="card"><div className="ch"><span className="cn">{mode === "house" ? "Приміщення" : "Кімнати"}</span><h2>{roomStats.living} кімн. · {roomStats.wet} с/в · {r.A.total} м²</h2></div>
@@ -1059,22 +1021,22 @@ export default function App() {
                         <span className="hint">рахується в «Благоустрої»</span></label>
                     </div>}
                     <div className="g2">
-                      <label className="f">🍎 Плодові дерева, шт
+                      <label className="f">Плодові дерева, шт
                         <NumInput value={p.treesFruit} def={0} min={0} max={60} onChange={v => setP("treesFruit", v)} style={{ width: 90 }} />
                         <span className="hint">саджанець + посадка ≈ 900 грн/шт</span></label>
-                      <label className="f">🌲 Декоративні/хвойні, шт
+                      <label className="f">Декоративні / хвойні, шт
                         <NumInput value={p.treesDecor} def={0} min={0} max={60} onChange={v => setP("treesDecor", v)} style={{ width: 90 }} />
                         <span className="hint">до 2 м ≈ 1 800 грн/шт</span></label>
                     </div>
                     <div className="g2">
-                      <label className="f">🌳 Великоміри 3–5 м, шт
+                      <label className="f">Великоміри 3–5 м, шт
                         <NumInput value={p.treesBig} def={0} min={0} max={20} onChange={v => setP("treesBig", v)} style={{ width: 90 }} />
                         <span className="hint">з гарантією ≈ 14 000 грн/шт</span></label>
-                      <label className="f">🟩 Живопліт, м.п.
+                      <label className="f">Живопліт, м.п.
                         <NumInput value={p.hedgeLen} def={0} min={0} max={300} onChange={v => setP("hedgeLen", v)} style={{ width: 90 }} />
                         <span className="hint">туя/граб ≈ 1 160 грн/м.п.</span></label>
                     </div>
-                    <label className="f">🌸 Квітники, м²
+                    <label className="f">Квітники, м²
                       <NumInput value={p.flowerBeds} def={0} min={0} max={200} onChange={v => setP("flowerBeds", v)} style={{ width: 90 }} /></label>
                   </div></div>}
 
@@ -1130,7 +1092,7 @@ export default function App() {
               </div>
               <div className={"fc " + (r.budgetFit ? "ok" : "no")}>
                 {r.budgetFit ? <>✓ Вписується у «{r.budgetName}»</> : <>⚠ Перевищує «{r.budgetName}» на {fmtM(budgetAdvice?.over || 0)} грн</>}</div>
-              {budgetAdvice && <button className="adv-open" onClick={() => setShowBudget(true)}>💡 Як зменшити вартість →</button>}
+              {budgetAdvice && <button className="adv-open" onClick={() => setShowBudget(true)}>Як зменшити вартість</button>}
               <button className="sharebtn" onClick={shareLink}>{shared ? "✓ Посилання скопійовано" : "Поділитись розрахунком"}</button>
               <div style={{ display: "flex", gap: 8 }}>
                 <button className="sharebtn" style={{ flex: 1 }} onClick={saveVariant}>Зберегти варіант</button>
@@ -1195,7 +1157,7 @@ export default function App() {
 
         {view === "variants" && <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
-            <h2 style={{ fontFamily: "Unbounded", fontSize: 20 }}>Порівняння варіантів</h2>
+            <h2 className="vh2">Порівняння варіантів</h2>
             <button className="btn" onClick={() => setView("form")}>← Назад</button>
           </div>
           <div className="vgrid">
@@ -1215,7 +1177,7 @@ export default function App() {
                 <div className="vdelta">{vc.total > r.total ? "+" : "−"}{fmtM(Math.abs(vc.total - r.total) * mk)} до поточного</div>
                 <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
                   <button className="btn" style={{ flex: 1 }} onClick={() => restoreVariant(v)}>Відкрити</button>
-                  <button className="btn" onClick={() => delVariant(v.id)}>🗑</button>
+                  <button className="btn" onClick={() => delVariant(v.id)} aria-label="Видалити варіант">✕</button>
                 </div>
               </div>;
             })}
@@ -1225,7 +1187,7 @@ export default function App() {
 
         {view === "leads" && <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
-            <h2 style={{ fontFamily: "Unbounded", fontSize: 20 }}>Журнал лідів</h2>
+            <h2 className="vh2">Журнал лідів</h2>
             <div style={{ display: "flex", gap: 8 }}>
               <button className="btn" onClick={loadLeads}>Оновити</button>
               <button className="btn" onClick={() => setView("form")}>← Назад</button>
@@ -1314,7 +1276,7 @@ export default function App() {
           </div>
 
           <div className="confstrip">
-            <span className="timeline">📅 старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)} · {r.weeks} тижнів</span>
+            <span className="timeline">старт {fmtD(sDate)} → здача ≈ {fmtD(finishDate)} · {r.weeks} тижнів</span>
             {r.conf > 0 && <span className="confb">✓ {r.conf}% вартості робіт — живі ринкові ціни (rabotniki.ua{live ? ", " + live.updated : ""})</span>}
             {lmat && <span className="confb">✓ матеріали: живі ціни Епіцентру, {lmat.updated}</span>}
             {BETA && r.betaCount > 0 && <span className="vchip" title="Розцінки очікують перевірки експерта">β {r.betaCount} позицій неперевірено</span>}
