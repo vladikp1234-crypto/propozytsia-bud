@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03",
+  "updated": "2026-09-04",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,35 +9,35 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Kastamonu FP Prime 4V akashi 32/АС4/8 мм (FR010)",
-        "price": 524,
-        "retail": 524,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kastamonu-floorpan-prime-fr010-akashi-32-as4-1205kh193kh8-mm.html"
+        "name": "Ламінат Kronospan Promo V4 грей бейвуд хiллс 32/АС4/8 мм (K601)",
+        "price": 519.81,
+        "retail": 519.81,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/laminat-kronospan-promo-v4-hrei-beivud-khills-32-as4-8-mm-k601.html"
       },
       {
-        "name": "Ламінат King Floor Royal Line V4 дуб королівський віковий 33/АС5/10 мм (KF108)",
-        "price": 592,
-        "retail": 592,
+        "name": "Ламінат SWISS KRONO Olympus Hermes Elm 33/АС5/8 мм (D3710)",
+        "price": 586,
+        "retail": 586,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-royal-line-v4-kf108-dub-starinnyy-33-as5-1380x193x10-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-olympus-hermes-elm-33-as5-8-mm-d3710.html"
       },
       null,
       {
-        "name": "Паркетна дошка Ekoparket дуб односмугова 1100х110х14 мм (0,84 кв.м) Strong",
-        "price": 2307,
-        "retail": 2307,
+        "name": "Паркетна дошка Ekoparket білений дуб односмугова 725х180х14 мм (0,91 кв.м) Gray",
+        "price": 2315,
+        "retail": 2315,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-1100kh110kh14-mm-0-84-kv-m-strong.html"
+        "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-belenyy-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-gray.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Marmo Wood Grate white 4V0880 40x40 см",
-        "price": 408,
-        "retail": 408,
+        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
+        "price": 399,
+        "retail": 399,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-marmo-wood-grate-belyy-4v0880-40x40.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
       },
       {
         "name": "Плитка Cersanit Soutwood beige 18,5x59,8 см",
@@ -50,88 +50,88 @@
     ],
     "paint": [
       {
-        "name": "УЦІНКА! Фарба Polifarb ФасадУльтра мат білий 7 кг (УЦ №2997)",
-        "price": 24.94,
-        "retail": 873,
-        "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/utsinka-farba-polifarb-fasadultra-mat-bilyi-7-kh-uts-2997.html"
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 26.91,
+        "retail": 942,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
         "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 33.03,
-        "retail": 1156,
-        "count": 24,
+        "price": 35.43,
+        "retail": 1240,
+        "count": 23,
         "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-02 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-02-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 31,
+        "count": 29,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524626 1,06x10,05 м",
-        "price": 1297,
-        "retail": 1297,
+        "price": 1427,
+        "retail": 1427,
         "count": 53,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524626-1-06x10-05-m.html"
       }
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 05 ПО чорне скло 700 мм дуб темний",
-        "price": 3061,
-        "retail": 3061,
+        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 700 мм дуб неаполь",
+        "price": 3020,
+        "retail": 3020,
         "count": 12,
-        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-05-po-chernoe-steklo-700-mm-dub-temnyy.html"
+        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-700-mm.html"
       },
       null,
       {
-        "name": "Двері міжкімнатні Korfad Exellence PAULINA 700х2000 мм емаль Білий (14329754)",
-        "price": 8510,
-        "retail": 8510,
-        "count": 5,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-mizkimnatni-korfad-exellence-paulina-700h2000-mm-emal-bilij-14329754-1eef1971-48b9-69a2-9550-0b313d472507.html"
+        "name": "Двері приховані City Inside комплект внутрішнього відкривання ліві 2000х700 мм",
+        "price": 11499,
+        "retail": 11499,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-city-inside-komplekt-vnutrisn-ogo-vidkrivanna-livi-2000h700-mm-1eedad58-51f7-6a36-8143-bf2be9c1334c.html"
       }
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ Classen CASAline D6436 дуб сіерра 75x15x2400 мм",
+        "name": "Плінтус МДФ Classen CASAline L3731 дуб астон 75x15x2400 мм",
         "price": 325,
         "retail": 325,
-        "count": 49,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-classen-casaline-d6436-75x15x2400-mm.html"
+        "count": 50,
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-classen-casaline-l3731-75x15x2400-mm.html"
       },
       null
     ],
     "entry": [
       {
         "name": "Двері вхідні Redfort Технічні 1200 RAL7024 права з лиштвою 1200х2050 см (32810869)",
-        "price": 12650,
-        "retail": 12650,
-        "count": 20,
+        "price": 12700,
+        "retail": 12700,
+        "count": 23,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-tehnicni-1200-ral7024-prava-z-listvou-1200h2050-sm-32810869-1f11bae3-8ac3-63f8-8b1b-37679188aff8.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Korado 11K 500x1000",
-        "price": 4927,
-        "retail": 4927,
-        "count": 52,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
+        "name": "Радіатор сталевий Hi-Therm панельний 22 тип 500x1100 бічний",
+        "price": 5090.7,
+        "retail": 5090.7,
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-panelnyi-22-typ-500x1100-bichnyi.html"
       },
       {
         "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
@@ -146,14 +146,14 @@
         "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
         "price": 584,
         "retail": 584,
-        "count": 10,
+        "count": 8,
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
         "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
         "price": 1286,
         "retail": 1286,
-        "count": 7,
+        "count": 5,
         "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
       }
     ],
@@ -162,7 +162,7 @@
         "name": "Бойлер Atlantic Opro Horizontal HM 080 D400-1-M 1500W з мокрим теном",
         "price": 7599,
         "retail": 7599,
-        "count": 46,
+        "count": 44,
         "url": "https://epicentrk.ua/ua/shop/mplc-boiler-atlantic-opro-horizontal-hm-080-d400-1-m-1500w-z-mokrim-tenom-1ecd2bec-82c4-6672-b6d2-2b64b548f968.html"
       },
       null,
