@@ -143,21 +143,63 @@ button{font-family:inherit;color:inherit}
    Був: заголовок, під ним три окремі рядки, кожен у власній порожнечі.
    Став: щільний блок — заголовок, підзаголовок і один технічний рядок
    під спільною лінією. Порожнеча тепер навколо блоку, а не всередині. */
-.hero{max-width:1000px;margin-bottom:var(--s4)}
+/* Герой на всю ширину вікна: знімок під текстом, градієнт зверху.
+   Сторінка лишається світлою — темряву дає фотографія, і саме тому
+   світле тло більше не сліпить: оку є на чому спинитись. */
+.hero{
+  position:relative;
+  max-width:none;
+  margin:calc(var(--s4) * -1) calc(50% - 50vw) var(--s4);
+  padding:var(--s5) calc(50vw - 50% + var(--gut)) var(--s3);
+  min-height:min(86vh,840px);
+  display:flex;flex-direction:column;justify-content:flex-end;
+  overflow:hidden;isolation:isolate;
+  background:var(--deep);
+}
+.hero-media{position:absolute;inset:0;z-index:-1}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 44%;display:block}
+.hero-media::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,9,7,.24) 0%,rgba(10,9,7,.42) 42%,rgba(10,9,7,.86) 100%);
+}
+.hero-body{position:relative;width:100%;max-width:1000px}
 .hblob,.dimline{display:none}
+
+/* ─── Рівні оздоблення: три будинки замість трьох слів ───────────── */
+.tiercards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.tiercards{grid-template-columns:1fr}}
+.tiercard{
+  display:grid;gap:0;padding:0;text-align:left;cursor:pointer;
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+  background:var(--paper);
+  transition:border-color .35s var(--ease),transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.tiercard:hover{transform:translateY(-2px);box-shadow:0 14px 34px -20px rgba(26,25,21,.42)}
+.tiercard.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.tc-img{display:block;aspect-ratio:4/3;overflow:hidden;background:var(--bg-soft)}
+.tc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
+.tiercard:hover .tc-img img{transform:scale(1.04)}
+.tc-b{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 18px}
+.tc-n{font-size:var(--t-body);font-weight:700;color:var(--ink)}
+.tc-p{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-2);white-space:nowrap}
 .hero h1{
   font-size:clamp(46px,8.4vw,104px);
   font-weight:800;
-  line-height:.96;
+  line-height:1.0;
   letter-spacing:-.045em;
   margin-bottom:var(--s2);
 }
-.hero h1 .hl{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.hero h1 .hl{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
 .hero h1 .hl>*{display:inline-block;will-change:transform}
 /* Обидва рядки повним чорнилом. Сірий другий рядок виглядав вицвілим —
    ієрархію тут тримає порядок і розмір, а не блідість. */
-.hero h1 em{font-style:normal;color:var(--ink)}
-.hero p{font-size:var(--t-emph);color:var(--ink-2);line-height:1.5;max-width:44ch;font-weight:500}
+.hero h1 em{font-style:normal;color:#FCFBF8}
+.hero p{font-size:var(--t-emph);color:rgba(252,251,248,.86);line-height:1.5;max-width:44ch;font-weight:500}
+.hero h1{color:#FCFBF8}
+.hero .herometa{border-top-color:rgba(252,251,248,.28)}
+.hero .howit{color:rgba(252,251,248,.82)}
+.hero .howit b{color:rgba(252,251,248,.60)}
+.hero .badge{color:rgba(252,251,248,.75)}
 
 .herometa{
   display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2);

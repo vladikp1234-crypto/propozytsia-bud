@@ -10,6 +10,14 @@ import {
 const VILKA = 0.12, OVERLAP = 0.85;
 
 // ⬇️ ВАШІ ДАНІ — відредагуйте цей блок (єдине місце)
+// Рівень оздоблення нарешті видно, а не тільки названо словом.
+// Клік по картці міняє tier, тобто рухає ціну — це параметр, не прикраса.
+const TIER_PHOTO = {
+  econom:   "/photos/house-stone.jpg",
+  standart: "/photos/house-wood.jpg",
+  premium:  "/photos/house-cream.jpg",
+};
+
 const CONTACTS = {
   company: 'ФОП Прізвище Імʼя',          // ← ваша назва / ФОП
   phone: '+380 XX XXX XX XX',            // ← телефон
@@ -750,7 +758,12 @@ export default function App() {
           const next = () => step >= STEPS.length - 1 ? (setView("sheet"), window.scrollTo(0, 0)) : goto(step + 1);
           return (<>
           {step === 0 && <div className="hero">
-            <div className="hblob" aria-hidden="true" />
+            {/* Знімок несе всю візуальну вагу. Тло сторінки лишається світлим —
+                саме так влаштовані Apple і AP: світла сцена, темна фотографія. */}
+            <div className="hero-media" aria-hidden="true">
+              <img src="/photos/hero-villa.jpg" alt="" />
+            </div>
+            <div className="hero-body">
             <h1>{mode === "flat"
                 ? <><span className="hl"><span>Ремонт.</span></span><span className="hl"><em>Ціна одразу.</em></span></>
                 : <><span className="hl"><span>Будинок.</span></span><span className="hl"><em>Ціна одразу.</em></span></>}</h1>
@@ -765,6 +778,7 @@ export default function App() {
               </div>
               {live ? <div className="badge live">ціни rabotniki.ua · {live.updated}</div>
                 : <div className="badge demo">демо · ціни орієнтовні</div>}
+            </div>
             </div>
           </div>}
 
@@ -1057,7 +1071,14 @@ export default function App() {
               {stepId === "style" && <div className="card"><div className="ch"><span className="cn">§</span><h2>Рівень оздоблення</h2></div>
                 <div className="cb">
                   <label className="f">Рівень оздоблення
-                    <div className="chips">{Object.entries(TIERS).map(([id, t]) => <button key={id} className={"chip acc" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)}>{t.name}</button>)}</div>
+                    <div className="tiercards">{Object.entries(TIERS).map(([id, t]) => (
+                      <button key={id} className={"tiercard" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)} aria-pressed={p.tier === id}>
+                        <span className="tc-img"><img src={TIER_PHOTO[id]} alt="" loading="lazy" /></span>
+                        <span className="tc-b">
+                          <span className="tc-n">{t.name}</span>
+                          <span className="tc-p">{fmtM(cmp[id] * mk)} грн</span>
+                        </span>
+                      </button>))}</div>
                     <button className="tl" onClick={() => setShowT(s => !s)}>{showT ? "Сховати ↑" : "Порівняти рівні ↓"}</button>
                     {showT && <div className="tt"><div className="ttr h"><div></div><div>Економ</div><div>Стандарт</div><div>Преміум</div></div>
                       {TIER_TABLE.map(t => <div className="ttr" key={t.row}><div>{t.row}</div><div>{t.econom}</div><div>{t.standart}</div><div>{t.premium}</div></div>)}</div>}</label>
