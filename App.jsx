@@ -1073,7 +1073,9 @@ export default function App() {
                   <label className="f">Рівень оздоблення
                     <div className="tiercards">{Object.entries(TIERS).map(([id, t]) => (
                       <button key={id} className={"tiercard" + (p.tier === id ? " on" : "")} onClick={() => setP("tier", id)} aria-pressed={p.tier === id}>
-                        <span className="tc-img"><img src={TIER_PHOTO[id]} alt="" loading="lazy" /></span>
+                        {/* eager, а не lazy: картки монтуються лише на кроці «Рівень»,
+                            тож економити нема на чому, а порожня картка виглядає як баг */}
+                        <span className="tc-img"><img src={TIER_PHOTO[id]} alt="" /></span>
                         <span className="tc-b">
                           <span className="tc-n">{t.name}</span>
                           <span className="tc-p">{fmtM(cmp[id] * mk)} грн</span>
