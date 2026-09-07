@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-06",
+  "updated": "2026-09-07",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,26 +9,26 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 540,
-        "retail": 540,
+        "name": "Ламінат Kronotex Advanced V4 дуб тренд натур 32/АС4/8 мм (D 3125)",
+        "price": 538,
+        "retail": 538,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-v4-dub-trend-natur-32-as4-8-mm-d-3125.html"
       },
       {
-        "name": "Ламінат AGT Gold 4V dion 33/АС5/8 мм (PRK1202)",
-        "price": 593.42,
-        "retail": 593.42,
+        "name": "Ламінат AGT Natura Ultra Line 4V Patricia 33/АС5/8 мм (PRK228)",
+        "price": 599.91,
+        "retail": 599.91,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-agt-gold-4v-dion-33-as5-8-mm-prk1202.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-natura-line-ultra-4v-patricia-33-as5-8-mm-prk228.html"
       },
       null,
       {
-        "name": "Паркетна дошка Lemberg Floor 13х160х500-1200 мм Дуб графіт (LFL160GRAPHIT)",
-        "price": 2400,
-        "retail": 2400,
+        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "price": 2408,
+        "retail": 2408,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-lemberg-floor-11h160h500-1200-mm-dub-grafit-lfl160graphit-1ee33b93-ac96-6604-b85c-d33a984024e1.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
@@ -57,11 +57,11 @@
         "url": "https://epicentrk.ua/ua/shop/utsinka-farba-polifarb-fasadultra-mat-bilyi-7-kh-uts-2997.html"
       },
       {
-        "name": "Фарба інтер'єрна латексна Kompozit PRIME 3 мат білий 2,7 л",
-        "price": 41.77,
-        "retail": 1462,
-        "count": 23,
-        "url": "https://epicentrk.ua/ua/shop/kraska-interernaya-lateksnaya-kompozit-prime-3-mat-belyy-2-7-l.html"
+        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
+        "price": 39.74,
+        "retail": 1391,
+        "count": 24,
+        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
     ],
@@ -74,17 +74,17 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Натхнення 3797-01 ",
-        "price": 498,
-        "retail": 498,
-        "count": 27,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-natkhnennia-3797-01-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 517,
+        "retail": 517,
+        "count": 28,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
         "price": 1427,
         "retail": 1427,
-        "count": 53,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-sumatra-uni-445501-1-06x10-05-m.html"
       }
     ],
@@ -98,11 +98,11 @@
       },
       null,
       {
-        "name": "Двері приховані Inside комплект внутрішнього відкривання праві 2000х800 мм (10248921)",
-        "price": 11800,
-        "retail": 11800,
-        "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-inside-komplekt-vnutrisn-ogo-vidkrivanna-pravi-2000h800-mm-1edd9051-5f2a-6a84-a844-c566be57f47e.html"
+        "name": "Двері приховані City Inside комплект внутрішнього відкривання ліві 2000х700 мм",
+        "price": 11499,
+        "retail": 11499,
+        "count": 11,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-city-inside-komplekt-vnutrisn-ogo-vidkrivanna-livi-2000h700-mm-1eedad58-51f7-6a36-8143-bf2be9c1334c.html"
       }
     ],
     "plinth": [
@@ -117,11 +117,11 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Технічні 1200 RAL7024 права з лиштвою 1200х2050 см (32810869)",
-        "price": 12700,
-        "retail": 12700,
+        "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
+        "price": 11900,
+        "retail": 11900,
         "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-tehnicni-1200-ral7024-prava-z-listvou-1200h2050-sm-32810869-1f11bae3-8ac3-63f8-8b1b-37679188aff8.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
@@ -134,20 +134,20 @@
         "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
       },
       {
-        "name": "Радіатор біметалевий Calor FB-500B 500/78 10 секцій",
-        "price": 5447,
-        "retail": 5447,
-        "count": 40,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-calor-fb-500b-500-78-10-sektsii-1ecf1799-0184-611c-acf0-53843eba5064.html"
+        "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
+        "price": 5545,
+        "retail": 5545,
+        "count": 39,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-britolli-d13-30-bar-500-100-mm-10-sektsii-1ecf178b-6990-608e-878b-3f9cb81e5cec.html"
       }
     ],
     "decor": [
       {
-        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
-        "price": 584,
-        "retail": 584,
-        "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
+        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
+        "price": 579,
+        "retail": 579,
+        "count": 12,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
         "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
