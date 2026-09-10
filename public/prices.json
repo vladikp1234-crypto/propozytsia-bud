@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -53,7 +53,7 @@
       "min": 750,
       "max": 1250,
       "unit": "м²",
-      "price": 962,
+      "price": 966,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -73,7 +73,7 @@
       "min": 100,
       "max": 250,
       "unit": "м²",
-      "price": 197,
+      "price": 198,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -133,7 +133,7 @@
       "min": 400,
       "max": 1000,
       "unit": "м²",
-      "price": 668,
+      "price": 667,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
