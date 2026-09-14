@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -33,35 +33,35 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Lordwood brown LD7P10 20x65 см",
-        "price": 399.2,
-        "retail": 399.2,
-        "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-lordwood-brown-ld7p10-20x65-sm.html"
+        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
+        "price": 399,
+        "retail": 399,
+        "count": 58,
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
       },
       {
-        "name": "Плитка Cersanit Falcon white 42x42 см",
-        "price": 489,
-        "retail": 489,
+        "name": "Плитка Cersanit Jackwood light grey 18,5x59,8 см",
+        "price": 519,
+        "retail": 519,
         "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-dzhekvud-svetlo-seraya-18-5x59-8.html"
       },
       null
     ],
     "paint": [
       {
         "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.23,
-        "retail": 953,
-        "count": 16,
+        "price": 27.51,
+        "retail": 963,
+        "count": 15,
         "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
-        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 33.03,
-        "retail": 1156,
-        "count": 24,
-        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 30.6,
+        "retail": 1071,
+        "count": 25,
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
@@ -70,14 +70,14 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 56,
+        "count": 55,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 33,
+        "count": 30,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -90,19 +90,19 @@
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 700 мм дуб неаполь",
+        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 800 мм дуб неаполь",
         "price": 3020,
         "retail": 3020,
         "count": 12,
-        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-700-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-800-mm.html"
       },
       null,
       {
-        "name": "Двері приховані Inside комплект внутрішнього відкривання праві 2000х800 мм (10248921)",
-        "price": 11800,
-        "retail": 11800,
-        "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-inside-komplekt-vnutrisn-ogo-vidkrivanna-pravi-2000h800-mm-1edd9051-5f2a-6a84-a844-c566be57f47e.html"
+        "name": "Двері прихованого монтажу під оздоблення на алюмінієвому каркасі анод 2000x600 мм Хром мат",
+        "price": 9990,
+        "retail": 9990,
+        "count": 5,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovanogo-montazu-pid-ozdoblenna-na-aluminievomu-karkasi-anod-2000x600-mm-hrom-matovij-28769316-1f09238b-a97b-6cd4-8a70-9964ba8a28d1.html"
       }
     ],
     "plinth": [
@@ -127,18 +127,18 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 22 тип 500x900 бічний (2026)",
-        "price": 4354.6,
-        "retail": 4354.6,
-        "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x900-bichnyi-2026.html"
+        "name": "Радіатор сталевий TERRA Teknik Premium Plus 600/22х1000 НП (6532777)",
+        "price": 4767,
+        "retail": 4767,
+        "count": 52,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-terra-teknik-premium-plus-600-22h1000-np-6532777-1ee682d2-15f6-6b3e-83fa-31d4ccbba786.html"
       },
       {
-        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5157,
-        "retail": 5157,
+        "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
+        "price": 5545,
+        "retail": 5545,
         "count": 41,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-britolli-d13-30-bar-500-100-mm-10-sektsii-1ecf178b-6990-608e-878b-3f9cb81e5cec.html"
       }
     ],
     "decor": [
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 943,
-        "retail": 943,
-        "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 825,
+        "retail": 825,
+        "count": 9,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
     "boiler": [
