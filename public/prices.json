@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-14",
+  "updated": "2026-09-15",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -19,7 +19,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
-      "count": 61,
+      "count": 60,
       "min": 260,
       "max": 500,
       "unit": "м²",
@@ -29,11 +29,11 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 121,
+      "count": 122,
       "min": 26,
       "max": 60,
       "unit": "м²",
-      "price": 43,
+      "price": 44,
       "name": "Грунтовка стін, стелі (1 шар) під штукатурку",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
@@ -43,7 +43,7 @@
       "min": 200,
       "max": 600,
       "unit": "м²",
-      "price": 446,
+      "price": 442,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -69,11 +69,11 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 143,
+      "count": 142,
       "min": 100,
       "max": 250,
       "unit": "м²",
-      "price": 202,
+      "price": 201,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -139,7 +139,7 @@
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 97,
+      "count": 96,
       "min": 150,
       "max": 300,
       "unit": "м²",
