@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-16",
+  "updated": "2026-09-17",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,9 +10,9 @@
     "floorcover": [
       {
         "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 509.93,
-        "retail": 509.93,
-        "count": 55,
+        "price": 510,
+        "retail": 510,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
@@ -24,44 +24,44 @@
       },
       null,
       {
-        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
-        "price": 2446,
-        "retail": 2446,
-        "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
+        "name": "Паркетна дошка LEMBERGFLOOR 13х160х500-1200 мм Бельгійський шоколад",
+        "price": 2395,
+        "retail": 2395,
+        "count": 44,
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-lembergfloor-11h160h500-1200-mm-bel-gijs-kij-sokolad-1ef92c24-47f6-6234-9071-41659ec4d712.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
-        "price": 399,
-        "retail": 399,
-        "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
+        "name": "Плитка Golden Tile Lordwood brown LD7P10 20x65 см",
+        "price": 399.2,
+        "retail": 399.2,
+        "count": 59,
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-lordwood-brown-ld7p10-20x65-sm.html"
       },
       {
         "name": "Плитка Cersanit Falcon white 42x42 см",
         "price": 489,
         "retail": 489,
-        "count": 53,
+        "count": 58,
         "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb ЕкстраЛатекс мат білий 7 кг",
-        "price": 23.85,
-        "retail": 834.7,
+        "name": "Емаль Polifarb алкідно-уретанова DekoLux темно-зелений глянець 2,2 кг",
+        "price": 25.43,
+        "retail": 890,
         "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-polifarb-ekstralateks-mat-belyy-7-l.html"
+        "url": "https://epicentrk.ua/ua/shop/emal-polifarb-alkidno-uretanovaya-dekolux-temno-zelenyy-glyanets-2-2-kg.html"
       },
       {
-        "name": "Фарба інтер'єрна акрилова Kompozit ULTRAMATT NEO глибокий мат білий 14 кг",
-        "price": 30.23,
-        "retail": 1058,
-        "count": 23,
-        "url": "https://epicentrk.ua/ua/shop/farba-interierna-akrylova-kompozit-ultramatt-neo-hlybokyi-mat-bilyi-14-kh.html"
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 30.43,
+        "retail": 1065,
+        "count": 24,
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
@@ -77,7 +77,7 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 29,
+        "count": 30,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -118,52 +118,52 @@
     "entry": [
       {
         "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
-        "price": 12595,
-        "retail": 12595,
-        "count": 16,
+        "price": 11990,
+        "retail": 11990,
+        "count": 15,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий TERRA Teknik Premium Plus 600/22х1000 НП (6532777)",
-        "price": 4767,
-        "retail": 4767,
-        "count": 50,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-terra-teknik-premium-plus-600-22h1000-np-6532777-1ee682d2-15f6-6b3e-83fa-31d4ccbba786.html"
+        "name": "Радіатор сталевий Hofmann 22 300x1400 мм бічне підключення Білий",
+        "price": 4724.2,
+        "retail": 4724.2,
+        "count": 51,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-22-300x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-8a16-6788-9342-39532950e03a.html"
       },
       {
         "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5488,
-        "retail": 5488,
-        "count": 43,
+        "price": 5389,
+        "retail": 5389,
+        "count": 42,
         "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
       }
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
-        "price": 579,
-        "retail": 579,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
+        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
+        "price": 584,
+        "retail": 584,
+        "count": 13,
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 943,
-        "retail": 943,
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 825,
+        "retail": 825,
         "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7449,
-        "retail": 7449,
+        "name": "Бойлер Atlantic Steatite Ego VM 050 D400S-1-BC 1200W",
+        "price": 7399,
+        "retail": 7399,
         "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-050-d400s-1-bc-1200w.html"
       },
       null,
       {
