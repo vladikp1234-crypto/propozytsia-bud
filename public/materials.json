@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-17",
+  "updated": "2026-09-18",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -24,11 +24,11 @@
       },
       null,
       {
-        "name": "Паркетна дошка LEMBERGFLOOR 13х160х500-1200 мм Бельгійський шоколад",
-        "price": 2395,
-        "retail": 2395,
-        "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-lembergfloor-11h160h500-1200-mm-bel-gijs-kij-sokolad-1ef92c24-47f6-6234-9071-41659ec4d712.html"
+        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "price": 2446,
+        "retail": 2446,
+        "count": 60,
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
@@ -40,28 +40,28 @@
         "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-lordwood-brown-ld7p10-20x65-sm.html"
       },
       {
-        "name": "Плитка Cersanit Falcon white 42x42 см",
-        "price": 489,
-        "retail": 489,
+        "name": "Плитка Cersanit Clody light grey 29,7x60 см",
+        "price": 503,
+        "retail": 503,
         "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-layt-grey-30x60.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Емаль Polifarb алкідно-уретанова DekoLux темно-зелений глянець 2,2 кг",
-        "price": 25.43,
-        "retail": 890,
-        "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/emal-polifarb-alkidno-uretanovaya-dekolux-temno-zelenyy-glyanets-2-2-kg.html"
+        "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
+        "price": 27.51,
+        "retail": 963,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
-        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
-        "price": 30.43,
-        "retail": 1065,
+        "name": "Фарба інтер'єрна акрилова Kompozit ULTRAMATT NEO глибокий мат білий 14 кг",
+        "price": 29.94,
+        "retail": 1048,
         "count": 24,
-        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-akrylova-kompozit-ultramatt-neo-hlybokyi-mat-bilyi-14-kh.html"
       },
       null
     ],
@@ -70,14 +70,14 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 2 6634-10 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 55,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-2-6634-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 30,
+        "count": 29,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -117,44 +117,44 @@
     ],
     "entry": [
       {
-        "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
-        "price": 11990,
-        "retail": 11990,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
+        "name": "Двері вхідні метал/мдф Люкс 1 860х960х2050 мм",
+        "price": 13200,
+        "retail": 13200,
+        "count": 13,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-1-860h960h2050-mm-1ef8bce7-b6a0-6362-bb1c-25479df057d7.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hofmann 22 300x1400 мм бічне підключення Білий",
-        "price": 4724.2,
-        "retail": 4724.2,
+        "name": "Радіатор сталевий Evro-Termo 22K 300x1200",
+        "price": 4755,
+        "retail": 4755,
         "count": 51,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-22-300x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-8a16-6788-9342-39532950e03a.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1200.html"
       },
       {
-        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5389,
-        "retail": 5389,
+        "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
+        "price": 5241,
+        "retail": 5241,
         "count": 42,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
       }
     ],
     "decor": [
       {
-        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
-        "price": 584,
-        "retail": 584,
-        "count": 13,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
+        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
+        "price": 579,
+        "retail": 579,
+        "count": 14,
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "name": "Штукатурка декоративна акрилова Feidal Venedigputz біла ефект мармуру 1 кг (1815862585)",
         "price": 825,
         "retail": 825,
-        "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "count": 9,
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-venedigputz-bila-efekt-marmuru-1-kg-1815862585-1f013b06-8d83-63b2-8017-45e35dbcb656.html"
       }
     ],
     "boiler": [
