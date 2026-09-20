@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -16,11 +16,11 @@
         "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
-        "name": "Ламінат SWISS KRONO Olympus Hermes Elm 33/АС5/8 мм (D3710)",
-        "price": 586.33,
-        "retail": 586.33,
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб хонсю 33/АС5/8 мм",
+        "price": 560.48,
+        "retail": 560.48,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-olympus-hermes-elm-33-as5-8-mm-d3710.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-khonsiu-33-as5-8-mm.html"
       },
       null,
       {
@@ -40,44 +40,44 @@
         "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-wilno-white-25x40x7-5-sm.html"
       },
       {
-        "name": "Плитка Cersanit Clody light grey 29,7x60 см",
-        "price": 492,
-        "retail": 492,
-        "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-layt-grey-30x60.html"
+        "name": "Плитка Cersanit Jackwood light grey 18,5x59,8 см",
+        "price": 519,
+        "retail": 519,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-dzhekvud-svetlo-seraya-18-5x59-8.html"
       },
       null
     ],
     "paint": [
       {
         "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.23,
-        "retail": 953,
+        "price": 27.83,
+        "retail": 974,
         "count": 18,
         "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
-        "name": "Емаль антикорозійна Kompozit 3 в 1 EXPRESS RAL 9011 чорний мат 2,8 кг",
-        "price": 30.8,
-        "retail": 1078,
-        "count": 24,
-        "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-kompozit-3-v-1-express-ral-9011-chornyi-mat-2-8-kh.html"
+        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
+        "price": 35.43,
+        "retail": 1240,
+        "count": 25,
+        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 2 6634-10 0,53x10,05 м",
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-2-6634-10-0-53x10-05-m.html"
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 28,
+        "count": 26,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -127,17 +127,17 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
-        "price": 4587.3,
-        "retail": 4587.3,
+        "name": "Радіатор сталевий Hofmann 22 300x1400 мм бічне підключення Білий",
+        "price": 4724.2,
+        "retail": 4724.2,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevii-hofmann-22-300x1400-mm-bichne-pidklyuchennya-bilii-1ecf85e8-8a16-6788-9342-39532950e03a.html"
       },
       {
         "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
-        "price": 5192,
-        "retail": 5192,
-        "count": 43,
+        "price": 5156,
+        "retail": 5156,
+        "count": 42,
         "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
       }
     ],
@@ -150,18 +150,18 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-dekorativnaa-stukaturka-fasadnaa-mineral-naa-dubovaa-kora-element-mineral-r20-25-kg-3197835893-1f1b37eb-f8c4-66d4-9cca-df4b922fdb55.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1060,
-        "retail": 1060,
+        "name": "Штукатурка декоративна акрилова Feidal Venedigputz біла ефект мармуру 1 кг (1815862585)",
+        "price": 825,
+        "retail": 825,
         "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-venedigputz-bila-efekt-marmuru-1-kg-1815862585-1f013b06-8d83-63b2-8017-45e35dbcb656.html"
       }
     ],
     "boiler": [
       {
         "name": "Бойлер Atlantic Steatite Ego VM 050 D400S-1-BC 1200W",
-        "price": 7399,
-        "retail": 7399,
+        "price": 7199,
+        "retail": 7199,
         "count": 46,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-050-d400s-1-bc-1200w.html"
       },
