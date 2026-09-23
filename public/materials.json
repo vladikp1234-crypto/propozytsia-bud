@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22",
+  "updated": "2026-09-23",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат King Floor Premium Line V4 дуб монако 32/АС4/8 мм",
+        "name": "Ламінат King Floor Premium Line V4 KF225 дуб кембридж 32/АС4/8 мм (D4918)",
         "price": 509.93,
         "retail": 509.93,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kronopol-premium-line-dub-monako-32-as4-.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-premium-line-v4-kf225-dub-kembrydzh-32-as4-8-mm-d4918.html"
       },
       {
         "name": "Ламінат SWISS KRONO Olympus Hermes Elm 33/АС5/8 мм (D3710)",
@@ -40,11 +40,11 @@
         "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-lordwood-brown-ld7p10-20x65-sm.html"
       },
       {
-        "name": "Плитка Cersanit Soutwood cream 18,5x59,8 см",
-        "price": 507,
-        "retail": 507,
-        "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-sautvud-krem-18-5x59-8.html"
+        "name": "Плитка Cersanit Falcon white 42x42 см",
+        "price": 489,
+        "retail": 489,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
       },
       null
     ],
@@ -58,9 +58,9 @@
       },
       {
         "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 35.43,
-        "retail": 1240,
-        "count": 25,
+        "price": 38.8,
+        "retail": 1358,
+        "count": 22,
         "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
@@ -68,17 +68,17 @@
     "wallpaper": [
       {
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
-        "price": 198,
-        "retail": 198,
+        "price": 205,
+        "retail": 205,
         "count": 56,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери V.I.P Class Касандра 2 3588-01",
-        "price": 498,
-        "retail": 498,
-        "count": 25,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-v-i-p-class-kasandra-2-3588-01-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
+        "price": 535,
+        "retail": 535,
+        "count": 26,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
@@ -127,27 +127,27 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 22 тип 500x1000 бічний (2026)",
-        "price": 4785.5,
-        "retail": 4785.5,
+        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
+        "price": 4587.3,
+        "retail": 4587.3,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-22-typ-500x1000-bichnyi-2026.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
       },
       {
-        "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
-        "price": 5290,
-        "retail": 5290,
+        "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
+        "price": 5192,
+        "retail": 5192,
         "count": 41,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-evro-termo-sektsionnyy-350-96-10-sektsiy-70214275.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
       }
     ],
     "decor": [
       {
-        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
-        "price": 584,
-        "retail": 584,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
+        "name": "Декоративная штукатурка фасадная минеральная Дубовая кора Element MINERAL R20 25 кг (31978",
+        "price": 592,
+        "retail": 592,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativnaa-stukaturka-fasadnaa-mineral-naa-dubovaa-kora-element-mineral-r20-25-kg-3197835893-1f1b37eb-f8c4-66d4-9cca-df4b922fdb55.html"
       },
       {
         "name": "Штукатурка декоративна акрилова Feidal Venedigputz біла ефект мармуру 1 кг (1815862585)",
@@ -160,9 +160,9 @@
     "boiler": [
       {
         "name": "Бойлер Atlantic Steatite Ego VM 050 D400S-1-BC 1200W",
-        "price": 7199,
-        "retail": 7199,
-        "count": 45,
+        "price": 7299,
+        "retail": 7299,
+        "count": 44,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-050-d400s-1-bc-1200w.html"
       },
       null,
