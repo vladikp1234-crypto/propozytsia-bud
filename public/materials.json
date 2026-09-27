@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-26",
+  "updated": "2026-09-27",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат водостійкий Classen Promo LF 732-4V WR дуб світлий 32/АС4/7 мм (68268)",
-        "price": 509.59,
-        "retail": 509.59,
+        "name": "Ламінат YILDIZ Entegre Vario Clic Exclusive rio 32/АС4/8 мм",
+        "price": 506.63,
+        "retail": 506.63,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/laminat-vodostiikyi-classen-promo-lf-732-4v-wr-dub-svitlyi-32-as4-7-mm-68268.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-yildiz-entegre-vario-clic-exclusive-rio-32-as4-8-mm.html"
       },
       {
         "name": "Ламінат GROSS WALD Great Lands 4V дуб канас 33/АС5/8 мм",
@@ -25,8 +25,8 @@
       null,
       {
         "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
-        "price": 2423,
-        "retail": 2423,
+        "price": 2446,
+        "retail": 2446,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
@@ -51,16 +51,16 @@
     "paint": [
       {
         "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.83,
-        "retail": 974,
-        "count": 18,
+        "price": 27.51,
+        "retail": 963,
+        "count": 15,
         "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
         "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 33.03,
-        "retail": 1156,
-        "count": 22,
+        "price": 35.43,
+        "retail": 1240,
+        "count": 23,
         "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
@@ -68,24 +68,24 @@
     "wallpaper": [
       {
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
-        "price": 205,
-        "retail": 205,
-        "count": 55,
+        "price": 198,
+        "retail": 198,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
-        "price": 534,
-        "retail": 534,
+        "price": 535,
+        "retail": 535,
         "count": 32,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Alicante UNI 406335 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
         "price": 1427,
         "retail": 1427,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-alicante-uni-406335-1-06x10-05-m.html"
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-sumatra-uni-445501-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -127,11 +127,11 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Rhein Compact 22C 500x800",
-        "price": 4503,
-        "retail": 4503,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-rhein-compact-22c-500x800.html"
+        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
+        "price": 4587.3,
+        "retail": 4587.3,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
       },
       {
         "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
-        "price": 825,
-        "retail": 825,
+        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
+        "price": 943,
+        "retail": 943,
         "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
       }
     ],
     "boiler": [
