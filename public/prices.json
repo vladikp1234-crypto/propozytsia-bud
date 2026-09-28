@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-27",
+  "updated": "2026-09-28",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -53,27 +53,27 @@
       "min": 550,
       "max": 1350,
       "unit": "м²",
-      "price": 960,
+      "price": 963,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 93,
+      "count": 94,
       "min": 280,
-      "max": 600,
+      "max": 700,
       "unit": "м²",
-      "price": 460,
+      "price": 476,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 141,
+      "count": 142,
       "min": 100,
       "max": 300,
       "unit": "м²",
-      "price": 198,
+      "price": 199,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -123,7 +123,7 @@
       "min": 630,
       "max": 1150,
       "unit": "м²",
-      "price": 885,
+      "price": 887,
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
