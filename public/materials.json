@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,25 +10,25 @@
     "floorcover": [
       {
         "name": "Ламінат YILDIZ Entegre Vario Clic Exclusive rio 32/АС4/8 мм",
-        "price": 506.63,
-        "retail": 506.63,
-        "count": 55,
+        "price": 508,
+        "retail": 508,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-yildiz-entegre-vario-clic-exclusive-rio-32-as4-8-mm.html"
       },
       {
-        "name": "Ламінат AGT Majestic Line 4V goddart 33/АС5/8 мм (PRK917)",
-        "price": 581.99,
-        "retail": 581.99,
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
+        "price": 560.48,
+        "retail": 560.48,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-agt-majestic-line-4v-goddart-33-as5-8-mm-prk917.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
       },
       null,
       {
-        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "name": "Паркетна дошка Floor`360 Дуб PROJEKT Blues Live Matt 3-смугова Лак",
         "price": 2448,
         "retail": 2448,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-projekt-blues-live-matt-3-smugova-lak-1f0ec972-53c2-6dbe-a0b2-d335cc3f4d1a.html"
       }
     ],
     "tile": [
@@ -40,38 +40,38 @@
         "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-wilno-white-25x40x7-5-sm.html"
       },
       {
-        "name": "Плитка Cersanit Falcon white 42x42 см",
-        "price": 489,
-        "retail": 489,
+        "name": "Плитка Cersanit Clody light grey 29,7x60 см",
+        "price": 492,
+        "retail": 492,
         "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-layt-grey-30x60.html"
       },
       null
     ],
     "paint": [
       {
-        "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.51,
-        "retail": 963,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 26.91,
+        "retail": 942,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
-        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
-        "price": 30.6,
-        "retail": 1071,
-        "count": 23,
-        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
+        "name": "Фарба епоксидна Kompozit EpoxyBeton двокомпонентна сіра RAL 7040 глянець 1,2 кг",
+        "price": 29.66,
+        "retail": 1038,
+        "count": 22,
+        "url": "https://epicentrk.ua/ua/shop/farba-dlia-betonnoi-pidlohy-i-betonu-epoksydna-kompozit-epoxybeton-hlianets-siryi-ral-7040-1-2-kh.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери вінілові Слов’янські шпалери 5779-05 з малюнком Бежевий (id_1696)",
-        "price": 190,
-        "retail": 190,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-vinilovi-slov-ans-ki-spaleri-5779-05-z-malunkom-bezevij-id-1696-1f0efb45-6917-61ec-8e3e-ff88881bac35.html"
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
+        "price": 198,
+        "retail": 198,
+        "count": 54,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
@@ -81,11 +81,11 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Sumatra UNI 445501 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Onyx UNI 253502 1,06x10,05 м",
         "price": 1427,
         "retail": 1427,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-sumatra-uni-445501-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-onyx-uni-253502-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -99,9 +99,9 @@
       null,
       {
         "name": "Блок дверний ОМіС FLAT 11 B L торець BLK ПГ 860 мм цемент",
-        "price": 11359,
-        "retail": 11359,
-        "count": 6,
+        "price": 10975,
+        "retail": 10975,
+        "count": 7,
         "url": "https://epicentrk.ua/ua/shop/blok-dvernyi-omis-flat-11-b-l-torets-blk-ph-860-mm-tsement.html"
       }
     ],
@@ -117,28 +117,28 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні метал/мдф Люкс 2 860х960х2050 мм",
-        "price": 13500,
-        "retail": 13500,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-2-860h960h2050-mm-1ef8bce7-b63d-61fe-9759-25479df057d7.html"
+        "name": "Двері вхідні метал/мдф Люкс 1 860х960х2050 мм",
+        "price": 13200,
+        "retail": 13200,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-1-860h960h2050-mm-1ef8bce7-b6a0-6362-bb1c-25479df057d7.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
-        "price": 4587.3,
-        "retail": 4587.3,
+        "name": "Радіатор сталевий Korado 11K 500x1000",
+        "price": 5012.8,
+        "retail": 5012.8,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
       },
       {
-        "name": "Радіатор біметалевий JL STANDART 500/100 8 секцій (20698803)",
-        "price": 4893,
-        "retail": 4893,
-        "count": 38,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-standart-500-100-8-sekcij-20698803-1ef75c0f-916d-611a-9b81-ed97358b11a9.html"
+        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
+        "price": 5020,
+        "retail": 5020,
+        "count": 40,
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
     "decor": [
@@ -150,28 +150,28 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "name": "Штукатурка декоративна акрилова Feidal Venedigputz біла ефект мармуру 1 кг (1815862585)",
         "price": 825,
         "retail": 825,
-        "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
+        "count": 9,
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-venedigputz-bila-efekt-marmuru-1-kg-1815862585-1f013b06-8d83-63b2-8017-45e35dbcb656.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic O'PRO PC 15 R",
-        "price": 7499,
-        "retail": 7499,
-        "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/vodonagrevatel-atlantic-o-pro-pc-15-r.html"
+        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
+        "price": 7699,
+        "retail": 7699,
+        "count": 43,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
       {
-        "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 200 л (BOLLY 2 ST 200)",
-        "price": 45114.3,
-        "retail": 45114.3,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-200-l-bolly-2-st-200-1efcde89-2ffc-69b0-ae55-b9cd2ec86e1f.html"
+        "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 150 л (BOLLY 2 ST 150)",
+        "price": 40048,
+        "retail": 40048,
+        "count": 14,
+        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-150-l-bolly-2-st-150-1efcde90-bfcd-6f2e-abaa-ef6a6aadc9e7.html"
       }
     ]
   }

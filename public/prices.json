@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28",
+  "updated": "2026-09-29",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -43,7 +43,7 @@
       "min": 220,
       "max": 600,
       "unit": "м²",
-      "price": 391,
+      "price": 387,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -59,11 +59,11 @@
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 94,
+      "count": 95,
       "min": 280,
       "max": 700,
       "unit": "м²",
-      "price": 476,
+      "price": 473,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -73,17 +73,17 @@
       "min": 100,
       "max": 300,
       "unit": "м²",
-      "price": 199,
+      "price": 200,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 102,
+      "count": 103,
       "min": 150,
       "max": 400,
       "unit": "м²",
-      "price": 293,
+      "price": 280,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -113,7 +113,7 @@
       "min": 200,
       "max": 400,
       "unit": "м²",
-      "price": 314,
+      "price": 312,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
@@ -129,11 +129,11 @@
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
     },
     "gk_partition": {
-      "count": 111,
+      "count": 110,
       "min": 350,
       "max": 1100,
       "unit": "м²",
-      "price": 689,
+      "price": 694,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
