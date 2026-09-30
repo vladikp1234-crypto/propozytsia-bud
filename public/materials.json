@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29",
+  "updated": "2026-09-30",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -16,19 +16,19 @@
         "url": "https://epicentrk.ua/ua/shop/laminat-yildiz-entegre-vario-clic-exclusive-rio-32-as4-8-mm.html"
       },
       {
-        "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб канас 33/АС5/8 мм",
         "price": 560.48,
         "retail": 560.48,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-kanas-33-as5-8-mm.html"
       },
       null,
       {
-        "name": "Паркетна дошка Floor`360 Дуб PROJEKT Blues Live Matt 3-смугова Лак",
-        "price": 2448,
-        "retail": 2448,
+        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "price": 2446,
+        "retail": 2446,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-projekt-blues-live-matt-3-smugova-lak-1f0ec972-53c2-6dbe-a0b2-d335cc3f4d1a.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
@@ -36,15 +36,15 @@
         "name": "Плитка Golden Tile Wilno white 25x40x7,5 см",
         "price": 399,
         "retail": 399,
-        "count": 58,
+        "count": 57,
         "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-wilno-white-25x40x7-5-sm.html"
       },
       {
-        "name": "Плитка Cersanit Clody light grey 29,7x60 см",
-        "price": 492,
-        "retail": 492,
-        "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-klodi-layt-grey-30x60.html"
+        "name": "Плитка Cersanit Falcon white 42x42 см",
+        "price": 489,
+        "retail": 489,
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/plitka-cersanit-falkon-vayt-42x42.html"
       },
       null
     ],
@@ -57,11 +57,11 @@
         "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
-        "name": "Фарба епоксидна Kompozit EpoxyBeton двокомпонентна сіра RAL 7040 глянець 1,2 кг",
-        "price": 29.66,
-        "retail": 1038,
-        "count": 22,
-        "url": "https://epicentrk.ua/ua/shop/farba-dlia-betonnoi-pidlohy-i-betonu-epoksydna-kompozit-epoxybeton-hlianets-siryi-ral-7040-1-2-kh.html"
+        "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 4,2 кг",
+        "price": 29.89,
+        "retail": 1046,
+        "count": 21,
+        "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-4-2-kg.html"
       },
       null
     ],
@@ -70,22 +70,22 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
         "price": 198,
         "retail": 198,
-        "count": 54,
+        "count": 52,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 30,
+        "count": 26,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Onyx UNI 253502 1,06x10,05 м",
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Buble UNI 252710 1,06x10,05 м",
         "price": 1427,
         "retail": 1427,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-onyx-uni-253502-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-buble-uni-252710-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -107,37 +107,37 @@
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ Super Profil ПП1260К білий лідо 2070х59х12 мм",
-        "price": 298,
-        "retail": 298,
+        "name": "Плінтус МДФ під фарбування Arbiton Paint-it MP0601 білий 2420x60x15 мм",
+        "price": 300,
+        "retail": 300,
         "count": 50,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-super-profil-pp1260k-bilyi-lido-2070kh59kh12-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-arbiton-paint-it-pod-pokrasku-belyy-60x2420-mm.html"
       },
       null
     ],
     "entry": [
       {
-        "name": "Двері вхідні метал/мдф Люкс 1 860х960х2050 мм",
-        "price": 13200,
-        "retail": 13200,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-metal-mdf-luks-1-860h960h2050-mm-1ef8bce7-b6a0-6362-bb1c-25479df057d7.html"
+        "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
+        "price": 11990,
+        "retail": 11990,
+        "count": 13,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Korado 11K 500x1000",
-        "price": 5012.8,
-        "retail": 5012.8,
-        "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-11k-500kh1000.html"
+        "name": "Радіатор сталевий Hi-Therm 11 тип 500x1200 бічний",
+        "price": 4528,
+        "retail": 4528,
+        "count": 54,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-11-typ-500x1200-bichnyi.html"
       },
       {
         "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
         "price": 5020,
         "retail": 5020,
-        "count": 40,
+        "count": 42,
         "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Штукатурка декоративна акрилова Feidal Venedigputz біла ефект мармуру 1 кг (1815862585)",
-        "price": 825,
-        "retail": 825,
+        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
+        "price": 1060,
+        "retail": 1060,
         "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-akrilova-feidal-venedigputz-bila-efekt-marmuru-1-kg-1815862585-1f013b06-8d83-63b2-8017-45e35dbcb656.html"
+        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
       }
     ],
     "boiler": [
@@ -162,7 +162,7 @@
         "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
         "price": 7699,
         "retail": 7699,
-        "count": 43,
+        "count": 45,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
       },
       null,
