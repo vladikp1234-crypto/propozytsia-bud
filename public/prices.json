@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-06",
+  "updated": "2026-10-07",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -9,51 +9,51 @@
   },
   "works": {
     "walls_plaster": {
-      "count": 119,
+      "count": 118,
       "min": 230,
       "max": 570,
       "unit": "м²",
-      "price": 404,
+      "price": 399,
       "name": "Ручна Маякова штукатурка (до 2 см)",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
-      "count": 60,
+      "count": 59,
       "min": 360,
       "max": 500,
       "unit": "м²",
-      "price": 428,
+      "price": 413,
       "name": "Машинна штукатурка стін",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 122,
+      "count": 121,
       "min": 25,
       "max": 60,
       "unit": "м²",
-      "price": 43,
+      "price": 41,
       "name": "Грунтовка стін, стелі (1 шар) під штукатурку",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 94,
+      "count": 93,
       "min": 220,
       "max": 600,
       "unit": "м²",
-      "price": 385,
+      "price": 384,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 165,
+      "count": 164,
       "min": 550,
       "max": 1500,
       "unit": "м²",
-      "price": 969,
+      "price": 968,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -99,11 +99,11 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "doors_install": {
-      "count": 29,
+      "count": 28,
       "min": 2200,
-      "max": 4000,
+      "max": 3500,
       "unit": "шт.",
-      "price": 3060,
+      "price": 2825,
       "name": "Установка міжкімнатних дверей",
       "cat": "dveri",
       "url": "https://www.rabotniki.ua/uk/dveri/kiev"
@@ -139,11 +139,11 @@
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 95,
+      "count": 94,
       "min": 120,
       "max": 350,
       "unit": "м²",
-      "price": 229,
+      "price": 225,
       "name": "Поклейка шпалер",
       "cat": "pokleyka-oboev",
       "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"
