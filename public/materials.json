@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-07",
+  "updated": "2026-10-08",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -12,7 +12,7 @@
         "name": "Ламінат Kronotex Advanced V4 дуб сірий 32/АС4/8 мм (D 3126)",
         "price": 500.05,
         "retail": 500.05,
-        "count": 55,
+        "count": 57,
         "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
       },
       {
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Grittiland grey GT2940 30,7x60,7 см",
-        "price": 399.2,
-        "retail": 399.2,
+        "name": "Плитка Golden Tile Edward mix EDБ830 40х40 см",
+        "price": 399.53,
+        "retail": 399.53,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2940-30-7x60-7-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-edward-mix-edb830-40kh40-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -57,35 +57,35 @@
         "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-polifarb-zakhyst-3v1-ral-7024-hrafit-ral-7024-hlianets-2-5-kh.html"
       },
       {
-        "name": "Фарба Kompozit для басейнів АК-12 мат 2,8 кг",
-        "price": 39.89,
-        "retail": 1396,
+        "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 4,2 кг",
+        "price": 30.06,
+        "retail": 1052,
         "count": 22,
-        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-basseynov-ak-12-kompozit-goluboy-mat-2-24-l.html"
+        "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-4-2-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
-        "price": 205,
-        "retail": 205,
+        "name": "Шпалери вінілові на паперовій основі Слов’янські шпалери 9446-03 Блакитний (id_1695)",
+        "price": 190,
+        "retail": 190,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-vinilovi-na-paperovij-osnovi-slov-ans-ki-spaleri-9446-03-blakitnij-id-1695-1f0efb45-67db-6440-b799-ff88881bac35.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1253-01 1,06x10,0",
+        "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1253-01-1-06x10-05-m.html"
+        "count": 32,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Alicante UNI 406335 1,06x10,05 м",
-        "price": 1427,
-        "retail": 1427,
+        "name": "Шпалери під фарбування зі спіненого вінілу Sintra Paint by 541128 1,06x25 м",
+        "price": 1250,
+        "retail": 1250,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-alicante-uni-406335-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-it-541128.html"
       }
     ],
     "doors": [
@@ -117,36 +117,36 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні протипожежні Ваш ВиД ЕІ30 2 листи металу 860/960х2050х45 мм Л/П Ral 7035",
-        "price": 10130,
-        "retail": 10130,
-        "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-protipozezni-vas-vid-ei30-2-listi-metalu-860-960h2050h45-mm-l-p-ral-7035-1f127d69-e64b-610a-b823-25cecad5a955.html"
+        "name": "Двері вхідні Троя метал/МДФ Срібло світле (1642)",
+        "price": 11450,
+        "retail": 11450,
+        "count": 12,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-troa-metal-mdf-sriblo-svitle-1642-1f0738af-f806-6296-9f55-81a69c1f4f86.html"
       },
       null
     ],
     "radiators": [
       {
         "name": "Радіатор сталевий Hi-Therm 11 тип 500x1200 бічний",
-        "price": 4548,
-        "retail": 4548,
-        "count": 55,
+        "price": 4528,
+        "retail": 4528,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-11-typ-500x1200-bichnyi.html"
       },
       {
-        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
-        "price": 5050,
-        "retail": 5050,
-        "count": 43,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
+        "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
+        "price": 4990,
+        "retail": 4990,
+        "count": 41,
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-evro-termo-sektsionnyy-350-96-10-sektsiy-70214275.html"
       }
     ],
     "decor": [
       {
         "name": "Декоративна штукатурка фасадна мінеральна Дубова кора ELEMENT MINERAL R20 25 кг",
-        "price": 592,
-        "retail": 592,
-        "count": 16,
+        "price": 599,
+        "retail": 599,
+        "count": 14,
         "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
       },
       {
@@ -159,11 +159,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Expert VM 100 D400S-2-B (2000W)",
-        "price": 7749,
-        "retail": 7749,
-        "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-100-d400s-2-b-2000w.html"
+        "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
+        "price": 7799,
+        "retail": 7799,
+        "count": 43,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
       },
       null,
       {
