@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-08",
+  "updated": "2026-10-09",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -25,19 +25,19 @@
       null,
       {
         "name": "Паркетна дошка Ekoparket дуб односмугова 725х180х14 мм (0,91 кв.м) Grand",
-        "price": 2379,
-        "retail": 2379,
+        "price": 2360,
+        "retail": 2360,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/parketnaya-doska-ekoparket-dub-odnopolosnaya-725kh180kh14-mm-0-91-kv-m-grand.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Edward mix EDБ830 40х40 см",
-        "price": 399.53,
-        "retail": 399.53,
+        "name": "Плитка Golden Tile Grittiland grey GT2940 30,7x60,7 см",
+        "price": 399.2,
+        "retail": 399.2,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-edward-mix-edb830-40kh40-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2940-30-7x60-7-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,42 +50,42 @@
     ],
     "paint": [
       {
-        "name": "Емаль антикорозійна Polifarb поліуретанова Захист 3в1 антикорозійна RAL 7024 графіт напівг",
-        "price": 28.94,
-        "retail": 1013,
-        "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-polifarb-zakhyst-3v1-ral-7024-hrafit-ral-7024-hlianets-2-5-kh.html"
+        "name": "Емаль антикорозійна Polifarb захист 3в1 молоткова, чорний 2,0 кг",
+        "price": 28.4,
+        "retail": 994,
+        "count": 21,
+        "url": "https://epicentrk.ua/ua/shop/mplc-emal-antikorozijna-polifarb-zahist-molotkova-2-0-kg-cornij-30284736-1f0c60be-4317-62e0-bfa6-e9c99750d474.html"
       },
       {
-        "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 4,2 кг",
-        "price": 30.06,
-        "retail": 1052,
-        "count": 22,
-        "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-4-2-kg.html"
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 32.11,
+        "retail": 1124,
+        "count": 24,
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери вінілові на паперовій основі Слов’янські шпалери 9446-03 Блакитний (id_1695)",
-        "price": 190,
-        "retail": 190,
-        "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-vinilovi-na-paperovij-osnovi-slov-ans-ki-spaleri-9446-03-blakitnij-id-1695-1f0efb45-67db-6440-b799-ff88881bac35.html"
+        "name": "Шпалери паперові Континент Тея Бежево-сірий (1593)",
+        "price": 181,
+        "retail": 181,
+        "count": 53,
+        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-paperovi-kontinent-tea-bezevo-sirij-1593-1f093054-5eda-668c-aa43-719ec2bc5b52.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 32,
+        "count": 33,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери під фарбування зі спіненого вінілу Sintra Paint by 541128 1,06x25 м",
-        "price": 1250,
-        "retail": 1250,
+        "name": "Шпалери вінілові на флізеліновій основі Sintra CROWN UNI 505359 1,06x10,05 м",
+        "price": 1090,
+        "retail": 1090,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-it-541128.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-crown-uni-505359-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -117,44 +117,44 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні Троя метал/МДФ Срібло світле (1642)",
-        "price": 11450,
-        "retail": 11450,
+        "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
+        "price": 12138,
+        "retail": 12138,
         "count": 12,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-troa-metal-mdf-sriblo-svitle-1642-1f0738af-f806-6296-9f55-81a69c1f4f86.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Hi-Therm 11 тип 500x1200 бічний",
-        "price": 4528,
-        "retail": 4528,
-        "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-11-typ-500x1200-bichnyi.html"
+        "name": "Радіатор сталевий Romstal 22x500x600 мм, 1086 Вт, Бок.",
+        "price": 4504,
+        "retail": 4504,
+        "count": 52,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-romstal-22x500x600-mm-1086-vt-bok.html"
       },
       {
-        "name": "Радіатор біметалевий Evro-Termo Секционный 350/96 10 секцій (70214275)",
-        "price": 4990,
-        "retail": 4990,
-        "count": 41,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-evro-termo-sektsionnyy-350-96-10-sektsiy-70214275.html"
+        "name": "Радиатор біметалевий Mirado 500/96 8 секц. (37777996)",
+        "price": 5120,
+        "retail": 5120,
+        "count": 43,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-500-96-8-sekc-37777996-1f1ab84e-6d4c-6d76-909e-b3b295de0a17.html"
       }
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка фасадна мінеральна Дубова кора ELEMENT MINERAL R20 25 кг",
-        "price": 599,
-        "retail": 599,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
+        "name": "Декоративна штукатурка фасадна мінеральна Дубова кора ELEMENT MINERAL R20 25 кг (319783589",
+        "price": 592,
+        "retail": 592,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-3197835893-1f1b5e65-3fdb-608c-b960-876e17f6a6b2.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1039,
-        "retail": 1039,
+        "name": "Венеціанська штукатурка Feidal Venedigputz 1 кг білий",
+        "price": 921,
+        "retail": 921,
         "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-venedigputz-feidal-1-kg.html"
       }
     ],
     "boiler": [
@@ -162,7 +162,7 @@
         "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
         "price": 7799,
         "retail": 7799,
-        "count": 43,
+        "count": 42,
         "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
       },
       null,
