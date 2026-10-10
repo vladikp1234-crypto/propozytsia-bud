@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-09",
+  "updated": "2026-10-10",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -9,7 +9,7 @@
   },
   "works": {
     "walls_plaster": {
-      "count": 119,
+      "count": 118,
       "min": 230,
       "max": 550,
       "unit": "м²",
@@ -19,7 +19,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
-      "count": 60,
+      "count": 58,
       "min": 360,
       "max": 500,
       "unit": "м²",
@@ -29,7 +29,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_primer": {
-      "count": 122,
+      "count": 121,
       "min": 25,
       "max": 50,
       "unit": "м²",
@@ -39,7 +39,7 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 93,
+      "count": 92,
       "min": 220,
       "max": 600,
       "unit": "м²",
@@ -49,7 +49,7 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 166,
+      "count": 165,
       "min": 550,
       "max": 1500,
       "unit": "м²",
@@ -59,7 +59,7 @@
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 94,
+      "count": 92,
       "min": 280,
       "max": 700,
       "unit": "м²",
@@ -69,7 +69,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 142,
+      "count": 140,
       "min": 100,
       "max": 300,
       "unit": "м²",
@@ -79,7 +79,7 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 95,
+      "count": 94,
       "min": 160,
       "max": 400,
       "unit": "м²",
@@ -89,7 +89,7 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "plinth": {
-      "count": 33,
+      "count": 32,
       "min": 150,
       "max": 290,
       "unit": "м.пог.",
@@ -99,7 +99,7 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "doors_install": {
-      "count": 28,
+      "count": 26,
       "min": 2200,
       "max": 3500,
       "unit": "шт.",
@@ -109,7 +109,7 @@
       "url": "https://www.rabotniki.ua/uk/dveri/kiev"
     },
     "roofing": {
-      "count": 40,
+      "count": 39,
       "min": 200,
       "max": 370,
       "unit": "м²",
@@ -119,7 +119,7 @@
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
-      "count": 58,
+      "count": 57,
       "min": 630,
       "max": 1600,
       "unit": "м²",
@@ -129,7 +129,7 @@
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
     },
     "gk_partition": {
-      "count": 107,
+      "count": 105,
       "min": 350,
       "max": 1100,
       "unit": "м²",
@@ -139,7 +139,7 @@
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 94,
+      "count": 92,
       "min": 120,
       "max": 350,
       "unit": "м²",
