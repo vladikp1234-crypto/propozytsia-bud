@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-13",
+  "updated": "2026-10-14",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,17 +10,17 @@
     "floorcover": [
       {
         "name": "Ламінат Kronotex Advanced V4 дуб сірий 32/АС4/8 мм (D 3126)",
-        "price": 500.05,
-        "retail": 500.05,
-        "count": 57,
+        "price": 500,
+        "retail": 500,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
       },
       {
-        "name": "Ламінат AGT Natura Ultra Line 4V anemon 33/АС5/8 мм (PRK102)",
-        "price": 611.91,
-        "retail": 611.91,
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
+        "price": 560.48,
+        "retail": 560.48,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-agt-luna-4v-anemon-33-as5-8-mm-prk102.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
       },
       null,
       {
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Storyx beige SX1051 25х40 см",
-        "price": 399,
-        "retail": 399,
+        "name": "Плитка Golden Tile Onyx Story Mosaic grey OY2151 25x40 см",
+        "price": 419,
+        "retail": 419,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-storyx-bezhevyi-sx1051-25kh40.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-onyx-story-mosaic-siryi-oy2151-25x40.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -53,31 +53,31 @@
         "name": "Емаль антикорозійна Polifarb захист 3в1 молоткова, чорний 2,0 кг",
         "price": 28.4,
         "retail": 994,
-        "count": 21,
+        "count": 22,
         "url": "https://epicentrk.ua/ua/shop/mplc-emal-antikorozijna-polifarb-zahist-molotkova-2-0-kg-cornij-30284736-1f0c60be-4317-62e0-bfa6-e9c99750d474.html"
       },
       {
-        "name": "Емаль антикорозійна Kompozit 3 в 1 EXPRESS RAL 9011 чорний мат 2,8 кг",
-        "price": 30.97,
-        "retail": 1084,
-        "count": 23,
-        "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-kompozit-3-v-1-express-ral-9011-chornyi-mat-2-8-kh.html"
+        "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 4,2 кг",
+        "price": 30.06,
+        "retail": 1052,
+        "count": 22,
+        "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-4-2-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Льодяник 4092-10 0,53x10,05 м",
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
         "price": 205,
         "retail": 205,
         "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-lodianyk-4092-10-0-53x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 30,
+        "count": 32,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -134,11 +134,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-brugman-21-tip-400h1200-mm-nizne-pidklucenna-1edf9b25-3525-6b5e-9e4d-af6450a1b9df.html"
       },
       {
-        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
-        "price": 5050,
-        "retail": 5050,
+        "name": "Радиатор біметалевий Mirado 500/96 8 секц. (37777996)",
+        "price": 5120,
+        "retail": 5120,
         "count": 45,
-        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-500-96-8-sekc-37777996-1f1ab84e-6d4c-6d76-909e-b3b295de0a17.html"
       }
     ],
     "decor": [
@@ -159,11 +159,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
-        "price": 7999,
-        "retail": 7999,
-        "count": 43,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
+        "name": "Бойлер Atlantic O'PRO PC 15 S",
+        "price": 8149,
+        "retail": 8149,
+        "count": 42,
+        "url": "https://epicentrk.ua/ua/shop/boyler-atlantic-o-pro-pc-15-s.html"
       },
       null,
       {
