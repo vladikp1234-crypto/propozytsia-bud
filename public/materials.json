@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-14",
+  "updated": "2026-10-15",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -16,28 +16,28 @@
         "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
       },
       {
-        "name": "Ламінат GROSS WALD Great Lands 4V дуб ява 33/АС5/8 мм",
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб канас 33/АС5/8 мм",
         "price": 560.48,
         "retail": 560.48,
         "count": 59,
-        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-yava-33-as5-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-kanas-33-as5-8-mm.html"
       },
       null,
       {
-        "name": "Паркетна дошка Lemberg Floor 13х160х500-1200 мм Дуб графіт (LFL160GRAPHIT)",
-        "price": 2395,
-        "retail": 2395,
+        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "price": 2446,
+        "retail": 2446,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-lemberg-floor-11h160h500-1200-mm-dub-grafit-lfl160graphit-1ee33b93-ac96-6604-b85c-d33a984024e1.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Onyx Story Mosaic grey OY2151 25x40 см",
+        "name": "Плитка Golden Tile Grittiland graphite GTФ730 30x30 см",
         "price": 419,
         "retail": 419,
-        "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-onyx-story-mosaic-siryi-oy2151-25x40.html"
+        "count": 57,
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2730-30x30-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -70,7 +70,7 @@
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
         "price": 205,
         "retail": 205,
-        "count": 55,
+        "count": 54,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
@@ -81,11 +81,11 @@
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra PRISMA, MATRIX UNI 523636 1,06x10,05 м",
-        "price": 1040,
-        "retail": 1040,
+        "name": "Шпалери під фарбування під фарбування Sintra Paint by 676905 1,06x25 м",
+        "price": 1335,
+        "retail": 1335,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-prisma-matrix-uni-523636-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-lt-676905.html"
       }
     ],
     "doors": [
@@ -117,28 +117,28 @@
     ],
     "entry": [
       {
-        "name": "Двері вхідні протипожежні Ваш ВиД ЕІ30 2 листи металу 860/960х2050х45 мм Л/П Ral 7035",
-        "price": 9965,
-        "retail": 9965,
-        "count": 34,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-protipozezni-vas-vid-ei30-2-listi-metalu-860-960h2050h45-mm-l-p-ral-7035-1f127d69-e64b-610a-b823-25cecad5a955.html"
+        "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
+        "price": 12138,
+        "retail": 12138,
+        "count": 12,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
     "radiators": [
       {
         "name": "Радіатор сталевий Brugman 21 тип 400х1200 мм нижнє підключення",
-        "price": 4512,
-        "retail": 4512,
-        "count": 53,
+        "price": 4507,
+        "retail": 4507,
+        "count": 52,
         "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-brugman-21-tip-400h1200-mm-nizne-pidklucenna-1edf9b25-3525-6b5e-9e4d-af6450a1b9df.html"
       },
       {
-        "name": "Радиатор біметалевий Mirado 500/96 8 секц. (37777996)",
-        "price": 5120,
-        "retail": 5120,
-        "count": 45,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-500-96-8-sekc-37777996-1f1ab84e-6d4c-6d76-909e-b3b295de0a17.html"
+        "name": "Радіатор біметалевий Energo Bideep 500/96 10 секцій",
+        "price": 5085,
+        "retail": 5085,
+        "count": 44,
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetalevyi-energo-bideep-500-96-10-sektsii.html"
       }
     ],
     "decor": [
@@ -150,20 +150,20 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1039,
-        "retail": 1039,
+        "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
+        "price": 1173,
+        "retail": 1173,
         "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic O'PRO PC 15 S",
-        "price": 8149,
-        "retail": 8149,
+        "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
+        "price": 8199,
+        "retail": 8199,
         "count": 42,
-        "url": "https://epicentrk.ua/ua/shop/boyler-atlantic-o-pro-pc-15-s.html"
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
       },
       null,
       {
