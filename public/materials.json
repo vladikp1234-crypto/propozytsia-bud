@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-17",
+  "updated": "2026-10-18",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,8 +10,8 @@
     "floorcover": [
       {
         "name": "Ламінат Kronotex Advanced V4 дуб сірий 32/АС4/8 мм (D 3126)",
-        "price": 500,
-        "retail": 500,
+        "price": 503,
+        "retail": 503,
         "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
       },
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Grittiland grey GT2940 30,7x60,7 см",
-        "price": 399.2,
-        "retail": 399.2,
-        "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2940-30-7x60-7-sm.html"
+        "name": "Плитка Golden Tile Pavimento light grey 67G830 40x40 см",
+        "price": 406,
+        "retail": 406,
+        "count": 56,
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-pavimento-svetlo-seryy-67g830-40x40.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -57,35 +57,35 @@
         "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-bilyi-3-8-l.html"
       },
       {
-        "name": "Фарба Kompozit для бетонної підлоги АК-11 мат сірий 2,8 кг",
-        "price": 28.26,
-        "retail": 989,
+        "name": "Фарба інтер'єрна латексна Kompozit MATT LATEX NEO глибокий мат біла 7 кг",
+        "price": 29.66,
+        "retail": 1038,
         "count": 21,
-        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-betonnykh-polov-ak-11-kompozit-seryy-mat-2-l.html"
+        "url": "https://epicentrk.ua/ua/shop/farba-interierna-lateksna-kompozit-matt-latex-neo-hlybokyi-mat-bila-7-kh.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери вінілові на паперовій основі Слов’янські шпалери 9446-03 Блакитний (id_1695)",
-        "price": 186,
-        "retail": 186,
-        "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-vinilovi-na-paperovij-osnovi-slov-ans-ki-spaleri-9446-03-blakitnij-id-1695-1f0efb45-67db-6440-b799-ff88881bac35.html"
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
+        "price": 198,
+        "retail": 198,
+        "count": 56,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 30,
+        "count": 31,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери під фарбування під фарбування Sintra Paint by 676905 1,06x25 м",
-        "price": 1335,
-        "retail": 1335,
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Onyx UNI 253540 1,06x10,05 м",
+        "price": 1427,
+        "retail": 1427,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-lt-676905.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-onyx-uni-253540-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -118,26 +118,26 @@
     "entry": [
       {
         "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
-        "price": 12138,
-        "retail": 12138,
-        "count": 12,
+        "price": 12475,
+        "retail": 12475,
+        "count": 7,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Romstal 22x500x600 мм, 1086 Вт, Бок.",
-        "price": 4501.3,
-        "retail": 4501.3,
+        "name": "Радіатор сталевий Hi-Therm 11 тип 500x1200 бічний",
+        "price": 4548,
+        "retail": 4548,
         "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-romstal-22x500x600-mm-1086-vt-bok.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-11-typ-500x1200-bichnyi.html"
       },
       {
         "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5269,
-        "retail": 5269,
-        "count": 44,
+        "price": 5488,
+        "retail": 5488,
+        "count": 45,
         "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
       }
     ],
@@ -159,11 +159,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Profi VM 120 D400-1-M 1500W мідний ТЕН",
-        "price": 8349,
-        "retail": 8349,
-        "count": 40,
-        "url": "https://epicentrk.ua/ua/shop/mplc-boiler-atlantic-opro-profi-vm-120-d400-1-m-1500w-midnii-ten-1ecd2bec-80f8-62bc-90e1-2b64b548f968.html"
+        "name": "Бойлер Atlantic VM 120 D400-1-M (1500W)",
+        "price": 8399,
+        "retail": 8399,
+        "count": 41,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-vm-120-d400-1-m-1500w.html"
       },
       null,
       {
