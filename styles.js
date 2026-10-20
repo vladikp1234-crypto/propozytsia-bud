@@ -32,12 +32,12 @@ export const css = `
   --grid-2:rgba(27,26,22,.075);
   --plate-mark:rgba(252,251,248,.75);
 
-  /* Бірюза замість синього. Два відтінки, бо один фізично не може
-     працювати і на світлому папері, і на темному фото: світлий на папері
-     провалює контраст, темний на фото не видно. */
-  --acc:#0F6E6B;        /* на світлому: посилання, стан «обрано» — 5.4:1 */
-  --acc-on-dark:#6FC9C6; /* на темному фото й у темних смугах */
-  --acc-soft:#E4EFEE;
+  /* Акцент теплий, з матеріалів будівництва: глина, цегла, кортен.
+     Холодний на теплому папері дисонував. Два відтінки, бо один не може
+     працювати і на світлі, і на темряві. */
+  --acc:#9C3F19;         /* на світлому — 5.3:1 */
+  --acc-on-dark:#E08A52; /* на темному фото й у темних смугах — 6.6:1 */
+  --acc-soft:#F6EBE2;
 
   --warn:#8E2F10;
   --warn-soft:#F7EDE8;
@@ -586,6 +586,41 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 .chreset,.tl{font-size:var(--t-cap);font-weight:600;color:var(--acc);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
 
 /* ─── Жива ціна: була чорна коробка, стала типографіка ────────────── */
+/* ─── Жива схема обʼєкта ────────────────────────────────────────────
+   Креслення ділянки з будинком. Перемальовується на кожну зміну
+   параметра — це і є «живе» в цьому продукті: не рух заради руху,
+   а план, що реагує. */
+.objcard{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px 20px 16px;display:grid;gap:14px;
+  box-shadow:0 1px 2px rgba(26,25,21,.05),0 12px 32px -18px rgba(26,25,21,.20);
+}
+.obj-h span{
+  font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.14em;color:var(--ink-3);
+}
+.hs{width:100%;height:auto;display:block;overflow:visible}
+.hs rect,.hs line{vector-effect:non-scaling-stroke}
+.hs-plot{fill:none;stroke:var(--line-2);stroke-width:1}
+.hs-floor{fill:none;stroke:var(--ink-3);stroke-width:1;opacity:.42}
+/* Слід забудови підсвічено акцентом: саме з нього рахують фундамент,
+   покрівлю й земляні роботи. transition робить зміну плавною. */
+.hs-foot{
+  fill:var(--acc-soft);stroke:var(--acc);stroke-width:1.5;
+  transition:all .45s var(--ease);
+}
+.hs-room{fill:none;stroke:var(--acc);stroke-width:1;opacity:.5}
+.hs-dim{stroke:var(--ink-3);stroke-width:1;opacity:.6}
+/* Кегль задається атрибутом fontSize в одиницях viewBox, бо viewBox тут
+   міряється в метрах — пікселі дали б величезні літери. */
+.hs-t{font-family:var(--mono);fill:var(--ink-3);text-anchor:middle}
+.obj-n{display:grid;gap:0;border-top:1px solid var(--line);padding-top:4px}
+.obj-r{
+  display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  padding:7px 0;font-size:var(--t-cap);color:var(--ink-2);
+}
+.obj-r b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+
 /* Панель ціни — головний предмет на сторінці. Білий аркуш на теплому
    полотні: саме контраст поверхонь дає глибину без жодної тіні-неону. */
 .rail{position:sticky;top:96px;display:grid;gap:var(--s2)}

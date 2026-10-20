@@ -3,6 +3,7 @@ import { css } from "./styles.js";
 import {
   BETA, REGIONS, REGION_GROUPS, TIERS, TIER_TABLE, GROUPS, FOUNDATIONS, WALLS, ROOFS, HEATING,
   ROOM_TYPES, WALL_FIN, FLOOR_FIN, CEIL_FIN, newRoom, defaultRooms, defaultHouseRooms, buildAgg, suggestFootprint, lawnA,
+  fpn, perim, usableArea,
   FLAT_STAGES, HOUSE_STAGES, FLAT_OPTS, HOUSE_OPTS, OPT_GROUPS, PRESETS, SCOPES,
   BUDGETS, PAYMENT, INCLUDES, EXCLUDES, MATS,
 } from "./data.js";
@@ -244,6 +245,70 @@ function useMotion(deps) {
 // Ширина смуги прокрутки в --sbw. Одиниця vw рахує смугу в себе, а звичайні
 // відсотки — ні, тому блоки «на всю ширину» (герой, підвал) зсувались на цю
 // різницю і вилазили за правий край. Рахуємо її чесно й віддаємо в CSS.
+/* ═══ ЖИВА СХЕМА ОБʼЄКТА ═══════════════════════════════════════════
+   Креслення ділянки з будинком, що перемальовується на кожну зміну
+   параметра. Малюється з тих самих величин, якими рушій рахує ціну:
+   слід забудови, периметр, поверхи, сотки. Тобто це не ілюстрація
+   «десь поруч», а буквально те, за що виставляється рахунок.
+   ═══════════════════════════════════════════════════════════════════ */
+function HouseScheme({ p, mode, flatArea, rooms }) {
+  if (mode === "flat") {
+    // Квартира: прямокутник загальної площі, поділений на кімнати
+    const a = Math.max(flatArea || 60, 20);
+    const w = Math.sqrt(a * 1.5), d = a / w;
+    const n = Math.max(1, Math.min(rooms || 2, 6));
+    const cols = n <= 2 ? n : Math.ceil(n / 2);
+    const rws = n <= 2 ? 1 : 2;
+    const cells = [];
+    for (let i = 0; i < n; i++) {
+      const cx = i % cols, cy = Math.floor(i / cols);
+      cells.push(<rect key={i} className="hs-room"
+        x={(w / cols) * cx} y={(d / rws) * cy} width={w / cols} height={d / rws} />);
+    }
+    const M = Math.max(w, d) * 0.22;
+    const u = Math.max(w, d) * 0.075;   // кегль підписів в одиницях viewBox
+    return (
+      <svg className="hs" viewBox={`${-M} ${-M} ${w + M * 2} ${d + M * 2}`} aria-hidden="true">
+        <rect className="hs-foot" x="0" y="0" width={w} height={d} />
+        {cells}
+        <line className="hs-dim" x1="0" y1={d + M * 0.55} x2={w} y2={d + M * 0.55} strokeDasharray={u * 0.5 + " " + u * 0.5} />
+        <text className="hs-t" x={w / 2} y={d + M * 0.55} dy={-u * 0.5} fontSize={u}>{Math.round(a)} м²</text>
+      </svg>
+    );
+  }
+
+  const plotM2 = Math.max((p.plot || 8) * 100, 100);
+  const side = Math.sqrt(plotM2);
+  const foot = Math.max(fpn(p), 20);
+  const fw = Math.min(Math.sqrt(foot * 1.35), side * 0.86);
+  const fd = Math.min(foot / fw, side * 0.86);
+  const fx = (side - fw) / 2;
+  const fy = side - fd - side * 0.17;            // будинок ближче до вулиці
+  const floors = Math.max(1, Math.min(p.floors || 1, 3));
+  const step = Math.min(side * 0.035, 2.6);      // зсув поверхів — натяк на обʼєм
+  const M = side * 0.2;
+  const u = side * 0.055;              // кегль підписів в одиницях viewBox
+
+  return (
+    <svg className="hs" viewBox={`${-M} ${-M} ${side + M * 2} ${side + M * 2}`} aria-hidden="true">
+      {/* Ділянка */}
+      <rect className="hs-plot" x="0" y="0" width={side} height={side} strokeDasharray={u * 0.9 + " " + u * 0.7} />
+      {/* Поверхи: кожен наступний зсунуто вгору-вправо */}
+      {Array.from({ length: floors - 1 }).map((_, i) => (
+        <rect key={i} className="hs-floor"
+          x={fx + step * (i + 1)} y={fy - step * (i + 1)} width={fw} height={fd} />
+      ))}
+      {/* Слід забудови */}
+      <rect className="hs-foot" x={fx} y={fy} width={fw} height={fd} />
+      {/* Розмірні лінії */}
+      <line className="hs-dim" x1="0" y1={side + M * 0.55} x2={side} y2={side + M * 0.55} />
+      <text className="hs-t" x={side / 2} y={side + M * 0.55} dy={-u * 0.5} fontSize={u}>{Math.round(side)} м</text>
+      <line className="hs-dim" x1={fx} y1={fy - step * floors - M * 0.28} x2={fx + fw} y2={fy - step * floors - M * 0.28} />
+      <text className="hs-t" x={fx + fw / 2} y={fy - step * floors - M * 0.28} dy={-u * 0.5} fontSize={u}>{Math.round(fw)} м</text>
+    </svg>
+  );
+}
+
 function useScrollbarWidth() {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -471,20 +536,7 @@ export default function App() {
     return out;
   }, [mode, p, rooms, sel, live]);
 
-  // Схема походження ціни сама перебирає рівні оздоблення, щоб показати
-  // головну обіцянку інструмента без жодного кліку. Числа беруться з `cmp`,
-  // тобто це справжні перерахунки рушієм, а не намальована анімація.
-  const [demoTier, setDemoTier] = useState(null);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const keys = Object.keys(TIERS);
-    let i = Math.max(0, keys.indexOf(p.tier));
-    const id = setInterval(() => { i = (i + 1) % keys.length; setDemoTier(keys[i]); }, 2800);
-    return () => clearInterval(id);
-  }, [p.tier]);
-  const demoKey = demoTier && cmp[demoTier] ? demoTier : p.tier;
-  const demoTotal = cmp[demoKey] ?? r.total;
+
 
   // Дельта ціни кожної опції: калькуляція з опцією і без
   const optDeltas = useMemo(() => {
@@ -861,16 +913,15 @@ export default function App() {
               </svg>
 
               <div className="fout">
-                <span className="fout-k">Кошторис · {TIERS[demoKey].name}</span>
-                <b key={demoKey}>{fmtM(demoTotal * mk)}<i className="caret" aria-hidden="true" /></b>
+                <span className="fout-k">Кошторис · {r.tier.name}</span>
+                <b key={Math.round(r.total / 2000)}>{fmtM(r.total * mk)}</b>
                 <em>грн · {mode === "flat" ? r.A.total : p.area} м² · {r.region.name}</em>
               </div>
             </div>
 
             <p className="origin-note">
-              Рівень оздоблення тут змінюється сам, щоб показати головне:
-              кожен параметр одразу перераховує суму. Числа справжні — це той
-              самий рушій, що рахує ваш кошторис.
+Обидва джерела оновлюються щоночі автоматично. Позиція без ринкового
+              джерела позначена β — це чесна оцінка, а не знайдена ціна.
             </p>
           </section>}
 
@@ -1185,6 +1236,21 @@ export default function App() {
             </div>
 
             <div className="rail no-print">
+              {/* Схема стоїть над ціною й липне разом із нею: видно і план,
+                  і суму одночасно, поки крутиш параметри. */}
+              <div className="objcard">
+                <div className="obj-h">
+                  <span>{mode === "flat" ? "Квартира" : "Ділянка і забудова"}</span>
+                </div>
+                <HouseScheme p={p} mode={mode} flatArea={r.A.total} rooms={roomStats.living} />
+                <div className="obj-n">
+                  {(mode === "flat"
+                    ? [["Площа", r.A.total + " м²"], ["Кімнат", roomStats.living], ["Санвузлів", roomStats.wet],
+                       ["Стін під штукатурку", Math.round(r.A.wallsPlaster || 0) + " м²"]]
+                    : [["Слід забудови", fpn(p) + " м²"], ["Корисна площа", usableArea(p) + " м²"], ["Периметр", perim(p) + " м"], ["Поверхів", p.floors]]
+                  ).map(([k, v]) => <div key={k} className="obj-r"><span>{k}</span><b>{v}</b></div>)}
+                </div>
+              </div>
               <div className="live">
                 <div className="lk"><span className="dot" />{r.region.name} · {r.itemCount} позицій</div>
                 <div className="lv" key={"lv" + Math.round(r.total / 5000)}>{fmtM(lowA)} — <em>{fmtM(highA)}</em></div>
