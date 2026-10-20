@@ -118,19 +118,10 @@ button{font-family:inherit;color:inherit}
   color:var(--ink-3);
 }
 
-/* ─── Міліметрівка ──────────────────────────────────────────────────
-   Дрібна клітинка 24px і груба 120px, як на кресленні. Нічого не
-   рухається: папір не дрейфує. Малює CSS, у DOM — порожній div. */
-.fx{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(to right,var(--grid-1) 1px,transparent 1px),
-    linear-gradient(to bottom,var(--grid-1) 1px,transparent 1px),
-    linear-gradient(to right,var(--grid-2) 1px,transparent 1px),
-    linear-gradient(to bottom,var(--grid-2) 1px,transparent 1px);
-  background-size:24px 24px,24px 24px,120px 120px,120px 120px;
-  background-position:0 0;
-}
+/* Міліметрівка на все тло перетворювала сторінку на шпалери й заважала
+   читати. Сітка лишилась там, де вона справді щось означає — усередині
+   креслення обʼєкта. Тло тепер просто теплий папір. */
+.fx{display:none}
 
 /* ─── Мова креслення ────────────────────────────────────────────────
    Кутові мітки, розмірні виноски, штамп. Усе це справжні елементи
@@ -599,7 +590,17 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
   font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;
   letter-spacing:.14em;color:var(--ink-3);
 }
-.hs{width:100%;height:auto;display:block;overflow:visible}
+/* Клітинка живе тільки тут — під самим кресленням, як на міліметрівці */
+.hs{
+  width:100%;height:auto;display:block;overflow:visible;
+  background-image:
+    linear-gradient(to right,var(--grid-1) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-1) 1px,transparent 1px),
+    linear-gradient(to right,var(--grid-2) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-2) 1px,transparent 1px);
+  background-size:14px 14px,14px 14px,70px 70px,70px 70px;
+  border:1px solid var(--line);border-radius:2px;
+}
 .hs rect,.hs line{vector-effect:non-scaling-stroke}
 .hs-plot{fill:none;stroke:var(--line-2);stroke-width:1}
 .hs-floor{fill:none;stroke:var(--ink-3);stroke-width:1;opacity:.42}
