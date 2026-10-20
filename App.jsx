@@ -740,21 +740,9 @@ export default function App() {
       {/* Геометричний мотив: чотири волосяні лінії й два кола, що поволі
           дрейфують при прокрутці з різною швидкістю. Замінив собою дві
           плями-свічення, сітчастий візерунок і канвас із частинками. */}
-      <div className="fx" aria-hidden="true">
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <g data-drift="-0.06">
-            <line className="fxline" x1="176" y1="-200" x2="176" y2="1100" />
-            <line className="fxline" x1="1264" y1="-200" x2="1264" y2="1100" />
-          </g>
-          <g data-drift="0.1">
-            <line className="fxline" x1="-200" y1="248" x2="1640" y2="248" />
-            <circle className="fxring" cx="1264" cy="248" r="118" />
-          </g>
-          <g data-drift="-0.14">
-            <circle className="fxring" cx="176" cy="706" r="196" />
-          </g>
-        </svg>
-      </div><style>{css}</style>
+      {/* Міліметрівка. Папір не дрейфує, тому сітка статична — малює її CSS,
+          без жодного вузла в DOM і без анімації. */}
+      <div className="fx" aria-hidden="true" /><style>{css}</style>
       {BETA && <div className="betabar no-print">v3.0 <b>БЕТА</b> · повний кошторис · {r.itemCount} позицій · структура очікує перевірки експерта · позначка <b>β</b> = розцінка неперевірена</div>}
       <div className="topbar no-print"><div className="tb">
         <div className="logo">ПРОПОЗИЦІЯ<span>.БУД</span></div>
@@ -779,11 +767,19 @@ export default function App() {
                 саме так влаштовані Apple і AP: світла сцена, темна фотографія. */}
             <div className="hero-media" aria-hidden="true">
               <img src="/photos/hero-villa.jpg" alt="" />
+              {/* Кутові мітки — як приводочні хрести на аркуші креслення */}
+              <i className="cm cm-tl" /><i className="cm cm-tr" /><i className="cm cm-bl" /><i className="cm cm-br" />
             </div>
             <div className="hero-body">
             <h1>{mode === "flat"
                 ? <><span className="hl"><span>Ремонт.</span></span><span className="hl"><em>Ціна одразу.</em></span></>
                 : <><span className="hl"><span>Будинок.</span></span><span className="hl"><em>Ціна одразу.</em></span></>}</h1>
+            {/* Розмірна виноска: лінія з засічками на кінцях і підписом посередині */}
+            <div className="dimrow" aria-hidden="true">
+              <span className="dimline"><i /><b>{mode === "flat"
+                ? `${r.A.total} м² · ${roomStats.living} кімн.`
+                : `${p.area} м² · ${p.floors} пов. · ${p.plot} сот.`}</b><i /></span>
+            </div>
             <p>{mode === "flat" ? "Кошторис рахується по кожній кімнаті окремо" : "Кожен параметр змінює розрахунок у реальному часі"}</p>
             {/* Один «технічний рядок» замість трьох окремих блоків, що плавали
                 кожен у своїй порожнечі. Так це читається як специфікація. */}
@@ -797,6 +793,17 @@ export default function App() {
                 : <div className="badge demo">демо · ціни орієнтовні</div>}
             </div>
             </div>
+          </div>}
+
+          {/* Штамп, як у нижньому куті будівельного креслення: кожна клітинка —
+              підписане поле. Це не декор, тут реальні параметри обʼєкта. */}
+          {step === 0 && <div className="titleblock no-print">
+            <div className="tbc"><span>Обʼєкт</span><b>{mode === "flat" ? "Ремонт квартири" : "Будинок з нуля"}</b></div>
+            <div className="tbc"><span>Регіон</span><b>{r.region.name}</b></div>
+            <div className="tbc"><span>Площа</span><b>{mode === "flat" ? r.A.total : p.area} м²</b></div>
+            <div className="tbc"><span>Рівень</span><b>{r.tier.name}</b></div>
+            <div className="tbc"><span>Позицій</span><b>{r.itemCount}</b></div>
+            <div className="tbc"><span>Ціни від</span><b>{live ? live.updated : "демо"}</b></div>
           </div>}
 
           {admin && <div className="adminbar no-print">
@@ -1085,7 +1092,7 @@ export default function App() {
                   </div></div>
               </>}
 
-              {stepId === "style" && <div className="card"><div className="ch"><span className="cn">§</span><h2>Рівень оздоблення</h2></div>
+              {stepId === "style" && <div className="card"><div className="ch"><span className="cn">Оздоблення</span><h2>Рівень оздоблення</h2></div>
                 <div className="cb">
                   <label className="f">Рівень оздоблення
                     <div className="tiercards">{Object.entries(TIERS).map(([id, t]) => (

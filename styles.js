@@ -27,6 +27,11 @@ export const css = `
   --line:#D6D1C4;
   --line-2:#C2BCAC;
 
+  /* Міліметрівка: дрібна клітинка ледь помітна, груба — трохи виразніша */
+  --grid-1:rgba(27,26,22,.040);
+  --grid-2:rgba(27,26,22,.075);
+  --plate-mark:rgba(252,251,248,.75);
+
   /* Акцент лише для стану «обрано» й посилань. Головну дію тримає чорне. */
   --acc:#1B3BD6;
   --acc-soft:#ECEFFD;
@@ -107,12 +112,71 @@ button{font-family:inherit;color:inherit}
   color:var(--ink-3);
 }
 
-/* ─── Геометричний мотив у тлі ──────────────────────────────────────
-   Кілька волосяних ліній, що поволі дрейфують. Уся анімація — в GSAP. */
-.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.fx svg{position:absolute;inset:0;width:100%;height:100%}
-.fx .fxline{stroke:var(--ink);stroke-width:1;fill:none;opacity:.045;vector-effect:non-scaling-stroke}
-.fx .fxring{stroke:var(--acc);stroke-width:1;fill:none;opacity:.05;vector-effect:non-scaling-stroke}
+/* ─── Міліметрівка ──────────────────────────────────────────────────
+   Дрібна клітинка 24px і груба 120px, як на кресленні. Нічого не
+   рухається: папір не дрейфує. Малює CSS, у DOM — порожній div. */
+.fx{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(to right,var(--grid-1) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-1) 1px,transparent 1px),
+    linear-gradient(to right,var(--grid-2) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--grid-2) 1px,transparent 1px);
+  background-size:24px 24px,24px 24px,120px 120px,120px 120px;
+  background-position:0 0;
+}
+
+/* ─── Мова креслення ────────────────────────────────────────────────
+   Кутові мітки, розмірні виноски, штамп. Усе це справжні елементи
+   будівельного аркуша, а не орнамент. */
+.cm{position:absolute;width:13px;height:13px;z-index:2;opacity:.9}
+.cm-tl{top:16px;left:16px;border-top:1px solid var(--plate-mark);border-left:1px solid var(--plate-mark)}
+.cm-tr{top:16px;right:16px;border-top:1px solid var(--plate-mark);border-right:1px solid var(--plate-mark)}
+.cm-bl{bottom:16px;left:16px;border-bottom:1px solid var(--plate-mark);border-left:1px solid var(--plate-mark)}
+.cm-br{bottom:16px;right:16px;border-bottom:1px solid var(--plate-mark);border-right:1px solid var(--plate-mark)}
+
+.dimrow{margin:var(--s2) 0}
+.dimline{
+  display:flex;align-items:center;gap:14px;max-width:460px;
+  font-family:var(--mono);font-size:var(--t-micro);letter-spacing:.14em;
+  text-transform:uppercase;color:currentColor;
+}
+.dimline i{flex:1;height:8px;border-bottom:1px solid currentColor;opacity:.55}
+.dimline i:first-child{border-left:1px solid currentColor}
+.dimline i:last-child{border-right:1px solid currentColor}
+.dimline b{font-weight:500;white-space:nowrap}
+
+/* Штамп */
+.titleblock{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  border:1px solid var(--line-2);margin-bottom:var(--s4);
+  background:var(--paper);
+}
+@media(max-width:900px){.titleblock{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.titleblock{grid-template-columns:repeat(2,1fr)}}
+.tbc{
+  display:grid;gap:5px;padding:14px 16px;
+  border-right:1px solid var(--line);min-width:0;
+}
+.tbc:last-child{border-right:none}
+@media(max-width:900px){
+  .tbc{border-bottom:1px solid var(--line)}
+  .tbc:nth-child(3n){border-right:none}
+  .tbc:nth-last-child(-n+3){border-bottom:none}
+}
+@media(max-width:520px){
+  .tbc:nth-child(3n){border-right:1px solid var(--line)}
+  .tbc:nth-child(2n){border-right:none}
+  .tbc:nth-last-child(-n+2){border-bottom:none}
+}
+.tbc span{
+  font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.14em;color:var(--ink-3);
+}
+.tbc b{
+  font-family:var(--mono);font-size:var(--t-cap);font-weight:500;color:var(--ink);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
 
 /* ─── Смуга «бета» ─────────────────────────────────────────────────
    Це чесне застереження, а не прикраса: лишається, але тихо. */
@@ -188,9 +252,19 @@ button{font-family:inherit;color:inherit}
 .tc-img{display:block;aspect-ratio:4/3;overflow:hidden;background:var(--bg-soft)}
 .tc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
 .tiercard:hover .tc-img img{transform:scale(1.04)}
-.tc-b{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 18px}
-.tc-n{font-size:var(--t-body);font-weight:700;color:var(--ink)}
+.tc-b{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 16px;border-top:1px solid var(--line)}
+.tc-n{font-size:var(--t-cap);font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.08em}
 .tc-p{font-family:var(--mono);font-size:var(--t-cap);color:var(--ink-2);white-space:nowrap}
+/* Підпис-номер плити, як до рисунка у специфікації */
+.tiercards{counter-reset:plate}
+.tiercard{counter-increment:plate;position:relative}
+.tiercard .tc-img::after{
+  content:'Рис. ' counter(plate,decimal-leading-zero);
+  position:absolute;left:12px;bottom:12px;z-index:2;
+  font-family:var(--mono);font-size:var(--t-micro);letter-spacing:.12em;
+  color:#fff;background:rgba(14,13,10,.62);padding:4px 8px;
+}
+.tc-img{position:relative}
 .hero h1{
   font-size:clamp(46px,8.4vw,104px);
   font-weight:800;
@@ -209,6 +283,7 @@ button{font-family:inherit;color:inherit}
 .hero .howit{color:rgba(252,251,248,.82)}
 .hero .howit b{color:rgba(252,251,248,.60)}
 .hero .badge{color:rgba(252,251,248,.75)}
+.hero .dimline{color:rgba(252,251,248,.78)}
 
 .herometa{
   display:flex;align-items:baseline;justify-content:space-between;gap:var(--s2);
@@ -256,7 +331,12 @@ button{font-family:inherit;color:inherit}
 /* ─── Секція. Не картка з рамкою, але й не безтілесний текст:
    масу дає великий заголовок і власна лінія зверху. ───────────────── */
 .card{background:none;border:none;border-radius:0;overflow:visible;padding:0}
+/* Секції нумеруються як пункти специфікації: § 01 — БЮДЖЕТ ————— */
+.stepcol{counter-reset:sec}
 .ch{display:grid;gap:var(--s1);padding:0 0 var(--s3);border-bottom:none;align-items:start}
+.ch .cn{display:flex;align-items:center;gap:14px;counter-increment:sec}
+.ch .cn::before{content:'§ ' counter(sec,decimal-leading-zero) '\\00a0\\00a0/\\00a0\\00a0'}
+.ch .cn::after{content:'';flex:1;height:1px;background:var(--line)}
 .ch h2{font-size:var(--t-title);font-weight:700;letter-spacing:-.035em;line-height:1.1;max-width:24ch}
 .cn{background:none;padding:0;border-radius:0;color:var(--ink-3)}
 .cb{padding:0;display:grid;gap:var(--s3)}
