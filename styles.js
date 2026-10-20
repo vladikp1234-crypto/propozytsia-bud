@@ -63,7 +63,16 @@ export const css = `
 
 /* ─── Скидання і база ─────────────────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{max-width:100%;overflow-x:hidden}
+/* clip, а НЕ hidden. overflow-x:hidden на <html> робить його контейнером
+   прокрутки й тим ламає position:sticky для всього всередині — шапка і
+   панель живої ціни переставали липнути і просто їхали геть зі сторінки.
+   overflow:clip обрізає так само, але скролпорта не створює. */
+html,body{max-width:100%;overflow-x:clip}
+
+/* Ширина смуги прокрутки. vw рахує її в себе, а решта сторінки — ні,
+   через що повноширинні блоки зсувались на 15px і вилазили за край.
+   Значення проставляє JS і оновлює при зміні розміру вікна. */
+:root{--sbw:0px}
 body{background:var(--bg)}
 ::selection{background:var(--acc);color:#fff}
 
@@ -149,8 +158,8 @@ button{font-family:inherit;color:inherit}
 .hero{
   position:relative;
   max-width:none;
-  margin:calc(var(--s4) * -1) calc(50% - 50vw) var(--s4);
-  padding:var(--s5) calc(50vw - 50% + var(--gut)) var(--s3);
+  margin:calc(var(--s4) * -1) calc(50% - 50vw + var(--sbw) / 2) var(--s4);
+  padding:var(--s5) calc(50vw - 50% - var(--sbw) / 2 + var(--gut)) var(--s3);
   min-height:min(86vh,840px);
   display:flex;flex-direction:column;justify-content:flex-end;
   overflow:hidden;isolation:isolate;
@@ -552,8 +561,8 @@ input[type=range]{flex:1;accent-color:var(--acc);height:36px;cursor:pointer;back
 /* Підвал — темна смуга на всю ширину. Сторінка нарешті має низ і вагу;
    без неї композиція просто розчинялась у білому. */
 .footer{
-  margin:var(--s5) calc(50% - 50vw) calc(var(--s5) * -1);
-  padding:var(--s4) calc(50vw - 50% + var(--gut)) var(--s3);
+  margin:var(--s5) calc(50% - 50vw + var(--sbw) / 2) calc(var(--s5) * -1);
+  padding:var(--s4) calc(50vw - 50% - var(--sbw) / 2 + var(--gut)) var(--s3);
   background:var(--deep);color:#F2F2F0;display:grid;gap:var(--s3);border-top:none;
 }
 .ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s3);max-width:var(--col);width:100%}

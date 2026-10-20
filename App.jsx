@@ -241,6 +241,22 @@ function useMotion(deps) {
   }, deps); // eslint-disable-line
 }
 
+// Ширина смуги прокрутки в --sbw. Одиниця vw рахує смугу в себе, а звичайні
+// відсотки — ні, тому блоки «на всю ширину» (герой, підвал) зсувались на цю
+// різницю і вилазили за правий край. Рахуємо її чесно й віддаємо в CSS.
+function useScrollbarWidth() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const set = () => {
+      const w = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty("--sbw", Math.max(0, w) + "px");
+    };
+    set();
+    window.addEventListener("resize", set);
+    return () => window.removeEventListener("resize", set);
+  }, []);
+}
+
 function useCount(v) {
   const [d, setD] = useState(v);
   useEffect(() => {
@@ -402,6 +418,7 @@ export default function App() {
   const setARooms = mode === "flat" ? setRooms : setHrooms;
   const r = useMemo(() => calc(mode, p, aRooms, sel, live, excl, lmat), [mode, p, aRooms, sel, live, excl, lmat]);
 
+  useScrollbarWidth();
   useMotion([view, step, mode]);
   // Запобіжник: якщо анімацію перервано зміною виду, знімаємо «залиплу» прозорість,
   // щоб жоден блок не лишився невидимим.
