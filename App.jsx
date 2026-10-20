@@ -471,6 +471,21 @@ export default function App() {
     return out;
   }, [mode, p, rooms, sel, live]);
 
+  // Схема походження ціни сама перебирає рівні оздоблення, щоб показати
+  // головну обіцянку інструмента без жодного кліку. Числа беруться з `cmp`,
+  // тобто це справжні перерахунки рушієм, а не намальована анімація.
+  const [demoTier, setDemoTier] = useState(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const keys = Object.keys(TIERS);
+    let i = Math.max(0, keys.indexOf(p.tier));
+    const id = setInterval(() => { i = (i + 1) % keys.length; setDemoTier(keys[i]); }, 2800);
+    return () => clearInterval(id);
+  }, [p.tier]);
+  const demoKey = demoTier && cmp[demoTier] ? demoTier : p.tier;
+  const demoTotal = cmp[demoKey] ?? r.total;
+
   // Дельта ціни кожної опції: калькуляція з опцією і без
   const optDeltas = useMemo(() => {
     const out = {};
@@ -805,6 +820,59 @@ export default function App() {
             <div className="tbc"><span>Позицій</span><b>{r.itemCount}</b></div>
             <div className="tbc"><span>Ціни від</span><b>{live ? live.updated : "демо"}</b></div>
           </div>}
+
+          {/* Схема походження ціни. Два джерела → рушій → кошторис, лінії з
+              рухомим пунктиром. Це не прикраса: правило проєкту каже, що ціна
+              мусить пояснювати себе, і тут видно, з чого саме вона зібрана. */}
+          {step === 0 && <section className="origin no-print">
+            <div className="origin-h">
+              <span className="origin-k">Звідки береться ціна</span>
+              <h2>Два живі джерела, один рушій</h2>
+            </div>
+
+            <div className="flow">
+              <div className="flow-src">
+                <div className="fbox">
+                  <span className="fbox-k">Роботи</span>
+                  <b>rabotniki.ua</b>
+                  <em>{live ? "оновлено " + live.updated : "демо · орієнтовні"}</em>
+                </div>
+                <div className="fbox">
+                  <span className="fbox-k">Матеріали</span>
+                  <b>Епіцентр</b>
+                  <em>{lmat ? "оновлено " + lmat.updated : "орієнтовні"}</em>
+                </div>
+              </div>
+
+              {/* Дві криві, коли джерела поруч; пряма вертикаль, коли вони
+                  стають одне під одним — інакше «віяло» веде в нікуди. */}
+              <svg className="wires" viewBox="0 0 320 58" preserveAspectRatio="none" aria-hidden="true">
+                <path className="wire wide" d="M72 0 C72 34 160 16 160 58 M248 0 C248 34 160 16 160 58" />
+                <path className="wire narrow" d="M160 0 L160 58" />
+              </svg>
+
+              <div className="fcore">
+                <span className="fcore-k">Рушій розрахунку</span>
+                <b>{r.itemCount} позицій · {r.rows.length} етапів</b>
+              </div>
+
+              <svg className="wires solo" viewBox="0 0 320 42" preserveAspectRatio="none" aria-hidden="true">
+                <path className="wire" d="M160 0 L160 42" />
+              </svg>
+
+              <div className="fout">
+                <span className="fout-k">Кошторис · {TIERS[demoKey].name}</span>
+                <b key={demoKey}>{fmtM(demoTotal * mk)}<i className="caret" aria-hidden="true" /></b>
+                <em>грн · {mode === "flat" ? r.A.total : p.area} м² · {r.region.name}</em>
+              </div>
+            </div>
+
+            <p className="origin-note">
+              Рівень оздоблення тут змінюється сам, щоб показати головне:
+              кожен параметр одразу перераховує суму. Числа справжні — це той
+              самий рушій, що рахує ваш кошторис.
+            </p>
+          </section>}
 
           {admin && <div className="adminbar no-print">
             <span className="ab-t">Режим фірми</span><span>Націнка:</span>

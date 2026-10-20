@@ -247,6 +247,89 @@ button{font-family:inherit;color:inherit}
    Третя колізія імен класів у цьому файлі після .rv і .live. */
 .hblob{display:none}
 
+/* ═══ СХЕМА ПОХОДЖЕННЯ ЦІНИ ════════════════════════════════════════
+   Темна смуга на всю ширину. Два джерела сходяться в рушій, рушій дає
+   кошторис. По лініях біжить пунктир — той самий прийом, що й у
+   референсі: stroke-dasharray плюс один кейфрейм на stroke-dashoffset.
+   Жодної бібліотеки, двадцять рядків CSS.
+   ═══════════════════════════════════════════════════════════════════ */
+.origin{
+  margin:0 calc(50% - 50vw + var(--sbw) / 2) var(--s4);
+  padding:var(--s4) calc(50vw - 50% - var(--sbw) / 2 + var(--gut));
+  background:var(--deep);color:#F2EFE8;
+  display:grid;gap:var(--s3);justify-items:center;text-align:center;
+}
+.origin-k{
+  font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.14em;color:var(--acc-on-dark);
+}
+.origin-h{display:grid;gap:var(--s1);justify-items:center}
+.origin-h h2{font-size:var(--t-title);font-weight:500;color:#FCFBF8;letter-spacing:-.015em}
+.origin-note{
+  max-width:56ch;font-size:var(--t-cap);line-height:1.7;
+  color:rgba(242,239,232,.62);
+}
+
+.flow{display:grid;justify-items:center;gap:0;width:100%;max-width:560px}
+.flow-src{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);width:100%}
+@media(max-width:560px){.flow-src{gap:var(--s2)}}
+.fbox,.fcore,.fout{
+  display:grid;gap:5px;padding:16px 18px;width:100%;
+  border:1px solid rgba(242,239,232,.16);border-radius:var(--r);
+  background:rgba(242,239,232,.035);
+}
+.fbox-k,.fcore-k,.fout-k{
+  font-family:var(--mono);font-size:var(--t-micro);text-transform:uppercase;
+  letter-spacing:.12em;color:rgba(242,239,232,.52);
+}
+.fbox b{font-size:var(--t-body);font-weight:600;color:#FCFBF8}
+.fbox em,.fout em{font-style:normal;font-family:var(--mono);font-size:var(--t-micro);color:rgba(242,239,232,.52)}
+.fcore{max-width:300px;border-color:rgba(111,201,198,.34);background:rgba(111,201,198,.07)}
+.fcore b{font-family:var(--mono);font-size:var(--t-cap);color:var(--acc-on-dark);font-weight:500}
+.fout{max-width:340px;border-color:rgba(242,239,232,.26)}
+.fout b{
+  font-family:var(--mono);font-size:30px;font-weight:500;color:#FCFBF8;
+  letter-spacing:-.03em;line-height:1.1;
+  animation:sum-swap .5s cubic-bezier(.22,.61,.36,1);
+}
+@keyframes sum-swap{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* Дроти. Пунктир тече згори вниз — дані йдуть у рушій. */
+.wires{width:100%;max-width:560px;height:58px;display:block;overflow:visible}
+.wires.solo{height:42px;max-width:320px}
+.wire{
+  fill:none;stroke:var(--acc-on-dark);stroke-width:1.5;
+  stroke-dasharray:6 11;vector-effect:non-scaling-stroke;
+  animation:wire-flow 1.25s linear infinite;
+}
+@keyframes wire-flow{to{stroke-dashoffset:-34px}}
+
+/* Курсор після суми — підказує, що число живе */
+.caret{
+  display:inline-block;width:2px;height:.78em;margin-left:5px;
+  background:var(--acc-on-dark);vertical-align:baseline;
+  animation:caret-blink .85s step-end infinite;
+}
+@keyframes caret-blink{50%{opacity:0}}
+
+/* Пульс навколо індикатора живих цін */
+.lk .dot,.badge::before{position:relative}
+.lk .dot{animation:dot-pulse 2.4s ease-in-out infinite}
+@keyframes dot-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(23,87,49,0)}
+  50%{box-shadow:0 0 0 5px rgba(23,87,49,.16)}
+}
+
+.wire.narrow{display:none}
+@media(max-width:620px){
+  .origin{gap:var(--s2)}
+  .flow-src{grid-template-columns:1fr;gap:var(--s2)}
+  .wires{height:34px}
+  .wire.wide{display:none}
+  .wire.narrow{display:block}
+  .fout b{font-size:25px}
+}
+
 /* ─── Рівні оздоблення: три будинки замість трьох слів ───────────── */
 .tiercards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:820px){.tiercards{grid-template-columns:1fr}}
@@ -900,6 +983,10 @@ html{scroll-behavior:auto}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
   .fx{display:none}
+  /* Пунктир завмирає, але лінії лишаються видимими — схема має читатись
+     і без руху, бо вона пояснює, а не прикрашає. */
+  .wire{stroke-dasharray:none;opacity:.5}
+  .caret{display:none}
 }
 
 /* ═══ ДРУК ═════════════════════════════════════════════════════════ */
