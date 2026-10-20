@@ -32,9 +32,12 @@ export const css = `
   --grid-2:rgba(27,26,22,.075);
   --plate-mark:rgba(252,251,248,.75);
 
-  /* Акцент лише для стану «обрано» й посилань. Головну дію тримає чорне. */
-  --acc:#1B3BD6;
-  --acc-soft:#ECEFFD;
+  /* Бірюза замість синього. Два відтінки, бо один фізично не може
+     працювати і на світлому папері, і на темному фото: світлий на папері
+     провалює контраст, темний на фото не видно. */
+  --acc:#0F6E6B;        /* на світлому: посилання, стан «обрано» — 5.4:1 */
+  --acc-on-dark:#6FC9C6; /* на темному фото й у темних смугах */
+  --acc-soft:#E4EFEE;
 
   --warn:#8E2F10;
   --warn-soft:#F7EDE8;
@@ -60,7 +63,10 @@ export const css = `
   --gut:40px;
   --col:1240px;
 
-  --sans:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  /* Пара гротесків замість одного Manrope: Space Grotesk тримає заголовки,
+     Hanken Grotesk — текст. Обидва трохи технічні, що пасує інструменту. */
+  --display:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --sans:'Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -96,7 +102,7 @@ body{background:var(--bg)}
 }
 .app,.wrap,.grid,.card,.live,.rail,.sheetwrap,.stepcol{min-width:0}
 
-h1,h2,h3{font-weight:700;letter-spacing:-.02em;line-height:1.2}
+h1,h2,h3{font-family:var(--display);font-weight:500;letter-spacing:-.01em;line-height:1.2}
 a{color:var(--acc);text-decoration:none}
 a:hover{text-decoration:underline;text-underline-offset:3px}
 button{font-family:inherit;color:inherit}
@@ -230,13 +236,16 @@ button{font-family:inherit;color:inherit}
   background:var(--deep);
 }
 .hero-media{position:absolute;inset:0;z-index:-1}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 44%;display:block}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:60% 46%;display:block;filter:saturate(.72) contrast(1.04)}
 .hero-media::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(10,9,7,.24) 0%,rgba(10,9,7,.42) 42%,rgba(10,9,7,.86) 100%);
+  background:linear-gradient(90deg,rgba(9,12,12,.92) 0%,rgba(9,12,12,.74) 38%,rgba(9,12,12,.30) 72%,rgba(9,12,12,.22) 100%),linear-gradient(180deg,rgba(9,12,12,.30) 0%,rgba(9,12,12,.20) 50%,rgba(9,12,12,.70) 100%);
 }
 .hero-body{position:relative;width:100%;max-width:1000px}
-.hblob,.dimline{display:none}
+/* .dimline звідси прибрано: раніше так звався декоративний елемент героя,
+   якого вже немає, а тепер це розмірна виноска — і правило її глушило.
+   Третя колізія імен класів у цьому файлі після .rv і .live. */
+.hblob{display:none}
 
 /* ─── Рівні оздоблення: три будинки замість трьох слів ───────────── */
 .tiercards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -265,18 +274,22 @@ button{font-family:inherit;color:inherit}
   color:#fff;background:rgba(14,13,10,.62);padding:4px 8px;
 }
 .tc-img{position:relative}
+/* Заголовок перестав кричати. Було 104px вагою 800 із трекінгом -4.5% —
+   це гучно, а не дорого. Стало 60px вагою 500 зі звичайним трекінгом,
+   як у референсі: впевнено, а не голосно. */
 .hero h1{
-  font-size:clamp(46px,8.4vw,104px);
-  font-weight:800;
-  line-height:1.0;
-  letter-spacing:-.045em;
+  font-family:var(--display);
+  font-size:clamp(34px,4.6vw,60px);
+  font-weight:500;
+  line-height:1.05;
+  letter-spacing:-.005em;
   margin-bottom:var(--s2);
 }
 .hero h1 .hl{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
 .hero h1 .hl>*{display:inline-block;will-change:transform}
 /* Обидва рядки повним чорнилом. Сірий другий рядок виглядав вицвілим —
    ієрархію тут тримає порядок і розмір, а не блідість. */
-.hero h1 em{font-style:normal;color:#FCFBF8}
+.hero h1 em{font-style:normal;color:var(--acc-on-dark)}
 .hero p{font-size:var(--t-emph);color:rgba(252,251,248,.86);line-height:1.5;max-width:44ch;font-weight:500}
 .hero h1{color:#FCFBF8}
 .hero .herometa{border-top-color:rgba(252,251,248,.28)}
@@ -337,7 +350,7 @@ button{font-family:inherit;color:inherit}
 .ch .cn{display:flex;align-items:center;gap:14px;counter-increment:sec}
 .ch .cn::before{content:'§ ' counter(sec,decimal-leading-zero) '\\00a0\\00a0/\\00a0\\00a0'}
 .ch .cn::after{content:'';flex:1;height:1px;background:var(--line)}
-.ch h2{font-size:var(--t-title);font-weight:700;letter-spacing:-.035em;line-height:1.1;max-width:24ch}
+.ch h2{font-size:var(--t-title);font-weight:500;letter-spacing:-.015em;line-height:1.12;max-width:24ch}
 .cn{background:none;padding:0;border-radius:0;color:var(--ink-3)}
 .cb{padding:0;display:grid;gap:var(--s3)}
 
