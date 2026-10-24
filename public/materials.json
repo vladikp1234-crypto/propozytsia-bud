@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-24",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,9 +10,9 @@
     "floorcover": [
       {
         "name": "Ламінат Kronotex Advanced V4 дуб сірий 32/АС4/8 мм (D 3126)",
-        "price": 500.05,
-        "retail": 500.05,
-        "count": 57,
+        "price": 500,
+        "retail": 500,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
       },
       {
@@ -33,17 +33,17 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Carina light grey CRG051 25х40 см",
-        "price": 399,
-        "retail": 399,
+        "name": "Плитка Golden Tile Marmo Wood Grate white 4V0880 40x40 см",
+        "price": 408,
+        "retail": 408,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-carina-svetlo-seryy-crg051-25kh40.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-marmo-wood-grate-belyy-4v0880-40x40.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
         "price": 559,
         "retail": 559,
-        "count": 59,
+        "count": 58,
         "url": "https://epicentrk.ua/ua/shop/plitka-opoczno-yasmina-braun-18-5kh59-8-.html"
       },
       null
@@ -51,41 +51,41 @@
     "paint": [
       {
         "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.23,
-        "retail": 953,
-        "count": 18,
+        "price": 27.83,
+        "retail": 974,
+        "count": 16,
         "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
-        "name": "Фарба фасадна силіконова Kompozit FACADE LUXE база С мат 4,2 кг",
-        "price": 30.06,
-        "retail": 1052,
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 32.11,
+        "retail": 1124,
         "count": 20,
-        "url": "https://epicentrk.ua/ua/shop/kraska-silikonovaya-kompozit-facade-luxe-baza-s-mat-baza-pod-tonirovku-4-2-kg.html"
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери паперові Континент Ілай Бежевий (1568)",
-        "price": 192,
-        "retail": 192,
+        "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
+        "price": 199,
+        "retail": 199,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-paperovi-kontinent-ilaj-bezevij-1568-1ef50d42-65ab-6004-ad35-eb47efcf3973.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra Carat UNI 507643 1,06x10,05 м",
-        "price": 532.1,
-        "retail": 532.1,
-        "count": 27,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-carat-uni-507643-1-06x10-05-m.html"
+        "name": "Шпалери вінілові на флізеліновій основі Sintra Swing 460009 1,06x10,05 м",
+        "price": 529.5,
+        "retail": 529.5,
+        "count": 25,
+        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-swing-460009-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra OMEGA, CRISTAL UNI 524633 1,06x10,05 м",
+        "name": "Шпалери вінілові гарячого тиснення Sintra Fiore, Sphere UNI 512364 1,06x10,05 м",
         "price": 1427,
         "retail": 1427,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-omega-cristal-uni-524633-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-hariachoho-tysnennia-sintra-fiore-sphere-uni-512364-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -118,9 +118,9 @@
     "entry": [
       {
         "name": "Двері Двері вхідні Форт-М метал 960х2050 мм Антрацитовий",
-        "price": 12475,
-        "retail": 12475,
-        "count": 7,
+        "price": 12138,
+        "retail": 12138,
+        "count": 12,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-dveri-fort-m-metal-960h2050-mm-antracitovij-1eef5ad6-4899-64e4-b631-1b1f8bca6711.html"
       },
       null
@@ -128,17 +128,17 @@
     "radiators": [
       {
         "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
-        "price": 4568,
-        "retail": 4568,
-        "count": 52,
+        "price": 4587.3,
+        "retail": 4587.3,
+        "count": 55,
         "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
       },
       {
-        "name": "Радіатор біметалевий Bohemia 500х96 мм",
-        "price": 4970,
-        "retail": 4970,
-        "count": 45,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-bohemia-500h96-mm-1ef60d0d-a017-63a2-a9e0-e5a57146a550.html"
+        "name": "Радіатор біметалевий Britolli D13 30 бар 500/100 мм 10 секцій",
+        "price": 5533,
+        "retail": 5533,
+        "count": 44,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevii-britolli-d13-30-bar-500-100-mm-10-sektsii-1ecf178b-6990-608e-878b-3f9cb81e5cec.html"
       }
     ],
     "decor": [
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1060,
-        "retail": 1060,
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 1017,
+        "retail": 1017,
         "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "boiler": [
