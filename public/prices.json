@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-28",
+  "updated": "2026-10-29",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -10,10 +10,10 @@
   "works": {
     "walls_plaster": {
       "count": 113,
-      "min": 380,
+      "min": 350,
       "max": 560,
       "unit": "м²",
-      "price": 456,
+      "price": 449,
       "name": "Ручна Маякова штукатурка (до 2 см)",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
@@ -23,7 +23,7 @@
       "min": 350,
       "max": 500,
       "unit": "м²",
-      "price": 414,
+      "price": 407,
       "name": "Машинна штукатурка стін",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
@@ -33,27 +33,27 @@
       "min": 35,
       "max": 60,
       "unit": "м²",
-      "price": 46,
+      "price": 45,
       "name": "Грунтовка стін, стелі (1 шар) під штукатурку",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 89,
+      "count": 88,
       "min": 250,
       "max": 600,
       "unit": "м²",
-      "price": 428,
+      "price": 414,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 164,
+      "count": 162,
       "min": 600,
       "max": 1500,
       "unit": "м²",
-      "price": 1039,
+      "price": 1034,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -63,7 +63,7 @@
       "min": 400,
       "max": 700,
       "unit": "м²",
-      "price": 505,
+      "price": 509,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -79,11 +79,11 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 91,
-      "min": 260,
+      "count": 90,
+      "min": 250,
       "max": 400,
       "unit": "м²",
-      "price": 328,
+      "price": 323,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -93,7 +93,7 @@
       "min": 150,
       "max": 320,
       "unit": "м.пог.",
-      "price": 254,
+      "price": 246,
       "name": "Монтаж плінтуса",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -103,27 +103,27 @@
       "min": 2000,
       "max": 4000,
       "unit": "шт.",
-      "price": 2933,
+      "price": 2943,
       "name": "Установка міжкімнатних дверей",
       "cat": "dveri",
       "url": "https://www.rabotniki.ua/uk/dveri/kiev"
     },
     "roofing": {
-      "count": 39,
+      "count": 40,
       "min": 200,
-      "max": 430,
+      "max": 550,
       "unit": "м²",
-      "price": 302,
+      "price": 327,
       "name": "Укладання металочерепиці",
       "cat": "krovelnye-raboty",
       "url": "https://www.rabotniki.ua/uk/krovelnye-raboty/kiev"
     },
     "facade_insul": {
-      "count": 53,
+      "count": 52,
       "min": 630,
       "max": 1600,
       "unit": "м²",
-      "price": 1036,
+      "price": 1031,
       "name": "Утеплення фасаду",
       "cat": "fasadnye-raboty",
       "url": "https://www.rabotniki.ua/uk/fasadnye-raboty/kiev"
@@ -133,17 +133,17 @@
       "min": 430,
       "max": 900,
       "unit": "м²",
-      "price": 651,
+      "price": 643,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
       "count": 88,
-      "min": 120,
+      "min": 150,
       "max": 350,
       "unit": "м²",
-      "price": 234,
+      "price": 242,
       "name": "Поклейка шпалер",
       "cat": "pokleyka-oboev",
       "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"
