@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-30",
+  "updated": "2026-10-31",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,18 +9,18 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Kronotex Advanced V4 дуб сірий 32/АС4/8 мм (D 3126)",
+        "name": "Ламінат Kronotex Advanced V4 дуб гранд коричневий 32/АС4/8 мм (D4957WG)",
         "price": 500.05,
         "retail": 500.05,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-dub-seryy-32-as4.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-v4-dub-hrand-korychnevyi-32-as4-8-mm-d4957wg.html"
       },
       {
-        "name": "Ламінат SWISS KRONO Olympus Ares Oak 33/АС5/8 мм (D4904)",
-        "price": 616,
-        "retail": 616,
+        "name": "Ламінат GROSS WALD Great Lands 4V дуб канас 33/АС5/8 мм",
+        "price": 571,
+        "retail": 571,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-olympus-ares-oak-33-as5-8-mm-d4904.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-kanas-33-as5-8-mm.html"
       },
       null,
       {
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Grittiland grey GT2940 30,7x60,7 см",
-        "price": 399.2,
-        "retail": 399.2,
+        "name": "Плитка Golden Tile Grittiland graphite GTФ730 30x30 см",
+        "price": 419,
+        "retail": 419,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2940-30-7x60-7-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2730-30x30-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,26 +50,26 @@
     ],
     "paint": [
       {
-        "name": "Емаль Polifarb алкідно-уретанова DekoLux світло-сірий глянець 2 кг",
-        "price": 24.11,
-        "retail": 844,
-        "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/emal-polifarb-alkidno-uretanova-dekolux-svitlo-siryi-hlianets-2-kh.html"
+        "name": "Фарба акрилова Polifarb ЕкоФарба мат білий 14 кг",
+        "price": 26.89,
+        "retail": 941,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-polifarb-ekofarba-mat-14-kg.html"
       },
       {
-        "name": "Фарба інтер'єрна латексна Kompozit MATT LATEX NEO глибокий мат біла 7 кг",
-        "price": 29.66,
-        "retail": 1038,
-        "count": 19,
-        "url": "https://epicentrk.ua/ua/shop/farba-interierna-lateksna-kompozit-matt-latex-neo-hlybokyi-mat-bila-7-kh.html"
+        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
+        "price": 28.31,
+        "retail": 991,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
       },
       null
     ],
     "wallpaper": [
       {
         "name": "Шпалери дуплекс Слов'янські шпалери Gracia Еларія 2 6559-07 0,53x10,05 м",
-        "price": 205,
-        "retail": 205,
+        "price": 199,
+        "retail": 199,
         "count": 54,
         "url": "https://epicentrk.ua/ua/shop/shpalery-dupleks-slovianski-shpalery-gracia-elariia-2-6559-07-0-53x10-05-m.html"
       },
@@ -77,24 +77,24 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 30,
+        "count": 27,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери вінілові на флізеліновій основі Sintra PRISMA, MATRIX UNI 523643 1,06x10,05 м",
-        "price": 1040,
-        "retail": 1040,
+        "name": "Шпалери під фарбування під фарбування Sintra Paint by 676905 1,06x25 м",
+        "price": 1335,
+        "retail": 1335,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-prisma-matrix-uni-523643-1-06x10-05-m.html"
+        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-lt-676905.html"
       }
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 05 ПО чорне скло 800 мм дуб темний",
-        "price": 3089.8,
-        "retail": 3089.8,
+        "name": "Дверне полотно ОМіС Лего 10 ПО 800 мм дуб світлий",
+        "price": 2925.7,
+        "retail": 2925.7,
         "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-05-po-chernoe-steklo-800-mm-dub-temnyy.html"
+        "url": "https://epicentrk.ua/ua/shop/dverne-polotno-omis-lego-10-po-800-mm-dub-svitlyi.html"
       },
       null,
       {
@@ -108,9 +108,9 @@
     "plinth": [
       {
         "name": "Плінтус МДФ Super Profil ПП1260К білий лідо 2070х59х12 мм",
-        "price": 299,
-        "retail": 299,
-        "count": 49,
+        "price": 298,
+        "retail": 298,
+        "count": 50,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-super-profil-pp1260k-bilyi-lido-2070kh59kh12-mm.html"
       },
       null
@@ -127,18 +127,18 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Brugman 21 тип 400х1200 мм нижнє підключення",
-        "price": 4530,
-        "retail": 4530,
+        "name": "Радіатор сталевий Evro-Termo 22VK 500x800",
+        "price": 4593,
+        "retail": 4593,
         "count": 54,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-brugman-21-tip-400h1200-mm-nizne-pidklucenna-1edf9b25-3525-6b5e-9e4d-af6450a1b9df.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
       },
       {
-        "name": "Радіатор біметалевий JL PREMIUM 500/100 8 секцій (JLPR50108)",
-        "price": 5488,
-        "retail": 5488,
-        "count": 43,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-premium-500-100-8-sekcij-jlpr50108-1ef38728-122d-6bee-ac46-059c4e36d901.html"
+        "name": "Радиатор біметалевий Mirado 500/96 8 секц. (37777996)",
+        "price": 5520,
+        "retail": 5520,
+        "count": 45,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-500-96-8-sekc-37777996-1f1ab84e-6d4c-6d76-909e-b3b295de0a17.html"
       }
     ],
     "decor": [
@@ -167,11 +167,11 @@
       },
       null,
       {
-        "name": "Бойлер непрямого нагріву Cordivari BOLLY 2 ST 2 змійовика 200 л (BOLLY 2 ST 200)",
-        "price": 46035,
-        "retail": 46035,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-cordivari-bolly-2-st-2-zmijovika-200-l-bolly-2-st-200-1efcde89-2ffc-69b0-ae55-b9cd2ec86e1f.html"
+        "name": "Бойлер непрямого нагріву Micoe DS250L (19748869)",
+        "price": 49472,
+        "retail": 49472,
+        "count": 24,
+        "url": "https://epicentrk.ua/ua/shop/mplc-bojler-nepramogo-nagrivu-micoe-ds250l-19748869-1ef611b3-5685-6cca-a1a6-99359df35a90.html"
       }
     ]
   }
