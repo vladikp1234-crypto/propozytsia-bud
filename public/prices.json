@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31",
+  "updated": "2026-11-01",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -49,31 +49,31 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 162,
+      "count": 161,
       "min": 600,
       "max": 1350,
       "unit": "м²",
-      "price": 1033,
+      "price": 1034,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
     },
     "putty": {
-      "count": 89,
+      "count": 90,
       "min": 400,
       "max": 700,
       "unit": "м²",
-      "price": 509,
+      "price": 505,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 131,
+      "count": 132,
       "min": 120,
       "max": 300,
       "unit": "м²",
-      "price": 206,
+      "price": 205,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
@@ -83,7 +83,7 @@
       "min": 250,
       "max": 400,
       "unit": "м²",
-      "price": 321,
+      "price": 323,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -99,7 +99,7 @@
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "doors_install": {
-      "count": 26,
+      "count": 25,
       "min": 2000,
       "max": 4000,
       "unit": "шт.",
@@ -139,11 +139,11 @@
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
     },
     "wallpaper": {
-      "count": 87,
+      "count": 88,
       "min": 150,
       "max": 300,
       "unit": "м²",
-      "price": 234,
+      "price": 231,
       "name": "Поклейка шпалер",
       "cat": "pokleyka-oboev",
       "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"

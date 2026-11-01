@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31",
+  "updated": "2026-11-01",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,35 +9,35 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат Kronotex Advanced V4 дуб гранд коричневий 32/АС4/8 мм (D4957WG)",
-        "price": 500.05,
-        "retail": 500.05,
-        "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/laminat-kronotex-advanced-v4-dub-hrand-korychnevyi-32-as4-8-mm-d4957wg.html"
+        "name": "Ламінат SWISS KRONO Promo V4 ільм касандра 32/АС4/8 мм (D5375WA)",
+        "price": 540.19,
+        "retail": 540.19,
+        "count": 55,
+        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-promo-ilm-kasandra-32-as4-8-mm-d5375wa.html"
       },
       {
-        "name": "Ламінат GROSS WALD Great Lands 4V дуб канас 33/АС5/8 мм",
-        "price": 571,
-        "retail": 571,
+        "name": "Ламінат AGT Natura Ultra Line 4V ніл 33/АС5/8 мм (PRK502)",
+        "price": 635,
+        "retail": 635,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-gross-wald-great-lands-4v-dub-kanas-33-as5-8-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-natura-line-ultra-4v-nil-33-as5-8-mm-prk502.html"
       },
       null,
       {
         "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
-        "price": 2418,
-        "retail": 2418,
+        "price": 2448,
+        "retail": 2448,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Grittiland graphite GTФ730 30x30 см",
-        "price": 419,
-        "retail": 419,
+        "name": "Плитка Golden Tile Kronewald beige 971920 15x60 см",
+        "price": 420.28,
+        "retail": 420.28,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-grittiland-grey-gt2730-30x30-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-kronewald-bezhevyy-971920-15x60.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,18 +50,18 @@
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb ЕкоФарба мат білий 14 кг",
-        "price": 26.89,
-        "retail": 941,
-        "count": 16,
-        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-polifarb-ekofarba-mat-14-kg.html"
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 26.91,
+        "retail": 942,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
-        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 28.31,
-        "retail": 991,
-        "count": 16,
-        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 34,
+        "retail": 1190,
+        "count": 19,
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
@@ -77,7 +77,7 @@
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 535,
         "retail": 535,
-        "count": 27,
+        "count": 26,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -90,28 +90,28 @@
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 10 ПО 800 мм дуб світлий",
-        "price": 2925.7,
-        "retail": 2925.7,
+        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 800 мм дуб неаполь",
+        "price": 3032,
+        "retail": 3032,
         "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/dverne-polotno-omis-lego-10-po-800-mm-dub-svitlyi.html"
+        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-800-mm.html"
       },
       null,
       {
         "name": "Двері приховані грунт/грунт комплект зовнішнього відкривання/праві з торцем 2000х900 мм Хр",
         "price": 11900,
         "retail": 11900,
-        "count": 12,
+        "count": 11,
         "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-grunt-grunt-komplekt-zovnisn-ogo-vidkrivanna-pravi-z-torcem-2000h900-mm-hrom-matovij-14181430-1eec2c45-1d05-6b60-ad14-6d46f53d58e8.html"
       }
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ Super Profil ПП1260К білий лідо 2070х59х12 мм",
-        "price": 298,
-        "retail": 298,
-        "count": 50,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-super-profil-pp1260k-bilyi-lido-2070kh59kh12-mm.html"
+        "name": "Плінтус МДФ Cezar 349 білосніжний сніг 80x13x2200 мм",
+        "price": 325,
+        "retail": 325,
+        "count": 49,
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-349-bilosnizhnyi-snih-80x13x2200-mm.html"
       },
       null
     ],
@@ -134,11 +134,11 @@
         "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22vk-500x800.html"
       },
       {
-        "name": "Радиатор біметалевий Mirado 500/96 8 секц. (37777996)",
-        "price": 5520,
-        "retail": 5520,
+        "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
+        "price": 5408,
+        "retail": 5408,
         "count": 45,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-500-96-8-sekc-37777996-1f1ab84e-6d4c-6d76-909e-b3b295de0a17.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-bimetallicheskiy-mirado-diva-diva-mirado-500-96-8-sekts.html"
       }
     ],
     "decor": [
