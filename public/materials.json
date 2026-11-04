@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03",
+  "updated": "2026-11-04",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,34 +10,34 @@
     "floorcover": [
       {
         "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 509.93,
-        "retail": 509.93,
-        "count": 55,
+        "price": 510,
+        "retail": 510,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
-        "name": "Ламінат SWISS KRONO Olympus Kronos Oak 33/АС5/8 мм (D3309)",
-        "price": 621,
-        "retail": 621,
+        "name": "Ламінат AGT Natura Ultra Line 4V avalon 33/АС5/8 мм (PRK112)",
+        "price": 616,
+        "retail": 616,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-olympus-kronos-oak-33-as5-8-mm-d3309.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-natura-ultra-line-4v-avalon-33-as5-8-mm-prk112.html"
       },
       null,
       {
-        "name": "Паркетна дошка 140x20x400 мм Дуб (12385890)",
-        "price": 2480,
-        "retail": 2480,
+        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
+        "price": 2423,
+        "retail": 2423,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-140-20-400-mm-kv-m-dub-12385890-1ee61f6c-2932-65d2-af9e-3dec683642aa.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Zen Laps gray ZN2061 30x60 см",
-        "price": 437.58,
-        "retail": 437.58,
+        "name": "Плитка Golden Tile Edward mix EDБ830 40х40 см",
+        "price": 399.53,
+        "retail": 399.53,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-zen-laps-siryi-zn2061-300kh600.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-edward-mix-edb830-40kh40-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,34 +50,34 @@
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 26.91,
-        "retail": 942,
-        "count": 17,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
+        "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
+        "price": 27.23,
+        "retail": 953,
+        "count": 16,
+        "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
       },
       {
-        "name": "Емаль поліуретанова Kompozit ELIT RAL 7024 графіт шовковистий мат 2,5 л",
-        "price": 28.31,
-        "retail": 991,
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 31.71,
+        "retail": 1110,
         "count": 18,
-        "url": "https://epicentrk.ua/ua/shop/emal-poliuretanova-kompozit-elit-ral-7024-hrafit-shovkovystyi-mat-2-5-l.html"
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери паперові симплекс Континент Еліт Світло-сірий (1576)",
-        "price": 191,
-        "retail": 191,
-        "count": 46,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-paperovi-simpleks-kontinent-elit-svitlo-sirij-1576-1efd67cd-f542-6576-83aa-e377a3645a99.html"
+        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 2 9436-05 0,53x10,",
+        "price": 207.6,
+        "retail": 207.6,
+        "count": 45,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-05-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
-        "price": 578,
-        "retail": 578,
-        "count": 27,
+        "price": 574,
+        "retail": 574,
+        "count": 28,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -98,11 +98,11 @@
       },
       null,
       {
-        "name": "Двері приховані грунт/грунт комплект зовнішнього відкривання/праві з торцем 2000х900 мм Хр",
-        "price": 11900,
-        "retail": 11900,
-        "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-grunt-grunt-komplekt-zovnisn-ogo-vidkrivanna-pravi-z-torcem-2000h900-mm-hrom-matovij-14181430-1eec2c45-1d05-6b60-ad14-6d46f53d58e8.html"
+        "name": "Блок дверний ОМіС FLAT 11 B L торець BLK ПГ 660 мм цемент",
+        "price": 9988,
+        "retail": 9988,
+        "count": 10,
+        "url": "https://epicentrk.ua/ua/shop/blok-dvernyi-omis-flat-11-b-l-torets-blk-ph-660-mm-tsement.html"
       }
     ],
     "plinth": [
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ Cezar 371 каскадія 80x13x2200 мм",
         "price": 325,
         "retail": 325,
-        "count": 49,
+        "count": 50,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-371-kaskadiia-80x13x2200-mm.html"
       },
       null
@@ -146,24 +146,24 @@
         "name": "Декоративна штукатурка фасадна мінеральна Дубова кора ELEMENT MINERAL R20 25 кг",
         "price": 592,
         "retail": 592,
-        "count": 16,
+        "count": 14,
         "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
       },
       {
-        "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
-        "price": 1173,
-        "retail": 1173,
-        "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
+        "name": "Венеціанська штукатурка моделювальна Dufa Gasbetonbeschichtung D10 7 кг білий",
+        "price": 1017,
+        "retail": 1017,
+        "count": 7,
+        "url": "https://epicentrk.ua/ua/shop/kraska-akrilovaya-dufa-gasbetonbeschichtung-d10-mat-belyy-7-kg.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Steatite Elite VM 050 D400S-2-BC (1500W)",
-        "price": 8499,
-        "retail": 8499,
+        "name": "Бойлер Atlantic Opro Expert VM 080 D400S-2-B (2000W)",
+        "price": 8599,
+        "retail": 8599,
         "count": 44,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-elite-vm-050-d400s-2-bc-1500w.html"
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-080-d400s-2-b-2000w.html"
       },
       null,
       {
