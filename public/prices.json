@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -49,7 +49,7 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 162,
+      "count": 160,
       "min": 600,
       "max": 1350,
       "unit": "м²",
@@ -79,11 +79,11 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 90,
+      "count": 89,
       "min": 250,
       "max": 400,
       "unit": "м²",
-      "price": 322,
+      "price": 321,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -93,7 +93,7 @@
       "min": 150,
       "max": 320,
       "unit": "м.пог.",
-      "price": 242,
+      "price": 240,
       "name": "Монтаж плінтуса",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -131,9 +131,9 @@
     "gk_partition": {
       "count": 102,
       "min": 430,
-      "max": 900,
+      "max": 950,
       "unit": "м²",
-      "price": 646,
+      "price": 660,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"

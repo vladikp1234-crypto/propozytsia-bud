@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,17 +10,17 @@
     "floorcover": [
       {
         "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 510,
-        "retail": 510,
-        "count": 56,
+        "price": 509.93,
+        "retail": 509.93,
+        "count": 55,
         "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
-        "name": "Ламінат YILDIZ Entegre Stilo V4 seul 33/АС5/8 мм (ST-09D)",
-        "price": 611,
-        "retail": 611,
+        "name": "Ламінат AGT Gold 4V gravity oak 33/АС5/8 мм (PRK108)",
+        "price": 588,
+        "retail": 588,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-yildiz-entegre-stilo-v4-seul-33-as5-8-mm-st-09d.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-gold-4v-gravity-oak-33-as5-8-mm-prk108.html"
       },
       null,
       {
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Misto Mattone brown 3F7830 40x40 см",
-        "price": 423,
-        "retail": 423,
+        "name": "Плитка Golden Tile Zen Laps gray ZN2061 30x60 см",
+        "price": 442,
+        "retail": 442,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plitka-golden-tile-misto-mattone-korichnevyy-3f7830-40x40.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-zen-laps-siryi-zn2061-300kh600.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,16 +50,16 @@
     ],
     "paint": [
       {
-        "name": "Фарба Polifarb акрилова для бетонних та цементних підлог, паркінгів Акрилбет сірий мат 3 к",
-        "price": 27.23,
-        "retail": 953,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/farba-polifarb-akrylova-dlia-betonnykh-ta-tsementnykh-pidloh-parkinhiv-akrylbet-siryi-mat-3-kh.html"
+        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
+        "price": 26.91,
+        "retail": 942,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
       },
       {
         "name": "Фарба епоксидна Kompozit EpoxyBeton двокомпонентна сіра RAL 7040 глянець 1,2 кг",
-        "price": 29.37,
-        "retail": 1028,
+        "price": 28.89,
+        "retail": 1011,
         "count": 20,
         "url": "https://epicentrk.ua/ua/shop/farba-dlia-betonnoi-pidlohy-i-betonu-epoksydna-kompozit-epoxybeton-hlianets-siryi-ral-7040-1-2-kh.html"
       },
@@ -67,25 +67,25 @@
     ],
     "wallpaper": [
       {
-        "name": "Шпалери на паперовій основі Шарм 109-03 Aurora 0,53х10 м Світло-зелено-сірий (6348182e5450",
-        "price": 177,
-        "retail": 177,
-        "count": 58,
-        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-na-paperovij-osnovi-sarm-109-03-aurora-0-53h10-m-svitlo-zeleno-sirij-6348182e545099340e54bf8f-1f0782a1-0abb-6e46-8a56-316a2dde0b33.html"
+        "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 2 9436-05 0,53x10,",
+        "price": 208,
+        "retail": 208,
+        "count": 48,
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-05-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
         "price": 574,
         "retail": 574,
-        "count": 28,
+        "count": 32,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
-        "name": "Шпалери під фарбування під фарбування Sintra Paint by 676905 1,06x25 м",
-        "price": 1335,
-        "retail": 1335,
+        "name": "Шпалери вінілові на флізеліновій основі Sintra PRISMA, MATRIX UNI 523636 1,06x10,05 м",
+        "price": 1040,
+        "retail": 1040,
         "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/oboi-pod-pokrasku-sintra-paint-lt-676905.html"
+        "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-sintra-prisma-matrix-uni-523636-1-06x10-05-m.html"
       }
     ],
     "doors": [
@@ -98,11 +98,11 @@
       },
       null,
       {
-        "name": "Двері приховані Inside комплект внутрішнього відкривання праві 2000х900 мм (10248922)",
-        "price": 11388,
-        "retail": 11388,
-        "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-inside-komplekt-vnutrisn-ogo-vidkrivanna-pravi-2000h900-mm-1edd9051-8bf4-6bf0-b7a9-7175ec169c2c.html"
+        "name": "Двері City Донецьк фарбовані 2000х600 мм (50172)",
+        "price": 9000,
+        "retail": 9000,
+        "count": 9,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-city-donec-k-farbovani-2000h600-mm-50172-1ee2c62b-7a8c-6bf0-9b24-fd034b9af0be.html"
       }
     ],
     "plinth": [
@@ -127,11 +127,11 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Evro-Termo 22K 300x1400",
-        "price": 4602.8,
-        "retail": 4602.8,
-        "count": 53,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-evro-termo-22k-300x1400.html"
+        "name": "Радіатор сталевий Korado 22K 500x500",
+        "price": 4572,
+        "retail": 4572,
+        "count": 52,
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-22k-500x500.html"
       },
       {
         "name": "Радіатор біметалевий MIRADO 96/500 (11324773)",
@@ -150,11 +150,11 @@
         "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
       },
       {
-        "name": "Венеціанська штукатурка COLORINA FRESCO VENEZIANO з ефектом мармуру 1 кг",
-        "price": 1039,
-        "retail": 1039,
+        "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
+        "price": 1173,
+        "retail": 1173,
         "count": 8,
-        "url": "https://epicentrk.ua/ua/shop/venetsianska-shtukaturka-colorina-fresco-veneziano-z-efektom-marmuru-1-kh.html"
+        "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
       }
     ],
     "boiler": [
