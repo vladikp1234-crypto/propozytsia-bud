@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-07",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -63,17 +63,17 @@
       "min": 400,
       "max": 700,
       "unit": "м²",
-      "price": 495,
+      "price": 496,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 130,
+      "count": 129,
       "min": 120,
       "max": 300,
       "unit": "м²",
-      "price": 202,
+      "price": 203,
       "name": "Фарбування стін",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"

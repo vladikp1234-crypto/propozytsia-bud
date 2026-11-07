@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-06",
+  "updated": "2026-11-07",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -10,15 +10,15 @@
     "floorcover": [
       {
         "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 509.93,
-        "retail": 509.93,
-        "count": 55,
+        "price": 510,
+        "retail": 510,
+        "count": 56,
         "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
         "name": "Ламінат AGT Gold 4V gravity oak 33/АС5/8 мм (PRK108)",
-        "price": 588,
-        "retail": 588,
+        "price": 593,
+        "retail": 593,
         "count": 60,
         "url": "https://epicentrk.ua/ua/shop/laminat-agt-gold-4v-gravity-oak-33-as5-8-mm-prk108.html"
       },
@@ -33,11 +33,11 @@
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Zen Laps gray ZN2061 30x60 см",
-        "price": 442,
-        "retail": 442,
+        "name": "Плитка Golden Tile Valencia Mosaic brown 1А716 30x60 см",
+        "price": 448,
+        "retail": 448,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-zen-laps-siryi-zn2061-300kh600.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-valencia-mosaic-brown-1a716-30x60-sm.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -50,34 +50,34 @@
     ],
     "paint": [
       {
-        "name": "Фарба акрилова Polifarb DIAMOND 2 глибокий мат прозорий 2,7 л",
-        "price": 26.91,
-        "retail": 942,
-        "count": 15,
-        "url": "https://epicentrk.ua/ua/shop/farba-akrylova-polifarb-diamond-2-hlybokyi-mat-prozoryi-2-7-l.html"
+        "name": "Емаль антикорозійна алкідна Polifarb Захист 3в1 молоток глянець антрацит 2 кг",
+        "price": 28.15,
+        "retail": 985.2,
+        "count": 17,
+        "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-polifarb-zakhyst-3v1-molotok-antratsyt-hlianets-2-kh.html"
       },
       {
-        "name": "Фарба епоксидна Kompozit EpoxyBeton двокомпонентна сіра RAL 7040 глянець 1,2 кг",
-        "price": 28.89,
-        "retail": 1011,
-        "count": 20,
-        "url": "https://epicentrk.ua/ua/shop/farba-dlia-betonnoi-pidlohy-i-betonu-epoksydna-kompozit-epoxybeton-hlianets-siryi-ral-7040-1-2-kh.html"
+        "name": "Фарба латексна водоемульсійна Kompozit INTERIOR 5 глибокий мат білий 7 кг",
+        "price": 30.17,
+        "retail": 1056,
+        "count": 21,
+        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-sten-i-potolkov-interior-5-kompozit-4-7-l-7-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
         "name": "Шпалери вінілові на паперовій основі Слов'янські шпалери Соmfort Аккорд 2 9436-05 0,53x10,",
-        "price": 208,
-        "retail": 208,
-        "count": 48,
+        "price": 207.6,
+        "retail": 207.6,
+        "count": 49,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-paperovii-osnovi-slovianski-shpalery-somfort-akkord-2-9436-05-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Слов'янські шпалери Office Style 1250-10 1,06x10,0",
-        "price": 574,
-        "retail": 574,
-        "count": 32,
+        "price": 578,
+        "retail": 578,
+        "count": 31,
         "url": "https://epicentrk.ua/ua/shop/shpalery-vinilovi-na-flizelinovii-osnovi-slovianski-shpalery-office-style-1250-10-1-06x10-05-m.html"
       },
       {
@@ -90,19 +90,19 @@
     ],
     "doors": [
       {
-        "name": "Дверне полотно ОМіС Лего 05 ПО чорне скло 600 мм дуб темний",
-        "price": 3061,
-        "retail": 3061,
+        "name": "Дверне полотно ОМіС Лего 03 ПО чорне скло 800 мм дуб неаполь",
+        "price": 2979,
+        "retail": 2979,
         "count": 10,
-        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-05-po-chernoe-steklo-600-mm-dub-temnyy.html"
+        "url": "https://epicentrk.ua/ua/shop/dvernoe-polotno-omis-lego-03-po-chernoe-steklo-800-mm.html"
       },
       null,
       {
-        "name": "Двері City Донецьк фарбовані 2000х600 мм (50172)",
-        "price": 9000,
-        "retail": 9000,
-        "count": 9,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-city-donec-k-farbovani-2000h600-mm-50172-1ee2c62b-7a8c-6bf0-9b24-fd034b9af0be.html"
+        "name": "Двері City Донецьк фарбовані 2000х700 мм (50173)",
+        "price": 9900,
+        "retail": 9900,
+        "count": 10,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-city-donec-k-farbovani-2000h700-mm-50173-1ee2c62b-4b04-6e28-9f49-b1b7cb3857f8.html"
       }
     ],
     "plinth": [
@@ -110,7 +110,7 @@
         "name": "Плінтус МДФ Cezar 371 каскадія 80x13x2200 мм",
         "price": 325,
         "retail": 325,
-        "count": 48,
+        "count": 49,
         "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-371-kaskadiia-80x13x2200-mm.html"
       },
       null
@@ -127,11 +127,11 @@
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Korado 22K 500x500",
-        "price": 4572,
-        "retail": 4572,
+        "name": "Радіатор сталевий Hi-Therm 11 тип 500x1200 бічний",
+        "price": 4530,
+        "retail": 4530,
         "count": 52,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalnoy-korado-radik-klasik-22k-500x500.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-hi-therm-11-typ-500x1200-bichnyi.html"
       },
       {
         "name": "Радіатор біметалевий MIRADO 96/500 (11324773)",
@@ -143,11 +143,11 @@
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка фасадна мінеральна Дубова кора ELEMENT MINERAL R20 25 кг",
-        "price": 592,
-        "retail": 592,
-        "count": 16,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dekorativna-stukaturka-fasadna-mineral-na-dubova-kora-element-mineral-r20-25-kg-1f1b6833-17fb-6ec2-bbc5-db06cee8e024.html"
+        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
+        "price": 584,
+        "retail": 584,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
         "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
