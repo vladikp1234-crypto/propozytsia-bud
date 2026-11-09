@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-08",
+  "updated": "2026-11-09",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -39,11 +39,11 @@
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "screed": {
-      "count": 87,
+      "count": 88,
       "min": 250,
       "max": 600,
       "unit": "м²",
-      "price": 391,
+      "price": 388,
       "name": "Цементно-піщана стяжка до 5 см",
       "cat": "chernovye-raboty-po-polu",
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
@@ -79,21 +79,21 @@
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "laminate": {
-      "count": 89,
+      "count": 90,
       "min": 250,
       "max": 400,
       "unit": "м²",
-      "price": 323,
+      "price": 318,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
     },
     "plinth": {
-      "count": 29,
-      "min": 150,
+      "count": 30,
+      "min": 180,
       "max": 320,
       "unit": "м.пог.",
-      "price": 240,
+      "price": 255,
       "name": "Монтаж плінтуса",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
