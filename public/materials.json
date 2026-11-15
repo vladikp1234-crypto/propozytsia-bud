@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14",
+  "updated": "2026-11-15",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,18 +9,18 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат King Floor Premium Line V4 дуб квебек 32/АС4/8 мм (KF211)",
+        "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
         "price": 510,
         "retail": 510,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-kf211-dub-kvebek-32-as4.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
       },
       {
-        "name": "Ламінат SWISS KRONO Easy Step 4V Дуб Базель 33/АС5/8 мм (7989)",
-        "price": 580,
-        "retail": 580,
+        "name": "Ламінат AGT Gold 4V gravity oak 33/АС5/8 мм (PRK108)",
+        "price": 588,
+        "retail": 588,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-easy-step-4v-dub-bazel-33-as5-8-mm-7989.html"
+        "url": "https://epicentrk.ua/ua/shop/laminat-agt-gold-4v-gravity-oak-33-as5-8-mm-prk108.html"
       },
       null,
       {
@@ -57,11 +57,11 @@
         "url": "https://epicentrk.ua/ua/shop/emal-polifarb-alkidno-uretanova-dekolux-siryi-hlianets-2-kh.html"
       },
       {
-        "name": "Фарба інтер'єрна акрилова латексна водоемульсійна Kompozit INTERIOR 8 шовковистий мат Ранк",
-        "price": 31.31,
-        "retail": 1096,
-        "count": 20,
-        "url": "https://epicentrk.ua/ua/shop/farba-interierna-akrylova-lateksna-vodoemulsiina-kompozit-interior-8-shovkovystyi-mat-rankovyi-serpanok-ev-350-2-7-l.html"
+        "name": "Фарба латексна водоемульсійна Kompozit INTERIOR 5 глибокий мат білий 7 кг",
+        "price": 30.2,
+        "retail": 1057,
+        "count": 22,
+        "url": "https://epicentrk.ua/ua/shop/kraska-dlya-sten-i-potolkov-interior-5-kompozit-4-7-l-7-kg.html"
       },
       null
     ],
@@ -75,9 +75,9 @@
       },
       {
         "name": "Шпалери вінілові на флізеліновій основі Sintra BASICS, MACRAME UNI 454602 0,53x10,05 м",
-        "price": 533,
-        "retail": 533,
-        "count": 32,
+        "price": 551,
+        "retail": 551,
+        "count": 28,
         "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-basics-macrame-uni-454602-0-53x10-05-m.html"
       },
       {
@@ -98,40 +98,40 @@
       },
       null,
       {
-        "name": "Двері приховані Inside комплект внутрішнього відкривання праві 2000х800 мм (10248921)",
-        "price": 11800,
-        "retail": 11800,
+        "name": "Двері приховані комплект зовнішнього відкривання ліві 2000х700 мм (14639640)",
+        "price": 11880,
+        "retail": 11880,
         "count": 11,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-inside-komplekt-vnutrisn-ogo-vidkrivanna-pravi-2000h800-mm-1edd9051-5f2a-6a84-a844-c566be57f47e.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-komplekt-zovnisn-ogo-vidkrivanna-livi-2000h700-mm-1eedfa40-90d7-60c8-862c-03d50b052613.html"
       }
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ Cezar 349 білосніжний сніг 80x13x2200 мм",
+        "name": "Плінтус МДФ Cezar 366 вікторіанське дерево 80x13x2200 мм",
         "price": 325,
         "retail": 325,
         "count": 49,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-349-bilosnizhnyi-snih-80x13x2200-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-366-viktorianske-derevo-80x13x2200-mm.html"
       },
       null
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Технічні 860х2050 з лиштвою ліва Сірий (44178089l)",
-        "price": 9700,
-        "retail": 9700,
+        "name": "Двері вхідні Redfort Економ Метал-ДСП 7024 950х2040 см ліва (13493565)",
+        "price": 9600,
+        "retail": 9600,
         "count": 29,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vkhidni-redfort-tekhnichni-860kh2050-z-lishtvoyu-liva-sirii-44178089l-1ec78510-c933-64a6-ac4d-2915a667e2c8.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-ekonom-metal-dsp-7024-950h2040-sm-liva-13493565-1ee98c39-ad6a-636c-97b2-0d7d985e3f3a.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Aquavita 22 з кріпленням 300х1200 мм (411948)",
-        "price": 4503,
-        "retail": 4503,
+        "name": "Радіатор сталевий Romstal 22x500x500 мм, 905 Вт, Ниж.",
+        "price": 4369,
+        "retail": 4369,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-aquavita-22-z-kriplennam-300h1200-mm-411948-1efc6ebc-9244-66a0-bf64-b7ba646bb81a.html"
+        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-romstal-22x500x500-mm-905-vt-nyzh.html"
       },
       {
         "name": "Радіатор біметалевий Mirado/Diva DIVA/MIRADO 500/96 8 СЕКЦ.",
@@ -143,27 +143,27 @@
     ],
     "decor": [
       {
-        "name": "Декоративна штукатурка короїд Ceresit CT 35 (сіра база) 2 мм 25 кг",
-        "price": 579,
-        "retail": 579,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/dekorativnaya-shtukaturka-koroed-ceresit-2-mm-25-kg.html"
+        "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
+        "price": 584,
+        "retail": 584,
+        "count": 15,
+        "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
         "name": "Венеціанська штукатурка моделювальна Feidal Veneciano 1 кг напівпрозорий",
-        "price": 1286,
-        "retail": 1286,
-        "count": 7,
+        "price": 1167,
+        "retail": 1167,
+        "count": 6,
         "url": "https://epicentrk.ua/ua/shop/venetsianskaya-shtukaturka-feidal-veneciano-1-kg.html"
       }
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic VM 120 D400-1-M (1500W)",
-        "price": 8499,
-        "retail": 8499,
-        "count": 43,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-vm-120-d400-1-m-1500w.html"
+        "name": "Бойлер Atlantic Steatite Ego VM 080 D400S-1-BC 1200W",
+        "price": 8249,
+        "retail": 8249,
+        "count": 42,
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-steatite-ego-vm-080-d400s-1-bc-1200w.html"
       },
       null,
       {
