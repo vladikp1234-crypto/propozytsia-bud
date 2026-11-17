@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16",
+  "updated": "2026-11-17",
   "city": "kiev",
   "source": "rabotniki.ua",
   "stats": {
@@ -13,17 +13,17 @@
       "min": 300,
       "max": 550,
       "unit": "м²",
-      "price": 435,
+      "price": 432,
       "name": "Ручна Маякова штукатурка (до 2 см)",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
     },
     "walls_plaster_m": {
-      "count": 52,
+      "count": 53,
       "min": 260,
       "max": 500,
       "unit": "м²",
-      "price": 395,
+      "price": 400,
       "name": "Машинна штукатурка стін",
       "cat": "shtukaturnye-raboty",
       "url": "https://www.rabotniki.ua/uk/shtukaturnye-raboty/kiev"
@@ -49,11 +49,11 @@
       "url": "https://www.rabotniki.ua/uk/chernovye-raboty-po-polu/kiev"
     },
     "tile": {
-      "count": 161,
+      "count": 162,
       "min": 800,
       "max": 1500,
       "unit": "м²",
-      "price": 1083,
+      "price": 1081,
       "name": "Укладання плитки на стіни",
       "cat": "plitochnye-raboty",
       "url": "https://www.rabotniki.ua/uk/plitochnye-raboty/kiev"
@@ -63,13 +63,13 @@
       "min": 300,
       "max": 700,
       "unit": "м²",
-      "price": 476,
+      "price": 480,
       "name": "Підготовка бетонної стіни під фарбування або шпалери",
       "cat": "malyarnye-raboty",
       "url": "https://www.rabotniki.ua/uk/malyarnye-raboty/kiev"
     },
     "painting": {
-      "count": 130,
+      "count": 131,
       "min": 140,
       "max": 300,
       "unit": "м²",
@@ -83,7 +83,7 @@
       "min": 250,
       "max": 400,
       "unit": "м²",
-      "price": 318,
+      "price": 314,
       "name": "Укладання ламінату",
       "cat": "napolnye-pokrytiya",
       "url": "https://www.rabotniki.ua/uk/napolnye-pokrytiya/kiev"
@@ -133,7 +133,7 @@
       "min": 495,
       "max": 1000,
       "unit": "м²",
-      "price": 695,
+      "price": 692,
       "name": "Монтаж перегородок",
       "cat": "montazh-gipsokartona",
       "url": "https://www.rabotniki.ua/uk/montazh-gipsokartona/kiev"
@@ -143,7 +143,7 @@
       "min": 150,
       "max": 300,
       "unit": "м²",
-      "price": 210,
+      "price": 208,
       "name": "Поклейка шпалер",
       "cat": "pokleyka-oboev",
       "url": "https://www.rabotniki.ua/uk/pokleyka-oboev/kiev"
