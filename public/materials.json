@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17",
+  "updated": "2026-11-18",
   "source": "epicentrk.ua",
   "stats": {
     "found": 20,
@@ -9,11 +9,11 @@
   "cats": {
     "floorcover": [
       {
-        "name": "Ламінат King Floor Premium Line V4 дуб вільнюс 32/АС4/8 мм (KF216)",
-        "price": 509.93,
-        "retail": 509.93,
-        "count": 57,
-        "url": "https://epicentrk.ua/ua/shop/laminat-king-floor-premium-line-v4-kf216-dub-vilnyus-32-as4-1380x193x8-mm.html"
+        "name": "Ламінат King Floor Premium Line V4 KF224 дуб неаполь 32/АС4/8 мм (D4608)",
+        "price": 510,
+        "retail": 510,
+        "count": 58,
+        "url": "https://epicentrk.ua/ua/shop/laminat-swiss-krono-premium-line-v4-kf224-dub-neapol-32-as4-8-mm-d4608.html"
       },
       {
         "name": "Ламінат AGT Gold 4V dion 33/АС5/8 мм (PRK1202)",
@@ -24,20 +24,20 @@
       },
       null,
       {
-        "name": "Паркетна дошка Floor`360 Дуб Finale Live Matt lacquer white 3-смугова Лак",
-        "price": 2446,
-        "retail": 2446,
+        "name": "Паркетна дошка Lemberg Floor 13х160х500-1200 мм Дуб графіт (LFL160GRAPHIT)",
+        "price": 2385,
+        "retail": 2385,
         "count": 60,
-        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-floor-360-dub-finale-live-matt-lacquer-white-3-smugova-lak-1f0ec98a-cc39-6c58-8237-79856ed7d20b.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-parketna-doska-lemberg-floor-11h160h500-1200-mm-dub-grafit-lfl160graphit-1ee33b93-ac96-6604-b85c-d33a984024e1.html"
       }
     ],
     "tile": [
       {
-        "name": "Плитка Golden Tile Valencia brown 1А706 30x60 см",
-        "price": 441,
-        "retail": 441,
+        "name": "Плитка Golden Tile Zen Laps gray ZN2061 30x60 см",
+        "price": 442,
+        "retail": 442,
         "count": 56,
-        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-valencia-brown-1a706-30x60-sm.html"
+        "url": "https://epicentrk.ua/ua/shop/plytka-golden-tile-zen-laps-siryi-zn2061-300kh600.html"
       },
       {
         "name": "Плитка Cersanit Yasmina brown 18,5х59,8 см",
@@ -53,32 +53,32 @@
         "name": "Емаль Polifarb алкідно-уретанова DekoLux сірий глянець 2 кг",
         "price": 26.71,
         "retail": 935,
-        "count": 27,
+        "count": 25,
         "url": "https://epicentrk.ua/ua/shop/emal-polifarb-alkidno-uretanova-dekolux-siryi-hlianets-2-kh.html"
       },
       {
-        "name": "Емаль антикорозійна Kompozit 3 в 1 EXPRESS RAL 7046 сірий мат 2,8 кг",
-        "price": 30.97,
-        "retail": 1084,
-        "count": 21,
-        "url": "https://epicentrk.ua/ua/shop/emal-antykoroziina-kompozit-3-v-1-express-ral-7046-siryi-mat-2-8-kh.html"
+        "name": "Емаль антикорозійна Kompozit 3 в 1 PROTECT шовковистий мат графітовий сірий 2,7 кг",
+        "price": 39.03,
+        "retail": 1366,
+        "count": 24,
+        "url": "https://epicentrk.ua/ua/shop/emal-kompozit-antikorrozionnaya-3-v-1-protect-ral-7024-grafitovyy-seryy-ral-7024-shelkovistyy-mat-2-7-kg.html"
       },
       null
     ],
     "wallpaper": [
       {
-        "name": "Шпалери паперові Континент Таїсія Чорний/Білий (1482)",
-        "price": 191,
-        "retail": 191,
-        "count": 48,
-        "url": "https://epicentrk.ua/ua/shop/mplc-shpaleri-paperovi-kontinent-taisiya-chornii-bilii-1482-1ec2a9b5-e05d-6220-b25a-cd9d05b6a7f2.html"
+        "name": "Шпалери паперові симплекс Континент Еліт Світло-сірий (1576)",
+        "price": 192,
+        "retail": 192,
+        "count": 46,
+        "url": "https://epicentrk.ua/ua/shop/mplc-spaleri-paperovi-simpleks-kontinent-elit-svitlo-sirij-1576-1efd67cd-f542-6576-83aa-e377a3645a99.html"
       },
       {
-        "name": "Шпалери A.S. Creation Sumatra 37373-5",
-        "price": 565.6,
-        "retail": 565.6,
+        "name": "Шпалери вінілові на флізеліновій основі Sintra BASICS, MACRAME UNI 454602 0,53x10,05 м",
+        "price": 533,
+        "retail": 533,
         "count": 31,
-        "url": "https://epicentrk.ua/ua/shop/oboi-a-s-creation-sumatra-37373-5.html"
+        "url": "https://epicentrk.ua/ua/shop/oboi-vinilovye-na-flizelinovoy-osnove-sintra-basics-macrame-uni-454602-0-53x10-05-m.html"
       },
       {
         "name": "Шпалери вінілові гарячого тиснення Sintra MATEO UNI 532331 1,06x10,05 м",
@@ -98,47 +98,47 @@
       },
       null,
       {
-        "name": "Двері приховані Inside комплект внутрішнього відкривання праві 2000х800 мм (10248921)",
-        "price": 11650,
-        "retail": 11650,
-        "count": 14,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-prihovani-inside-komplekt-vnutrisn-ogo-vidkrivanna-pravi-2000h800-mm-1edd9051-5f2a-6a84-a844-c566be57f47e.html"
+        "name": "Двері фарбовані STATUS DOORS Ultra 120x2000х600 мм Black Glass (60756)",
+        "price": 8810,
+        "retail": 8810,
+        "count": 9,
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-farbovani-status-doors-ultra-black-glass-120mm-2000h600-mm-1f053875-fc5d-6466-92ce-0dbc056d9ee0.html"
       }
     ],
     "plinth": [
       {
-        "name": "Плінтус МДФ Cezar 349 білосніжний сніг 80x13x2200 мм",
+        "name": "Плінтус МДФ Cezar 371 каскадія 80x13x2200 мм",
         "price": 325,
         "retail": 325,
         "count": 49,
-        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-349-bilosnizhnyi-snih-80x13x2200-mm.html"
+        "url": "https://epicentrk.ua/ua/shop/plintus-mdf-cezar-371-kaskadiia-80x13x2200-mm.html"
       },
       null
     ],
     "entry": [
       {
-        "name": "Двері вхідні Redfort Економ Метал-ДСП 8017 950х1900 см ліва (13499760)",
-        "price": 9800,
-        "retail": 9800,
+        "name": "Двері вхідні Redfort Технічні 860х2050 з лиштвою ліва (44177998l)",
+        "price": 9950,
+        "retail": 9950,
         "count": 34,
-        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vhidni-redfort-ekonom-metal-dsp-8017-950h1900-sm-liva-13499760-1ee98c39-ae26-6c6a-a94b-0d7d985e3f3a.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-dveri-vkhidni-redfort-tekhnichni-860kh2050-z-lishtvoyu-liva-44177998l-1ec78500-6086-64d6-811f-03ca73fdaed4.html"
       },
       null
     ],
     "radiators": [
       {
-        "name": "Радіатор сталевий Romstal 22x500x500 мм, 905 Вт, Ниж.",
-        "price": 4464.3,
-        "retail": 4464.3,
-        "count": 55,
-        "url": "https://epicentrk.ua/ua/shop/radiator-stalevyi-romstal-22x500x500-mm-905-vt-nyzh.html"
+        "name": "Радіатор сталевий Aquavita 22 з кріпленням 300х1200 мм (411948)",
+        "price": 4503,
+        "retail": 4503,
+        "count": 54,
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-stalevij-aquavita-22-z-kriplennam-300h1200-mm-411948-1efc6ebc-9244-66a0-bf64-b7ba646bb81a.html"
       },
       {
-        "name": "Радіатор біметалевий MIRADO 96/500 (11324773)",
-        "price": 5278,
-        "retail": 5278,
+        "name": "Радіатор біметалевий JL STANDART 500/100 8 секцій (20698803)",
+        "price": 5056,
+        "retail": 5056,
         "count": 45,
-        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-mirado-96-500-11324773-1ee21754-30b4-6cc0-8700-d7d3189c34ac.html"
+        "url": "https://epicentrk.ua/ua/shop/mplc-radiator-bimetalevij-jl-standart-500-100-8-sekcij-20698803-1ef75c0f-916d-611a-9b81-ed97358b11a9.html"
       }
     ],
     "decor": [
@@ -146,7 +146,7 @@
         "name": "Штукатурка декоративна Teknodeko Cizgili Короїд 25 кг Білий (25004616)",
         "price": 584,
         "retail": 584,
-        "count": 13,
+        "count": 15,
         "url": "https://epicentrk.ua/ua/shop/mplc-stukaturka-dekorativna-teknodeko-cizgili-koroid-25-kg-bilij-25004616-1f001c1f-2455-6130-a19f-930d300a9daa.html"
       },
       {
@@ -159,11 +159,11 @@
     ],
     "boiler": [
       {
-        "name": "Бойлер Atlantic Opro Expert VM 080 D400S-2-B (2000W)",
-        "price": 8599,
-        "retail": 8599,
+        "name": "Бойлер Atlantic VM 120 D400-1-M (1500W)",
+        "price": 8499,
+        "retail": 8499,
         "count": 43,
-        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-opro-expert-vm-080-d400s-2-b-2000w.html"
+        "url": "https://epicentrk.ua/ua/shop/boiler-atlantic-vm-120-d400-1-m-1500w.html"
       },
       null,
       {
